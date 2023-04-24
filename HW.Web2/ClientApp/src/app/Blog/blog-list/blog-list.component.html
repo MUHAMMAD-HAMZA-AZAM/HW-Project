@@ -1,0 +1,60 @@
+
+<div class="heading-bar d-flex align-items-center" style="background:url('../../../assets/img/cu_bg.png')">
+  <div class="container">
+    <h1 class="py-3 laila-font text-white">Blogs</h1>
+  </div>
+</div>
+<ng-container *ngIf="!blogsListBit">
+  <div class="container pt-5">
+    <div class="blog-list-wrapper" *ngIf="postList?.length > 0">
+      <div class="b-single-item" *ngIf="postDetails !=null">
+        <div class="row">
+          <div class="col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12">
+            <h2 style="padding-top:0px;">{{postDetails?.postTitle.length <= 86 ? postDetails.postTitle : (postDetails.postTitle | slice:0:86) }}</h2>
+          </div>
+        </div>
+        <span>{{postDetails?.createdOn | date}} By {{postDetails?.userName}}</span>
+        <div class="b-item-image">
+          <!--<div>
+            <h1>{{postDetails?.postTitle.length <= 37 ? postDetails.postTitle : (postDetails.postTitle | slice:0:37) }}</h1>
+          </div>-->
+          <img [src]="common.transform(postDetails?.headerImage)" />
+        </div>
+        <p>
+
+          {{postDetails?.summary}}
+        </p>
+        <a [routerLink]="['/blog', postDetails?.postId,postDetails?.slug]" class="btn blog-readmore-btn mt-4">Read More</a>
+      </div>
+    </div>
+  </div>
+  <div class="b-list-bg">
+    <div class="b-list-solid-bg">
+      <div class="container">
+        <div class="b-items-list">
+          <div class="row">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12" *ngFor="let item of postList">
+              <div class="b-item-box">
+                <div class="b-item-box-img">
+                  <img [src]="common.transform(item.headerImage)" />
+                </div>
+                <div class="b-item-box-details">
+                  <h5>{{item?.postTitle.length <= 76 ? item.postTitle : (item.postTitle | slice:0:76) }}</h5>
+                  <span>{{item?.createdOn | date}} By {{item?.userName}}</span>
+                  <p>
+                    {{item?.summary}}
+                  </p>
+                  <a [routerLink]="['/blog', item?.postId,item?.slug]" class="btn blog-readmore-btn">Read More</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ngb-pagination (pageChange)="getPostByPage($event)" [collectionSize]="postCount" [(page)]="pageNumber" [pageSize]="pageSize" [maxSize]="5" [boundaryLinks]="true"></ngb-pagination>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<div *ngIf="notFound">
+  <h2 style="padding:400px 0px; margin:0 auto;text-align:center">No Posts Found</h2>
+</div>

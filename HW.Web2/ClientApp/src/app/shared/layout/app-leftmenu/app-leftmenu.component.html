@@ -1,0 +1,370 @@
+
+<ng-container *ngIf="userRole === 'Customer';else tradesman">
+  <aside id="nd-left-menu">
+    <!--<h5 class="menu-title py-2 px-4 p-md-4">get free quotes</h5>-->
+    <ul>
+      <li *ngIf="!isVerified">
+        <button (click)="ShowPopup()" class="btn btn-danger btn-block fos-14"><i class="fas fa-lock mr-1"></i>Verify Your Account</button>
+      </li>
+      <li [routerLinkActive]="['activeLeftMenuItem']">
+        <a [routerLink]="['/User/Default']">
+          <svg [routerLinkActive]="['itemIconColor']" class="nd-lm-icon">
+            <use xlink:href="/assets/sprites/sprite.svg#homeicon" />
+          </svg>
+          <span>home</span>
+        </a>
+      </li>
+      <li [routerLinkActive]="['activeLeftMenuItem']">
+        <a [routerLink]="['/landing-page/costGuides',skillDetails?.skillId,skillDetails?.slug,'lk',skillDetails?.name]">
+          <svg [routerLinkActive]="['itemIconColor']" class="nd-lm-icon">
+            <use xlink:href="/assets/sprites/sprite.svg#quotation" />
+          </svg>
+          <span>Post A Task</span>
+        </a>
+      </li>
+      <!--<li [routerLinkActive]="['activeLeftMenuItem']">
+        <a (click)="checkVarifyAccount('/User/JobQuotes/step1')" href="javascript:void(0);">
+          <svg [routerLinkActive]="['itemIconColor']" class="nd-lm-icon">
+            <use xlink:href="/assets/sprites/sprite.svg#quotation" />
+          </svg>
+          <span>Post A Task</span>
+        </a>
+      </li>-->
+      <li [routerLinkActive]="['activeLeftMenuItem']">
+        <a (click)="checkVarifyAccount('/User/Quote/List')" href="javascript:void(0);">
+          <!--<svg-icon-sprite [src]="'quotes'" [classes]="'nd-lm-icon'" [width]="'20px'" [viewBox]="'0 0 20 20'"></svg-icon-sprite>-->
+          <svg [routerLinkActive]="['itemIconColor']" class="nd-lm-icon">
+            <use xlink:href="/assets/sprites/sprite.svg#quotes" />
+          </svg>
+          <span>my tasks</span>
+        </a>
+      </li>
+      <li [routerLinkActive]="['activeLeftMenuItem']">
+        <a (click)="checkVarifyAccount('/User/MyBids/List')" href="javascript:void(0);">
+          <!--<svg-icon-sprite [src]="'quotes'" [classes]="'nd-lm-icon'" [width]="'20px'" [viewBox]="'0 0 20 20'"></svg-icon-sprite>-->
+          <svg [routerLinkActive]="['itemIconColor']" class="nd-lm-icon">
+            <use xlink:href="/assets/sprites/sprite.svg#bid" />
+          </svg>
+          <span>my bids</span>
+        </a>
+      </li>
+      <li [routerLinkActive]="['activeLeftMenuItem']">
+        <a (click)="checkVarifyAccount('/User/InProgressJob/List')" href="javascript:void(0);">
+          <svg [routerLinkActive]="['itemIconColor']" class="nd-lm-icon">
+            <use xlink:href="/assets/sprites/sprite.svg#inprogress" />
+          </svg>
+          <span>in-progress tasks</span>
+        </a>
+      </li>
+      <li [routerLinkActive]="['activeLeftMenuItem']">
+        <a (click)="checkVarifyAccount('/User/FinishedJobs/List')" href="javascript:void(0);">
+          <svg [routerLinkActive]="['itemIconColor']" class="nd-lm-icon">
+            <use xlink:href="/assets/sprites/sprite.svg#complete" />
+          </svg>
+          <span>finished tasks</span>
+        </a>
+      </li>
+      <li *ngIf="btnMarketPlace" [routerLinkActive]="['activeLeftMenuItem']">
+        <a href="https://mall.hoomwork.com/" target="_blank">
+          <svg [routerLinkActive]="['itemIconColor']" class="nd-lm-icon">
+            <use xlink:href="/assets/sprites/sprite.svg#market" />
+            <use xlink:href="/assets/sprites/sprite.svg#market" />
+          </svg>
+          <span>marketplace</span>
+        </a>
+      </li>
+      <li  [routerLinkActive]="['activeLeftMenuItem']">
+        <a (click)="checkVarifyAccount('/User/Notifications/List')" href="javascript:void(0);">
+          <svg [routerLinkActive]="['itemIconColor']" class="nd-lm-icon">
+            <use xlink:href="/assets/sprites/sprite.svg#notification"></use>
+          </svg>
+          <span>notifications</span>
+        </a>
+      </li>
+      <li [routerLinkActive]="['activeLeftMenuItem']">
+        <a (click)="checkVarifyAccount('/User/Payments/List')">
+          <svg [routerLinkActive]="['itemIconColor']" class="nd-lm-icon">
+            <use xlink:href="/assets/sprites/sprite.svg#invoice" />
+          </svg>
+          <span>invoices</span>
+        </a>
+      </li>
+      <li *ngIf="isActiveTopup" [routerLinkActive]="['activeLeftMenuItem']">
+        <a  (click)="checkVarifyAccount('/User/Payments/topup')">
+          <svg [routerLinkActive]="['itemIconColor']" class="nd-lm-icon">
+            <use xlink:href="/assets/sprites/sprite.svg#invoice" />
+          </svg>
+          <span>Top-Up</span>
+        </a>
+      </li>
+      <li [routerLinkActive]="['activeLeftMenuItem']">
+        <a routerLink="/User/Profile/PersonalProfile">
+          <svg [routerLinkActive]="['itemIconColor']" class="nd-lm-icon">
+            <use xlink:href="/assets/sprites/sprite.svg#profile"></use>
+          </svg>
+          <span>profile</span>
+        </a>
+      </li>
+    </ul>
+  </aside>
+</ng-container>
+<ng-template #tradesman>
+  <ng-container *ngIf="userRole === 'Tradesman' || userRole === 'Organization';else supplier">
+    <aside id="nd-left-menu">
+      <!--<h5 class="menu-title py-2 px-4 p-md-4">live leads</h5>-->
+      <ul>
+        <li *ngIf="!isVerified">
+          <button (click)="ShowPopup()" class="btn btn-danger btn-block fos-14"><i class="fas fa-lock mr-1"></i>Verify Your Account</button>
+        </li>
+        <li [routerLinkActive]="['activeLeftMenuItem']">
+          <a [routerLink]="['/Tradesman/LiveLeads/list']">
+            <svg [routerLinkActive]="['itemIconColor']" class="nd-lm-icon">
+              <use xlink:href="/assets/sprites/sprite.svg#lead" />
+            </svg>
+            <span>Live Leads</span>
+          </a>
+        </li>
+        <li [routerLinkActive]="['activeLeftMenuItem']">
+          <a (click)="checkVarifyAccount('/Tradesman/MyBids/List')" href="javascript:void(0);">
+            <svg [routerLinkActive]="['itemIconColor']" class="nd-lm-icon">
+              <use xlink:href="/assets/sprites/sprite.svg#bid" />
+            </svg>
+            <span>my bids</span>
+          </a>
+        </li>
+        <li [routerLinkActive]="['activeLeftMenuItem']">
+          <a (click)="checkVarifyAccount('/Tradesman/MyJobs/List')" href="javascript:void(0);">
+            <svg [routerLinkActive]="['itemIconColor']" class="nd-lm-icon">
+              <use xlink:href="/assets/sprites/sprite.svg#job" />
+            </svg>
+            <span>my tasks</span>
+          </a>
+        </li>
+        <li [routerLinkActive]="['activeLeftMenuItem']">
+          <a (click)="checkVarifyAccount('/Tradesman/Notifications/List')" href="javascript:void(0);">
+            <svg [routerLinkActive]="['itemIconColor']" class="nd-lm-icon">
+              <use xlink:href="/assets/sprites/sprite.svg#notification" />
+            </svg>
+            <span>Notifications</span>
+          </a>
+        </li>
+        <li [routerLinkActive]="['activeLeftMenuItem']">
+          <a (click)="checkVarifyAccount('/Tradesman/Invoice/List')" href="javascript:void(0);">
+            <svg [routerLinkActive]="['itemIconColor']" class="nd-lm-icon">
+              <use xlink:href="/assets/sprites/sprite.svg#invoice" />
+            </svg>
+            <span>Invoices</span>
+          </a>
+        </li>
+        <li *ngIf="isActiveTopup" [routerLinkActive]="['activeLeftMenuItem']">
+          <a (click)="checkVarifyAccount('/Tradesman/Invoice/trsdesmantopup')" href="javascript:void(0);">
+            <svg [routerLinkActive]="['itemIconColor']" class="nd-lm-icon">
+              <use xlink:href="/assets/sprites/sprite.svg#invoice" />
+            </svg>
+            <span>Top Up</span>
+          </a>
+        </li>
+        <!--<li [routerLinkActive]="['active']">
+          <a routerLink="/packagesplans/packages">
+            <svg class="nd-lm-icon">
+              <use xlink:href="/assets/sprites/sprite.svg#bag" />
+            </svg>
+            <span>Buy Packages</span>
+          </a>
+        </li>
+        <li [routerLinkActive]="['active']">
+          <a routerLink="/packages/mypackages">
+            <svg class="nd-lm-icon">
+              <use xlink:href="/assets/sprites/sprite.svg#cart" />
+            </svg>
+            <span>My Packages</span>
+          </a>
+        </li>-->
+        <li [routerLinkActive]="['activeLeftMenuItem']">
+          <a routerLink="/Tradesman/Profile/Profile">
+            <svg [routerLinkActive]="['itemIconColor']" class="nd-lm-icon">
+              <use xlink:href="/assets/sprites/sprite.svg#profile" />
+            </svg>
+            <span>Profile</span>
+          </a>
+        </li>
+      </ul> 
+    </aside>
+  </ng-container>
+</ng-template>
+<ng-template #supplier>
+  <aside id="nd-left-menu">
+    <!--<h5 class="menu-title py-2 px-4 p-md-4">Home</h5>-->
+    <ul>
+      <li *ngIf="!isVerified">
+        <button (click)="ShowPopup()" class="btn btn-danger btn-block fos-14"><i class="fas fa-lock mr-1"></i>Verify Your Account</button>
+      </li>
+      <li [routerLinkActive]="['activeLeftMenuItem']">
+        <a [routerLink]="['/Supplier/Home']">
+          <svg [routerLinkActive]="['itemIconColor']" class="nd-lm-icon">
+            <use xlink:href="/assets/sprites/sprite.svg#homeicon" />
+          </svg>
+          <span>Home</span>
+        </a>
+      </li>
+      <li [routerLinkActive]="['activeLeftMenuItem']">
+        <a [routerLink]="['/Supplier/PostAd/Create']">
+          <svg [routerLinkActive]="['itemIconColor']" class="nd-lm-icon">
+            <use xlink:href="/assets/sprites/sprite.svg#hom" />
+          </svg>
+          <span>Post ad</span>
+        </a>
+      </li>
+      <li [routerLinkActive]="['activeLeftMenuItem']">
+        <a [routerLink]="['/Supplier/ManageAd/Ads']">
+          <svg [routerLinkActive]="['itemIconColor']" class="nd-lm-icon">
+            <use xlink:href="/assets/sprites/sprite.svg#research" />
+          </svg>
+          <span>Manage My ads</span>
+        </a>
+      </li>
+      <li [routerLinkActive]="['activeLeftMenuItem']">
+        <a [routerLink]="['/Supplier/Notifications/List']">
+          <svg [routerLinkActive]="['itemIconColor']" class="nd-lm-icon">
+            <use xlink:href="/assets/sprites/sprite.svg#notification" />
+          </svg>
+          <span>Notifications</span>
+        </a>
+      </li>
+
+      <!--<li [routerLinkActive]="['active']">
+        <a [routerLink]="['/packagesplans/packages']">
+          <svg class="nd-lm-icon">
+            <use xlink:href="/assets/sprites/sprite.svg#bag" />
+          </svg>
+          <span>Buy packages</span>
+        </a>
+      </li>
+      <li [routerLinkActive]="['active']">
+        <a [routerLink]="['/packages/mypackages']">
+          <svg class="nd-lm-icon">
+            <use xlink:href="/assets/sprites/sprite.svg#cart" />
+          </svg>
+          <span>my packages</span>
+        </a>
+      </li>-->
+      <li [routerLinkActive]="['activeLeftMenuItem']">
+        <a [routerLink]="['/Supplier/Ratings/List']">
+          <!--<i class [routerLinkActive]="['itemIconColor']"="fas fa-adobe"></i>-->
+          <svg class="nd-lm-icon">
+            <use xlink:href="/assets/sprites/sprite.svg#like" />
+          </svg>
+          <span>rating</span>
+        </a>
+      </li>
+      <li *ngIf="!incompletedProfile" [routerLinkActive]="['activeLeftMenuItem']">
+        <a [routerLink]="['/Supplier/Profile/Profile']">
+          <svg [routerLinkActive]="['itemIconColor']" class="nd-lm-icon">
+            <use xlink:href="/assets/sprites/sprite.svg#profile" />
+          </svg>
+          <span>profile</span>
+        </a>
+      </li>
+
+    </ul>
+  </aside>
+
+</ng-template>
+
+<!--</div>-->
+<!--bsModal #accountVarificationModal="bs-modal"-->
+<div bsModal #varifyMobileNumberModel="bs-modal" class="modal fade custom-model-style nd-verifyAccount" id="varifyModel" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content px-4 py-4">
+      <div class="modal-header p-0">
+        <h6 class="modal-title" id="exampleModalLongTitle" style="color: var(--redClr);">VERIFY ACCOUNT</h6>
+        <hr class="hl mt-0">
+      </div>
+      <div class="modal-body p-0 mt-3">
+        <form [formGroup]="appValForm" class="quotes-details">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label>Enter you mobile number</label>
+                <input type="tel" class="form-control" maxlength="11" (keypress)="numberOnly($event)" autocomplete="false" formControlName="verificationMobileNumber" placeholder="Add phone number" />
+                <div *ngIf="f.verificationMobileNumber?.errors">
+                  <div *ngIf="f.verificationMobileNumber.invalid && (f.verificationMobileNumber.touched || f.verificationMobileNumber.dirty)">
+                    <small style="font-size:12px" class="text-danger" *ngIf="f.verificationMobileNumber.errors?.required"> * Please enter your phone number.</small>
+                    <small style="font-size:12px" class="text-danger" *ngIf="f.verificationMobileNumber.errors?.pattern"> * Please provide a valid 11 digit phone number</small>
+                  </div>
+                </div>
+                <small style="font-size:12px" class="text-danger" *ngIf="noNotCorrect"> * Invalid Mobile Number.</small>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
+                <button type="button" class="btn mp-outine-btn btn-block py-3" (click)="VarifyMobileNumber()">VERIFY</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer p-0">
+        <button type="button" class="mp-outine-btn" data-dismiss="modal" (click)="CloseModal()">CLOSE</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #varifyAcountModel="bs-modal" class="modal fade custom-model-style nd-verifyAccount" data-backdrop="static" data-keyboard="false" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content px-4 py-4">
+      <div class="modal-header p-0">
+        <h6 class="modal-title" id="exampleModalLongTitle" style="color: var(--redClr);">VERIFY ACCOUNT</h6>
+        <hr class="hl mt-0">
+      </div>
+      <div class="modal-body p-0 mt-3">
+        <p style="color:var(--headingClr)" class="fos-14 mb-1">Enter the 6-digit code sent to you at: <b class="text-info">{{statusMessage}}</b></p>
+        <form [formGroup]="appVal" class="quotes-details">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <input inputmode="numeric" pattern="[0-9]*" class="form-control" maxlength="6" max="6" (keypress)="numberOnly($event)"
+                       placeholder="Enter Code" required autocomplete="false" formControlName="verificationCode"
+                       [ngClass]="{ 'is-invalid':submitt && g.verificationCode.errors }" />
+                <span class="text-danger fos-12" *ngIf="g.verificationCode.errors?.required">{{verficationCodeErrorMessage}}</span>
+                <span class="text-danger fos-12 d-block" *ngIf="statusCode==true">Invalid Code</span>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
+                <small class="d-block text-right underline text-warning" (click)="ResendCode()">Resend Code</small>
+                <button type="button" class="btn mp-outine-btn btn-block py-3" (click)="VarifyAccount()">VERIFY</button>
+                <span class="text-success fos-12 d-block mt-1" *ngIf="status==true">{{responseMessage}}</span>
+                <span *ngIf="IsRunning" class="text-danger float-md-left d-content-left-side fos-12 d-block mt-1">{{display}}</span>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer p-0">
+        <button type="button" class="mp-outine-btn" (click)="hideModal()">CLOSE</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--------------------------------------------- Verify Account Message Modal --------------------------------------->
+
+<div class="modal fade custom-model-style" bsModal #verifyAccountMessageModal="bs-modal" id="verifyAccountMessageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content px-4 py-4">
+      <div class="modal-header p-0">
+        <h6 class="modal-title" id="exampleModalLongTitle" style="color: var(--headingClr);"><i class="fas fa-lock mr-1"></i>Verify Account</h6>
+      </div>
+      <div class="modal-body p-0 mt-2">
+        <small class="d-block mt-2">Please Verify Account Before Post Your Job</small>
+      </div>
+      <div class="modal-footer mt-2 p-0">
+        <button type="button" class="btn mp-outine-btn" (click)="verifyAccount()">Verify Account</button>
+        <button type="button" class="btn mp-outine-btn" (click)="closeVerifyAccountMessageModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

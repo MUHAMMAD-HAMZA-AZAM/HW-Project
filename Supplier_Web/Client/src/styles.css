@@ -1,0 +1,19 @@
+/* You can add global styles to this file, and also import other style files */
+.registration {
+  width: 550px;
+  position: relative;
+  height: 500px;
+  top: 50px;
+  background-color: ghostwhite;
+  left: 350px;
+}
+.nd-sign-iu .nd-pincode-wrapper .form-control {
+  height: 45px;
+  width: 70px;
+  border: 2px solid #dadada;
+  flex: 1;
+  margin-right: 5px;
+}
+.nd-pincode-wrapper .form-control:last-child {
+  margin-right: 0px;
+}

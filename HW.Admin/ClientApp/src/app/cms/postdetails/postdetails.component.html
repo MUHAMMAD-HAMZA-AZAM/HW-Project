@@ -1,0 +1,46 @@
+<div class="container-fluid">
+  <div class="settings-wrapper">
+    <div class="row">
+      <div class="col-xl-10 mx-auto">
+        <div class="card shadow mb-4" *ngIf="postDetails?.categoryId > 0">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Posts Details</h6>
+            <!--<button (click)="showModal(content)" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New City</button>-->
+            <div>
+              <!--<a href="/cms/editpost/{{postDetails?.postId}}" class="font-weight-bold btn btn-warning"><i class="fas fa-pen"></i> EDIT</a>-->
+              <a *ngIf="userRole.allowEdit" [routerLink]="['/cms/editpost/',postDetails?.postId]" class="font-weight-bold btn btn-warning"><i class="fas fa-pen"></i> EDIT</a>
+              <button *ngIf="userRole.allowDelete" (click)="deletePost(postDetails?.postId)" style="color:#000;margin-left:5px" class="font-weight-bold btn btn-danger"><i style="color:#000 !important" class="fas fa-trash" ></i> DELETE</button>
+            </div>
+          </div>
+          <div class="card-body" id="postDetailsWrapper">
+            <div class="row">
+              <div class="col-xl-12 col-lg-4 col-md-12 col-sm-12 col-12">
+                <div class="row post-other-detais">
+                  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
+                    <h4>Author: <span>{{postDetails?.userName}}</span></h4>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
+                    <h4>Category: <span>{{postDetails?.categoryName}}</span></h4>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
+                    <h4>Status: <span>{{postDetails?.postStatusName}}</span></h4>
+                  </div>
+                  <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
+                    <h4>Date Added: <span>{{postDetails?.createdOn | date: "dd MMM yyy "}}</span></h4>
+                  </div>
+                </div>
+                <div>
+                  <p class="cms-post-title">{{postDetails?.postTitle}}</p>
+                </div>
+                <div class="post-details-wrapper" [innerHTML]="postDetails?.postContent | trasformhtml">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--<h1 *ngIf="postDetails?.categoryId <= 0" class="text-danger">Something went wrong</h1>-->
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,9 @@
+D:\GitHub\Hoomwork\HW.CustomerModels\bin\Debug\netstandard2.1\HW.CustomerModels.deps.json
+D:\GitHub\Hoomwork\HW.CustomerModels\bin\Debug\netstandard2.1\HW.CustomerModels.dll
+D:\GitHub\Hoomwork\HW.CustomerModels\bin\Debug\netstandard2.1\HW.CustomerModels.pdb
+D:\GitHub\Hoomwork\HW.CustomerModels\obj\Debug\netstandard2.1\HW.CustomerModels.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Hoomwork\HW.CustomerModels\obj\Debug\netstandard2.1\HW.CustomerModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.CustomerModels\obj\Debug\netstandard2.1\HW.CustomerModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.CustomerModels\obj\Debug\netstandard2.1\HW.CustomerModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.CustomerModels\obj\Debug\netstandard2.1\HW.CustomerModels.dll
+D:\GitHub\Hoomwork\HW.CustomerModels\obj\Debug\netstandard2.1\HW.CustomerModels.pdb

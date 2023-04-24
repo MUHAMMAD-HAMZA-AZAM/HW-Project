@@ -1,0 +1,211 @@
+<div class="container-fluid">
+  <div class="settings-wrapper" [hidden]="!toggle">
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Sub Skill List</h6>
+            <button *ngIf="userRole.allowAdd" (click)="handleToggle()" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New Sub Skill</button>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <!--<th width="1%" title="Sub Skill Id">SSID</th>-->
+                    <th width="3%">Sub Skill Name</th>
+                    <th width="8%">Sub Skill Title Name</th>
+                    <th width="3%">Skill Name</th>
+                    <th width="7%">SEO Description</th>
+                    <th width="7%">Price Vary After Inspection</th>
+                    <!--<th width="20%">Description</th>-->
+                    <th width="4%" title="Sub Skill Image">SSI</th>
+                    <th width="2%">Status</th>
+                    <th width="3%" title="Created Date">CD</th>
+                    <th width="3%" title="Created By">CB</th>
+                    <th width="3%" title="Modified Date">MD</th>
+                    <th width="3%" title="Modified By">MB</th>
+                    <th width="3%" title="Starting From Price">SF Price</th>
+                    <th *ngIf="userRole.allowAdd" width="1%">Edit</th>
+                    <th *ngIf="userRole.allowDelete" title="Delete" width="1%">Del</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let skill of subSkillList">
+                    <!--<td>{{skill.subSkillId}}</td>-->
+                    <td>{{skill?.subSkillName}}</td>
+                    <td>{{skill?.subSkillTitle}}</td>
+                    <td>{{skill?.skillName}}</td>
+                    <td>{{skill?.metaTags}}</td>
+                    <td>{{skill?.priceReview}}</td>
+                    <!--<td [innerHTML]="skill?.description"></td>-->
+                    <td *ngIf="skill.subSkillImage !=null;else elseBlock"><img [src]="service.transform(skill?.subSkillImage)" height="100" width="100" /></td>
+                    <ng-template #elseBlock>
+                      <td>
+                        <img src="../../../assets/img/no_thumbnail.jpg" height="100" width="100" />
+                      </td>
+                    </ng-template>
+                    <td [ngClass]="(skill.isActive) ? 'text-primary' : 'text-danger' ">{{skill.isActive ? 'Active' : 'InActive'}}</td>
+                    <td>{{skill?.createdOn | date: "dd MMM yyy "}}</td>
+                    <td>{{skill?.createdBy }}</td>
+                    <td>{{skill?.modifiedOn | date: "dd MMM yyy "}}</td>
+                    <td>{{skill?.modifiedBy}}</td>
+                    <td>{{skill?.subSkillPrice}}</td>
+                    <td *ngIf="userRole.allowAdd"><i class="text-info fa fa-pencil-alt" (click)="updateSkill(skill,content)"></i></td>
+                    <td *ngIf="userRole.allowDelete"><i class="text-danger fa fa-trash-alt" (click)="deleteSkill(skill.subSkillId,deleteContent)"></i></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="skillForm row" [hidden]="toggle">
+    <div class="col-xl-8 mx-auto">
+      <div class="card shadow mb-4">
+        <div class="card-header justify-header">
+          <h6 class="m-0 font-weight-bold">Add New Skill</h6>
+          <button (click)="handleToggle()" class="btn-sm btn btn-secondary btn-sm">Show Skill List</button>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12 col-xl-12 col-lg-12 mx-auto">
+              <form name="form" #f="ngForm" novalidate>
+                <div class="row">
+                  <div class="col-md-12 col-xl-6 col-lg-6">
+                    <div class="form-group">
+                      <label class="fs-12">Sub Skill Name</label>
+                      <input required="required" [(ngModel)]="subSkillName" #subSkillNamee="ngModel" autocomplete="off" min="4" max="30" type="text" class="form-control" name="subSkillName" id="subSkillName" />
+                      <div *ngIf="subSkillNamee.invalid && (subSkillNamee.dirty || subSkillNamee.touched)" class="text-danger">
+                        <label class="fs-12" style="margin:0" *ngIf="subSkillNamee.errors.required">Input is required. </label>
+                      </div>
+                      <p class="text-danger">{{subSkillNameExist}}</p>
+                    </div>
+                  </div>
+                  <div class="col-md-12 col-xl-6 col-lg-6">
+                    <div class="form-group">
+                      <label class="fs-12">Skill</label>
+                      <ng-multiselect-dropdown placeholder="Tradesman Type" style="display:inline; vertical-align:top"
+                                               [settings]="skillsdropdownSettings"
+                                               [data]="skillList"
+                                               required
+                                               [(ngModel)]="selectedSkills"
+                                               name="selectedSkills"
+                                               (onSelect)="onItemSelect($event)"
+                                               (onSelectAll)="onItemSelectAll($event)"
+                                               (onDeSelect)="OnItemDeSelect($event)"
+                                               (onDeSelectAll)="OnItemDeSelectALL($event)"
+                                               (OnDeSelect)="OnItemDeSelect($event)">
+                      </ng-multiselect-dropdown>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-sm-6">
+                    <div class="form-group">
+                      <label class="fs-12 font-weight-bold">Skill Title Name</label>
+                      <input required="required" maxlength="100" [(ngModel)]="skillTitleName" #skillTitleNamee="ngModel" autocomplete="off" min="4" max="1000" type="text" class="form-control" name="skillTitleName" id="skillTitleName" />
+                    </div>
+                  </div>
+                  <div class="col-xl-6 col-lg-6 col-sm-6">
+                    <div class="form-group">
+                      <label class="fs-12 font-weight-bold">Service Charges</label>
+                      <input maxlength="100" [(ngModel)]="subSkillMinimumAmount" #skillTitleNamee="ngModel" autocomplete="off" min="2" max="10" type="text" class="form-control" name="subSkillMinimumAmount" id="subSkillMinimumAmount" (keypress)="service.numberOnly($event)" />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xl-6 col-lg-6 col-sm-6">
+                    <div class="form-group">
+                      <label class="fs-12 font-weight-bold">Visit Charges</label>
+                      <input maxlength="100" [(ngModel)]="visitCharges" #visitChargese="ngModel" autocomplete="off" min="4" max="1000" type="text" class="form-control" name="visitCharges" id="visitCharges" (keypress)="service.numberOnly($event)" />
+
+                    </div>
+                  </div>
+                  <div class="col-xl-6 col-lg-6 col-sm-6">
+                    <div class="form-group">
+                      <label class="fs-12 font-weight-bold">Price Vary After Inspection </label>
+                      <input maxlength="60" [(ngModel)]="PriceReview" #PriceReviews="ngModel" autocomplete="off" type="text" min="4" max="1000" class="form-control" name="PriceReview" id="PriceReview" />
+                    </div>
+                  </div>
+                </div>
+               
+                <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-sm-12">
+                    <div class="form-group">
+                      <label class="fs-12 font-weight-bold">Seo Description</label>
+                      <!--<tag-input [(ngModel)]="items" name="items"
+                   (onSelect)="onSelect($event)"
+                   [modelAsStrings]="true">
+        </tag-input>-->
+                      <input type="text" class="form-control" [(ngModel)]="seoDescription" name="seoDescription" />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-sm-12">
+                    <div class="form-group">
+                      <label class="fs-12 font-weight-bold">About Skill</label>
+                      <angular-editor [placeholder]="'Enter text here...'" [config]="editorConfig" [(ngModel)]="skillDescription" name="description"></angular-editor>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="fs-12">Image</label>
+                      <input type="file" class="form-control-file" [(ngModel)]="subSkillImage" #subSkillImagee="ngModel" name="subSkillImage" (change)="fileChangeEvent($event)" />
+                      <image-cropper [imageChangedEvent]="imageChangedEvent"
+                                     [maintainAspectRatio]="true"
+                                     [aspectRatio]="4 / 4"
+                                     [cropperStaticWidth]="200"
+                                     [cropperStaticHeight]="200"
+                                     format="png"
+                                     (imageCropped)="imageCropped($event)"
+                                     (imageLoaded)="imageLoaded()"
+                                     (cropperReady)="cropperReady()"
+                                     (loadImageFailed)="loadImageFailed()">
+                      </image-cropper>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <button type="button" class="btn btn-sm btn-primary" (click)="save(f)" [disabled]="!f.valid">Save</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+<ng-template #deleteContent let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Delete Confirmation</h5>
+  </div>
+  <div class="modal-body">
+    <h5>Are you want to delete?</h5>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-primary" (click)="confirmDeleteSkill()">Ok</button>
+    <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('cancel click')">Cancel</button>
+  </div>
+</ng-template>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">{{subSkillModelText}}</h5>
+  </div>
+  <div class="modal-body">
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('Save click')">Cancel</button>
+  </div>
+</ng-template>

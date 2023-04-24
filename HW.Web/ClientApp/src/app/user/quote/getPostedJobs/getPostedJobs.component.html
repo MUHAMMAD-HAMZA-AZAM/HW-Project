@@ -1,0 +1,31 @@
+<div class="container-fluid">
+  <div class="row" >
+    <div class="col-md-12 posted-job"*ngFor="let item of postedJob;let index = index;">
+      <h5 class="post-title" (click)="JobDetail(item.jobQuotationId)">{{item.workTitle}}<i class="ml-2 fa fa-angle-right"></i></h5>
+      <div class="">
+        <ul class="list-unstyled">
+          <li>Job Referance: {{item.jobQuotationId}}</li>
+          <li>Posted: {{item.postedDate| date: "dd/MM/yyyy hh:mm a"}}</li>
+        </ul>
+      </div>
+      <div class="row sec-footer">
+        <div class="col-md-6 my-auto">
+          <p class="location">{{item.workingAddress}}</p>
+        </div>
+        <div class="col-md-6 text-right">
+          <a (click)="ReceivedBids(item.jobQuotationId)" class="btn btn-outline-success"><i class="fa fa-gavel mr-2"></i>Review Bids <small>({{item.bidCount}})</small></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="ImageModel" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="btn-close" data-dismiss="modal"><i class="fas fa-times-circle"></i></div>
+      <img data-toggle="modal" data-target="#myModal1" src="img/pro-dtl1.jpg" alt="" />
+    </div>
+  </div>
+</div>

@@ -1,0 +1,362 @@
+<div class="container">
+  <div class="breadcrumb pt-3" style="margin-top: 134px;">
+    <ul class="d-flex">
+      <li><a href="#">Home</a><span>|</span></li>
+      <li><a>Shipping Details</a></li>
+    </ul>
+  </div>
+  <h4 class="primaryClr mb-5">
+    Shipping Details</h4>
+    <div class="row">
+      <div class="col-8 shipping_form">
+        <form [formGroup]="appValForm">
+
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <label>First Name</label>
+                <input type="text" class="form-control" name="field-name" formControlName="firstName" value=""
+                       minlength="3" maxlength="40"
+                       (keypress)="this._httpService.charOnly($event)" />
+                <div *ngIf="f.firstName?.errors">
+                  <span class="text-danger" *ngIf="f.firstName.errors?.required && submitted">{{_httpService.validationMessage.Shippingdetails.FieldRequridError}}</span>
+                  <div *ngIf="f.firstName.invalid && (f.firstName.touched || f.firstName.dirty)">
+                    <span class="text-danger" *ngIf="f.firstName.errors?.pattern">{{_httpService.validationMessage.Shippingdetails.FieldPatternError}}</span>
+                    <span class="text-danger" *ngIf="f.firstName.errors?.minlength">Invalid Input</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" class="form-control" name="field-name" formControlName="lastName" value=""
+                       (keypress)="this._httpService.charOnly($event)" minlength="3" maxlength="40" />
+                <div *ngIf="f.lastName?.errors">
+                  <span class="text-danger" *ngIf="f.lastName.errors?.required && submitted">{{_httpService.validationMessage.Shippingdetails.FieldRequridError}}</span>
+                  <div *ngIf="f.lastName.invalid && (f.lastName.touched || f.lastName.dirty)">
+                    <span class="text-danger" *ngIf="f.lastName.errors?.minlength">{{_httpService.validationMessage.Shippingdetails.FieldPatternError}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row py-3">
+            <div class="col-6">
+              <div class="form-group">
+                <label>Phone Number</label>
+                <input type="text" class="form-control" name="field-name" value="" (keypress)="this._httpService.numberOnly($event)"
+                       minlength="11" maxlength="11" formControlName="PhoneNumber" />
+                <div *ngIf="f.PhoneNumber?.errors">
+                  <span class="text-danger" *ngIf="f.PhoneNumber.errors?.required && submitted">{{_httpService.validationMessage.Shippingdetails.FieldRequridError}}</span>
+                  <span class="text-danger" *ngIf="f.PhoneNumber.errors?.minlength && submitted">{{_httpService.validationMessage.Shippingdetails.FieldPatternError}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label>Email Address</label>
+                <input type="text" class="form-control" name="field-name" value="" formControlName="email"
+                       pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$" />
+                <div *ngIf="f.email?.errors">
+                  <span class="text-danger" *ngIf="f.email.errors?.required && submitted">{{_httpService.validationMessage.Shippingdetails.FieldRequridError}}</span>
+                  <div *ngIf="f.email.invalid && (f.email.touched || f.email.dirty)">
+                    <span class="text-danger" *ngIf="f.email.errors?.pattern">Invalid Input</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row pb-3">
+            <div class="col-6">
+              <div class="form-group">
+                <label>City</label>
+                <select class="form-control" formControlName="City" (change)="cityChangeHandler($event)">
+                  <option value="" disabled selected>--- Select City ---</option>
+                  <option *ngFor="let item of cityList" value="{{item.traxCityId}}">{{item.value}}</option>
+                </select>
+                <div *ngIf="f.City?.errors">
+                  <span class="text-danger" *ngIf="f.City.errors?.required && submitted">{{_httpService.validationMessage.Shippingdetails.FieldRequridError}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label>Address</label>
+                <input type="text" class="form-control" name="field-name" value="" formControlName="Address"
+                       minlength="3" maxlength="150" />
+                <div *ngIf="f.Address?.errors">
+                  <span class="text-danger" *ngIf="f.Address.errors?.required && submitted">{{_httpService.validationMessage.Shippingdetails.FieldRequridError}}</span>
+                  <div *ngIf="f.Address.invalid && (f.Address.touched || f.Address.dirty)">
+                    <span class="text-danger" *ngIf="f.Address.errors?.minlength">{{_httpService.validationMessage.Shippingdetails.FieldPatternError}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label>Leave your message</label>
+                <textarea rows="5" class="form-control" maxlength="250" formControlName="orderMessage" (keypress)="_httpService.charOnly($event)"></textarea>
+                <div *ngIf="f.orderMessage?.errors">
+                  <span class="text-danger" *ngIf="f.orderMessage.errors?.required && submitted">Input is required.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div *ngIf="isCartEmpty" class="col-4">
+        <div class="viewCart_cart p-4 font-poppins text-capitalize darkGrayClr fs-14">
+          <h6 class="fw-bold  font-laila">Order Calculations</h6>
+          <hr>
+          <div *ngFor="let item of cartItems" class="d-flex justify-content-between">
+            <p class="m-0">{{(item.product.name.length <= 25) ? (item.product.name) : (item.product.name | slice:0:25 ) + '...' }}</p>
+            <p class="m-0">{{item.quantity + ' X RS ' + ((item.product.discountedPrice) ? item.product.discountedPrice : item.product.price) + ' = '+(item.quantity) * ((item.product.discountedPrice) ? item.product.discountedPrice : item.product.price ) }}</p>
+          </div>
+          <hr>
+          <div class="d-flex justify-content-between">
+            <p class="m-0 fw-500">Sub Total</p>
+            <p class="m-0">Rs.{{subTotal | number:'1.0':'en-US'}}</p>
+          </div>
+          <div class="d-flex justify-content-between">
+            <p class="m-0 fw-500">Promtion</p>
+            <p class="m-0">-{{promotionsTotal | number:'1.0':'en-US'}}</p>
+          </div>
+          <div class="d-flex justify-content-between">
+            <p class="m-0 fw-500">Estimated Shipping Cost</p>
+            <p class="m-0">+{{totalShippingCost | number:'1.0':'en-US'}}</p>
+          </div>
+          <hr>
+          <div class="d-flex justify-content-between">
+            <p class="m-0 fw-500">Payment Status</p>
+            <p class="m-0">Pending</p>
+          </div>
+          <hr>
+          <div class="d-flex justify-content-between mb-2">
+            <h6 class="fw-bold  font-laila">Order Total</h6>
+            <h6 class="fw-bold  font-laila primaryClr">Rs.{{((subTotal-promotionsTotal) + totalShippingCost ) | number:'1.0':'en-US'}}</h6>
+          </div>
+          <a (click)="checkOut(paymentMethodModal)"
+             class="font-laila rounded-pill btn primaryBg text-white fs-16 fw-bold w-100 py-xl-2 mb-2">
+            Place
+            Order
+          </a>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+  <!-- breadcrumb start -->
+<div class="breadcrumb-section d-none">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="page-title">
+          <h2>Check-out</h2>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <nav aria-label="breadcrumb" class="theme-breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a [routerLink]="'/'">Home</a></li>
+            <li class="breadcrumb-item"><a [routerLink]="_httpService.apiRoutes.Cart.viewcart">View Cart</a></li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- breadcrumb End -->
+<!-- section start -->
+<section class="section-b-space d-none">
+  <div class="container">
+    <div class="checkout-page">
+      <div class="checkout-form">
+        <form [formGroup]="appValForm">
+          <div class="row">
+            <div class="col-lg-6 col-sm-12 col-xs-12">
+              <div class="checkout-title">
+                <h3>Shipping Details</h3>
+              </div>
+              <div class="row check-out">
+                <fieldset disabled class="row check-out">
+                  <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                    <div class="field-label">First Name<span style="color:red;">*</span></div>
+                    <input type="text" name="field-name" formControlName="firstName" value=""
+                           placeholder="First name"
+                           minlength="3" maxlength="40"
+                           (keypress)="this._httpService.charOnly($event)">
+
+                    <div *ngIf="f.firstName?.errors">
+                      <span class="text-danger" *ngIf="f.firstName.errors?.required && submitted">{{_httpService.validationMessage.Shippingdetails.FieldRequridError}}</span>
+                      <div *ngIf="f.firstName.invalid && (f.firstName.touched || f.firstName.dirty)">
+                        <span class="text-danger" *ngIf="f.firstName.errors?.pattern">{{_httpService.validationMessage.Shippingdetails.FieldPatternError}}</span>
+                        <span class="text-danger" *ngIf="f.firstName.errors?.minlength">Invalid Input</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                    <div class="field-label">Last Name<span style="color:red;">*</span></div>
+                    <input type="text" name="field-name" formControlName="lastName" value=""
+                           placeholder="Last name"
+                           (keypress)="this._httpService.charOnly($event)" minlength="3" maxlength="40">
+                    <div *ngIf="f.lastName?.errors">
+                      <span class="text-danger" *ngIf="f.lastName.errors?.required && submitted">{{_httpService.validationMessage.Shippingdetails.FieldRequridError}}</span>
+                      <div *ngIf="f.lastName.invalid && (f.lastName.touched || f.lastName.dirty)">
+                        <span class="text-danger" *ngIf="f.lastName.errors?.minlength">{{_httpService.validationMessage.Shippingdetails.FieldPatternError}}</span>
+                        <!--<span class="text-danger" *ngIf="f.LastName.errors?.minlength">Invalid Last Name</span>-->
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+                <div class="row check-out">
+                  <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                    <fieldset disabled>
+                      <div class="field-label">Phone Number<span style="color:red;">*</span></div>
+                      <input type="text" name="field-name" value="" (keypress)="this._httpService.numberOnly($event)"
+                             minlength="11" maxlength="11" formControlName="PhoneNumber" placeholder="Phone Number">
+                      <div *ngIf="f.PhoneNumber?.errors">
+                        <span class="text-danger" *ngIf="f.PhoneNumber.errors?.required && submitted">{{_httpService.validationMessage.Shippingdetails.FieldRequridError}}</span>
+                        <span class="text-danger" *ngIf="f.PhoneNumber.errors?.minlength && submitted">{{_httpService.validationMessage.Shippingdetails.FieldPatternError}}</span>
+                        <!--<span class="text-danger" *ngIf="submitted && f.PhoneNumber.errors?.pattern">Input allows only number</span>-->
+                      </div>
+                    </fieldset>
+                  </div>
+                  <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                    <div class="field-label">Email Address<span style="color:red;">*</span></div>
+                    <input type="text" name="field-name" value="" formControlName="email"
+                           placeholder="Email Address"
+                           pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$">
+                    <div *ngIf="f.email?.errors">
+
+                      <span class="text-danger" *ngIf="f.email.errors?.required && submitted">{{_httpService.validationMessage.Shippingdetails.FieldRequridError}}</span>
+                      <div *ngIf="f.email.invalid && (f.email.touched || f.email.dirty)">
+                        <span class="text-danger" *ngIf="f.email.errors?.pattern">Invalid Input</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <fieldset class="row check-out">
+                  <div class="form-group col-md-12 col-sm-12 col-xs-12 ">
+                    <div class="field-label">City<span style="color:red;">*</span></div>
+                    <select formControlName="City" (change)="cityChangeHandler($event)">
+                      <option value="" disabled selected>--- Select City ---</option>
+                      <option *ngFor="let item of cityList" value="{{item.traxCityId}}">{{item.value}}</option>
+                    </select>
+                    <div *ngIf="f.City?.errors">
+                      <span class="text-danger" *ngIf="f.City.errors?.required && submitted">{{_httpService.validationMessage.Shippingdetails.FieldRequridError}}</span>
+                      <!--<span class="text-danger" *ngIf="submitted && f.City.errors?.pattern">Input allows only number</span>-->
+                    </div>
+                  </div>
+                </fieldset>
+
+                <fieldset class="row check-out m-top-15">
+                  <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                    <div class="field-label">Address<span style="color:red;">*</span></div>
+                    <input type="text" name="field-name" value="" formControlName="Address"
+                           placeholder="Address"
+                           minlength="3" maxlength="50">
+                    <div *ngIf="f.Address?.errors">
+                      <span class="text-danger" *ngIf="f.Address.errors?.required && submitted">{{_httpService.validationMessage.Shippingdetails.FieldRequridError}}</span>
+                      <div *ngIf="f.Address.invalid && (f.Address.touched || f.Address.dirty)">
+                        <!--<span class="text-danger" *ngIf="f.Address.errors?.pattern">{{_httpService.validationMessage.Shippingdetails.FieldPatternError}}</span>-->
+                        <span class="text-danger" *ngIf="f.Address.errors?.minlength">{{_httpService.validationMessage.Shippingdetails.FieldPatternError}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                    <div class="field-label">Leave your Message<span style="color:red;">*</span></div>
+                    <textarea formControlName="orderMessage" rows="5" (keypress)="_httpService.charOnly($event)"></textarea>
+                    <div *ngIf="f.orderMessage?.errors">
+                      <span class="text-danger" *ngIf="f.orderMessage.errors?.required && submitted">Input is required.</span>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+            <div *ngIf="isCartEmpty" class="col-lg-6 col-sm-12 col-xs-12">
+              <div class="checkout-details">
+                <div class="order-box">
+                  <div class="title-box">
+                    <div>Product <span>Total</span></div>
+                  </div>
+                  <ul class="qty">
+                    <li *ngFor="let item of cartItems" class="d-flex align-items-center justify-content-between">
+                      <div class="d-flex align-items-center">
+                        <small id="variant-box" class="me-1" [ngStyle]="{'background':item.product.hexCode}"></small>
+                        {{(item.product.name.length <= 35) ? (item.product.name) : (item.product.name | slice:0:35 ) + '...' }}
+                      </div>
+                      <span>{{item.quantity + ' X RS ' + ((item.product.discountedPrice) ? item.product.discountedPrice : item.product.price) + ' = '+(item.quantity) * ((item.product.discountedPrice) ? item.product.discountedPrice : item.product.price ) }}</span>
+                    </li>
+                  </ul>
+                  <ul class="sub-total">
+                    <li>Subtotal <span class="count">Rs.{{subTotal | number:'1.0':'en-US'}}</span></li>
+                    <li>Promotions <span class="count">-{{promotionsTotal | number:'1.0':'en-US'}}</span></li>
+                    <li>Estimated Shipping Cost <span class="count">+{{totalShippingCost | number:'1.0':'en-US'}}</span></li>
+                    <li>
+                      shipping
+                      <div class="shipping">
+                        <div class="shopping-option">
+                          <input type="checkbox" name="free-shipping" id="free-shipping">
+                          <label for="free-shipping">free shipping</label>
+                        </div>
+                        <div class="shopping-option">
+                          <input type="checkbox" name="local-pickup" id="local-pickup">
+                          <label for="local-pickup">local pickup</label>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                  <ul class="total">
+                    <li>Total <span class="count">Rs.{{((subTotal-promotionsTotal) + totalShippingCost ) | number:'1.0':'en-US'}}</span></li>
+                  </ul>
+                </div>
+                <div class="payment-box">
+                  <div class="text-end">
+                    <button type="button" class="btn-solid btn" (click)="checkOut(paymentMethodModal)">Place Order</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- section end -->
+
+<!--------------------------------- Select Payment Method Modal ------------------------------------>
+
+<ng-template #paymentMethodModal let-modal>
+  <div class="modal-header">
+    <h5 ngbAutoFocus class="modal-title fw-bold" id="modal-basic-title">Select Payment Method</h5>
+  </div>
+  <div class="modal-body">
+    <div class="container" id="order-payment">
+      <!-- <h4 class="my-4 fw-bold">Select Payment Method</h4> -->
+      <div class="row">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="payment-method">
+            <i class="fa fa-money"></i>
+            <h5>Cash On Delivery</h5>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3 mt-sm-0">
+          <div class="payment-method">
+            <i class="fa fa-credit-card"></i>
+            <h5>Jazz Cash</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn-solid btn-sm" >Ok</button>
+    <button type="button" class="btn-solid btn-sm" (click)="modal.close('Save click')">Cancel</button>
+  </div>
+</ng-template>

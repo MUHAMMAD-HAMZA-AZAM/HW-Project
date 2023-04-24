@@ -1,0 +1,293 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row" *ngIf="userRole.allowAdd">
+      <div class="col-md-6">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Add new Campaign</h6>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="activePromotionForm">
+              <input type="hidden" formControlName="promotionId" />
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Campaign Type</label>
+                    <select class="form-control" formControlName="campaignTypeId" (change)="campaignType($event)">
+                      <option [ngValue]="null" disabled selected>--- Select Campaign Type ---</option>
+                      <option *ngFor="let item of listOfCampaignTypes" value="{{item.id}}">{{item.name}}</option>
+                    </select>
+                    <div *ngIf="f.campaignTypeId?.errors">
+                      <div *ngIf="f.campaignTypeId.invalid && (f.campaignTypeId.touched || f.campaignTypeId.dirty)">
+                        <small *ngIf="f.campaignTypeId.errors?.required" class="text-danger">Input is required</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Campaign Type Name</label>
+                    <input type="text" formControlName="name" class="form-control" />
+                    <div *ngIf="f.name?.errors">
+                      <div *ngIf="f.name.invalid && (f.name.touched || f.name.dirty )">
+                        <small class="text-danger" *ngIf="f.name.errors?.required">Input is required</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Skill</label>
+                    <select class="form-control" formControlName="skillId" (change)="handleSkillChange($event)">
+                      <option [value]="null" disabled selected>---Select Skill---</option>
+                      <option *ngFor="let item of categoryList" [value]="item.id">{{item.value}}</option>
+                    </select>
+                    <div *ngIf="f.skillId?.errors">
+                      <div *ngIf="f.skillId.invalid && (f.skillId.touched || f.skillId.dirty )">
+                        <small class="text-danger" *ngIf="f.skillId.errors?.required">Input is required</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Sub Skill</label>
+                    <ng-multiselect-dropdown [placeholder]="'---Select SubSkill---'"
+                                             [data]="subSkillDropDownList"
+                                             formControlName="subSkillIds"
+                                             [settings]="dropdownSetting">
+                    </ng-multiselect-dropdown>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>User Type</label>
+                    <select class="form-control" formControlName="userRoleId">
+                      <option [ngValue]="null" disabled selected hidden>--- Select User Type ---</option>
+                      <option value="3">Customer</option>
+                      <option value="1">Tradesman</option>
+                      <option value="2">Organization</option>
+                      <option value="4">Supplier</option>
+                    </select>
+                    <div *ngIf="f.userRoleId?.errors">
+                      <div *ngIf="f.userRoleId.invalid && (f.userRoleId.touched || f.userRoleId.dirty)">
+                        <small *ngIf="f.userRoleId.errors?.required" class="text-danger">Input is required</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Start Date</label>
+                    <input type="date" class="form-control" formControlName="promotionStartDate" placeholder="Enter Start Date" min={{maxdate1}} />
+                    <div *ngIf="f.promotionStartDate?.errors">
+                      <div *ngIf="f.promotionStartDate.invalid && (f.promotionStartDate.touched || f.promotionEndDate.dirty)">
+                        <small *ngIf="f.promotionStartDate.errors?.required" class="text-danger">Enter Start Date</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Expiration Date</label>
+                    <input type="date" class="form-control" formControlName="promotionEndDate" placeholder="Enter Expire Date" min={{maxdate1}} />
+                    <div *ngIf="f.promotionEndDate?.errors">
+                      <div *ngIf="f.promotionEndDate.invalid && (f.promotionStartDate.touched || f.promotionEndDate.dirty)">
+                        <small *ngIf="f.promotionEndDate.errors?.required" class="text-danger">Enter Expiration Date</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Description</label>
+                    <angular-editor formControlName="description" [config]="config"></angular-editor>
+                    <div *ngIf="f.description?.errors">
+                      <div *ngIf="f.description.invalid && (f.description.touched || f.description.dirty )">
+                        <small class="text-danger" *ngIf="f.description.errors?.required">Input is required</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Campaign Image (WEB)</label>
+                    <input #inputFile type="file" class="form-control pt-1" (change)="fileChangeEvent($event)" />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <img *ngIf="(base64Image==null || base64Image =='');else elseBlock" src="../../../assets/img/no_thumbnail.jpg" height="100" width="100" />
+                  <ng-template #elseBlock>
+                    <img [src]="base64Image" height="100" width="100" />
+                  </ng-template>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Campaign Image (MOBILE)</label>
+                    <input #inputFileMobile type="file" class="form-control pt-1" (change)="fileChangeEventMobile($event)" />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <img *ngIf="(base64Mobile == null || base64Mobile == '');else elseBlockMobile" src="../../../assets/img/no_thumbnail.jpg" height="100" width="100" />
+                  <ng-template #elseBlockMobile>
+                    <img [src]="base64Mobile" height="100" width="100" />
+                  </ng-template>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="fs-12 d-block mb-4">Active Status</label>
+                    <label class="switch">
+                      <input type="checkbox" formControlName="isAcitve">
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="fs-12 d-block mb-4">Is Main</label>
+                    <label class="switch">
+                      <input type="checkbox" formControlName="isMain">
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <button class="btn btn-sm btn-primary" [disabled]="!activePromotionForm.valid" (click)="handleSubmit()">Save</button>
+              <button class="btn btn-sm btn-primary ml-2" (click)="resetForm()">Reset</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card shadow mb-4">
+        <div class="card-header justify-header">
+          <h6 class="m-0 font-weight-bold">Campaign Type List</h6>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover">
+              <thead>
+                <tr>
+                  <th width="4%">Campaign Name</th>
+                  <th width="3%">Campaign Url</th>
+                  <th width="3%">Campaign Type</th>
+                  <th width="4%">Campaign For</th>
+                  <!--<th width="20%">Description</th>-->
+                  <th width="8%">Skill Name</th>
+                  <th width="15%">Sub Skill Name</th>
+                  <th width="3%">Campaign Image (WEB)</th>
+                  <th width="3%">Campaign Image (MOBILE)</th>
+                  <th width="4%">Created By</th>
+                  <th width="4%">Created On</th>
+                  <th width="4%">Modified By</th>
+                  <th width="4%">Modified On</th>
+                  <th width="2%">Is Main</th>
+                  <th width="2%">Status</th>
+                  <th width="4%"> Start Date</th>
+                  <th width="4%"> Expiration Date</th>
+                  <th width="2%">Details</th>
+                  <th width="2%" *ngIf="userRole.allowAdd">Edit</th>
+                  <th width="2%" *ngIf="userRole.allowDelete">Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of activePromotionList">
+                  <td>{{item?.name}}</td>
+                  <td>{{redirectURL +'promotions/promotionDetails?pId='+item?.promotionId +'&'+'rId='+ item?.userRoleId +'&'+'cTId='+ item?.campaignTypeId}}</td>
+                  <td>{{item?.campaignTypeName}}</td>
+                  <td>{{item?.promotionFor}}</td>
+                  <!--<td [innerHTML]="item?.description"></td>-->
+                  <td>{{item?.skillName}}</td>
+                  <td>
+                    <span *ngFor="let subSkill of item?.subSkillIds">{{subSkill?.value + ','}}</span>
+                  </td>
+                  <td>
+                    <ng-container *ngIf="item?.image;else noImage">
+                      <img height="50" width="50" [src]="service.transform(item?.image)" />
+                    </ng-container>
+                    <ng-template #noImage>
+                      <img height="50" width="50" src="../../../assets/img/no_thumbnail.jpg" />
+                    </ng-template>
+                  </td>
+                  <td>
+                    <ng-container *ngIf="item?.imageMobile;else noImages">
+                      <img height="50" width="50" [src]="service.transform(item?.imageMobile)" />
+                    </ng-container>
+                    <ng-template #noImages>
+                      <img height="50" width="50" src="../../../assets/img/no_thumbnail.jpg" />
+                    </ng-template>
+                  </td>
+                  <td>{{item?.createdBy}}</td>
+                  <td>{{item?.createdOn | date: "dd MMM yyy" }}</td>
+                  <td>{{item?.modifiedBy}}</td>
+                  <td>{{item?.modifiedOn | date: "dd MMM yyy "}}</td>
+                  <td class="font-weight-bold" [ngClass]="(item?.isMain) ? 'text-success' : 'text-danger' ">{{item?.isMain ? 'Yes'  : 'No'}}</td>
+                  <td>{{item?.isAcitve ? 'Active'  : 'In Active'}}</td>
+                  <td>{{item?.promotionStartDate | date: "dd MMM yyy "}}</td>
+                  <td>{{item?.promotionEndDate | date: "dd MMM yyy "}}</td>
+                  <td><i (click)="viewPromotionDetails(item?.promotionId,content)" class="fas fa-eye"></i></td>
+                  <td *ngIf="userRole.allowAdd"><i class="text-info fa fa-pencil-alt" (click)="updatePromotion(item)"></i></td>
+                  <!--<td><i class="text-danger fa fa-trash-alt" (click)="deletePromotion(item?.id)"></i></td>-->
+                  <td *ngIf="userRole.allowDelete">
+                    <label class="switch block-user-switch">
+                      <input type="checkbox" (change)="deletePromotion(item?.promotionId)" [checked]="item?.isAcitve" id="{{item?.isAcitve}}">
+                      <span class="slider"></span>
+                    </label>
+                  </td>
+                  <!--<ngx-popover-content #myPopover
+       placement="right"
+       [animation]="true"
+       [closeOnClickOutside]="true">
+    <img [src]="service.transform(item?.image)" height="400" />
+  </ngx-popover-content>-->
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title primary-color" id="modal-basic-title">PROMOTION DETAILS</h4>
+  </div>
+  <div class="modal-body">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5>{{promoDetails?.name}}</h5>
+      <div>
+        <p class="m-0">Skill Name: <button type="button" class="btn btn-success ml-2">{{promoDetails?.skillName}}</button></p>
+      </div>
+    </div>
+    <div class="promo-image-wrapper">
+      <img [src]="service.transform(promoDetails?.image)" />
+    </div>
+    <div class="mt-3" [innerHTML]="promoDetails?.description"></div>
+  </div>
+  <div class="modal-footer">
+    <div class="row">
+      <div class="col-md-6 inline-downlod-btns">
+        <button type="button" ngbAutofocus class="btn btn-primary btn-sm" (click)="modal.close('Save click')">Close</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

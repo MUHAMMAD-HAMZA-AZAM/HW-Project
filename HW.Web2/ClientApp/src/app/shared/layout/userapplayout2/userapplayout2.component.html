@@ -1,0 +1,23 @@
+
+<app-header2 [skill]="skillDetails" ></app-header2>
+<div class="container pt-3 pt-sm-5">
+  <div class="d-block d-md-none" id="nd-mobile-lm">
+    <div class="row position-relative">
+      <div class="col-12" id="sm-menu-icon">
+        <div class="fab-bg mb-3 mb-md-0">
+          <i class="fas fa-bars"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row position-realtive">
+    <div class="col-7 col-sm-5 col-md-4 col-lg-3 ap-left" *ngIf="loginCheck" id="nd-ap">
+      <app-leftmenu [skill]="skillDetails"></app-leftmenu>
+    </div>
+    <div class="{{loginCheck == true ? 'col-12 col-md-8 col-lg-9' : 'col-12'}}">
+      <router-outlet></router-outlet>
+    </div>
+
+  </div>
+</div>
+ <appcommonfooter2></appcommonfooter2>

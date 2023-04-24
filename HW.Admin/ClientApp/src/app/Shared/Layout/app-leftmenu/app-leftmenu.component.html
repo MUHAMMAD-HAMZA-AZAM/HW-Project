@@ -1,0 +1,40 @@
+<ul #accordionSidebar class="navbar-nav bg-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+  <!-- Sidebar - Brand -->
+  <a class="sidebar-brand d-flex align-items-center justify-content-center" routerLink="/home/AdminHome">
+    <div class="sidebar-brand-icon rotate-n-15">
+      <img src="../../../../assets/img/logo.png" alt="HOOMWORK" width="40">
+    </div>
+    <div class="sidebar-brand-text mx-3">HoomWork</div>
+  </a>
+  <!-- Divider -->
+  <hr class="sidebar-divider my-0">
+  <!-- Nav Item - Dashboard -->
+  <!--<li class="nav-item" [routerLinkActive]="['active']" (click)="resetTimer()">
+    <a class="nav-link" routerLink="/home/AdminHome">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+  </li>-->
+  <li class="nav-item" [class.active]="selectedIndex === i" [ngStyle]="{'cursor':item.routingPath == '' ? 'pointer' : 'pointer'}" (click)="resetTimer();setIndex(i)" *ngFor="let item of menuAndSubMenuItem;let i = index">
+    <a *ngIf="item.subArray.length <= 0 && item?.allowView" class="nav-link" [class.disabled]="item.routingPath == ''" [routerLink]="item?.routingPath">
+      <i class="{{item?.iconName}}"></i>
+      <span>{{item?.pageName}}</span>
+    </a>
+    <ng-container *ngIf="item.allowView  && item.subArray.length > 0">
+      <a class="nav-link collapsed" href="#" data-toggle="collapse" [attr.data-target]="'#collapselm' + i" aria-expanded="true">
+        <i class="{{item?.iconName}}"></i>
+        <span>{{item?.pageName}}</span>
+      </a>
+      <div [id]="'collapselm'+i" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+          <ng-container *ngFor="let subItem of item.subArray">
+            <a *ngIf="subItem?.allowView" class="collapse-item" routerLinkActive="activeClassCollapseItem" [routerLink]="subItem?.routingPath">{{subItem?.securityRoleItemName}}</a>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+  </li>
+  <div class="text-center d-none d-md-inline">
+    <button class="rounded-circle border-0" id="sidebarToggle" (click)="toggle()"></button>
+  </div>
+</ul>

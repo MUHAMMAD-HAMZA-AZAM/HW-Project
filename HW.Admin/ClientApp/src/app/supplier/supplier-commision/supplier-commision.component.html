@@ -1,0 +1,179 @@
+<!--**************************************** Supplier Orders List*********************************-->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+   
+      <div class="show_entries">
+        <div class="no-of-entries">
+          <label>No of Enteries</label>
+          <select (change)="changePageSize()" [(ngModel)]="pageSize">
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+        <div class="n0-of-pages">
+          <label class="">No of Pages</label>
+          <select (change)="clickchange()" [(ngModel)]="pageNumber" class="">
+            <option *ngFor="let item of pageing1" value="{{item}}">{{item}}  </option>
+          </select>
+         
+
+        </div>
+      </div>
+      <div class="card shadow mb-4">
+        <div class="card-header justify-header">
+          <h6 class="m-0 font-weight-bold">Supplier Commission List</h6>
+        
+          <div class="g-pagination">
+            <div class="fa-pull-right d-flex ">
+              <button *ngIf="userRole.allowAdd" (click)="showModal(content)" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New Supplier Commission </button>
+
+            </div>
+
+            <div class="data-count ">
+              <span>{{recoardNoFrom}}-{{recoardNoTo}} of {{totalRecords}}</span>
+            </div>
+            <div class="indicators ">
+              <i class="fa fa-angle-left" (click)="PriviousClick()"></i>
+              <i class="fa fa-angle-right" (click)="NextClick()"></i>
+            </div>
+
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0" #dataTable>
+              <thead>
+                <tr>
+                  <th class="width2" title="Shipping Cost">Supplier Name</th>
+                  <th class="width2" title="City Name">Commission Amount</th>
+                  <th class="width2" title="Status">Status</th>
+                  <th class="width2" title="CreatedBy">Created By</th>
+                  <th class="width2" title=" CreatedOn">Created On</th>
+                  <th class="width2" title=" ModifiedBy">Modified By</th>
+                  <th class="width2" title=" ModifiedOn">Modified On</th>
+                  <th title="Edit User" width="1%" *ngIf="userRole.allowEdit">EDIT</th>
+                  <th *ngIf="userRole.allowDelete" title="Delete" width="1%">Del</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of supplierCommissionList; let i=index">
+                  <td>{{item?.supplierName}}</td>
+                  <td>{{item?.supplierCommision}}</td>
+                  <td [ngClass]="(item.isActive) ? 'text-primary' : 'text-danger' ">{{(item.isActive) ? 'Active' : 'InActive'  }}</td>
+                  <td>{{item?.createdBy}}</td>
+                  <td>{{item?.createdOn| date: "dd MMM yyyy" }}</td>
+                  <td>{{item?.modifiedBy}}</td>
+                  <td>{{item?.modifiedOn| date: "dd MMM yyyy"}}</td>
+                  <td *ngIf="userRole.allowEdit"><i class="text-info fa fa-pencil-alt" (click)="update(item,content)"></i></td>
+                  <td *ngIf="userRole.allowDelete">
+                    <label class="switch block-user-switch">
+                      <input type="checkbox" (change)="delete(item)" [checked]="item?.isActive">
+                      <span class="slider"></span>
+                    </label>
+                  </td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--************** Modal for add shiipin cost********************-->
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">{{modelName}}</h5>
+  </div>
+  <form [formGroup]="appValForm">
+    <div class="modal-body">
+      <input type="hidden" formControlName="id" />
+      <div class="row">
+        <div class="col-12">
+
+        
+          <div class="form-group ">
+            <label class="fs-12">Supplier Name</label>
+            <ng-autocomplete [data]="supplierList"
+                             formControlName="supplierId"
+                             [searchKeyword]="keyword"
+                             (selected)='selectEvent($event)'
+                             (inputCleared)='unselectEvent($event)'
+                             placeholder="Please Select Supplier"
+                             [itemTemplate]="itemTemplate"
+                             [notFoundTemplate]="notFoundTemplate">
+            </ng-autocomplete>
+
+            <ng-template #itemTemplate let-item>
+              <a [innerHTML]="item.supplierName"></a>
+            </ng-template>
+
+            <ng-template #notFoundTemplate let-notFound>
+              <div [innerHTML]="notFound"></div>
+            </ng-template>
+            <div *ngIf="f.supplierId?.errors">
+              <div *ngIf="f.supplierId.invalid && (f.supplierId.touched || f.supplierId.dirty )">
+                <small class="text-danger" *ngIf="f.supplierId.errors?.required">  Select supplier</small>
+                <small class="text-danger" *ngIf="f.supplierId.errors?.supplierInvalidInput">Please Select supplier</small>
+              </div>
+            </div>
+          </div>
+
+
+          <div ngbAutoFocus class="form-group">
+            <label class="fs-12">Commission Amount</label>
+            <input type="number" formControlName="supplierCommision" class="form-control" />
+            <div *ngIf="f.supplierCommision?.errors">
+              <div *ngIf="f.supplierCommision.invalid && (f.supplierCommision.touched || f.supplierCommision.dirty)">
+                <small *ngIf="f.supplierCommision.errors?.required" class="text-danger">Input is requried</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="fs-12 d-block">Status</label>
+            <label class="switch">
+              <input type="checkbox" trueFalseValue trueValue="1" falseValue="0" formControlName="isActive">
+              <span class="slider round"></span>
+            </label>
+          </div>
+
+
+        </div>
+   
+
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <div class="row">
+        <div class="col-md-6 inline-downlod-btns">
+          <button type="button" class="btn btn-sm btn-primary mx-2" (click)="save()" [disabled]="!appValForm.valid">Save</button>
+          <button *ngIf="!btnReset" type="button" class="btn btn-sm btn-primary mx-2" (click)="ResetForm()">Reset</button>
+          <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('Save click')">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

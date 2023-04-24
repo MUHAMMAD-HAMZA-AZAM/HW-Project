@@ -1,0 +1,52 @@
+<div class="index-heder register-bg">
+  <div class="caption">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-7 caption-container my-auto">
+          <h1>Are you a skilled, hard-working tradesman?</h1>
+          <p class="mb-4">We can help you win more work.</p>
+        </div>
+        <div class="col-lg-5 form-signup">
+          <form [formGroup]="appValForm">
+            <div class="form-group col-md-12 btn-primary text-center btn-block btn-register">
+              Welcome Back
+            </div>
+            <div *ngIf="submittedApplicationForm && unauthorizeduser" class="text-danger small">
+              <div><p>{{invalidcredentials}}<p></div>
+            </div>
+            <div class="form-row mt-4">
+              <div class="form-group col-md-12">
+                <input type="text" id="emialaddress" placeholder="Email Address or Phone Number" class="form-control" [ngClass]="{'is-invalid' : submittedApplicationForm && f.emailOrPhoneNumber.errors}" formControlName="emailOrPhoneNumber" required>
+                <!--<label class="form-control-placeholder" for="emialaddress"> Username or Phone</label>-->
+                <div *ngIf="submittedApplicationForm && f.emailOrPhoneNumber.errors" class="invalid-feedback">
+                  <div *ngIf="f.emailOrPhoneNumber.errors.required">{{emailErrorMessage}}</div>
+                </div>
+              </div>
+              <div class="form-group col-md-12">
+                <input type="password" id="password" placeholder="Password" formControlName="password" [ngClass]="{'is-invalid' : submittedApplicationForm && f.password.errors}" class="form-control" required>
+                <!--<label class="form-control-placeholder" for="password">Password</label>-->
+                <div *ngIf="submittedApplicationForm && f.password.errors" class="invalid-feedback">
+                  <div *ngIf="f.password.errors.required">{{passwordErrorMessage}}</div>
+                </div>
+              </div>
+              <div class="form-group custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
+                <label class="custom-control-label" for="customControlAutosizing">Remember my preference</label>
+              </div>
+              <div class="form-group col-md-12">
+                <a class="btn btn-lg btn-primary btn-block" (click)="Login()">Sign in</a>
+                <!--<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>-->
+              </div>
+              <div class="form-group col-md-12 mt-1">
+                <div class="row">
+                  <a class="col-md-6 text-left mr-0 text-dark underline" href="#">Create an account</a>
+                  <a class="col-md-6 text-right text-dark" (click)="ForgotPassword()">Forgot Password?</a>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,128 @@
+<div class="container">
+  <div class="breadcrumb pt-3" style="margin-top: 134px;">
+    <ul class="d-flex">
+      <li><a href="./index.html">Home</a><span>|</span></li>
+      <li><a>Wishlist</a></li>
+    </ul>
+  </div>
+  <h4 class="primaryClr mb-5">
+    Customer Wishlist</h4>
+    <div class="row" *ngIf="!noDataFound">
+      <div class="col-lg-12 col-xl-12 col-xxl-12">
+        <div class="viewCart_cart">
+          <table class="table table-borderless" >
+            <thead>
+              <tr>
+                <th width="20%">Product Image</th>
+                <th width="70%">Product Name</th>
+                <th width="10%">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of wishlistProducts">
+                <td>
+                  <div class="whishlist_Image">
+                    <a>
+                      <ng-container *ngIf="item?.fileName;else noImageFound">
+                        <img class="fit_img" [src]="(_httpService.AWSPATH)+(item?.filePath)+(item?.fileName)" alt="">
+                      </ng-container>
+                      <ng-template #noImageFound>
+                        <img class="fit_img" src="assets/images/pro1.jpg" alt="">
+                      </ng-template>
+                    </a>
+                  </div>
+
+                </td>
+                <td>{{item?.name}}</td>
+                <td class="d-flex flex-column gap-1">
+                  <button [routerLink]="[_httpService.apiRoutes.Product.ProductDetail]" [queryParams]="{ 'va': '', 'prdt': item.slug+'-'+item.productId }" class="font-laila fw-bold btn primaryBg text-white p-1 d-flex align-items-center justify-content-center">
+                    Details<i class="fa fa-eye fs-20 ps-1"></i>
+                  </button>
+                  <button (click)="removeProductFromWishList(item.id)" class="font-laila fw-bold btn secondaryBg text-white p-1 d-flex align-items-center justify-content-center">
+                    Remove<i class="fa fa-times fs-20 ps-1"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+</div>
+
+
+<!-- breadcrumb start -->
+<!--<div class="breadcrumb-section d-none">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="page-title">
+          <h2>Customer wishlist</h2>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <nav aria-label="breadcrumb" class="theme-breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a [routerLink]="'/'">Home</a></li>
+            <li class="breadcrumb-item"><a [routerLink]="[_httpService.apiRoutes.User.DashBoard]">Dashboard</a></li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>-->
+<!-- breadcrumb End -->
+<!--section start-->
+
+<!--<section class="wishlist-section section-b-space d-none" *ngIf="!noDataFound">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 table-responsive-xs">
+        <table class="table cart-table">
+          <thead>
+            <tr class="table-head">
+              <th scope="col">image</th>
+              <th scope="col">product name</th>
+              <th scope="col">action</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let item of wishlistProducts">
+            <tr>
+              <td>-->
+                <!--<a [routerLink]="[_httpService.apiRoutes.Product.ProductDetail,item?.slug + '-' + item?.productId,'']" >-->
+                <!--<a [routerLink]="[_httpService.apiRoutes.Product.ProductDetail]" [queryParams]="{ 'va': '', 'prdt': item.slug+'-'+item.productId }">
+                  <ng-container *ngIf="item?.fileName;else noImageFound">
+                    <img [src]="(_httpService.AWSPATH)+(item?.filePath)+(item?.fileName)" alt="">
+                  </ng-container>
+                  <ng-template #noImageFound>
+                    <img src="assets/images/pro1.jpg" class="img-fluid bg-img" alt="">
+                  </ng-template>
+                </a>
+              </td>
+              <td>{{item?.name}}</td>
+              <td>-->
+                <!--<a [routerLink]="[_httpService.apiRoutes.Product.ProductDetail,item?.product?.slug+'-'+item?.productId,'']" class="icon"><i class="ti-eye"></i></a>-->
+                <!--<a [routerLink]="[_httpService.apiRoutes.Product.ProductDetail]" [queryParams]="{ 'va': '', 'prdt': item.slug+'-'+item.productId }" class="icon"><i class="ti-eye"></i></a>
+                <button type="button" class="btn icon" (click)="removeProductFromWishList(item.id)"><i class="ti-close"></i> </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col-xl-12 d-flex justify-content-end" *ngIf="wishlistProducts.length > 0">
+        <ngb-pagination (pageChange)="getWishListProductByPage($event)" [collectionSize]="totalCustomerProducts" [(page)]="activePageNumber" [pageSize]="pageSize" [maxSize]="5" [boundaryLinks]="true"></ngb-pagination>
+      </div>
+    </div>
+  </div>
+</section>-->
+<!--section end-->
+<!----------------- No Product Found ------------------>
+<div class="not-found-wrapper d-flex align-items-center justify-content-center" *ngIf="noDataFound">
+  <div class="text-center">
+    <h1>Sorry :(</h1>
+    <p>Did not found any product in your wishList</p>
+  </div>
+</div>

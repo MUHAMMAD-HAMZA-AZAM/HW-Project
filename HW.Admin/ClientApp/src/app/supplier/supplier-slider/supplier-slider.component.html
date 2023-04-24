@@ -1,0 +1,130 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row" *ngIf="userRole.allowAdd">
+      <div class="col-md-6">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Add Supplier Slider</h6>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="sliderForm">
+              <input type="hidden" formControlName="id" />
+              <input type="hidden" formControlName="localImageName" />
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Start Date</label>
+                    <input type="date" class="form-control"  formControlName="startDate" placeholder="Enter Start Date" />
+                    <div *ngIf="f.startDate?.errors">
+                      <div *ngIf="f.startDate.invalid && (f.startDate.touched || f.startDate.dirty)">
+                        <small *ngIf="f.startDate.errors?.required" class="text-danger">Enter Start Date</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Expiration Date</label>
+                    <input type="date" class="form-control" formControlName="endDate" placeholder="Enter Expire Date"  />
+                    <div *ngIf="f.endDate?.errors">
+                      <div *ngIf="f.endDate.invalid && (f.endDate.touched || f.endDate.dirty)">
+                        <small *ngIf="f.endDate.errors?.required" class="text-danger">Enter Expiration Date</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Upload Slider Image</label>
+                    <input formControlName="sliderImage" type="file" class="form-control pt-1" accept="image/*" (change)="fileChangeEvent($event)" />
+                    <div *ngIf="f.sliderImage?.errors">
+                      <div *ngIf="f.sliderImage.invalid && (f.sliderImage.touched || f.sliderImage.dirty )">
+                        <small class="text-danger" *ngIf="f.sliderImage.errors?.required">Slider image is required</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <img *ngIf="(logoImage==null || logoImage =='');else elseBlock" src="assets/img/no_thumbnail.jpg" height="100" width="100" />
+                  <ng-template #elseBlock>
+                    <img [src]="service.transform(logoImage)" height="100" width="100" />
+                  </ng-template>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="fs-12 d-block">Status</label>
+                    <label class="switch">
+                      <input type="checkbox" trueFalseValue trueValue="1" falseValue="0" formControlName="status">
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="btn btn-sm btn-primary" [disabled]="!sliderForm.valid" (click)="Save()">Save</button>
+              <button type="button" class="btn btn-sm btn-primary ml-2" (click)="resetForm()">Reset</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Supplier Slider List</h6>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th width="10%">Slider Image</th>
+                    <th width="10%">Start Date</th>
+                    <th width="10%">Expiry Date</th>
+                    <th width="10%">Status</th>
+                    <th width="10%" title="Created Date">CD</th>
+                    <th width="10%" title="Created By">CB</th>
+                    <th width="10%" title="Modified Date">MD</th>
+                    <th width="10%" title="Modified By">MB</th>
+                    <th *ngIf="userRole.allowAdd" width="10%">Edit</th>
+                    <!--<th *ngIf="userRole.allowAdd" width="10%">Delete</th>-->
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of supplierSliderList">
+                    <td>
+                      <img class="sliderImage-size" *ngIf="(item.imageName == null || item.imageName =='');else elseBlock" src="assets/img/no_thumbnail.jpg"/>
+                      <ng-template #elseBlock>
+                        <img class="sliderImage-size" [src]='item.imageName' />
+                      </ng-template>
+                      
+                    </td>
+                    <td>{{item?.startDate | date: "dd MMM yyy"}}</td>
+                    <td>{{item?.endDate | date: "dd MMM yyy"}}</td>
+                    <td [ngClass]="(item.status) ? 'text-primary' : 'text-danger' ">{{item.status ? 'Active' : 'InActive'}}</td>
+                    <td>{{item?.createdOn | date: "dd MMM yyy"}}</td>
+                    <td>{{item?.createdBy }}</td>
+                    <td>{{item?.modifiedOn | date: "dd MMM yyy"}}</td>
+                    <td>{{item?.modifiedBy}}</td>
+                    <td *ngIf="userRole.allowEdit"><i class="text-info fa fa-pencil-alt" (click)="update(item);"></i></td>
+                    <!--<td *ngIf="userRole.allowDelete">
+                      <label class="switch block-user-switch">
+                        <input type="checkbox"  [checked]="item?.status" id="{{item?.status}}">
+                        <span class="slider"></span>
+                      </label>
+                    </td>-->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

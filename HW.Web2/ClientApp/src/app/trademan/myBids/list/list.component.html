@@ -1,0 +1,228 @@
+<!--------------------------------------------------- New My Bids Design ------------------------------------------------------------>
+<section id="nd-right-content">
+  <h2 class="heading-dashboad mb-3 mb-lg-4">My bids</h2>
+  <div class="my-bids-tab-wrapper tradesman-bid-tabs">
+    <ul class="nav nav-pills" id="pills-tab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">active bids</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" (click)="getAcceptedBidsList()" id="pills-profile-tab" data-toggle="pill" href="#approved-bids" role="tab" aria-controls="pills-profile" aria-selected="false">Accepted Bids</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">declined bids</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="pills-tabContent">
+      <div class="tab-pane fade show active px-2 pt-2" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+        <div *ngIf="activeConcatMybids?.length <= 0 " id="no-found" class="text-center d-flex justify-content-center align-items-center">
+          <div>
+            <h1 class="mb-3  text-uppercase"><i class="fas fa-exclamation-circle text-danger"></i> Oops!</h1>
+            <h5 class="text-danger text-capitalize">You  don't have any active bid. </h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6 pb-2 pb-lg-2" *ngFor="let item of activeConcatMybids;let index = index;">
+            <div class="mq-box p-3">
+              <div class="d-flex align-items-center flex-wrap flex-column flex-sm-row align-items-center">
+                <div class="mq-rounded-img mb-2 mb-sm-0">
+                  <ng-container *ngIf="item.bidImage!=null; else noThumbnail">
+                    <img [src]="item.bidImage" alt="">
+                  </ng-container>
+                  <ng-template #noThumbnail>
+                    <img src="../../../../assets/img/imagenotfound.png" alt="" />
+                  </ng-template>
+                </div>
+                <div class="mq-details ml-2">
+                  <h6 class="mb-1 text-center text-sm-left">{{(item.workTitle.length > 20)?(item.workTitle | slice:0:20)+'...':item.workTitle}}</h6>
+                  <div class="d-flex justify-content-between flex-wrap">
+                    <div class="d-flex flex-column">
+                      <small>Task Ref:<b>{{item.jobQuotationid}}</b></small>
+                      <small>budget:<b>{{item.customerBudget | number:'1.0':'en-US'}}</b></small>
+                    </div>
+                    <div class="d-flex flex-column">
+                      <small class="ml-2 ml-sm-0">posted by:<b>{{item.customerName}}</b></small>
+                      <small class="ml-2 ml-sm-0">start date:<b>{{item.date |  date:'mediumDate' }}</b></small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr class="hl">
+              <div class="mq-box-footer d-flex justify-content-end">
+                <div class="">
+                  <a (click)="JobDetail(item.jobQuotationid,'MyBids')" class="btn  mp-outine-btn">View Details</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane fade px-2 pt-2" [class.noBorderAndBg]="acceptedBidsList?.length <= 0" id="approved-bids" role="tabpanel" aria-labelledby="pills-profile-tab">
+        <div *ngIf="acceptedBidsList?.length <= 0" id="no-found" class="text-center d-flex justify-content-center align-items-center">
+          <div>
+            <h1 class="mb-3  text-uppercase"><i class="fas fa-exclamation-circle text-danger"></i> Oops!</h1>
+            <h5 class="text-danger text-capitalize">You don't have any accepted bid. </h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6 pb-2 pb-lg-2" *ngFor="let item of acceptedBidsList;let index = index;">
+            <div class="mq-box p-3">
+              <div class="d-flex align-items-center flex-wrap flex-column flex-sm-row align-items-center">
+                <div class="mq-rounded-img mb-2 mb-sm-0">
+
+                  <ng-container *ngIf="item.jobImage!=null; else noThumbnail">
+                    <img [src]="common.transform(item.jobImage)" alt="">
+                  </ng-container>
+                  <ng-template #noThumbnail>
+                    <img src="../../../../assets/img/imagenotfound.png" alt="" />
+                  </ng-template>
+
+                </div>
+                <div class="mq-details ml-2">
+                  <h6 class="mb-1 text-center text-sm-left">{{(item.jobTitle.length > 20)?(item.jobTitle | slice:0:20)+'...':item.jobTitle}}</h6>
+                  <div class="d-flex justify-content-between flex-wrap">
+                    <div class="d-flex flex-column">
+                      <small>Task Ref:<b>{{item.jobQuotationId}}</b></small>
+                      <small>budget:<b>{{item.tradesmanOffer| number:'1.0':'en-US'}}</b></small>
+                    </div>
+                    <div class="d-flex flex-column">
+                      <small class="ml-2 ml-sm-0">posted by:<b>{{item.customerName}}</b></small>
+                      <small class="ml-2 ml-sm-0">Start date:<b>{{item.workStartDate |  date:'mediumDate' }}</b></small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr class="hl">
+              <div class="mq-box-footer d-flex justify-content-center justify-content-sm-end justify-content-lg-center justify-content-xl-end align-items-start flex-wrap">
+                <button type="button" (click)="showEsclateModal(esclateContent,item)" class="btn mp-outine-btn mb-2 mb-sm-0 mr-2">Escalate</button>
+                <button *ngIf="!item.isStarted" type="button" (click)="showModal(content,item)" class="btn mp-outine-btn">Start Job</button>
+                <button *ngIf="item.isStarted" type="button" class="btn mp-outine-btn mt-lg-2 mt-xl-0">Need Customer Approval</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="tab-pane fade px-2 pt-2" [class.noBorderAndBg]="inActiveConcatMybids?.length <= 0" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+        <div *ngIf="inActiveConcatMybids.length <= 0" id="no-found" class="text-center d-flex justify-content-center align-items-center">
+          <div>
+            <h1 class="mb-3  text-uppercase"><i class="fas fa-exclamation-circle text-danger"></i> Oops!</h1>
+            <h5 class="text-danger text-capitalize">You don't have any declined bid. </h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6 pb-2 pb-lg-2" *ngFor="let item of inActiveConcatMybids;let index = index;">
+            <div class="mq-box p-3">
+              <div class="d-flex align-items-center flex-wrap flex-column flex-sm-row align-items-center">
+                <div class="mq-rounded-img mb-2 mb-sm-0">
+
+                  <ng-container *ngIf="item.bidImage!=null; else noThumbnail">
+                    <img [src]="item.bidImage" alt="">
+                  </ng-container>
+                  <ng-template #noThumbnail>
+                    <img src="../../../../assets/img/imagenotfound.png" alt="" />
+                  </ng-template>
+
+                </div>
+                <div class="mq-details ml-2">
+                  <h6 class="mb-1 text-center text-sm-left">{{(item.workTitle.length > 20)?(item.workTitle | slice:0:20)+'...':item.workTitle}}</h6>
+                  <div class="d-flex justify-content-between flex-wrap">
+                    <div class="d-flex flex-column">
+                      <small>Task Ref:<b>{{item.jobQuotationid}}</b></small>
+                      <small>budget:<b>{{item.budget| number:'1.0':'en-US'}}</b></small>
+                    </div>
+                    <div class="d-flex flex-column">
+                      <small class="ml-2 ml-sm-0">posted by:<b>{{item.customerName}}</b></small>
+                      <small class="ml-2 ml-sm-0">start date:<b>{{item.date |  date:'mediumDate' }}</b></small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr class="hl">
+              <div class="mq-box-footer d-flex justify-content-end">
+                <div class="">
+                  <!--<a (click)="DeclineJobDetail(item.jobQuotationid,'DeclineJob')" class="mp-outine-btn">View Details</a>-->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title " style="color: var(--headingClr)" id="modal-basic-title">Confirm</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.close('no')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h5>Do you want to start Task?</h5>
+  </div>
+  <div class="modal-footer justify-content-end">
+    <button [ngClass]="strtJobBtn ? 'start-btn-noHover' : 'btn mp-outine-btn'" type="button" class="btn mp-outine-btn" [disabled]="strtJobBtn" (click)="modal.dismiss('yes')">yes</button>
+    <button type="button" class="btn mp-outine-btn" (click)="modal.close('no')">No</button>
+  </div>
+</ng-template>
+<!--------------------------------------------- Escalate options --------------------------------------->
+
+<ng-template #esclateContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title " style="color: var(--headingClr)" id="modal-basic-title">Resolution Center</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="appFormVal">
+      <div class="mb-2">
+        <h6>Can you give us more details on why?</h6>
+      </div>
+      <div class="checkbox mr-2" *ngFor="let item of esclateOption;let i=index">
+        <label class="fos-12 d-flex"><input type="radio" class="mr-2" value="{{item.id}}" id="{{item.id}}{{i}}" formControlName="esclateOption" [ngClass]="{'is-invalid' : f.esclateOption.invalid && f.esclateOption.errors}">{{item.name}}</label>
+      </div>
+      <div *ngIf="f.esclateOption?.errors">
+        <div *ngIf="f.esclateOption.invalid && (f.esclateOption.touched || f.esclateOption.dirty)">
+          <small class="text-danger" *ngIf="f.esclateOption.errors?.required">Input is required.</small>
+        </div>
+      </div>
+      <div class="mt-3">
+        <h6>Comments</h6>
+        <textarea placeholder="" class="form-control" formControlName="comment"></textarea>
+        <div *ngIf="f.comment?.errors">
+          <div *ngIf="f.comment.invalid && (f.comment.touched || f.comment.dirty)">
+            <small class="text-danger" *ngIf="f.comment.errors?.required">Input is required.</small>
+          </div>
+        </div>
+        <small class="text-success" *ngIf="responseMessage">Request Have Send Successfully</small>
+        <small class="text-danger" *ngIf="errorMessage">Your Request is Already In Pending.</small>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer justify-content-center">
+    <button type="button" class="btn mp-outine-btn" (click)="continueEsclateIssue()">Continue</button>
+  </div>
+</ng-template>
+<!-- Feedback  Model Start-->
+<!--<div class="modal fade custom-model-style" bsModal #FeedbackModel="bs-modal" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content px-4 py-4">
+      <div class="modal-header p-0">
+        <h6 class="modal-title" id="exampleModalLongTitle" style="color: var(--headingClr);">AWATING FEEDBACK</h6>
+        <hr class="hl mt-0">
+      </div>
+      <div class="modal-body p-0 mt-3">
+        <h2 class="c-green font-weight-bold mb-3">THANK YOU</h2>
+        <small class="d-block">Your request has been sent. Soon you will receive response.</small>
+      </div>
+      <div class="modal-footer p-0">
+        <button type="button" class="mp-outine-btn" data-dismiss="modal" (click)="CloseFeedback()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>-->

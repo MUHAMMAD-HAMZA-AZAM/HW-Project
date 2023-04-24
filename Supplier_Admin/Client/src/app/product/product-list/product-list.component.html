@@ -1,0 +1,115 @@
+            <!-- Container-fluid starts-->
+<div class="container-fluid">
+  <div class="page-header">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="page-header-left">
+          <h3>
+            Product List
+          </h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Container-fluid Ends-->
+
+<!--Container Search Start-->
+ <!--Container Search End-->
+
+  <!-- Container-fluid starts-->
+<div class="container-fluid">
+  <form class="mb-5" [formGroup]="filterForm" (submit)="filter()">
+    <div class="row">
+      <div class="col-md-12">
+        <h5>Choose Category To Filter</h5>
+        <div class="category-dropdown-wrapper d-flex">
+          <div class="category-dropdown">
+            <ul class="d-flex flex-column py-2">
+              <li (click)="getSubProductList($event);setIndex(i)" [class.active-cat]="selectedIndex === i" class="px-3 py-1"
+                  *ngFor="let item of productsList;let i = index" [value]="item?.id">{{item?.text}}</li>
+            </ul>
+          </div>
+          <div class="category-dropdown ms-3" *ngIf="isSubCategory">
+            <ul class="d-flex flex-column py-2">
+              <li (click)="getProductCategoryGroupList($event);setSubIndex(j)" [class.active-cat]="selectedSubIndex === j" class="px-3 py-1"
+                  *ngFor="let subItem of subProductsList ;let j = index" [value]="subItem?.productSubCategoryId">{{subItem?.subCategoryName}}</li>
+            </ul>
+          </div>
+          <div class="category-dropdown ms-3" *ngIf="isSubCategoryGroup">
+            <ul class="d-flex flex-column py-2">
+              <li class="px-3 py-1" (click)="getSubCategoryGroup($event);setSubGroupIndex(k)" *ngFor="let item of subCategoryGroupList;let k=index"
+                  [class.active-cat]="selectedSubGroupIndex === k" [value]="item?.id">{{item?.name}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-4"> 
+      <div class="col-12 col-md-6 col-xl-5 col-xxl-4">
+        <div class="form-group">
+          <input class="form-control" formControlName="productName" placeholder="Product Name" id="title" type="text">
+        </div>
+      </div>
+      <div class="col-6 col-md-3 col-xl-3 col-xxl-2">
+        <div class="form-group">
+          <input class="form-control" formControlName="price" placeholder="From Price" id="price" type="number">
+        </div>
+      </div>
+      <div class="col-6 col-md-3 col-xl-3 col-xxl-2">
+        <div class="form-group">
+          <input class="text-sm-start form-control" formControlName="toPrice" placeholder="To Price" id="price" type="number">
+        </div>
+      </div>
+    </div>
+    <div class="d-flex mt-2">
+        <button type="submit" class="btn btn-secondary me-2">Search</button>
+        <button type="button" (click)="reset()" class="btn btn-primary">Reset</button>
+    </div>
+  </form>
+  <div *ngIf="!imageLoader" class="row">
+    <div *ngFor="let img of skeltonArr.productLength" class="productDetailSkelton col-xl-2 col-sm-3 mb-3">
+      <div class="p-2 white-bg">
+        <div class="image-loader proImageBox230">
+
+        </div>
+        <div class="image-loader catName mt-1">
+
+        </div>
+        <div class="image-loader cat mt-1">
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="row products-admin ratio_asos" *ngIf="imageLoader">
+
+    <div class="col-12 col-sm-4 col-md-3 col-xl-3 col-xxl-2" *ngFor="let product of productList">
+      <div class="card p-2" id="product-list-cards">
+        <div class="card-body product-box p-0">
+          <div class="img-wrapper">
+            <a [routerLink]="[service.apiRoutes.Product.ProductDetail,product?.id]">
+              <ng-container *ngIf="product?.fileName;else noImg">
+                <img [src]="(_fileService.AWSPATH)+(product.filePath)+(product?.fileName)" alt="{{product?.name}}">
+              </ng-container>
+              <ng-template #noImg>
+                <img src="assets/images/no_img.jpg" class="img-fluid bg-img" alt="">
+              </ng-template>
+            </a>
+
+          </div>
+          <div class="product-detail mt-4">
+            <a [routerLink]="[service.apiRoutes.Product.ProductDetail,product?.id]">
+              <h6>{{product?.name}}</h6>
+            </a>
+            <h4>Rs.{{product?.price}}</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h5 *ngIf="noOfRecords <= 0" class="text-secondary text-center mt-5">Product Not Found</h5>
+    <ngb-pagination *ngIf="productList !=null" (pageChange)="getPostByPage($event)" [collectionSize]="noOfRecords" [(page)]="pageNumber" [pageSize]="pageSize"></ngb-pagination>
+  </div>
+</div>
+  <!-- Container-fluid Ends-->

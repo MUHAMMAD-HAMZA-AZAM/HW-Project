@@ -1,0 +1,153 @@
+<div class="container-fluid">
+  <div class="row">
+    <div id="page-wrapper">
+      <div class="col-lg-12">
+        <div class="row">
+          <div class="col-lg-9 bg-white">
+            <div class="row page-header">
+              <div class="col-lg-12">
+                <div class="row">
+                  <div class="col-lg-8 col-md-8">
+                    <div class="row">
+                      <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                          <li class="breadcrumb-item"><a href="liveleads.html">Live leads</a></li>
+                          <li class="breadcrumb-item active" aria-current="page">2360</li>
+                        </ol>
+                      </nav>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 text-right">
+                    &nbsp;
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12 shop-detail text-center border-bottom bider-img">
+                <h3>Customer Details</h3>
+                <h4>{{jobdetail.customerName}}</h4>
+                <p *ngIf="jobdetail.customerId!=null"><span>ID </span> {{jobdetail.customerId}}</p>
+              </div>
+            </div>
+            <div class="row mt-3 posted-job-detail">
+              <form class="col-lg-12">
+                <div class="form-row">
+                  <div class="form-group col-md-12">
+                    <label for="inputEmail4">Job Title</label>
+                    <input type="email" class="form-control" id="inputEmail4" placeholder="{{jobdetail.jobTitle}}" disabled>
+                  </div>
+                  <div class="form-group  budgetInput" [ngClass]="[ PageName== 'MyBids' ?  'col-md-6' : 'col-md-12']">
+                    <label for="budget">Budget</label>
+                    <input type="text" class="form-control budget" id="budget" placeholder="{{jobdetail.budget}}" disabled>
+                  </div>
+                  <div *ngIf="PageName=='MyBids'" class="form-group col-md-6 budgetInput">
+                    <label for="inputCity">Your Bid</label>
+                    <input type="text" class="form-control budget" id="budget" placeholder="{{jobdetail.tradesmanBid}}" disabled>
+                  </div>
+                  <div  *ngIf="jobdetail.tradesmanMessage!=null && PageName=='MyBids'" class="form-group col-md-12">
+                    <label for="inputAddress">Your Message</label>
+                    <textarea type="text" class="form-control desc" id="inputAddress" placeholder="{{jobdetail.tradesmanMessage}}" disabled></textarea>
+                  </div>
+                  <div *ngIf="audio!= null && PageName=='MyBids'" class="form-group col-md-12">
+                    <audio src='{{jobdetail.audioMessage}}' style="width:100%" controls preload='auto'>
+                    </audio>
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="inputAddress">Job Description</label>
+                    <textarea type="text" class="form-control desc" id="inputAddress" placeholder="{{jobdetail.jobDescription}}" disabled></textarea>
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="inputAddress">Images</label>
+                    <div *ngIf="jobdetail.jobImages!=null" class="form-control img" id="images">
+                      <span class="img-thumb" *ngFor="let image of jobdetail.jobImages;let index = index;">
+                        <img *ngIf="image.imageContent!=null" [src]="common.transform(image.imageContent)" (click)="ImagePopUp(common.transform(image.imageContent))" alt="" />
+                      </span>
+                    </div>
+                    <!--<div *ngIf="jobdetail.jobImages.length==0" class="form-control img" id="images">
+                      <span class="img-thumb" >
+                        <img  src="../../../../assets/img/no_thumbnail.jpg"  alt="" />
+                      </span>
+                    </div>-->
+
+
+
+                  </div>
+                  <div class="form-group col-md-6 d-none">
+                    <label for="inputAddress">Video</label>
+                    <div class="form-control img" id="video">
+                      <div data-toggle="modal" data-target="#myModalvideo">
+                        <img src="../../../../assets/img/pro-dtl5.jpg" alt="" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="inputCity">Expected Job Start Date</label>
+                    <input type="text" class="form-control" id="expected_date" placeholder="{{jobdetail.expectedJobStartDate}}" disabled>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="inputCity">Expected Job Start Date</label>
+                    <input type="text" class="form-control" id="inputCity" placeholder="{{jobdetail.expectedJobStartTime}}" disabled>
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="inputCity">Town</label>
+                    <input type="text" class="form-control" id="inputCity" placeholder="{{jobdetail.customerAddress}}" disabled>
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="inputAddress">Address</label>
+                    <textarea type="text" class="form-control" id="inputAddress" placeholder="{{jobdetail.jobAddressLine}}" disabled></textarea>
+                  </div>
+                  <div class="form-group col-md-12"><p><b class="text-success">Note!</b> Hoomwork will revail the expected job location once your bid is successful. To improve your chances of wining work, we recommend you to bid as soon as possible.</p></div>
+                  <div class="form-group col-md-12 mt-2 text-center">
+                    <a *ngIf="PageName=='MyBids'" class="btn btn-outline-success mr-2" (click)="EditBid(jobdetail.bidId)">Edit Bid</a>
+                    <a *ngIf="PageName!='MyBids'" class="btn btn-outline-success mr-2" (click)="PostBid(jobdetail.jobQuotationId)">Bid Now</a>
+                    <a (click)="CallBackPopup(jobdetail.jobQuotationId,jobdetail.customerId)" class="btn btn-primary">Request A Callback</a>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="col-lg-3 sec-ads">
+            <div class="row">
+              <div class="col-lg-12">
+                <a href=""><img src="../../../../assets/img/ad1.jpg" alt="" /></a>
+              </div>
+              <div class="col-lg-12 mt-3">
+                <a href=""><img src="../../../../assets/img/ad2.jpg" alt="" /></a>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #ImageModel="bs-modal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <button type="button" (click)="Close()" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div class="modal-body">
+        <img [src]="imageContent" alt="" />
+      </div>
+
+    </div>
+  </div>
+</div>
+<div bsModal #CallBackModel="bs-modal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <button type="button" (click)="CloseCallBack()" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div class="modal-body">
+        <h2>Thank You</h2>
+        Your request has been sent. Soon you will receive response.
+      </div>
+
+    </div>
+  </div>
+</div>

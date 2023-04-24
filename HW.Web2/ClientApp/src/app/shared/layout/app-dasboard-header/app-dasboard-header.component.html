@@ -1,0 +1,88 @@
+<!-- Navigation --> 
+<div class="page-top-action">
+  <div class="container d-flex">
+    <ul class="list-unstyled top-action-disp-none">
+      <li>
+        <a href="https://api.whatsapp.com/send?phone=923099994531" target="_blank"><i class="fab fa-whatsapp mr-2"></i>+92309-9994531</a>
+      </li>
+      <li>
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=info@hoomwork.com" target="_blank"><i class="fas fa-envelope mr-2"></i>info@hoomwork.com</a>
+      </li>
+    </ul>
+    <ul class="list-unstyled ml-auto">
+      <li class="dropdown" [routerLinkActive]="['active']">
+        <a class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">Register <span class="caret"></span></a>
+        <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
+          <li><a routerLink="/registration/appregistrationbasic/user" (click)="RegisterEntityCheck(check.U.role,check.U.Show)"><i class="user">&nbsp;</i>User</a>
+          <li><a routerLink="/registration/appregistrationbasic/tradesman" (click)="RegisterEntityCheck(check.T.role,check.T.Show)"><i class="tradesman">&nbsp;</i>Tradesman</a>
+          <li><a routerLink="/registration/appregistrationbasic/supplier" (click)="RegisterEntityCheck(check.S.role,check.S.Show)"><i class="supplier">&nbsp;</i>Supplier</a>
+        </ul>
+      </li>
+      <li class="dropdown" data-nav="CustomerLogin" [routerLinkActive]="['active']" id="loginOption">
+        <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span>Login</a>
+        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+          <li><a routerLink="/login/Customer" (click)="RegisterEntityCheck(check.U.role,check.U.Show)"><i class="user">&nbsp;</i>User</a></li>
+          <li><a routerLink="/login/Tradesman" (click)="RegisterEntityCheck(check.T.role,check.T.Show)"><i class="tradesman">&nbsp;</i>Tradesman</a></li>
+          <li><a routerLink="/login/Supplier" (click)="RegisterEntityCheck(check.S.role,check.S.Show)"><i class="supplier">&nbsp;</i>Supplier</a></li>
+        </ul>
+      </li>
+      <li *ngIf="loginCheck"><a (click)="DashBoard()">DashBoard</a></li>
+    </ul>
+  </div>
+</div>
+<!-- Navigation -->
+<!--<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">-->
+<nav class="navbar navbar-expand-lg navCustomColor fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand js-scroll-trigger" href="#page-top"></a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="">home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/ContactUs">Contact Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="javascript:void(0);" (click)="PostJob()">Post A Task</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link btn btn-outline-light" href="https://mall.hoomwork.com/" target="_blank">marketplace</a>
+        </li>
+        <!--<li class="nav-item">
+          <a class="nav-link btn btn-success" routerLink="/landing-page/liveleads">earn money</a>
+        </li>-->
+      </ul>
+    </div>
+  </div>
+</nav>
+<header class="landing-page-header">
+  <div class="container">
+    <div class="lp-wrapper">
+      <div class="lp-leftside">
+        <h2>FIND A <span>KARIGAR</span>  FOR EVERY <span>TASK</span></h2>
+        <p class="text-right">From light fitting and home construction, to leaky taps & house decoration</p>
+        <div class="top-banner-bottom">
+          <div class="tbb-left-side">
+            
+            <a target="_blank" href="https://apps.apple.com/us/app/hoomwork-homes/id1490813771?ls=1"><img style="display:block;margin-bottom:10px" src="../../../../assets/img/ios-btn-1.png" /></a>
+            <a target="_blank" href="https://play.google.com/store/apps/details?id=com.User.HW"><img src="../../../../assets/img/playstore-btn-1.png" /></a>
+          </div>
+          <div class="tbb-right-side">
+            <img src="../../../../assets/img/phone.png" />
+          </div>
+        </div>
+      </div>
+      <div class="lp-righside">
+        <div class="lp-img">
+          <img src="../../../../assets/img/right-image.png" />
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+

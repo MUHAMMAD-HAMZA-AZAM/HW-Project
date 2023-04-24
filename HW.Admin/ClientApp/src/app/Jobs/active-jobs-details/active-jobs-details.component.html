@@ -1,0 +1,224 @@
+<div class="header-activejob-details">
+  <app-header></app-header>
+
+  <div class="activity-heder">
+    <div class="activity-logo">
+      <a *ngIf="activity=='activeJob'" routerLink="/Jobmodule/app-active-jobs"><img src="../../../assets/img/logo.png" width="30" height="30"></a>
+      <a *ngIf="activity=='InprogressJob'" routerLink="/Jobmodule/app-inprogress-jobs"><img src="../../../assets/img/logo.png" width="30" height="30"></a>
+      <a *ngIf="activity=='CompletedJob'" routerLink="/Jobmodule/app-completed-jobs"><img src="../../../assets/img/logo.png" width="30" height="30"></a>
+    </div>
+    <a *ngIf="activity=='activeJob'" routerLink="/Jobmodule/app-active-jobs"><h5>HoomWork</h5></a>
+    <a *ngIf="activity=='InprogressJob'" routerLink="/Jobmodule/app-inprogress-jobs"><h5>HoomWork</h5></a>
+    <a *ngIf="activity=='CompletedJob'" routerLink="/Jobmodule/app-completed-jobs"><h5>HoomWork</h5></a>
+  </div>
+</div>
+<section class="section-inner">
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-lg-12 user-header" style="min-height:200px;">
+        <div class="user-image">
+          <ng-container *ngIf="jobDetails.profileImage !=null; else noThumbnail">
+            <img [src]="httpService.transform(jobDetails.profileImage)" alt="...">
+          </ng-container>
+          <ng-template #noThumbnail>
+            <img src="../../../assets/img/user-icon.png" alt="">
+          </ng-template>
+        </div>
+        <h4>{{jobDetails.firstName }} {{jobDetails.lastName}}</h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-3 col-md-4 sidebar-list">
+        <ul class="list-group">
+          <li class="list-group-item">
+            <i class="fas fa-phone-alt mr-2"></i> <span style="font-size:1.25rem;font-weight:500">{{jobDetails.customerMobileNo }}</span>
+            <p><i class="fas fa-envelope mr-2"></i>{{jobDetails.email }}</p>
+          </li>
+          <li class="list-group-item">
+            <h5>Signup Date</h5>
+            <p>{{jobDetails.singUpDate | date: "dd MMM yyy"}}</p>
+            <!--| date: "dd MMM yyy hh : mm : a"-->
+          </li>
+          <li class="list-group-item">
+            <h5>Address</h5>
+            <p><i class="fas fa-map-marker-alt mr-2"></i>{{jobDetails.customerAddress }}</p>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-9 col-md-8 user-penal">
+        <ul class="nav nav-tabs">
+          <li><a class="active" data-toggle="tab" href="#activity">Activity Log</a></li>
+          <li><a data-toggle="tab" href="#jobInfo">Job Information</a></li>
+          <li><a data-toggle="tab" href="#receivedBid">Received  Bids</a></li>
+          <li><a data-toggle="tab" href="#notifi" >Notifications</a></li>
+        </ul>
+        <div class="tab-content">
+
+          <div id="activity" class="tab-pane fade in active show">
+            <section class="section-inner">
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-9 mx-auto mt-3">
+                    <div class="jobDetailsWrapper" >
+                      <div class="activity-job-details">
+                        <h5>{{jobDetails.workTitle}}</h5>
+                        <span>Job Ref: {{CustomerId}}</span><span>Posted: {{peopleByCountry[0].createdDate | date:"dd MMM yyy"}}</span>
+                        
+                      </div>
+                    </div>
+                    <div class="activitylog-wrapper">
+                      <h4>Activity Log</h4>
+                      <div class="activityDetails">
+                        <div class="activityByDate" *ngFor="let group of peopleByCountry">
+                          <h5 class="mb-4">{{ group.createdDate | date:"dd MMM yyy"}}</h5>
+                          <div class="row" *ngFor="let person of group.activitydetails">
+                            <div class="left-side-act pr-0 col-sm-1 col-3 ">
+                              <small style="display:block;position: relative; margin-top:-5px;">{{ person.palceddate | date:"hh:mm:a"}}</small>
+                              <i class="act-fa-icon fas fa-user-circle" *ngIf="person.value ==1"></i>
+                              <i class="act-fa-icon fas fa-graduation-cap" *ngIf="person.value ==2"></i>
+                            </div>
+                            <div class="right-side-act col-sm-11 col-9" >
+                              <p style="padding:13px 10px 10px 0px; margin-bottom:0 !important">{{person.text}}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <!-- Quick Register -->
+            <!-- Footer -->
+          </div>
+          <div id="jobInfo" class="tab-pane fade">
+            <form class="row">
+              <div class="col-lg-12 form-group">
+                <label for="tital">Title</label>
+                <input type="text" class="form-control" value="{{jobDetails.workTitle}}" disabled id="tital" placeholder="Enter Title">
+              </div>
+              <div class="col-lg-6 form-group">
+                <label for="category">Category</label>
+                <input type="text" class="form-control" value="{{jobDetails.skillName}}" disabled id="category" placeholder="Enter Category">
+              </div>
+              <div class="col-lg-6 form-group">
+                <label for="sebcategory">Sub Category</label>
+                <input type="text" class="form-control" id="sebcategory" value="{{jobDetails.subSkillName}}" disabled placeholder="Enter Sub Category">
+              </div>
+              <div class="col-lg-12 form-group">
+                <label for="jobDescription">Job Description</label>
+                <textarea class="form-control" id="jobDescription" value="{{jobDetails.workDescription}}" disabled rows="3"></textarea>
+              </div>
+              <div class="col-lg-4 form-group">
+                <label for="exampleInputEmail1">Budget</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" value="{{jobDetails.workBudget}}" disabled aria-describedby="emailHelp" placeholder="Enter email">
+              </div>
+              <div class="col-lg-4 form-group">
+                <label>Job Start Date</label>
+                <label class="form-control" style="background-color: #e9ecef;">{{jobDetails.workStartDate | date: "dd MMM yyy"}}</label>
+
+              </div>
+              <div class="col-lg-4 form-group">
+                <label>Job Start Time</label>
+                <label class="form-control" style="background-color: #e9ecef;">{{jobDetails.workStartDate | date: "hh : mm : ss: a"}}</label>
+
+              </div>
+              <div class="col-lg-12">
+                <label for="jobAddress">Job Address</label>
+                <textarea class="form-control" id="jobAddress" value="{{jobDetails.jobAddress}}" disabled rows="3"></textarea>
+              </div>
+            </form>
+          </div>
+          <div id="receivedBid" class="tab-pane fade">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Tradesman Name</th>
+                    <th>Category</th>
+                    <th>Bid Date & Time</th>
+                    <th>Bid Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let bids of jobDetails.bidsList">
+                    <th style="text-decoration: underline;">{{bids.tradesmanName}}</th>
+                    <td>{{bids.skill}}</td>
+                    <td>{{bids.createdOn | date: "dd MMM yyy hh : mm : a"}}</td>
+                    <td *ngIf="bids.status == 'Accepted'" style="color:#05dd05; text-decoration: underline;">{{bids.status}}</td>
+                    <td *ngIf="bids.status == 'Declined'" style="color:red; text-decoration: underline;">{{bids.status}}</td>
+                    <td *ngIf="bids.status == 'Active'" style="color:#23bff1; text-decoration: underline;">{{bids.status}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div id="notifi" class="tab-pane fade">
+            <div class="notifi-container" *ngFor="let noti of jobDetails.notificationDTO">
+              <ng-container *ngIf="noti.body != null ">
+                <div class="row notifi-row" style="padding:1%;" >
+                  <div class="col-lg-1 col-md-2 user-thumb"><img src="../../../assets/img/user.png" alt="..."></div>
+                  <div class="col-lg-11 col-md-10 userNotiDtl">
+
+                    <p>{{noti.body}}</p>
+                    <p>at :{{noti.createdOn | date: "dd MMM yyy hh : mm : a"}}</p>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+            <p>{{nodata}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Quick Register -->
+
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 form-group">
+        <h5>hoomowners</h5>
+        <ul class=" list-unstyled">
+          <li><a href="">Create a Job</a></li>
+          <li><a href="">Contact</a></li>
+          <li><a href="">Help & FAQ</a></li>
+          <li><a href="">User Agrement</a></li>
+        </ul>
+      </div>
+      <div class="col-md-3 form-group">
+        <h5>Tradesman</h5>
+        <ul class=" list-unstyled">
+          <li><a href="">Create a Job</a></li>
+          <li><a href="">Contact</a></li>
+          <li><a href="">Help & FAQ</a></li>
+          <li><a href="">User Agrement</a></li>
+        </ul>
+      </div>
+      <div class="col-md-3 form-group">
+        <h5>Supplier</h5>
+        <ul class=" list-unstyled">
+          <li><a href="">Create a Job</a></li>
+          <li><a href="">Contact</a></li>
+          <li><a href="">Help & FAQ</a></li>
+          <li><a href="">User Agrement</a></li>
+        </ul>
+      </div>
+      <div class="col-md-3 form-group">
+        <h5>Follow us on</h5>
+        <ul class=" list-unstyled">
+          <li><a href=""><i class="mr-2 fab fa-facebook-square"></i>Facebook</a></li>
+          <li><a href=""><i class="mr-2 fab fa-linkedin"></i>Linkedin</a></li>
+          <li><a href=""><i class="mr-2 fab fa-twitter-square"></i>Twitter</a></li>
+          <li><a href=""><i class="mr-2 fab fa-youtube-square"></i>Youtube</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container copyright">
+    Copyright &copy; www.hoomwork.com. All rights Reserved. Privacy Policy
+  </div>
+</footer>
+

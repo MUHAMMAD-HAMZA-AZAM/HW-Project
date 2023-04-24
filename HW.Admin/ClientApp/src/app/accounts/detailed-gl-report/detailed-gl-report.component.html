@@ -1,0 +1,156 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card shadow mb-4">
+          <div class="card-header bg-primary">
+            <h6 class="mainTitle m-0 font-weight-bold border-0" data-toggle="collapse" href="#collapse6" aria-expanded="true">Detailed GL Report</h6>
+          </div>
+          <div id="collapse6" class="contentWrapper fs-12 show">
+            <div class="card-body">
+              <form [formGroup]="appValForm">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Fiscal Period:</label>
+                      <input type="date" formControlName="fiscalPeriod" class="form-control" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="fs-12">Account:</label>
+                      <ng-multiselect-dropdown
+                            placeholder="Select Accounts" style="display:inline;"
+                            [settings]="dropdownListForAccounts"
+                            [data]="accounts"
+                            formControlName="accountName"
+                            (onSelect)="onAccountSelect($event)"
+                            (onSelectAll)="onSelectAll($event)"
+                            (onDeSelect)="onAccountDeSelect($event)"
+                            (onDeSelectAll)="onAccountDeSelectALL($event)"
+                            (OnDeSelect)="onAccountDeSelect($event)">
+                      </ng-multiselect-dropdown>
+                      
+                      <ng-template #itemTemplate let-item>
+                        <a [innerHTML]="item.name"></a>
+                      </ng-template>
+
+                      <ng-template #notFoundTemplate let-notFound>
+                        <div [innerHTML]="notFound"></div>
+                      </ng-template>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Start Date:</label>
+                      <input type="date" formControlName="startDate" class="form-control" />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">End Date:</label>
+                      <input type="date" formControlName="endDate" class="form-control" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4 inline-downlod-btns">
+                    <button type="button" class="btn btn-sm btn-primary mr-2" (click)="getDetailedGLReport()">Search</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="reportData">
+    <div class="col-md-12">
+      <div class="card shadow mb-4">
+        <div class="card-header justify-header">
+          <h6 class="m-0 font-weight-bold">Detailed GL Report List</h6>
+        </div>
+        <div class="card-body">
+          <!--<div class="table-responsive">
+    <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+      <thead>
+        <tr>
+          <th width="3%" title="Fiscal Year">Date</th>
+          <th width="3%" title="Period ID">Reference #</th>
+          <th width="3%" title="Period Name">Debit</th>
+          <th width="3%" title="Start Date">Credit</th>-->
+          <!--<th width="3%" title="End Date">Balance</th>-->
+          <!--</tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let key of reportData">
+        <div class="my-3 d-flex justify-content-between">
+          <span class="font-weight-bold">{{key.subAccountId}}</span>
+          <span class="font-weight-bold">0</span>
+        </div>
+        <tr *ngFor="let item of key.entries">
+          <td>{{item?.transactionDate}}</td>
+          <td>{{item?.referenceNo}}</td>
+          <td>{{item?.debit}}</td>
+          <td>{{item?.credit}}</td>-->
+          <!--<td>{{item?.openingBalance}}</td>-->
+          <!--</tr>
+            <div class="my-3 d-flex justify-content-between">
+              <span class="font-weight-bold">{{key.balance.debit}}</span>
+              <span class="font-weight-bold">{{key.balance.credit}}</span>
+              <span class="font-weight-bold">{{key.balance.debit - key.balance.credit}}</span>
+            </div>
+          </ng-container>
+        </tbody>
+      </table>
+
+    </div>-->
+          <div class="gl-report-headings">
+            <span>Date</span>
+            <span>Reference</span>
+            <span>Debit</span>
+            <span>Credit</span>
+            <span>Balance</span>
+          </div>
+          <ng-container *ngFor="let key of reportData;let i = index">
+            <div class="account_id my-3" [class.account_id_fc]="i == 0">
+              <span class="font-weight-bold sub">{{key.subAccountId + '-' + key.subAccountName}}</span>
+              <span class="font-weight-bold bal">{{key.balance.openingBalance}}</span>
+            </div>
+            <div class="gl-report-body" *ngFor="let item of key.entries">
+              <span>{{item?.transactionDate | date}}</span>
+              <span>{{item?.referenceNo}}</span>
+              <span>{{item?.debit}}</span>
+              <span>{{item?.credit}}</span>
+            </div>
+            <div class="gl-report-balance">
+              <span class="font-weight-bold">Rs.{{key.balance.debit}}</span>
+              <span class="font-weight-bold">Rs.{{key.balance.credit}}</span>
+              <span class="font-weight-bold">Rs.{{key.balance.openingBalance + (key.balance.debit - key.balance.credit)}}</span>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12" *ngIf="reportData?.length > 0">
+      <div class="card shadow">
+        <div class="card-body">
+          <div class="gl-report-totalbalance">
+            <span class="font-weight-bold">Total Debit : {{totalDebit}}</span>
+            <span class="font-weight-bold">Total Credit : {{totalCredit}}</span>
+            <span class="font-weight-bold">Total Balance : {{totalOpeningBalance + (totalDebit - totalCredit)}}</span>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>

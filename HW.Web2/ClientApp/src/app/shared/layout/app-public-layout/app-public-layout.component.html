@@ -1,0 +1,253 @@
+    <!--********************************Main Navigation**************************************-->
+<div class="main-navigation nlp-nav" id="main-navbar">
+  <nav class="navbar fixed-top navbar-expand-lg navbar-light">
+    <div class="container-fluid px-0">
+      <div class="nlp-top-bar px-2 px-sm-3 px-md-3 px-lg-3 px-xl-5">
+        <div class="d-flex flex-column d-sm-block">
+          <small class="mr-3"><a href="https://api.whatsapp.com/send?phone=923099994531" target="_blank"><i class="fab fa-whatsapp mr-1"></i>Customer Care</a></small>
+          <small><a href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=info@hoomwork.com" target="_blank"><i class="fas fa-envelope mr-1"></i>info@hoomwork.com</a></small>
+        </div>
+        <div class="nlp-dd d-flex">
+          <div *ngIf="loggedUserDetails.role != undefined" class="dropdown" id="aboutUser">
+            <a class="dropdown-toggle" role="button" data-toggle="dropdown" id="dropdownMenu4" aria-haspopup="true" aria-expanded="false">
+              <span class="caret">
+                <img *ngIf="loggedUserDetails.profileImage !=null;else noImg" height="24" width="26" [src]="common.transform(loggedUserDetails?.profileImage)" />
+                <small class="fos-12 mx-1" *ngIf="loggedUserDetails?.firstName">{{loggedUserDetails?.firstName}}</small>
+              </span>
+            </a>
+            <ng-template #noImg>
+              <img src="../../../../assets/img/no_thumbnail.jpg" height="24" width="26" />
+            </ng-template>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu4">
+              <!--<li><a ><i class="fas fa-user">&nbsp;</i>{{loggedUserDetails?.firstName}}</a></li>-->
+              <a class="dropdown-item"><i class="fas fa-users-cog">&nbsp;</i>{{loggedUserDetails?.role}}</a>
+              <a class="dropdown-item" (click)="DashBoard()"><i class="fas fa-list-alt">&nbsp;</i>Dashboard</a>
+              <a class="dropdown-item" (click)="logout()"><i class='fas fa-sign-out-alt'></i>&nbsp;Logout</a>
+            </div>
+          </div>
+          <ng-container *ngIf="loggedUserDetails.role == undefined">
+            <div class="dropdown">
+              <button class="dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Registration
+              </button>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
+                <a class="dropdown-item" [routerLink]="['/registration/appregistrationbasic/user']" (click)="RegisterEntityCheck(check.U.role,check.U.Show,'reg')"><i class="user">&nbsp;</i>Customer</a>
+                <a class="dropdown-item" [routerLink]="['/registration/appregistrationbasic/tradesman']" (click)="RegisterEntityCheck(check.T.role,check.T.Show,'reg')"><i class="tradesman">&nbsp;</i>Tradesman</a>
+                <!--<a class="dropdown-item" routerLink="/registration/appregistrationbasic/supplier" (click)="RegisterEntityCheck(check.S.role,check.S.Show)"><i class="supplier">&nbsp;</i>Supplier</a>-->
+              </div>
+            </div>
+            <div class="dropdown">
+              <button class="dropdown-toggle" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Login
+              </button>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu3">
+                <a class="dropdown-item" [routerLink]="['/login/Customer']" (click)="RegisterEntityCheck(check.U.role,check.U.Show,'login')"><i class="user">&nbsp;</i>Customer</a>
+                <a class="dropdown-item" [routerLink]="['/login/Tradesman']" (click)="RegisterEntityCheck(check.T.role,check.T.Show,'login')"><i class="tradesman">&nbsp;</i>Tradesman</a>
+                <!--<a class="dropdown-item" routerLink="/login/Supplier" (click)="RegisterEntityCheck(check.S.role,check.S.Show)"><i class="supplier">&nbsp;</i>Supplier</a>-->
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid px-2 px-md-3 px-lg-3 px-xl-5 bg-white">
+      <a class="navbar-brand mr-sm-5 mr-2 d-block" [routerLink]="['/']"><img src="../../../../assets/img/hw_logo.png" alt="hoomwork" /></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a routerLinkActive="topMenuActive" [class.topMenuActive]="routeUrl === '/' || routeUrl === '/Index'" class="nav-item nav-link" routerLink="">Home</a>
+          <a routerLinkActive="topMenuActive" [routerLink]="['/HWUser/AboutUs']" class="nav-item nav-link">About us</a>
+          <a routerLinkActive="topMenuActive" class="nav-item nav-link" [routerLink]="['/blog']">Blog</a>
+          <a routerLinkActive="postJobActiveMenu" [routerLink]="['landing-page/costGuides',commonSkills?.skillId,commonSkills?.slug,'lk',commonSkills?.name]" class="nav-item nav-link">Post A Task</a>
+          <a routerLinkActive="topMenuActive" class="nav-item nav-link" [routerLink]="['/promotions/promotionlist']">Promotions</a>
+        </div>
+        <div class="d-flex text-uppercase nav-rs align-items-center">
+          <!--<p><i class="fa fa-phone-volume mr-2"></i>+92309-9994531-2</p>-->
+          <!--<a href="https://api.whatsapp.com/send?phone=923099994531" target="_blank" class="btn nlp-green-btn mr-2"><i class="fab fa-whatsapp mr-2"></i>Customer Care Center</a>-->
+          <a href="https://mall.hoomwork.com/" target="_blank" *ngIf="btnMarketPlace" class="btn nlp-green-btn mr-2">marketplace</a>
+          <!--<a [routerLink]="['/landing-page/liveleads']" class="btn nlp-green-btn nlp-blue-bg">earn money</a>-->
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
+<!--********************************Main Navigation**************************************-->
+<!--********************************Main Banner Start**************************************-->
+<section id="nlp-mb-wrapper" class="mrt-92">
+  <div id="download-app-mv-wrapper" #mobileViewBtn class="d-sm-none d-flex align-items-center justify-content-center">
+    <div id="download-app-mv" class="p-3 text-center d-flex flex-column justify-content-center position-relative">
+      <i (click)="hideMvBtns()" class="fas fa-times-circle"></i>
+      <div class="mv-logo">
+        <img src="/assets/img/favicon.png" />
+      </div>
+      <h5 class="my-2">Download Our App</h5>
+      <div class="app-btn">
+        <a href="https://play.google.com/store/apps/details?id=com.User.HW" target="_blank" class="mr-1"><img src="/assets/img/andriodapp.png" /></a>
+        <a href="https://apps.apple.com/us/app/hoomwork-homes/id1490813771?ls=1" target="_blank" class="ml-1"><img src="/assets/img/iosapp.png" /></a>
+      </div>
+    </div>
+  </div>
+
+  <!--<div class="hwm_cs">
+    <img class="position-relative" src="../../../../assets/img/hw_mall_cs.png" alt="hwmall"/>
+    <i class="fa fa-times"></i>
+  </div>-->
+  <div id="nlp-sw" class="owl-carousel owl-theme">
+    <div class="nlp-mb-slides nlp-mb-slider-bgone d-flex align-items-sm-center">
+      <div class="container">
+        <div class="d-flex mt-2 mt-sm-0 flex-column flex-sm-row">
+          <div class="lp-sc mr-2">
+            <div class="header bg-orange d-flex align-items-center p-3">
+              <h6 class="d-flex align-items-center"><img src="../../../../assets/img/icon_tools.png" class="mr-2" /> Maintainance Remodeling Services</h6>
+            </div>
+            <div class="lp-sc-body p-3">
+              <div class="d-flex flex-row flex-sm-column mt-3">
+                <h4 class="mr-2  mr-sm-0">Home</h4>
+                <h4>Services</h4>
+              </div>
+              <div class="d-flex mt-2 mb-4">
+                <a [routerLink]="['landing-page/costGuides',commonSkills?.skillId,commonSkills?.slug,'lk',commonSkills?.name]" class="btn bg-orange mr-2">Request Now</a>
+                <a [routerLink]="['landing-page/costGuides',commonSkills?.skillId,commonSkills?.slug,'lk',commonSkills?.name]" class="btn gray-borderd-btn">Schedule For Later</a>
+              </div>
+              <div class="d-flex flex-row flex-sm-column mb-2">
+                <h4 class="mr-2  mr-sm-0">Commercial</h4>
+                <h4>Services</h4>
+              </div>
+              <div class="d-flex mt-2 mb-4">
+                <a [routerLink]="['landing-page/costGuides',commonSkills?.skillId,commonSkills?.slug,'lk',commonSkills?.name]" class="btn bg-orange mr-2">Request Now</a>
+                <a [routerLink]="['landing-page/costGuides',commonSkills?.skillId,commonSkills?.slug,'lk',commonSkills?.name]" class="btn gray-borderd-btn">Schedule For Later</a>
+              </div>
+              <!--<div>
+                <img src="../../../../assets/img/comming_soon_arrow.png" />
+              </div>-->
+            </div>
+          </div>
+          <div class="lp-sc mt-2 mt-sm-0">
+            <div class="header bg-green d-flex align-items-center p-3">
+              <h6 class="d-flex align-items-center"><img src="../../../../assets/img/icon_helping.png" class="mr-2" /> Become a Partner</h6>
+            </div>
+            <div class="lp-sc-body p-3">
+              <div class="d-flex">
+                <div class="d-flex flex-column mt-3 border_right pr-2">
+                  <h4 class="mr-2 mr-sm-0">Work</h4>
+                  <h4>With Us</h4>
+                </div>
+                <div class="d-flex flex-column mt-3 pl-2">
+                  <h4 class="mr-2  mr-sm-0 font-weight-light">Sole</h4>
+                  <h4 class="font-weight-light">Tradesman</h4>
+                </div>
+              </div>
+              <div class="d-flex mt-2 mb-2 mb-sm-4">
+                <a [routerLink]="['/registration/appregistrationbasic/tradesman']" (click)="RegisterEntityCheck(check.T.role.toString(),check.T.Show.toString(),'reg')" class="btn bg-green mr-2">Sign Up Now</a>
+              </div>
+              <div class="d-flex mb-3">
+                <div class="d-flex flex-column  border_right pr-2">
+                  <h4 class="mr-2 mr-sm-0">Grow</h4>
+                  <h4>Your Business</h4>
+                </div>
+                <div class="d-flex flex-column pl-2">
+                  <h4 class="mr-2  mr-sm-0 font-weight-light">Organization</h4>
+                  <h4 class="font-weight-light">Tradesman</h4>
+                </div>
+              </div>
+              <a [routerLink]="['/registration/appregistrationbasic/tradesman']" (click)="RegisterEntityCheck(check.T.role.toString(),check.T.Show.toString(),'reg')" class="btn bg-green">Sign Up Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="nlp-mb-slides nlp-mb-slider-bgtwo d-flex align-items-center">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-sm-6">
+            <h1 id="slidetext">REGISTER<br>TODAY!</h1>
+            <p class="mt-3 mb-4">Allowing skilled person to win more work <br /> and make extra money get work now!</p>
+            <a routerLink="/registration/appregistrationbasic/tradesman" class="px-5 btn nlp-green-btn mb-3 mb-sm-0">Become a Partner</a>
+          </div>
+          <div class="col-sm-6 d-flex flex-column justify-content-center align-items-center">
+            <div class="app_screen_imge">
+              <img src="/assets/img/app_screen.png" />
+            </div>
+            <p class="py-3">Download our Apps</p>
+            <div class="nlp-download-btn">
+              <div class="d-flex">
+                <div class="da-btn">
+                  <a href="https://play.google.com/store/apps/details?id=com.User.HW" target="_blank"><img src="/assets/img/andriod-btn.png" alt="download app"></a>
+                </div>
+                <div class="da-btn">
+                  <a href="https://apps.apple.com/us/app/hoomwork-homes/id1490813771?ls=1" target="_blank"><img src="/assets/img/apple-btn.png" alt="download app"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="nlp-mb-slides nlp-mb-slider-bgthree d-flex align-items-center">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-12 col-sm-6">
+            <div class="app_screen_imge">
+              <img src="/assets/img/coming_soon.png" />
+            </div>
+          </div>
+          <div class="d-none col-sm-6  d-sm-flex flex-column justify-content-center align-items-center">
+            <div class="app_screen_imge">
+              <img src="/assets/img/app_screen1.png" />
+            </div>
+            <p class="py-3">Download our Apps</p>
+            <div class="nlp-download-btn">
+              <div class="d-flex">
+                <div class="da-btn">
+                  <a href="https://play.google.com/store/apps/details?id=com.User.HW" target="_blank"><img src="/assets/img/andriod-btn.png" alt="download app"></a>
+                </div>
+                <div class="da-btn">
+                  <a href="https://apps.apple.com/us/app/hoomwork-homes/id1490813771?ls=1" target="_blank"><img src="/assets/img/apple-btn.png" alt="download app"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--********************************Main Banner End**************************************-->
+<!-- Navigation -->
+<router-outlet></router-outlet>
+<!-- Footer -->
+<app-appcommonfooter [customStyle]="cusStyle"></app-appcommonfooter>
+
+<!--Promotion Modal-->
+
+<ng-template #promoContent let-modal>
+  <div class="p-0 lp-promotion-modal modal-body">
+    <div class="promo-image-wrapper">
+      <img style="cursor:pointer" ngbAutoFocus class="position-relative" (click)="navigateWithSkillId(promoDetails?.skillId)"
+           [src]="common.transform(promoDetails?.image)" />
+      <i (click)="modal.close('Save click')" class="fas fa-times-circle"></i>
+      <a [routerLink]="['/promotions/promotionlist']" class="btn mp-outine-btn" style="position:absolute;left:8px;top:8px; background:orange">View Promotions</a>
+    </div>
+  </div>
+</ng-template>
+
+
+<div class="promo-action" (click)="getPromotionList()" title="Promotions">
+  <i class="fas fa-gift"></i>
+</div>
+<div class="fixed-social-icons d-flex flex-column">
+  <a href="https://web.facebook.com/hoomwork.pk/?_rdc=1&amp;_rdr" target="_blank">
+    <i class="fab fa-facebook" style="color: #3b5998;" title="facebook"></i>
+  </a>
+  <a href="https://twitter.com/hoomworkpk/" target="_blank">
+    <i class="fab fa-twitter" style="color: #00aced;" title="twitter"></i>
+  </a>
+  <a href="https://www.linkedin.com/company/hoomwork/" target="_blank">
+    <i class="fab fa-linkedin" style="color: #007bb6;" title="linkedin"></i>
+  </a>
+  <a href="https://www.youtube.com/channel/UCcQyjWuLSXNXL9olWUb7-MQ?view_as=subscribe" target="_blank">
+    <i class="fab fa-youtube-square" style="color: #bb0000;" title="youtube"></i>
+  </a>
+</div>

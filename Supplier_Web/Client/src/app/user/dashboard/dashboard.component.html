@@ -1,0 +1,144 @@
+<div class="container">
+  <div class="breadcrumb pt-3" style="margin-top: 134px;">
+    <ul class="d-flex">
+      <li><a href="#">Home</a><span>|</span></li>
+      <li><a>Dashboard</a></li>
+    </ul>
+  </div>
+  <h4 class="primaryClr mb-3 mb-sm-5">Dashboard</h4>
+  <div class="row user_dashboard">
+    <div class="col-sm-4 col-md-3">
+      <ul>
+        <li><a href="#" class="primaryClr">Account Info</a></li>
+        <li><a [routerLink]="['/user/orders']">Orders</a></li>
+        <li><a [routerLink]="[_httpService.apiRoutes.User.OrderPaymentReceipt]">Payments</a></li>
+        <li><a [routerLink]="['/user/cancelled-orders']">Cancelled Orders</a></li>
+        <li><a [routerLink]="['/user/wishlist']">Wishlist</a></li>
+        <li><a [routerLink]="['/user/forgotPassword']">Forgot Password</a></li>
+        <li><a  (click)="logOut()">Log Out</a></li>
+      </ul>
+    </div>
+    <div class="col-sm-8 col-md-9 mt-4 mt-sm-0">
+      <div class="viewCart_cart p-3 p-sm-4">
+        <h5 class="primaryClr">Welcome</h5>
+        <h5 class="darkGrayClr mb-3">Hello, {{loggedUserDetails?.firstName}} {{loggedUserDetails?.lastName}}</h5>
+        <p class="font-poppins darkGrayClr fw-bold fs-12">Account Information</p>
+        <h5 [ngClass]="(loggedUserDetails?.phoneNumberConfirmed) ? 'primaryClr' : 'clr-red'">{{(loggedUserDetails?.phoneNumberConfirmed) ? 'Verified': 'Not Verified'}}</h5>
+        <p class="font-poppins darkGrayClr fs-13">{{loggedUserDetails?.mobileNumber}}</p>
+        <hr />
+        <ng-container *ngIf="loggedUserDetails?.email">
+          <h5 class="clr-red" [ngClass]="(loggedUserDetails?.emailConfirmed) ? 'primaryClr' : 'clr-red'">{{(loggedUserDetails?.emailConfirmed) ? 'Verified': 'Not Verified'}}</h5>
+          <p  class="font-poppins darkGrayClr fs-13">{{loggedUserDetails.email}}</p>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- breadcrumb start -->
+<!--<div class="breadcrumb-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="page-title">
+                    <h2>Dashboard</h2>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <nav aria-label="breadcrumb" class="theme-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>-->
+<!-- breadcrumb End -->
+<!-- section start -->
+<section class="section-b-space d-none">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 mb-3 mb-md-0">
+        <div class="dashboard-left">
+          <div class="block-content">
+            <ul>
+              <li class="active"><a>Account Info</a></li>
+              <li><a [routerLink]="['/user/orders']">My Orders</a></li>
+              <li><a [routerLink]="[_httpService.apiRoutes.User.OrderPaymentReceipt]">My Payments</a></li>
+              <li><a [routerLink]="['/user/cancelled-orders']">My Cancellation</a></li>
+              <li><a [routerLink]="['/user/wishlist']">My Wishlist</a></li>
+              <li><a [routerLink]="['/user/forgotPassword']">Forgot Password</a></li>
+              <li class="last"><a (click)="logOut()">Log Out</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div class="dashboard-right">
+          <div class="dashboard">
+            <div class="page-title">
+              <h2>Welcome {{loggedUserDetails?.firstName}}</h2>
+            </div>
+            <div class="welcome-msg">
+              <p>Hello, {{loggedUserDetails?.firstName}} {{loggedUserDetails?.lastName}}</p>
+            </div>
+            <div class="box-account box-info">
+              <div class="box-head">
+                <h2>Account Information</h2>
+              </div>
+              <div>
+                <div class="box">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <h6>{{loggedUserDetails?.firstName}} {{loggedUserDetails?.lastName}}</h6>
+                      <a [routerLink]="['/user/forgotPassword']">
+                        Forgot Password
+                      </a>
+                    </div>
+                    <div class="col-sm-6">
+                      <h6 *ngIf="loggedUserDetails?.email">
+                        {{loggedUserDetails.email}}
+                        <b class="ms-2" [ngClass]="(loggedUserDetails?.emailConfirmed) ? 'text-success' : 'text-danger'">{{(loggedUserDetails?.emailConfirmed) ? 'Verified': 'Not Verified'}}</b>
+                      </h6>
+                      <!--<ng-template #emailNotFound>
+                      <h6><b class="ms-2 text-danger">Update your email.</b></h6>
+                      </ng-template>-->
+                      <h6>{{loggedUserDetails?.mobileNumber}} <b class="ms-2" [ngClass]="(loggedUserDetails?.phoneNumberConfirmed) ? 'text-success' : 'text-danger'">{{(loggedUserDetails?.phoneNumberConfirmed) ? 'Verified': 'Not Verified'}}</b></h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--<div>
+                  <div class="box">
+                      <div class="box-title">
+                          <h3>Address Book</h3><a href="#">Manage Addresses</a>
+                      </div>
+                      <div class="row">
+                          <div class="col-sm-6">
+                              <h6>Default Billing Address</h6>
+                              <address>441-Q Model Town Lahore.<br>
+                            <a href="#">Add Billing Address</a>
+                            </address>
+                          </div>
+                          <div class="col-sm-6">
+                            <h6>Default Shipping Address</h6>
+                            <address>
+                              Gulshan e Ravi Lahore.<br>
+                              <a href="#">Add Shipping Address</a>
+                            </address>
+                          </div>
+                      </div>
+                  </div>
+              </div>-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- section end -->

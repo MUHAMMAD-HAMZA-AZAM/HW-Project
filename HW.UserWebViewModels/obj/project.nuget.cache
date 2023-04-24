@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "bKrD/bSP1Eqvh8eH7XMxP2IIYHVnH84yym5kd8dtqJOmzTIxrGFIwrDnOwiQu+kz8sqUT8DEdWOvAbaAqSfLSQ==",
+  "success": true,
+  "projectFilePath": "E:\\Vision\\Microsoft .NET\\GitHub\\Hoomwork\\HW.UserWebViewModels\\HW.UserWebViewModels.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\muham\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

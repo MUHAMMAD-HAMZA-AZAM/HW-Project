@@ -1,0 +1,163 @@
+
+<div class="col-lg-12 bg-white">
+  <div class="row page-header">
+    <div class="col-md-8">
+      <div class="row">
+        <nav aria-label="breadcrumb" hidden>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item active text-dark" aria-current="page">Get Free Quotes</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <div class="col-md-4 search-container text-right mb-2">
+      <label class="btn btn-primary" style="position:relative;">Step 2</label>
+    </div><!-- /.col-lg-12 -->
+  </div><!--heading-->
+  <div class="row postjob form-signup">
+    <form class="col-lg-8 my-2 mx-auto" name="sentMessage" id="contactForm" [formGroup]="jobQuotationForm2">
+      <div class="row">
+        <div class="col-lg-12 mx-auto">
+          <div class="row border my-3">
+
+            <div class="control-group col-lg-12 col-md-12 mt-3" id="cityDiv">
+              <label for="Cities">City</label>
+              <select class="form-control" id="Cities" (change)="SelectCity($event.target.value)" formControlName="cityId" [ngClass]="{ 'is-invalid': submitted &&  f.cityId.errors }">
+                <option>- Select Option -</option>
+                <option *ngFor="let listOfCity of cityList" value="{{listOfCity.id}}">{{listOfCity.value}}</option>
+              </select>
+              <div *ngIf="submitted && f.cityId.errors" class="invalid-feedback">
+                <div *ngIf="f.cityId.errors.required">{{errorsList.cityIdError}}</div>
+              </div>
+            </div>
+            <div class="form-group col-lg-12 col-md-12">
+              <label for="jobTown">Town</label>
+              <input type="text" id="jobTown" class="form-control" formControlName="town" [ngClass]="{ 'is-invalid': submitted &&  f.town.errors }">
+              <div *ngIf="submitted && f.town.errors" class="invalid-feedback">
+                <div *ngIf="f.town.errors.required">{{errorsList.townError}}</div>
+              </div>
+            </div>
+
+
+            <div class="form-group col-lg-12 col-md-12">
+              <label for="jobAddress">Address</label>
+              <textarea type="text" id="jobAddress" class="form-control desc" formControlName="area" [ngClass]="{ 'is-invalid': submitted &&  f.area.errors }"></textarea>
+              <div *ngIf="submitted && f.area.errors" class="invalid-feedback">
+                <div *ngIf="f.area.errors.required">{{errorsList.areaError}}</div>
+              </div>
+            </div>
+            <div class="form-group col-lg-12 col-md-12">
+              <label>Bids You Want to Get?:</label>
+              <select class="form-control" id="bidLimit" formControlName="numberOfBids" [ngClass]="{ 'is-invalid': submitted &&  f.numberOfBids.errors }">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+              </select>
+              <div *ngIf="submitted && f.numberOfBids.errors" class="invalid-feedback">
+                <div *ngIf="f.numberOfBids.errors.required">{{errorsList.numberOfBidsError}}</div>
+              </div>
+            </div>
+            <div class="form-group col-lg-12 col-md-12" id="textDate">
+              <label>Expected Job Start Date?</label>
+              <div class='date' id='datepicker'>
+                <input class="form-control" id="jobDate" placeholder="Select a date" (click)="dp.toggleCalendar()" ngx-mydatepicker name="myDate" [ngClass]="{ 'is-invalid': submitted &&  f.startedDate.errors }"
+                       formControlName="startedDate" [options]="myOptions" #dp="ngx-mydatepicker" required>
+                <!--<button type="button" class="btn btn-default" >
+                  <i class="fa fa-calendar"></i>
+                </button>-->
+                <div *ngIf="submitted && f.startedDate.errors" class="invalid-feedback">
+                  <div *ngIf="f.startedDate.errors.required">{{errorsList.startedDateError}}</div>
+                </div>
+                <!--@*<span class="input-group-addon">
+    <i class="far fa-calendar-alt"></i>
+  </span>*@-->
+              </div>
+            </div>
+            <div class="form-group col-lg-12 col-md-12">
+              <label>Expected Job Start Time?</label>
+              <div class='time ngx-timepicker-field-example' id='timepicker'>
+                <ngb-timepicker [meridian]="meridian" formControlName="startTime" [ngClass]="{ 'is-invalid': submitted &&  f.startTime.errors }"></ngb-timepicker>
+                <button class="btn d-none btn-sm btn-outline-{{meridian ? 'success' : 'danger'}}" (click)="toggleMeridian()">
+                  Meridian - {{meridian ? "ON" : "OFF"}}
+                </button>
+                <div *ngIf="submitted && f.startTime.errors" class="invalid-feedback">
+                  <div *ngIf="f.startTime.errors.required">{{errorsList.startedTimeError}}</div>
+                </div>
+                <!--@*<input type='time' class="form-control" id="jobTime" data-required="required" data-message="Give Job Start Time" data-validation-type="6">*@-->
+                <!--<input type="text" class="form-control timepicker-12-hr" id="jobTime" name="timepicker-12-hr" data-required="required" data-message="Give Job Start Time" data-validation-type="6">-->
+              </div>
+            </div>
+            <div class="form-group col-lg-12 col-md-12">
+              <label for="jobTown">Budget <small>(Rs.)</small></label>
+              <input type="number" min="1.00" step="1.00" max="50000" id="jobBudget" class="form-control" formControlName="budget" [ngClass]="{ 'is-invalid': submitted &&  f.budget.errors }">
+              <div *ngIf="submitted && f.budget.errors" class="invalid-feedback">
+                <div *ngIf="f.budget.errors.required">{{errorsList.budgetError}}</div>
+              </div>
+            </div>
+            <div class="form-group col-lg-12 col-md-12">
+              <label for="jobLatlong">Location</label>
+              <input type="text" id="jobAddressLine" value="{{address}}" class="form-control" (keydown.enter)="$event.preventDefault()"
+                     placeholder="Search Nearest Location" autocorrect="off" formControlName="streetAddress"
+                     autocapitalize="off" spellcheck="off" #search [ngClass]="{ 'is-invalid': submitted &&  f.streetAddress.errors }">
+              <div *ngIf="submitted && locationError" class="invalid-feedback">
+                <div *ngIf="locationError">{{errorsList.streetAddressError}}</div>
+              </div>
+              <agm-map class="border" style="width:100%; height:300px;" (mapClick)="addMarker($event.coords.lat, $event.coords.lng)" [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+                <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+              </agm-map>
+            </div>
+            
+          </div>
+          <div class="row text-center mb-4">
+            <div class="col-lg-12">
+              <a href="" class="row btn btn-primary text-center" id="sendMessageButton" data-toggle="modal" data-target="#confirmQuotes1" (click)="PostQuotations()">Get Quotes</a>
+              <!--<button type="submit" class="row btn btn-primary text-center" id="sendMessageButton" data-toggle="modal" data-target="#myModal">Get Quotes</button>-->
+            </div>
+            <!-- Modal -->
+            <div bsModal #postJobModalConfirm="bs-modal" id="confirmQuotes" class="modal fade modallist" role="dialog">
+              <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" (click)="hideModal()">&times;</button>
+                    <span class="light-bulb"><img src="assets/img/light-bulb.svg" alt="" /></span>
+                    <h4 class="modal-title text-center">Homeowner Checklist</h4>
+                  </div>
+                  <div class="modal-body">
+                    <ul>
+                      <li>While we may contact you to confirm your details, we don’t  employ the tradespeople and aren’t liable for their work, actions or omissions.</li>
+                      <li>It’s your responsibility to hire the tradesperson so we recommend reviewing their ratings, profile and qualifications before hiring them.</li>
+                      <li>Tradespeople pay a subscription fee. if you no longer need the work done, please withdraw it.</li>
+                      <li>You can edit or remove a job by logging in to your account or by contacting us.</li>
+                    </ul>
+                    <p class="text-center">By asking to get a free quote you agree our terms & conditions <br /><a>Terms & conditions</a> and <a>Privacy policy</a></p>
+                    <a id="postJobBtn" class="btn btn-lg btn-primary mt-3" (click)="PostJob()">Confirm & Get Free Quotes</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Map Modal -->
+            <div id="mapModal" class="modal fade modallist" role="dialog" style="margin-top:70px">
+              <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+
+                  <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <br />
+                    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+                    <div id="map"></div>
+                    <p style="padding-top:5px"><span id="onIdlePositionView"></span></p>
+                    <a id="confirmPosition" class="btn btn-primary">Confirm Position</a>
+                    <!--@*<p>On click position: <span id="onClickPositionView"></span></p>*@-->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

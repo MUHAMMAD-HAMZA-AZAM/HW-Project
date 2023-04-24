@@ -1,0 +1,10 @@
+D:\GitHub\Hoomwork\HW.CommunicationModels\bin\Debug\netstandard2.0\HW.CommunicationModels.deps.json
+D:\GitHub\Hoomwork\HW.CommunicationModels\bin\Debug\netstandard2.0\HW.CommunicationModels.dll
+D:\GitHub\Hoomwork\HW.CommunicationModels\bin\Debug\netstandard2.0\HW.CommunicationModels.pdb
+D:\GitHub\Hoomwork\HW.CommunicationModels\obj\Debug\netstandard2.0\HW.CommunicationModels.csproj.AssemblyReference.cache
+D:\GitHub\Hoomwork\HW.CommunicationModels\obj\Debug\netstandard2.0\HW.CommunicationModels.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Hoomwork\HW.CommunicationModels\obj\Debug\netstandard2.0\HW.CommunicationModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.CommunicationModels\obj\Debug\netstandard2.0\HW.CommunicationModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.CommunicationModels\obj\Debug\netstandard2.0\HW.CommunicationModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.CommunicationModels\obj\Debug\netstandard2.0\HW.CommunicationModels.dll
+D:\GitHub\Hoomwork\HW.CommunicationModels\obj\Debug\netstandard2.0\HW.CommunicationModels.pdb

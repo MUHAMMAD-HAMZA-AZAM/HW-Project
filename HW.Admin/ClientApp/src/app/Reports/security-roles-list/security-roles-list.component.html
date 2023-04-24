@@ -1,0 +1,41 @@
+<div class="container">
+  <!--<h2>Create Role</h2>-->
+  <div class="card shadow mb-4" *ngIf="hide==true">
+    <div class="card-header justify-header">
+      <h6 class="m-0 font-weight-bold">Create Role</h6>
+      <div class="">
+        <!--<input  type="button" value="Create New Role" class="btn btn-success btn-sm" (click)="CreateAdmin()" />-->
+        <button *ngIf="userRole.allowAdd"  class="btn btn-secondary btn-sm" (click)="CreateAdmin()" >Create New Role <i class="fa fa-plus"></i></button>
+      </div>
+      <!--<div class="clearfix"></div>-->
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover " id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th title="Security Role Id" width="1%">SRID</th>
+              <th width="25%">Name</th>
+              <!--<th width="20%">CreatedOn</th>-->
+              <!--<th width="1%">Status</th>-->
+              <th *ngIf="userRole.allowEdit" width="1%">Edit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let adminUser of SecurityRole">
+              <td>{{adminUser.securityRoleId}}</td>
+              <td>{{adminUser.securityRoleName}}</td>
+              <td *ngIf="userRole.allowEdit">
+                <!--<button (click)="Edit(adminUser)" class="btn btn-info btn-sm" style='margin-right:16px'>Edit <i class="fa fa-pencil-alt"></i></button>
+                <button (click)="delete(adminUser.id)" class="btn btn-danger btn-sm" *ngIf="allowdelete == 'true'">Delete <i class="fa fa-trash-alt"></i></button>-->
+                <i class="fa fa-pencil-alt text-info" (click)="Edit(adminUser)"></i>
+                <!--<i *ngIf="allowdelete == 'true'" class="ml-3 text-danger fa fa-trash" (click)="delete(adminUser.id)"></i>-->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>

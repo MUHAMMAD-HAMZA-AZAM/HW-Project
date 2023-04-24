@@ -1,0 +1,113 @@
+<section id="nd-right-content" class="nd-user-dashbord">
+  <h2 class="heading-dashboad mb-3 mb-sm-2 mb-md-4">Welcome {{loggedUserDetails?.firstName}}</h2>
+  <div class="row  nd-tiles-wrapper">
+    <div class="col-6 col-sm-4">
+      <div class="nd-d-count-tiles text-center d-flex justify-content-between align-items-center px-2 py-1">
+        <h6>My tasks</h6>
+        <h1>{{customerDashBoardCountVM.activeJobsCount}}</h1>
+      </div>
+    </div>
+    <div class="col-6 col-sm-4">
+      <div class="nd-d-count-tiles text-center d-flex justify-content-between align-items-center px-2   py-1">
+        <h6>Completed tasks</h6>
+        <h1>{{customerDashBoardCountVM.completedJobsCount}}</h1>
+      </div>
+    </div>
+    <!--<div class="col-sm-4 d-flex mt-2 mt-sm-0">
+        <button (click)="checkVarifyAccount('/User/JobQuotes/step1',skillId)" class="btn-block btn nlp-green-btn">Post A Task</button>-->
+        <!--<a href="http://185.15.244.235:85/" *ngIf="btnMarketPlace" target="_blank" class="btn solid-btn" style="background: var(--textClr);">marketplace</a>-->
+    <!--</div>-->
+  </div>
+
+
+
+
+
+
+  <!--------------------------- Tradesman Popular Categories Slider --------------------------->
+
+
+
+  <div class="row mt-5">
+    <div class="col-12">
+      <h5 class="text-uppercase font-weight-bolder" style="color: var(--headingClr); font-family:var(--laila-font) ">Popular Categories</h5>
+    </div>
+  </div>
+  <div id="tradeSkillsSlider" class="row postion-relative mt-1 mt-sm-0">
+    <div class="col-12 position-relative" id="recommendations">
+      <div class="placeholder-item" *ngIf="!skillSliderLoaded">
+      </div>
+      <ngb-carousel #carousel>
+        <ng-template ngbSlide *ngFor="let slide of activeListOfSkills; index as i">
+          <div class="ll-blog-item-box">
+            <div class="b-item-img">
+              <a href="javascript:void(0)" (click)="checkVarifyAccount('/User/JobQuotes/step1',slide?.skillId)">
+                <img *ngIf="slide?.skillImage==null; else skImage " src="/assets/img/no_thumbnail.jpg" [alt]="slide?.skillName" [title]="slide?.skillName">
+                <ng-template #skImage>
+                  <img [src]="common.transform(slide?.skillImage)" [alt]="slide?.skillName" [title]="slide?.skillName">
+                </ng-template>
+                <span>{{slide?.skillName}}</span>
+              </a>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-carousel>
+    </div>
+  </div>
+  <!--<div id="tradeSkillsSlider" class="row postion-relative mt-1 mt-sm-0">
+    <div class="col-12 position-relative" id="recommendations">
+      <div class="placeholder-item" *ngIf="!skillSliderLoaded">
+      </div>
+      <owl-carousel-o [options]="customOptions">
+        <ng-container *ngFor="let slide of activeListOfSkills">
+          <ng-template carouselSlide [id]="slide?.skillId">
+            <div class="ll-blog-item-box">
+              <div class="b-item-img">
+                <a href="javascript:void(0)" (click)="postJob(slide?.skillId)">
+                  <img *ngIf="slide?.skillImage==null; else skImage " src="/assets/img/no_thumbnail.jpg" [alt]="slide?.skillName" [title]="slide?.skillName">
+                  <ng-template #skImage>
+                    <img [src]="common.transform(slide?.skillImage)" [alt]="slide?.skillName" [title]="slide?.skillName">
+                  </ng-template>
+                  <span>{{slide?.skillName}}</span>
+                </a>
+              </div>
+            </div>
+          </ng-template>
+        </ng-container>
+      </owl-carousel-o>
+    </div>
+  </div>-->
+  <!--------------------------- Supplier Popular Products Slider --------------------------->
+  <div *ngIf="btnMarketPlace">
+    <div class="row mt-5">
+      <div class="col-12">
+        <h5 class="text-uppercase" style="color: var(--headingClr);">Popular Products</h5>
+      </div>
+    </div>
+    <div id="tradeSkillsSlider" class="row postion-relative mt-1 mt-sm-0">
+      <div class="col-12 position-relative" id="recommendations">
+        <div class="placeholder-item" *ngIf="!sliderLoaded">
+
+        </div>
+        <owl-carousel-o [options]="customOptions">
+          <ng-container *ngFor="let ad of populateSupplierCatList">
+            <ng-template carouselSlide [id]="ad?.adImageId">
+              <div class="ll-blog-item-box">
+                <div class="b-item-img">
+                  <a href="javascript:void(0)" (click)="AdDetail(ad?.supplierAdId)">
+                    <img *ngIf="ad.imageContent==null;else AdImageFound" src="../../../assets/img/no_thumbnail.jpg" [alt]="ad?.supplierAdTitle" [title]="ad?.supplierAdTitle">
+                    <ng-template #AdImageFound>
+                      <img [src]="common.transform(ad.imageContent)" [alt]="ad?.supplierAdTitle" [title]="ad?.supplierAdTitle">
+                    </ng-template>
+                    <span>{{ad?.supplierAdTitle}}</span>
+                  </a>
+                </div>
+              </div>
+            </ng-template>
+          </ng-container>
+        </owl-carousel-o>
+      </div>
+    </div>
+  </div>
+</section>
+

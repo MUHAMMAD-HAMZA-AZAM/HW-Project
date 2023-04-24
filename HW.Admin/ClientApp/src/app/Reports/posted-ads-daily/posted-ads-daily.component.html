@@ -1,0 +1,48 @@
+<div class="container-fluid">
+  <h5 class="m-2">{{reportTitle}}</h5>
+  <button class="btn d-none" (click)="DownloadPdf()">Download Pdf</button>
+  <!--<label class="container text-secondary">From : {{startDate | date: "dd MMM yyy hh : mm : a"}}    <br /> To : {{endDate | date: "dd MMM yyy hh : mm : a"}}</label>-->
+  <div class="card shadow my-3">
+    <div class="card-header justify-header">
+      <h6 class="m-0 font-weight-bold">Posted Ads List</h6>
+      <label class="fs-12 m-0">Total No. {{completeList}}</label>
+
+    </div>
+    <div class="card-body ">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th title="Ad Id" width="10%">AID</th>
+              <th width="10%">Supplier Name</th>
+              <th title="Product Name" width="10%">PN<!--Product Name--></th>
+              <th width="10%">Sub Category</th>
+              <th width="10%">Ad Title</th>
+              <th width="10%">Town</th>
+              <th width="10%"> Status</th>
+              <th width="10%">Price</th>
+              <th width="10%">City</th>
+              <th width="10%">Date<!--Created On--></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let ads of adsList">
+              <td>{{ads.supplierAdsId}}</td>
+              <td>{{ads.supplierName}}</td>
+              <td>{{ads.productName}}</td>
+              <td>{{ads.subCategoryName}}</td>
+              <td>{{ads.adTitle}}</td>
+              <td>{{ads.town}}</td>
+              <td>{{ads.addStatus}}</td>
+              <td>{{ads.price}}</td>
+              <td>{{ads.cityName}}</td>
+              <td>{{ads.createdOn | date: "dd MMM yyy"}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <label class="text-danger">{{DataNotFound}}</label>
+    </div>
+
+  </div>
+</div>

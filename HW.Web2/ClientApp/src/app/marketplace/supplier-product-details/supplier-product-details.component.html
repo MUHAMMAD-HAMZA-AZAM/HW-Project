@@ -1,0 +1,71 @@
+<div class="ht-bg">
+  <div class="container">
+    <div class="nmp-head">
+      <h1 class="text-capitalize">{{resultDetail.productBy}}</h1>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row mt-3 mt-md-5 mb-5">
+    <div class="col-sm-12 col-md-7 ">
+      <div class="row">
+        <div class="col-12">
+          <div class="nmp-slide-fi">
+            <ng-container *ngIf="mainImage==null; else ImageFound">
+              <img src="../../../assets/img/no_thumbnail.jpg" alt="slider-Image"/>
+            </ng-container>
+            <ng-template #ImageFound>
+              <img [src]="mainImage" alt="slider-Image" />
+            </ng-template>
+            <div class="mp-slider-navigation d-flex justify-content-between align-items-center">            
+                <i *ngIf="resultImage.length>1" (click)="plusSlides(-1)" class="fas fa-angle-left"></i>
+                <i *ngIf="resultImage.length>1" (click)="plusSlides(1)" class="fas fa-angle-right"></i>
+            </div>
+          </div>
+          <div class="nmp-slides-ti-wrapper mt-3 mt-md-4 mb-4">
+            <div class="nmp-slides-ti" *ngFor="let image of resultImage;let index = index;">
+              <ng-container *ngIf="image.imageContent == null; else productAdImage">
+                <img src="../../../assets/img/no_thumbnail.jpg" (click)="currentSlide(index+1)" />    
+              </ng-container>
+              <ng-template  #productAdImage>
+                <img [src]="common.transform(image.imageContent)" (click)="currentSlide(index+1)" />
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-5">
+      <div class="mp-supplier-at">
+        <ul>
+          <li>
+            <h5>{{resultDetail.productName}}</h5>
+          </li>
+          <li><span>{{resultDetail.productDescription}}</span></li>
+          <li class="mt-2 mb-2">
+            <a routerLink="/MarketPlace/SupplierShop/{{supplierid}}" class="mp-outine-btn">see more by</a>
+            <small class="ml-2">{{resultDetail.productBy}}</small>
+          </li>
+          <li><i class="fas fa-phone-alt"></i><span>{{resultDetail.mobileNumber}}</span></li>
+          <hr class="hl">
+          <li><i class="fas fa-eye"></i><span>views {{resultDetail.adViews}}</span></li>
+          <li><input type="checkbox" [checked]="resultDetail.deleiveryAvailable" readonly> <span>delivery available</span></li>
+          <li><input type="checkbox" [checked]="resultDetail.collectionAvailable" readonly> <span>collection available</span></li>
+          <hr class="hl">
+          <li>
+            <h5 style="color:var(--headingClr)"><del> Rs. {{resultDetail.productPrice | number:'1.0':'en-US'}}</del></h5>
+          </li>
+          <li>
+            <!--<h6 class="text-danger py-2">Discount : {{resultDetail.discount}}%</h6>-->
+          </li>
+          <li>
+            <!--<h4>Rs. {{resultDetail.finalPrice | number:'1.0':'en-US'}}</h4>-->
+          </li>
+          <li class="mt-2" *ngIf="!saveOrUnSaveCheck"><button class="btn mp-outine-btn px-3" (click)="SaveAd(saveOrUnSaveCheck,resultDetail.supplierAdId)"><i class="fas fa-heart c-green"></i> save</button></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+

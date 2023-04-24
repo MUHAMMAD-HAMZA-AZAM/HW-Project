@@ -1,0 +1,132 @@
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card shadow mb-4">
+        <div class="card-header justify-header">
+          <h6 class="m-0 font-weight-bold">Area List</h6>
+          <button *ngIf="userRole.allowAdd"  (click)="showModal(content)" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New Area</button>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0" #dataTable>
+              <thead>
+                <tr>
+                  <th class="width2" title="Country Name">State Name</th>
+                  <th class="width2" title="City Name">City Name</th>
+                  <th class="width2" title="State Name">Area Name</th>
+                  <th class="width2" title="Status">Status</th>
+                  <th class="width2" title="CreatedBy">Created By</th>
+                  <th class="width2" title=" CreatedOn">Created On</th>
+                  <th class="width2" title=" ModifiedBy">Modified By</th>
+                  <th class="width2" title=" ModifiedOn">Modified On</th>
+                  <th *ngIf="userRole.allowEdit" title="Edit User" width="1%">EDIT</th>
+                  <th *ngIf="userRole.allowDelete" title="Delete" width="1%">Del</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of arealist; let i=index">
+                  <td>{{item.stateName}}</td>
+                  <td>{{item.cityName}}</td>
+                  <td>{{item.areaName}}</td>
+                  <td [ngClass]="(item.active) ? 'text-primary' : 'text-danger' ">{{(item.active) ? 'Active' : 'InActive'  }}</td>
+                  <td>{{item?.createdBy}}</td>
+                  <td>{{item?.createdOn | date: "dd MMM yyy "}}</td>
+                  <td>{{item?.modifiedBy}}</td>
+                  <td>{{item?.modifiedOn | date: "dd MMM yyy "}}</td>
+                  <td *ngIf="userRole.allowEdit"><i class="text-info fa fa-pencil-alt" (click)="update(item, content)"></i></td>
+                  <td *ngIf="userRole.allowDelete">
+                    <label class="switch block-user-switch">
+                      <input type="checkbox" (change)="delete(item?.areaId)" [checked]="item?.active">
+                      <span class="slider"></span>
+                    </label>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">{{modelName}}</h5>
+  </div>
+  <form [formGroup]="appValForm">
+    <div class="modal-body">
+      <input type="hidden" formControlName="areaId" />
+      <div class="row">
+        <div class="col-12">
+          <div ngbAutoFocus class="form-group">
+            <label class="fs-12">Area Name</label>
+            <input type="text" formControlName="areaName" class="form-control" pattern="^[^-\s][a-zA-Z0-9_\s-]+$" />
+            <div *ngIf="f.areaName?.errors">
+              <div *ngIf="f.areaName.invalid && (f.areaName.touched || f.areaName.dirty)">
+                <small *ngIf="f.areaName.errors?.required" class="text-danger">Name is requried</small>
+                <small *ngIf="f.areaName.errors?.pattern" class="text-danger">Invalid Input</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label class="fs-12">State Name</label>
+            <select class="form-control" id="country" formControlName="stateId"  (change)="getCitiesList($any($event).target.value)">
+              <option [value]="null" selected disabled>------------ Select State ------------</option>
+              <option *ngFor="let item of statelist" [value]="item.stateId">{{item.name}} </option>
+            </select>
+            <div *ngIf="f.name?.errors">
+              <div *ngIf="f.name.invalid && (f.name.touched || f.name.dirty)">
+                <small *ngIf="f.name.errors?.required" class="text-danger">State Name is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label class="fs-12">City Name</label>
+            <select class="form-control" id="country" formControlName="cityId">
+              <option [value]="null" selected disabled>------------ Select City ------------</option>
+              <option *ngFor="let item of cityList" [value]="item.cityId">{{item.cityName}} </option>
+            </select>
+            <div *ngIf="f.cityId?.errors">
+              <div *ngIf="f.cityId.invalid && (f.cityId.touched || f.cityId.dirty)">
+                <small *ngIf="f.cityId.errors?.required" class="text-danger">City Name is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label class="fs-12 d-block">Status</label>
+            <label class="switch">
+              <input type="checkbox" trueFalseValue trueValue="1" falseValue="0" formControlName="active">
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="row">
+        <div class="col-md-6 inline-downlod-btns">
+          <button type="button" class="btn btn-sm btn-primary  mx-2" (click)="saveAndUpdateArea()" [disabled]="!appValForm.valid">Save</button>
+          <button type="button" *ngIf="!btnReset" class="btn btn-sm btn-primary mx-2" (click)="resetForm()">Reset</button>
+          <button type="button" class="btn btn-primary btn-sm" (click)="closeModal()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>
+

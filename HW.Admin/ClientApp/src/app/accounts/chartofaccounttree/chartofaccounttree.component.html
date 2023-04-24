@@ -1,0 +1,112 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<div>
+   <button type="button" class="ml-1 btn btn-sm btn-primary" (click)="AddNewEntry(newAccountContent)" [disabled]="disableAddBtn" >New Entry</button>
+  <button type="button" class="ml-1 btn btn-sm btn-info" (click)="UpdateEntry(newAccountContent)"  [disabled]="disableEditBtn" >Edit</button>
+   <button type="button" class="ml-1 btn btn-sm btn-danger" (click)="DeleteItem(deleteAccountContent)" *ngIf="!disableDeleteBtn"  [disabled]="disableDeleteBtn" >Delete</button>
+</div>
+
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+  <!-- This is the tree node template for leaf nodes -->
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+    <!-- use a disabled button to provide padding for tree leaf -->
+    <button mat-icon-button disabled></button>
+    <h6 class="m-0"><a id="accountFoucs" (click)="addNewItem(node,newAccountContent)">{{node.name}}</a></h6>
+    <!--<button mat-icon-button *ngIf="node.level < 3" (click)="addNewItem(node,newAccountContent)"><mat-icon>add</mat-icon></button>-->
+  </mat-tree-node>
+  <!-- This is the tree node template for expandable nodes -->
+  <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+    <button (click)="Expand(node)" mat-icon-button matTreeNodeToggle
+            [attr.aria-label]="'toggle ' + node.name">
+      <mat-icon class="mat-icon-rtl-mirror">
+        {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+      </mat-icon>
+    </button>
+    <h6 class="m-0"><a id="accountName" (click)="addNewItem(node,newAccountContent)">{{node.name}}</a></h6>
+    <!--<button mat-icon-button  (click)="addNewItem(node,newAccountContent)"><mat-icon>add</mat-icon></button>-->
+  </mat-tree-node>
+</mat-tree>
+<ng-template #newAccountContent>
+  <div class="card">
+    <div class="card-header">
+      <label>
+        Add New Sub Account
+      </label>
+    </div>
+    <div class="card-Body p-4">
+      <p>
+        Account name : {{currentNode.name}}
+      </p>
+      <form [formGroup]="subAccountForm">
+        <div class="modal-body">
+          <div class="row">
+            <input type="text" class="form-control" formControlName="id"  hidden />
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <input type="text" class="form-control" formControlName="name" maxlength="50" placeholder="Enter Sub Account" />
+
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <input type="text" class="form-control" formControlName="code" maxlength="20" placeholder="Enter Code" />
+
+              </div>
+            </div>
+          </div>
+          <div class="row ml-3" *ngIf="currentlevel != 2 && currentlevel != 3">
+            <div class="col-md-12">
+              <div class="form-group">
+                <input type="checkbox" class="form-check-input" formControlName="isControlAccount" value="">Is Control Account?
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+        <div class="modal-footer">
+          <div class="row">
+            <div class="col-md-6">
+              <button type="button" class="btn btn-sm btn-primary" (click)="saveNode()" [disabled]="!subAccountForm.valid">Save</button>
+
+            </div>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+  <div>
+
+
+  </div>
+</ng-template>
+<ng-template #deleteAccountContent>
+  <div class="card">
+    <div class="card-header">
+      <label>
+        Delete
+      </label>
+    </div>
+    <div class="card-Body p-4">
+      <h6>
+        Do you want to delete node with name : {{currentNode.name}}
+      </h6>
+      <div class="float-right">
+        <button type="button" class="ml-1 btn btn-sm btn-primary" (click)="Yes()">Yes</button>
+        <button type="button" class="ml-1 btn btn-sm btn-outline-primary" (click)="No()">No</button>
+      </div>
+
+    </div>
+  </div>
+  <div>
+
+
+  </div>
+</ng-template>
+
+

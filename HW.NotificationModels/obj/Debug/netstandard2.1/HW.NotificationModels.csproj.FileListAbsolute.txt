@@ -1,0 +1,9 @@
+D:\GitHub\Hoomwork\HW.NotificationModels\bin\Debug\netstandard2.1\HW.NotificationModels.deps.json
+D:\GitHub\Hoomwork\HW.NotificationModels\bin\Debug\netstandard2.1\HW.NotificationModels.dll
+D:\GitHub\Hoomwork\HW.NotificationModels\bin\Debug\netstandard2.1\HW.NotificationModels.pdb
+D:\GitHub\Hoomwork\HW.NotificationModels\obj\Debug\netstandard2.1\HW.NotificationModels.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Hoomwork\HW.NotificationModels\obj\Debug\netstandard2.1\HW.NotificationModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.NotificationModels\obj\Debug\netstandard2.1\HW.NotificationModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.NotificationModels\obj\Debug\netstandard2.1\HW.NotificationModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.NotificationModels\obj\Debug\netstandard2.1\HW.NotificationModels.dll
+D:\GitHub\Hoomwork\HW.NotificationModels\obj\Debug\netstandard2.1\HW.NotificationModels.pdb

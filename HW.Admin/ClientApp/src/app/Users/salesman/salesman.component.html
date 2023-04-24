@@ -1,0 +1,98 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card shadow mb-4">
+        <div class="card-header justify-header">
+          <h6 class="m-0 font-weight-bold">Salesman List</h6>
+          <button *ngIf="userRole.allowAdd" (click)="showModal(content)" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New Salesman</button>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th width="8%">Salesman Name</th>
+                  <th width="8%">Mobile Number</th>
+                  <th width="8%">Address</th>
+                  <th width="4%">Status</th>
+                  <th width="6%" title="Created Date">CD</th>
+                  <th width="6%" title="Created By">CB</th>
+                  <th width="6%" title="Modified Date">MD</th>
+                  <th width="6%" title="Modified By">MB</th>
+                  <th *ngIf="userRole.allowEdit" width="1%">Edit</th>
+                  <th *ngIf="userRole.allowDelete" title="Delete" width="1%">Del</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let list of salesmanList">
+                  <td>{{list.name}}</td>
+                  <td>{{list.mobileNumber}}</td>
+                  <td>{{list.address}}</td>
+                  <td [ngClass]="list.isActive ? 'text-success' : 'text-danger'">{{list.isActive ? 'Active' : 'InActive'}}</td>
+                  <td>{{list.createdOn | date: "dd MMM yyy "}}</td>
+                  <td>{{list.createdBy}}</td>
+                  <td>{{list.modifiedOn | date: "dd MMM yyy "}}</td>
+                  <td>{{list.mobifiedBy}}</td>
+                  <td *ngIf="userRole.allowEdit"><i class="text-info fa fa-pencil-alt" (click)="updatePackages(list , content)"></i></td>
+                  <td *ngIf="userRole.allowDelete"><i class="text-danger fa fa-trash-alt" (click)="deletepackage(list , deleteContent)"></i></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #deleteContent let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Change Confirmation</h5>
+    </div>
+    <div class="modal-body">
+      <h5>Are you want to Change status?</h5>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-sm btn-primary" (click)="confirmDeletePackage()">Ok</button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('cancel click')">Cancel</button>
+    </div>
+  </ng-template>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Add New Salesman</h5>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="pkgForm" (submit)="save()">
+        <input type="hidden" formControlName="salesmanId" />
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="fs-12">Salesman Name</label>
+              <input type="text" class="form-control" formControlName="name" maxlength="50" />
+              <div *ngIf="f.name?.errors">
+                <div *ngIf="f.name.invalid && submited">
+                  <small *ngIf="f.name.errors?.required" class="text-danger">Name is requried</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="fs-12">Mobile Number</label>
+              <input type="text" class="form-control" formControlName="mobileNumber" (keypress)="service.numberOnly($event);" maxlength="11" />
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="fs-12">Address</label>
+              <textarea class="form-control" formControlName="address" maxlength="150"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-sm btn-primary mr-2">Save</button>
+          <button type="reset" class="btn btn-sm btn-primary" (click)="resetForm()">Reset</button>
+          <button type="submit" class="btn btn-primary btn-sm" ngbAutofocus (click)="modal.close('Save click')">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+</div>

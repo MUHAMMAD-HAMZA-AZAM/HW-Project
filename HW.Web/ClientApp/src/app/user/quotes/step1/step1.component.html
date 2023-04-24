@@ -1,0 +1,170 @@
+
+
+
+
+
+
+<div class="col-lg-12">
+  <div class="row page-header">
+      <div class="col-lg-9 col-md-8">
+        <div class="row">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item active text-dark" aria-current="page">Get Free Quotes</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-4 search-container">
+        <label class="btn btn-primary">Step 1</label>
+      </div>
+    </div><!--heading-->
+  <div class="row postjob form-signup">
+    <form class="col-lg-8 my-2 mx-auto" id="contactForm" [formGroup]="jobQuotationForm">
+      <div class="row">
+        <div class="col-lg-12 mt-3">
+          <h4>What kind of tradesperson do you need?</h4>
+        </div>
+
+        <div id="categoryDiv" class="control-group form-group col-lg-6 col-md-6">
+          <label for="Categories">Category</label>
+          <select class="form-control" id="Categories" (change)="CheckingSubcategory($event.target.value)" formControlName="categoryId" [ngClass]="{ 'is-invalid': submitted &&  f.categoryId.errors }">
+            <option value="0" selected disabled>- Select Option -</option>
+            <option *ngFor="let item of listOfSkills" value="{{item.id}}">{{item.value}}</option>
+          </select>
+          <span class="invalid-feedback" *ngIf="submitted && f.categoryId.errors.required">{{categoryError}}</span>
+        </div>
+        <div *ngIf="showSubCategoryList" id="subCategoryDiv" class="control-group form-group col-lg-6 col-md-6">
+          <label for="Categories">Sub Category</label>
+          <select class="form-control" id="Categories" (change)="SelectSubCategory($event.target.value)" formControlName="subCategoryId" [ngClass]="{ 'is-invalid': submitted &&  f.subCategoryId.errors }">
+            <option value="0" selected disabled>- Select Option -</option>
+            <option *ngFor="let item of listOfSubSkills" value="{{item.id}}">{{item.value}}</option>
+          </select>
+          <span class="invalid-feedback" *ngIf="submitted && f.subCategoryId.errors.required">{{subCategoryError}}</span>
+        </div>
+
+      </div>
+      <div *ngIf="showCategoryList" class="col-lg-12 col-md-12 form-heading text-center">
+        <h5>You Have Selected</h5>
+        <p id="CategoryNSubCategoryTxt"><span id="SelectedCategory">{{selectedCategory}} </span><span id="SelectedSubCategory">{{selectedSubCategory}}</span></p>
+      </div>
+      <div class="col-lg-12 mx-auto">
+
+        <div class="row border my-3 ">
+          <div class="form-group col-lg-12 col-md-12">
+            <label for="jobTitle">Job Title</label>
+
+
+            <input type="text" maxlength="50" id="jobTitle" class="form-control" formControlName="workTitle" [ngClass]="{ 'is-invalid': submitted &&  f.workTitle.errors }">
+            <div class="the_count" style="float:right">
+              <small>
+                <span class="current">0</span>
+                <span class="maximum">/ 50</span>
+              </small>
+            </div>
+            <span class="invalid-feedback" *ngIf="submitted && f.workTitle.errors.required">{{jobTitleError}}</span>
+          </div>
+          <div class="form-group col-lg-12 col-md-12">
+            <label for="message">Job Description</label>
+            <textarea maxlength="500" type="text" id="jobDescription" formControlName="jobDescription" [ngClass]="{ 'is-invalid': submitted &&  f.jobDescription.errors }" style="overflow-y:scroll; height:150px" class="form-control desc"></textarea>
+            <div class="the_count" style="float:right">
+              <small>
+                <span class="current">0</span>
+                <span class="maximum">/ 500</span>
+              </small>
+            </div>
+            <!--<span class="invalid-feedback" *ngIf="submitted && f.jobDescription?.errors.required">{{jobDescriptionError}}</span>-->
+            <div *ngIf="submitted && f.jobDescription.errors" class="invalid-feedback">
+              <div *ngIf="f.jobDescription.errors.required">{{jobDescriptionError}}</div>
+            </div>
+          </div>
+          <div class="control-group col-lg-12">
+            <div class="form-group">
+              <label>Add Photos (Optional) <small>(max 4)</small></label>
+              <div id="imagesDiv" class="form-control upload-img">
+                <div id="addImgFile" class="file btn btn-lg btn-light">
+                  <i class="far fa-image">
+                    <input type="file" name="photo" id="imgFile" accept="image/*" (change)="OnSelectFile($event)" multiple="multiple">
+                  </i>
+                  <div *ngIf="imageSubmitted" class="invalid-feedback">
+                    <div *ngIf="imageSubmitted">{{imageError}}</div>
+                  </div>
+                </div>
+                <div *ngFor="let i of listOfImages" class="addImgFile">
+                  <img class=".modallist" width="100" height="100" (click)="ImagePopUp(i.imageBase64)" [src]="i.imageBase64" alt="">
+                </div>
+              </div>
+              <div bsModal #ImageModal="bs-modal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                  <!-- Modal content-->
+                  <div class="modal-content" *ngIf="imageContent!=null">
+                    <div (click)="Close()" class="btn-close" data-dismiss="modal"><i class="fas fa-times-circle"></i></div>
+                    <img [src]="imageContent" style="height:450px;width:auto;object-fit:contain" alt="" />
+                  </div>
+                </div>
+              </div>
+              <p class="help-block"></p>
+            </div>
+          </div>
+          <div class="control-group col-lg-6 col-md-6 d-none">
+            <div class="form-group">
+              <label>Upload Video (Optional) <small>(Max 30sec)</small></label>
+              <div class="form-control upload-img">
+
+                <div class="file btn btn-lg btn-light" id="addVideoFile">
+                  <i class="fas fa-video"></i><!--<i class="fas fa-video"></i>-->
+                  <input type="file" name="file[]" id="videoFile" accept="video/*" class="file_multi_video" onchange="uploadFile(this);" data-command="-i input.webm -vf showinfo -strict -2 output.mp4">
+                </div>
+
+                <div id="videoThumbnailDiv" class='imgContainer' style="position:relative">
+                  <img id='videoThumbsnail' src="~/Assets/img/bigbuckbunny.jpg" style="height:100%; width:100%">
+                  <div class='overlay' id="removeVideoIconDiv">
+                    <i id="removeVideoIcon" class='material-icons videoRemove-icon'>close</i>
+                    <i id="playVideoIcon" class='material-icons videoPlay-icon'>play_arrow</i>
+                  </div>
+                  <div class="loader" id="loader-6" style="position:absolute;top:40%; left:25%; z-index:999">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </div>
+              </div>
+
+              <div id="jobVideoModal" class="modal fade modallist d-none" role="dialog">
+                <div class="modal-dialog">
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    <video src="" id="modalVideo" controls="controls" autoplay style='height:400px;width:auto;object-fit:contain'>
+                      <source id="modalVideoSource" src="" type="video/mp4">
+                    </video>
+                  </div>
+                </div>
+              </div>
+
+
+              <p class="help-block"></p>
+            </div>
+          </div>
+        </div>
+        <!-- Video Modal-->
+        <!--<div id="hiddenForm" style="display:none">
+          @using (Html.BeginForm("VideoConverter", "Job", FormMethod.Post, new { @class = "col-lg-8 my-2 mx-auto", id = "videoForm", enctype = "multipart/form-data" }))
+          {
+          <input type="file" name="file[]" id="videoFile_form" accept="video/*" class="file_multi_video" onchange="" data-command="-i input.webm -vf showinfo -strict -2 output.mp4">
+          <input type="text" id="videoOutputUrl" class="form-control" required>
+          }
+        </div>-->
+        <!--<button id="triggerBtn" class="plain-button sample" style="display:none" data-command="-i input.mp4 -vf showinfo -strict -2 output.mp4">Video to .mp4</button>
+        <input id="input" value="-help" style="display:none" />
+        <div id="files" style="display:none">
+          link here
+        </div>-->
+        <div class="row text-right mb-4">
+          <div class="col-lg-12">
+            <a class="row btn btn-primary next" id="nextBtn" (click)="GoNext()">Next</a>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

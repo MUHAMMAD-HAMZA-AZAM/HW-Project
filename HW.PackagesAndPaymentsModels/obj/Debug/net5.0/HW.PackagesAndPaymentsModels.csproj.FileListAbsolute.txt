@@ -1,0 +1,11 @@
+D:\GitHub\Hoomwork\HW.PackagesAndPaymentsModels\bin\Debug\net5.0\HW.PackagesAndPaymentsModels.deps.json
+D:\GitHub\Hoomwork\HW.PackagesAndPaymentsModels\bin\Debug\net5.0\HW.PackagesAndPaymentsModels.dll
+D:\GitHub\Hoomwork\HW.PackagesAndPaymentsModels\bin\Debug\net5.0\ref\HW.PackagesAndPaymentsModels.dll
+D:\GitHub\Hoomwork\HW.PackagesAndPaymentsModels\bin\Debug\net5.0\HW.PackagesAndPaymentsModels.pdb
+D:\GitHub\Hoomwork\HW.PackagesAndPaymentsModels\obj\Debug\net5.0\HW.PackagesAndPaymentsModels.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Hoomwork\HW.PackagesAndPaymentsModels\obj\Debug\net5.0\HW.PackagesAndPaymentsModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.PackagesAndPaymentsModels\obj\Debug\net5.0\HW.PackagesAndPaymentsModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.PackagesAndPaymentsModels\obj\Debug\net5.0\HW.PackagesAndPaymentsModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.PackagesAndPaymentsModels\obj\Debug\net5.0\HW.PackagesAndPaymentsModels.dll
+D:\GitHub\Hoomwork\HW.PackagesAndPaymentsModels\obj\Debug\net5.0\ref\HW.PackagesAndPaymentsModels.dll
+D:\GitHub\Hoomwork\HW.PackagesAndPaymentsModels\obj\Debug\net5.0\HW.PackagesAndPaymentsModels.pdb

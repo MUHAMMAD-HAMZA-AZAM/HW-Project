@@ -1,0 +1,126 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row" *ngIf="userRole.allowAdd">
+      <div class="col-md-6">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Add An Agreement</h6>
+          </div>
+          <div class="card-body" #target>
+            <form [formGroup]="faqForm">
+              <input type="hidden" formControlName="AgreementId" />
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Agreement Name</label>
+                    <input type="text" required formControlName="Header" maxlength="100" minlength="10" class="form-control" />
+                    <div *ngIf="f.Header?.errors">
+                      <div *ngIf="f.Header.invalid && (f.Header.touched || f.Header.dirty )">
+                        <small class="text-danger" *ngIf="f.Header.errors?.required">Input is required</small>
+                        <small class="text-danger" *ngIf="f.Header.errors?.minlength">Input required minimum 10 characters</small>
+                        <small class="text-danger" *ngIf="f.Header.errors?.maxlength">Input allows maximum 100 characters</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>About Agreement </label>
+                    <angular-editor formControlName="AgreementsText" maxlength="1000" minlength="10" required [config]="config"></angular-editor>
+                    <div *ngIf="f.AgreementsText?.errors">
+                      <div *ngIf="f.AgreementsText.invalid && (f.AgreementsText.touched || f.AgreementsText.dirty )">
+                        <small class="text-danger" *ngIf="f.AgreementsText.errors?.required">Input is required</small>
+                        <small class="text-danger" *ngIf="f.AgreementsText.errors?.minlength">Input required minimum 10 characters</small>
+                        <small class="text-danger" *ngIf="f.AgreementsText.errors?.maxlength">Input allows maximum 1000 characters</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div  class="form-group">
+                    <label>User Type</label>
+                    <select  class="form-control"  required formControlName="UserType">
+                      <option [ngValue]="null" selected disabled>Select User Type</option>
+                      <option value="3">Customer</option>
+                      <option value="1">Tradesman</option>
+                      <option value="4">Supplier</option>
+                    </select>
+                    <div *ngIf="f.UserType?.errors">
+                      <div *ngIf="f.UserType.invalid && (f.UserType.touched || f.UserType.dirty )">
+                        <small class="text-danger" *ngIf="f.UserType.errors?.required">Input is required</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Order Agreement</label>
+                    <input type="text" maxlength="4" formControlName="OrderByColumn" class="form-control" />
+                    <!--<div *ngIf="f.orderBy?.errors">
+                        <div *ngIf="f.orderBy.invalid && (f.orderBy.touched || f.orderBy.dirty )">
+                          <small class="text-danger" *ngIf="f.orderBy.errors?.required">Input is required</small>
+                        </div>
+                      </div>-->
+                  </div>
+                </div>
+              </div>
+              <button class="btn btn-sm btn-primary" (click)="handleSubmit()" [disabled]="!faqForm.valid">Save</button>
+              <button class="btn btn-sm btn-primary ml-2" type="reset" (click)="resetAgreementForm()">Reset</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Agreement List</h6>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th width="1%" title="FAQ ID">ID</th>
+                    <th width="10%" title="Question Name">QN</th>
+                    <th width="20%" title="Answer">About Agreement</th>
+                    <th width="5%" title="User Type">UT</th>
+                    <th width="2%" title="">Status</th>
+                    <!--<th width="1%" title="Order By">OB</th>-->
+                    <th width="6%" title="Created Date">CD</th>
+                    <th width="6%" title="Created By">CB</th>
+                    <th width="6%" title="Modified Date">MD</th>
+                    <th width="6%" title="Modified By">MB</th>
+                    <th *ngIf="userRole.allowAdd" width="1%">Edit</th>
+                    <th *ngIf="userRole.allowDelete" title="Delete" width="1%">Del</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let agreement of agreementList">
+                    <td>{{agreement.agreementId}}</td>
+                    <td>{{agreement.header}}</td>
+                    <td [innerHTML]="agreement.agreementsText"></td>
+                    <td>{{(agreement.userType == 1) ? 'Tradesman' : (agreement.userType == 3) ? 'Customer' : 'Supplier'  }}</td>
+                    <td [ngClass]="(agreement.isActive) ? 'text-primary' : 'text-danger' ">{{agreement.isActive ? 'Active' : 'InActive'}}</td>
+                    <!--<td>{{agreement.orderByColumn}}</td>-->
+                    <td>{{agreement.createdOn | date: "dd MMM yyy "}}</td>
+                    <td>{{agreement.createdBy }}</td>
+                    <td>{{agreement.modifiedOn | date: "dd MMM yyy "}}</td>
+                    <td>{{agreement.modifiedBy}}</td>
+                    <td *ngIf="userRole.allowAdd"><i class="text-info fa fa-pencil-alt" (click)="updateFaq(agreement)"></i></td>
+                    <td *ngIf="userRole.allowDelete"><i class="text-danger fa fa-trash-alt" (click)="deleteAgreement(agreement)"></i></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

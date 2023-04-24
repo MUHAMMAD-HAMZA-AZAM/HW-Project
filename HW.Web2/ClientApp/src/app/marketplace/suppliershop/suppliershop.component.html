@@ -1,0 +1,137 @@
+<!-------------------------------------- New Theme  Supplier Shop Design -------------------------------------------------------------------------------->
+
+<div class="ht-bg">
+  <div class="container">
+    <div class="nmp-head">
+      <h1 class="text-capitalize">{{shopSupplier?.supplierCompanyName}}</h1>
+    </div>
+  </div>
+</div>
+<div class="container" id="supplier-pd-wrapper">
+  <div class="row mt-3 mt-md-5 mb-4">
+    <div class="col-12">
+      <div class="supplier-pd">
+        <div class="spd-banner">
+          <img src="../../../assets/img/market_bnr1.jpg" alt="iamge" />
+        </div>
+        <div class="about-supplier mt-4">
+          <ul class="d-block d-md-flex flex-wrap">
+            <li><i class="fas fa-phone-volume"></i><span>{{shopSupplier?.contactNo}}</span></li>
+            <ng-container *ngIf="shopSupplier?.email">
+              <li><i class="fas fa-envelope"></i><span>{{shopSupplier?.email}}</span></li>
+            </ng-container>
+            <li class="text-capitalize"><i class="fas fa-map-marker"></i><span class="mt-2" style="line-height:1.5">{{shopSupplier?.supplierAddress}} <a  href="" data-toggle="modal" data-target="#supplierMap" style="color: var(--greenClr);">View Map</a></span></li>
+          </ul>
+        </div>
+        <div *ngIf="Feedbacks?.length > 0 " class="mt-3 mt-md-5" style="background: var(--bgClr);" id="accordion">
+          <div class="tp-rf mb-1">
+            <div class="py-3 px-3 px-xl-5 d-flex justify-content-between align-items-center" style="cursor:pointer;" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+              <h5>Feedback score and reviews</h5>
+              <!--<p>324 Reviews</p>-->
+            </div>
+            <div class="trf-wrapper collapse py-3 px-3 px-xl-5" id="collapseOne" aria-labelledby="headingOne" data-parent="#accordion">
+              <div class="row">
+                <div class="col-12 col-lg-6 mb-2 mb-md-3 mb-lg-4" *ngFor="let feedback of Feedbacks">
+                  <div class="tp-ufeed-wrapper">
+                    <div class="row">
+                      <div class="col-sm-6 col-xl-6">
+                        <div class="d-flex align-items-center align-items-md-start">
+                          <ng-container>
+                          <div class="fu-img mr-3">
+                            <img  [src]="common.transform(feedback.customerProfileImage)" *ngIf="feedback.customerProfileImage!=null else profileImgNotFound"/>
+                          </div>
+                          </ng-container>
+                          <ng-template #profileImgNotFound>
+                            <div class="fu-img mr-3">
+                              <img src="../../../assets/img/imagenotfound.png"  />
+                            </div>
+                          </ng-template>
+                          <div class="fu-rating">
+                            <p>{{feedback.customerName}}</p>
+                            <div class="d-flex">
+                              <div class="tm-rating pr-2">
+                                <star-rating value="{{feedback.rating}}" totalstars="5" checkedcolor="gold" uncheckedcolor="black" size="24px"></star-rating>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-6 col-xl-6 d-flex justify-content-end">
+                        <div>
+                          <span><i class="mr-1 mr-md-2 fas fa-calendar"></i>{{feedback.createdOn | date: "dd-MMM-yyyy"}}</span>
+                          <!--<span><i class="mr-1 mr-md-2 fas fa-clock"></i>18:09 AM</span>-->
+                        </div>
+                      </div>
+                    </div>
+                    <div class="rf-text">
+                      <p class="mt-1 mt-sm-3">
+                        {{feedback.comments}}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nmp-head">
+    <h1 class="mb-3">Top Selling items</h1>
+  </div>
+  <div class="nmp-card-wrapper">
+    <div class="row">
+      <div class="col-9 col-sm-12 mx-auto">
+        <div class="row">
+          <div class="col-12 col-sm-6 col-lg-4" *ngFor="let cat of shopSupplierProduct">
+            <div class="nmp-card">
+              <div class="c-item-name">
+                <h6>{{cat.adTitle}}</h6>
+                <p class="mt-1">By: {{cat.supplierCompanyName}}</p>
+              </div>
+              <div class="c-item-img">
+                <ng-container>
+                  <img [src]="common.transform(cat.adImage)" *ngIf="cat.adImage!=null else imgNotFound" />
+                </ng-container>
+                <ng-template #imgNotFound>
+                  <img  src="../../../assets/img/imagenotfound.png" />
+                </ng-template>
+              </div>
+              <div class="c-item-details">
+                <h4 class="mb-3 pt-2">Rs. {{cat.price | number:'1.0':'en-US'}}</h4>
+                <a routerLink="/MarketPlace/SupplierAdDetails/{{cat.adId}}" class="mp-outine-btn">view details</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--<div class="d-flex mt-1 mb-5 justify-content-end">
+      <button class="btn btn-success">Load More</button>
+    </div>-->
+  </div>
+
+</div>
+
+<div class="modal fade" id="supplierMap" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="row">
+        <div class="col-md-10" style="text-align:center;margin-top:10px">
+          <h4>Supplier shop Location</h4>
+        </div>
+        <div class="col-md-2">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <agm-map class="border" style="width:100%; height:300px;" [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+          <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+        </agm-map>
+      </div>
+    </div>
+  </div>
+</div>

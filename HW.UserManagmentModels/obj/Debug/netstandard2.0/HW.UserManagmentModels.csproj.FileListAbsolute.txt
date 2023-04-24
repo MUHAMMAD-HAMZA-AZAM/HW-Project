@@ -1,0 +1,9 @@
+D:\GitHub\Hoomwork\HW.UserManagmentModels\bin\Debug\netstandard2.0\HW.UserManagmentModels.deps.json
+D:\GitHub\Hoomwork\HW.UserManagmentModels\bin\Debug\netstandard2.0\HW.UserManagmentModels.dll
+D:\GitHub\Hoomwork\HW.UserManagmentModels\bin\Debug\netstandard2.0\HW.UserManagmentModels.pdb
+D:\GitHub\Hoomwork\HW.UserManagmentModels\obj\Debug\netstandard2.0\HW.UserManagmentModels.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Hoomwork\HW.UserManagmentModels\obj\Debug\netstandard2.0\HW.UserManagmentModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.UserManagmentModels\obj\Debug\netstandard2.0\HW.UserManagmentModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.UserManagmentModels\obj\Debug\netstandard2.0\HW.UserManagmentModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.UserManagmentModels\obj\Debug\netstandard2.0\HW.UserManagmentModels.dll
+D:\GitHub\Hoomwork\HW.UserManagmentModels\obj\Debug\netstandard2.0\HW.UserManagmentModels.pdb

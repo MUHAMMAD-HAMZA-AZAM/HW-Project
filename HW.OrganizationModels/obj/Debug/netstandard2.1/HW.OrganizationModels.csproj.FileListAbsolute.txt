@@ -1,0 +1,9 @@
+D:\GitHub\Hoomwork\HW.OrganizationModels\bin\Debug\netstandard2.1\HW.OrganizationModels.deps.json
+D:\GitHub\Hoomwork\HW.OrganizationModels\bin\Debug\netstandard2.1\HW.OrganizationModels.dll
+D:\GitHub\Hoomwork\HW.OrganizationModels\bin\Debug\netstandard2.1\HW.OrganizationModels.pdb
+D:\GitHub\Hoomwork\HW.OrganizationModels\obj\Debug\netstandard2.1\HW.OrganizationModels.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Hoomwork\HW.OrganizationModels\obj\Debug\netstandard2.1\HW.OrganizationModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.OrganizationModels\obj\Debug\netstandard2.1\HW.OrganizationModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.OrganizationModels\obj\Debug\netstandard2.1\HW.OrganizationModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.OrganizationModels\obj\Debug\netstandard2.1\HW.OrganizationModels.dll
+D:\GitHub\Hoomwork\HW.OrganizationModels\obj\Debug\netstandard2.1\HW.OrganizationModels.pdb

@@ -1,0 +1,9 @@
+D:\GitHub\Hoomwork\HW.UserWebViewModels\bin\Debug\netstandard2.1\HW.UserWebViewModels.deps.json
+D:\GitHub\Hoomwork\HW.UserWebViewModels\bin\Debug\netstandard2.1\HW.UserWebViewModels.dll
+D:\GitHub\Hoomwork\HW.UserWebViewModels\bin\Debug\netstandard2.1\HW.UserWebViewModels.pdb
+D:\GitHub\Hoomwork\HW.UserWebViewModels\obj\Debug\netstandard2.1\HW.UserWebViewModels.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Hoomwork\HW.UserWebViewModels\obj\Debug\netstandard2.1\HW.UserWebViewModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.UserWebViewModels\obj\Debug\netstandard2.1\HW.UserWebViewModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.UserWebViewModels\obj\Debug\netstandard2.1\HW.UserWebViewModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.UserWebViewModels\obj\Debug\netstandard2.1\HW.UserWebViewModels.dll
+D:\GitHub\Hoomwork\HW.UserWebViewModels\obj\Debug\netstandard2.1\HW.UserWebViewModels.pdb

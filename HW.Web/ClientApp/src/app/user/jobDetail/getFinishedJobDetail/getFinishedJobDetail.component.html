@@ -1,0 +1,67 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12 text-center border-bottom form-group">
+      <div *ngIf="jobDetail.tradesmanProfileImage!=null" class="img-card mx-auto">
+        <img [src]="jobDetail.tradesmanProfileImage" alt="...">
+      </div>
+      <div *ngIf="jobDetail.tradesmanProfileImage==null" class="img-card  mx-auto">
+        <img src="../../../../assets/img/no_thumbnail.jpg" />
+      </div>
+      <h3>{{jobDetail.tradesmanName}}</h3>
+      <p>ID:{{jobDetail.tradesmanId}}</p>
+      <a class="btn btn-link" href="javascript:void(0);" (click)="ViewProfile(jobDetail.tradesmanId)">View Profile <i class="fa fa-angle-double-right"></i></a>
+    </div>
+    <div class="col-md-12 form-group">
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label>Job Title</label>
+          <div class="form-control">{{jobDetail.jobTitle}}</div>
+        </div>
+        <div class="form-group col-md-4">
+          <label>Job Initial Date</label>
+          <div class="form-control" id="initialTime">{{jobDetail.jobStartingDateTime |date : 'dd/MMM/yyyy hh:mm a'}}</div>
+        </div>
+        <div class="form-group col-md-4">
+          <label>Job Finish Date</label>
+          <div class="form-control" id="initialTime">{{jobDetail.jobEndingDateTime | date : 'dd/MMM/yyyy hh:mm a'}}</div>
+        </div>
+        <div class="control-group col-lg-12 col-md-12">
+          <div class="form-group">
+            <label>Payment To:</label>
+            <div class="card p-2">
+              <div class="row">
+                <div class="col-lg-4 col-md-4">Trademan </div>
+                <div class="col-lg-8 col-md-8 text-center">
+                  <p>Rs:{{jobDetail.payment}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 map form-group">
+      <agm-map (mapClick)="addMarker($event.coords.lat, $event.coords.lng)" [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+        <agm-marker [latitude]="latitude" [longitude]="longitude" [zoom]="zoom"></agm-marker>
+      </agm-map>
+    </div>
+    <div class="col-lg-12 feedback">
+      <h3>Feedback</h3>
+      <div class="row border-top">
+        <div class="col-md-12 feedback-body">
+          <p>{{jobDetail.feedbackComments}}</p>
+          <div class="text-left">
+            <star-rating value="{{jobDetail.overallRating}}" totalstars="5" checkedcolor="gold" uncheckedcolor="black" size="24px" readonly="false"></star-rating>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+

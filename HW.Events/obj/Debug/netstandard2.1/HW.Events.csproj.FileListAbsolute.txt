@@ -1,0 +1,9 @@
+D:\GitHub\Hoomwork\HW.Events\bin\Debug\netstandard2.1\HW.Events.deps.json
+D:\GitHub\Hoomwork\HW.Events\bin\Debug\netstandard2.1\HW.Events.dll
+D:\GitHub\Hoomwork\HW.Events\bin\Debug\netstandard2.1\HW.Events.pdb
+D:\GitHub\Hoomwork\HW.Events\obj\Debug\netstandard2.1\HW.Events.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Hoomwork\HW.Events\obj\Debug\netstandard2.1\HW.Events.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.Events\obj\Debug\netstandard2.1\HW.Events.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.Events\obj\Debug\netstandard2.1\HW.Events.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.Events\obj\Debug\netstandard2.1\HW.Events.dll
+D:\GitHub\Hoomwork\HW.Events\obj\Debug\netstandard2.1\HW.Events.pdb

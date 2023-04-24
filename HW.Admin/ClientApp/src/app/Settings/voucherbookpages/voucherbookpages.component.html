@@ -1,0 +1,53 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Voucher Book Pages List</h6>
+            <!--<button (click)="showModal(content)" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New Voucher Book Pages</button>-->
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th width="5%">Id</th>
+                    <th width="10%">Voucher Book</th>
+                    <th width="10%">No Of Pages</th>
+                    <th width="10%">No Of Leaves Per Page</th>
+                    <th width="10%">Page Number</th>
+                    <th width="5%">Status</th>
+                    <th width="10%">Created On</th>
+                    <th width="10%">Created By</th>
+                    <th width="10%">Modified On</th>
+                    <th width="10%">Modified By</th>
+                    <!--<th width="1%">Edit</th>
+                    <th title="Delete" width="1%">Del</th>-->
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of voucherBookPagesList;let i=index">
+                    <td>{{i+1}}</td>
+                    <td>{{item?.voucherBookName}}</td>
+                    <td>{{item?.noOfPages}}</td>
+                    <td>{{item?.noOfLeavesPerPage}}</td>
+                    <td>{{item?.pageNumber}}</td>
+                    <td *ngIf="item?.active==1">Active</td>
+                    <td *ngIf="item?.active==0">InActive</td>
+                    <td>{{item?.createdOn | date: "dd MMM yyy"}}</td>
+                    <td>{{item?.createdBy}}</td>
+                    <td>{{item?.modifiedOn | date: "dd MMM yyy"}}</td>
+                    <td>{{item?.modifiedBy}}</td>
+                    <!--<td><i class="text-info fa fa-pencil-alt" (click)="updatePromo(promo,content)"></i></td>
+                    <td><i class="text-danger fa fa-trash-alt" (click)="deletePromo(promo.promotionId)"></i></td>-->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

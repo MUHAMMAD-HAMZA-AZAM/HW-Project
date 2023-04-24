@@ -1,0 +1,179 @@
+    <!-- breadcrumb start -->
+
+<!-- breadcrumb End -->
+<!--section start-->
+<div class="container-fluid px-5">
+  <div class="breadcrumb pt-3" style="margin-top: 134px;">
+    <ul class="d-flex">
+      <li><a href="./index.html">Home</a><span>|</span></li>
+      <li><a>View Cart</a></li>
+    </ul>
+  </div>
+  <h4 class="primaryClr mb-5">
+    View Cart</h4>
+    <div class="row">
+      <div class="col-lg-8 col-xl-8 col-xxl-9">
+        <div class="viewCart_cart">
+          <table class="table table-borderless">
+            <thead>
+              <tr>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Discount Price</th>
+                <!--<th>Shipping Cost</th>-->
+                <th>Quantity</th>
+                <th width="20%">Total</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of cartItems;let index = index">
+                <td>{{(item.product.name.length <= 15) ? (item.product.name) : (item.product.name | slice:0:15 ) + '...'}}<i *ngIf="item.product.name &&  item.product.name.length > 15 " class="position-absolute fa fa-eye fs-18 ps-1" placement="top" ngbPopover="{{item.product.name}}" popoverTitle="Product Name" [placement]="'auto'" [container]="'body'"></i></td>
+                <td *ngIf="item.product.discountedPrice > 0 ; else showPrice">Rs: <s>{{item.product.price}}</s></td>
+                <ng-template #showPrice><td>{{item.product.price}}</td></ng-template>
+                <td>Rs: {{item.product.discountedPrice ? item.product.discountedPrice  : 0}}</td>
+                <!--<td>Rs: {{shippingCost }}</td>-->
+                <td>
+                  <div class="variant_details">
+                    <div class="qty_meter d-flex justify-content-between align-items-center px-2">
+                      <span (click)="handleQuantityChange('-',item,index)">-</span>
+                      <input #qtyInput [id]="'qtyInput'+index" (keypress)="_httpService.numberOnly($event)" [value]="item?.quantity" (change)="onQuantityChange(item,index)" />
+                      <span (click)="handleQuantityChange('+',item,index)">+</span>
+                    </div>
+                  </div>
+                </td>
+                <td *ngIf="!item.product.discountedPrice" class="fw-bold primaryClr">Rs. {{(item.product.price * item.quantity)}}</td>
+                <td *ngIf="item.product.discountedPrice" class="fw-bold primaryClr">Rs. {{(item.product.discountedPrice * item.quantity)}}</td>
+                <td class="d-flex flex-column gap-1">
+                  <button [routerLink]="[_httpService.apiRoutes.Product.ProductDetail]" [queryParams]="{ 'va': item?.product?.variantId, 'prdt': item?.product?.slug+'-'+item?.product?.id }" class="font-laila fw-bold btn primaryBg text-white p-1 d-flex align-items-center justify-content-center">
+                    Details<i class="fa fa-eye fs-20 ps-1"></i>
+                  </button>
+                  <button (click)="removeCartItem(item,removecartitem)" class="font-laila fw-bold btn secondaryBg text-white p-1 d-flex align-items-center justify-content-center">
+                    Cancel<i class="fa fa-times fs-20 ps-1"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-lg-4 col-xl-4 col-xxl-3">
+        <div class="viewCart_cart p-5">
+          <h6 class=" fw-bold darkGrayClr text-center">Total Price</h6>
+          <h4 class="fw-bold primaryClr text-center">Rs.{{total | number:'1.0':'en-US'}}</h4>
+          <div class="dashed-border my-4"></div>
+          <a routerLink=""
+             class="rounded-pill btn primaryBg text-white fs-18 fw-bold w-100 py-xl-2 py-xxl-3 mb-2">
+            Continue
+            Shipping
+          </a>
+          <a routerLink="/cart/checkout"
+             class="rounded-pill btn secondaryBg text-white fs-18 fw-bold w-100 py-xl-2 py-xxl-3">
+            Check
+            Out
+          </a>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="breadcrumb-section py-5 d-none">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="page-title">
+          <h2>Viewcart</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<section class="wishlist-section section-b-space d-none">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 table-responsive-xs">
+        <table class="table cart-table">
+          <thead>
+            <tr class="table-head">
+              <th width="30%" scope="col">product name</th>
+              <th width="10%" scope="col">price</th>
+              <th width="20%" scope="col">Discounted price</th>
+              <!-- <th width="20%" scope="col">Shipping Cost</th> -->
+              <th width="10%" scope="col">quantity</th>
+              <th width="10%" scope="col">total</th>
+              <th width="20%" scope="col">action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of cartItems;let index = index">
+              <td class="d-flex align-items-center">
+                <!--<a [routerLink]="[_httpService.apiRoutes.Product.ProductDetail,item?.product?.slug+'-'+item?.product?.id,item?.product?.variantId]">{{item?.product.name}}</a>-->
+                <span id="variant-box" class="me-1" [ngStyle]="{'background':item.product.hexCode}"></span>
+                {{(item.product.name.length <= 15) ? (item.product.name) : (item.product.name | slice:0:15 ) + '...'}}<i *ngIf="item.product.name &&  item.product.name.length > 15 " class="fa fa-eye" placement="top" ngbPopover="{{item.product.name}}" popoverTitle="Product Name" [placement]="'auto'" [container]="'body'"></i>
+              </td>
+              <td>
+                <h2>{{item.product.price}}</h2>
+              </td>
+              <td>
+                <h2>{{item.product.discountedPrice ? item.product.discountedPrice  : 0}}</h2>
+              </td>
+              <!-- <td>
+                <h2>{{shippingCost }}</h2>
+              </td> -->
+              <td>
+                <!--<input type="number" min="1" class="form-control text-center" (input)="handleQuantityChange(item, $event)" [value]="item?.quantity" />-->
+                <div class="input-group" id="quantity-meter">
+                  <div class="input-group-append" (click)="handleQuantityChange('-',item,index)">
+                    <button type="button" class="px-3 fs-6 input-group-text">-</button>
+                  </div>
+                  <input #qtyInput type="number" [id]="'qtyInput'+index" disabled [value]="item?.quantity" class="form-control text-center">
+                  <div class="input-group-prepend" (click)="handleQuantityChange('+',item,index)">
+                    <button type="button" class="px-3 fs-6 input-group-text">+</button>
+                  </div>
+                </div>
+              </td>
+              <td *ngIf="!item.product.discountedPrice"><h2 class="text-danger">RS:{{(item.product.price * item.quantity)}}</h2></td>
+              <td *ngIf="item.product.discountedPrice"><h2 class="text-danger">RS:{{(item.product.discountedPrice * item.quantity)}}</h2></td>
+              <td>
+                <!--<a [routerLink]="[_httpService.apiRoutes.Product.ProductDetail,item?.product?.slug+'-'+item?.product?.id,item?.product?.variantId]" class="icon"><i class="ti-eye"></i></a>-->
+                <a [routerLink]="[_httpService.apiRoutes.Product.ProductDetail]" [queryParams]="{ 'va': item?.product?.variantId, 'prdt': item?.product?.slug+'-'+item?.product?.id }" class="icon"><i class="ti-eye"></i></a>
+                <button type="button" class="btn icon" (click)="removeCartItem(item,removecartitem)"><i class="ti-close"></i> </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="table-responsive-md">
+          <table class="table cart-table">
+            <tfoot>
+              <tr>
+                <td>total price :</td>
+                <td>
+                  <h2>Rs.{{total | number:'1.0':'en-US'}}</h2>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row wishlist-buttons">
+      <div class="col-12 d-flex justify-content-between">
+        <a routerLink="" class="btn btn-solid">continue shopping</a>
+        <a routerLink="/cart/checkout" class="btn btn-solid">check out</a>
+      </div>
+    </div>
+  </div>
+</section>
+<!--section end-->
+<!-- Job Delete Modal -->
+<ng-template #removecartitem let-modal>
+  <div class="modal-content">
+    <div class="modal-body">
+      <h5 style="color:#636363; font-size:24px;">Are you sure you want to Delete?</h5>
+    </div>
+    <div class="modal-footer justify-content-center">
+      <button type="button" class="btn btn-theme btn-sm" (click)="modal.close('cancel click')">No</button>
+      <button type="button" class="btn btn-sm btn-theme" (click)="deleteCartItemconfirm()">Yes</button>
+    </div>
+  </div>
+</ng-template>

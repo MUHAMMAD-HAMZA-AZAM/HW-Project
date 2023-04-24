@@ -1,0 +1,111 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card shadow mb-4">
+          <div class="card-header bg-primary">
+            <h6 class="mainTitle m-0 font-weight-bold border-0" data-toggle="collapse" href="#collapse6" aria-expanded="true">Filter Account Asset</h6>
+          </div>
+          <div id="collapse6" class="contentWrapper fs-12 show">
+            <div class="card-body">
+              <form [formGroup]="appValForm">
+               
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Transection From Date </label>
+                      <input type="date" maxlength="20" formControlName="fromDate" class="form-control" />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Transection To Date </label>
+                      <input type="date" maxlength="20" formControlName="toDate" class="form-control" />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Reffrence Document Type</label>
+                      <select class="form-control" formControlName="documentType">
+                        <option [ngValue]="null" disabled selected hidden>--- Select Document Type ---</option>
+                        <option value="Job">Job</option>
+                        <option value="Self Deposit">Self Deposit</option>
+                        <option value="Commission on Job">Commission on Job</option>
+                        <option value="WithDraw">WithDraw</option>
+                        <option value="Paid By Wallet">Paid By Wallet</option>
+                        <option value="Return Payment">Return Payment</option>
+                        <option value="Refferal">Refferal</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Job Quotation Id</label>
+                      <input type="text" maxlength="15" formControlName="jobQuotationId" class="form-control" (keypress)="common.numberOnly($event);" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4 inline-downlod-btns">
+                    <button type="submit" class="btn btn-sm btn-primary mr-2" [disabled]="!appValForm.valid" (click)="showDetailedLedgerTransectionScreen()">Search</button>
+                    <button type="reset" class="btn btn-sm btn-primary" (click)="resetFilterForm()">Reset</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card shadow mb-4">
+        <div class="card-header justify-header">
+          <h6 class="m-0 font-weight-bold">Account Payable Ledger Transection</h6>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th width="3%" title="CreatedOn">Created On</th>
+                  <th width="3%" title="DocumentType">Document Type</th>
+                  <th width="3%" title="LeadgerTransectionId">LeadgerTransectionId</th>
+                  <th width="3%" title="Job Quotation Id">JQID</th>
+                  <th width="3%" title="AccountType">Account Type</th>
+                  <th width="3%" title="Debit">Debit</th>
+                  <th width="3%" title="Credit">Credit</th>
+                  <th width="3%" title="Amount">Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of chartOfAccountList">
+                  <td>{{item.createdOn | date: "dd MMM yyy "}}</td>
+                  <td>{{item.documentType}}</td>
+                  <td>{{item?.leadgerTransectionId}}</td>
+                  <td>{{item.jobQuotationId}}</td>
+                  <td>{{item.accountName}}</td>
+                  <td>{{item.debit | number:'1.0':'en-US'}}</td>
+                  <td>{{item.credit | number:'1.0':'en-US'}}</td>
+                  <td>{{item.amount | number:'1.0':'en-US'}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div *ngIf="hide">
+              <h5>Total Debit :{{debitsum}}</h5>
+              <h5>Total Credit :{{creditsum}}</h5>
+              <h5>Total Balance :{{totalsum}}</h5>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

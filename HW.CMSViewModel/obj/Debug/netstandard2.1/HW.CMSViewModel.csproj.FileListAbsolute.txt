@@ -1,0 +1,9 @@
+D:\GitHub\Hoomwork\HW.CMSViewModel\bin\Debug\netstandard2.1\HW.CMSViewModel.deps.json
+D:\GitHub\Hoomwork\HW.CMSViewModel\bin\Debug\netstandard2.1\HW.CMSViewModel.dll
+D:\GitHub\Hoomwork\HW.CMSViewModel\bin\Debug\netstandard2.1\HW.CMSViewModel.pdb
+D:\GitHub\Hoomwork\HW.CMSViewModel\obj\Debug\netstandard2.1\HW.CMSViewModel.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Hoomwork\HW.CMSViewModel\obj\Debug\netstandard2.1\HW.CMSViewModel.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.CMSViewModel\obj\Debug\netstandard2.1\HW.CMSViewModel.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.CMSViewModel\obj\Debug\netstandard2.1\HW.CMSViewModel.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.CMSViewModel\obj\Debug\netstandard2.1\HW.CMSViewModel.dll
+D:\GitHub\Hoomwork\HW.CMSViewModel\obj\Debug\netstandard2.1\HW.CMSViewModel.pdb

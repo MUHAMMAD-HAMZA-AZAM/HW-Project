@@ -1,0 +1,57 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-8 col-xl-4 col-lg-6 mx-auto">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Add New Category</h6>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="categoryForm">
+              <input type="hidden" formControlName="SubCategoryId" />
+              <div class="row">
+                <div class="col-xl-12">
+                  <div class="form-group">
+                    <label>Sub Category Name</label>
+                    <input type="text" class="form-control" formControlName="SubCategoryName" placeholder="Please enter sub category name" />
+                    <div *ngIf="f.SubCategoryName?.errors">
+                      <div *ngIf="f.SubCategoryName.invalid && (f.SubCategoryName.touched || f.SubCategoryName.dirty )">
+                        <small class="text-danger" *ngIf="f.SubCategoryName.errors?.required">Input is required</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 col-xl-12">
+                  <div class="form-group">
+                    <label class="fs-12">Category Name</label>
+                    <ng-multiselect-dropdown placeholder="Category"
+                                             [settings]="dropdownListForState"
+                                             [data]="catDropdownList"
+                                             formControlName="CategoryId"
+                                             required
+                                             (onSelect)="onCitySelect($event)"
+                                             (onSelectAll)="onCitySelectAll($event)"
+                                             (onDeSelect)="onCityDeSelect($event)"
+                                             (onDeSelectAll)="onCityDeSelectALL($event)">
+                    </ng-multiselect-dropdown>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-12">
+                  <div class="form-group">
+                    <button (click)="handleSubmit()" class="btn btn-sm btn-primary" [disabled]="!categoryForm.valid" style="margin-top:5px">Save</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

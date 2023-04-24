@@ -1,0 +1,46 @@
+<div class="container-fluid">
+  <div class="row">
+    <div id="page-wrapper">
+      <div class="col-lg-12">
+        <div class="row">
+          <div class="col-lg-12 bg-white">
+            <div class="row page-header">
+              <div class="col-lg-12">
+                <div class="row">
+                  <div class="col-lg-9 col-md-8">
+                    <div class="row">
+                      <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                          <li class="breadcrumb-item active" aria-current="page">Ratings</li>
+                        </ol>
+                      </nav>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12 feedback">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="fdback-user" *ngFor="let item of ratings;let index = index;">
+                      <div class="row">
+                        <div class="col-md-9"><h5>{{item.customerName}}</h5></div>
+                        <div class="col-md-3 date text-right"><p>{{item.createdOn |date : 'dd MMM yyyy hh:mm a'}}</p></div>
+                      </div>
+                      <p>{{item.comments}} </p>
+                      <div class="rating text-left mb-3">
+                        <star-rating value="{{item.rating}}" totalstars="5" checkedcolor="gold" uncheckedcolor="black" size="24px" readonly="true"></star-rating>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

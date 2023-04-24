@@ -1,0 +1,147 @@
+<div class="container-fluid">
+    <div class="row">
+    <div class="col-md-12">
+      <div class="card shadow mb-4">
+        <div class="card-header justify-header">
+          <h6 class="m-0 font-weight-bold">Package Type List</h6>
+          <button (click)="showModal(content)" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New Package Type</button>
+
+        </div>
+        <div class="card-body">
+
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th width="8%">Package Type Id</th>
+                  <th width="8%">Package Type Name</th>
+                  <th width="4%">Package Code</th>
+                  <th width="4%">User Type</th>
+
+                  <th width="4%">Entity Status</th>
+                  <th width="6%" title="Created Date">CD</th>
+                  <th width="6%" title="Created By">CB</th>
+                  <th width="6%" title="Modified Date">MD</th>
+                  <th width="6%" title="Modified By">MB</th>
+                  <th width="1%">Edit</th>
+                  <th title="Delete" width="1%">Del</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let list  of packagesList">
+                  <td>{{list.packageTypeId}}</td>
+                  <td>{{list.packageTypeName}}</td>
+                  <td>{{list.packageTypeCode}}</td>
+                  <td *ngIf="list.userRoleId == 1">Tradesman Solo</td>
+                  <td *ngIf="list.userRoleId == 2">Tradesman Org</td>
+                  <td *ngIf="list.userRoleId == 3">Customer</td>
+                  <td *ngIf="list.userRoleId == 4">Supplier</td>
+                  <td *ngIf="list.entityStatus == '1'">Active</td>
+                  <td *ngIf="list.entityStatus == '2'">InActive</td>
+                  <td *ngIf="list.entityStatus == '3'">Discontinue</td>
+
+                  <td>{{list.createdOn | date: "dd MMM yyy "}}</td>
+                  <td>{{list.createdBy}}</td>
+                  <td>{{list.modifiedOn | date: "dd MMM yyy "}}</td>
+
+                  <td>{{list.modifiedBy}}</td>
+                  <td><i class="text-info fa fa-pencil-alt" (click)="updatePackages(list , content)"></i></td>
+                  <td><i class="text-danger fa fa-trash-alt" (click)="deletepackage(list , deleteContent)"></i></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #deleteContent let-modal>
+    <!--  -->
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Delete Confirmation</h5>
+    </div>
+    <div class="modal-body">
+      <h5>Are you want to change status?</h5>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-sm btn-primary" (click)="confirmDeletePackage()">Ok</button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('cancel click')">Cancel</button>
+    </div>
+  </ng-template>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Add New Pakcage Type</h5>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="pkgForm" (submit)="save()">
+        <input type="hidden" formControlName="PackageTypeId" />
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="fs-12">Package Type Name</label>
+              <input type="text" class="form-control" formControlName="PackageTypeName" />
+              <div *ngIf="f.PackageTypeName?.errors">
+                <div *ngIf="f.PackageTypeName.invalid && submited">
+                  <small *ngIf="f.PackageTypeName.errors?.required" class="text-danger">Name is requried</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="fs-12">Pakcage Type Code</label>
+              <input type="text" class="form-control" formControlName="PackageTypeCode" />
+              <div *ngIf="f.PackageTypeCode?.errors">
+                <div *ngIf="f.PackageTypeCode.invalid && submited">
+                  <small *ngIf="f.PackageTypeCode.errors?.required" class="text-danger">Code is requried</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="fs-12">User Type</label>
+              <select class="form-control" formControlName="userRoleId">
+
+                <option value="3">Customer</option>
+                <option value="4">Supplier</option>
+                <option value="1">Tradesman Solo</option>
+                <option value="2">Tradesman Organization</option>
+              </select>
+              <div *ngIf="f.userRoleId?.errors">
+                <div *ngIf="f.userRoleId.invalid && submited">
+                  <small *ngIf="f.userRoleId.errors?.required" class="text-danger">User type is requried</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="fs-12">Entity Status</label>
+              <select class="form-control" formControlName="entityStatus">
+                <option [value]="1">Active</option>
+                <option [value]="2">InActive</option>
+                <option [value]="3">Discontinue</option>
+              </select>
+              <div *ngIf="f.entityStatus?.errors">
+                <div *ngIf="f.entityStatus.invalid && submited">
+                  <small *ngIf="f.entityStatus.errors?.required" class="text-danger">Entity status is requried</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-sm btn-primary mr-2">Save</button>
+          <button type="reset" class="btn btn-sm btn-primary" (click)="resetForm()">Reset</button>
+          <button type="submit" class="btn btn-primary btn-sm" (click)="modal.close('Save click')">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+</div>

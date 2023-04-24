@@ -1,0 +1,140 @@
+
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Errors Log List</h6>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th width="16%">SR</th>
+                    <th width="16%">Application</th>
+                    <!--<th width="10%">Type</th>-->
+                    <th width="16%">Source</th>
+                    <th width="16%">StatusCode</th>
+                    <th width="16%">Message</th>
+                    <th width="20%">Time</th>
+                    <!--<th width="1%">AllXml</th>-->
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let error of errorsList; let i=index">
+                    <td>{{i+1}}</td>
+                    <td>{{error.application}}</td>
+                    <!--<td>{{error.type}}</td>-->
+                    <td>{{error.source}}</td>
+                    <td>{{error.statusCode}}</td>
+                    <td>{{error.message}}</td>
+                    <td>{{error.timeUtc | date:'dd MMM yyyy' }}</td>
+                    <!--<td><i class="fas fa-eye" (click)="showModal(error.errorId,elmahDetailsModel)"></i>--><!--{{error.allXml}}--><!--</td>-->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #elmahDetailsModel let-modal>
+  <div class="">
+    <div class="modal-xl">
+      <div class="modal-header flex-column">
+        <h5 class="text-primary">Error Log Details</h5>
+      </div>
+      <div class="modal-body" style="width:100%;">
+        <h6 class="btn-primary py-1 pl-2">AllXML Details</h6>
+        <!--<div class="row modal-primary-user-info">
+          <div class="col-6 col-xl-6 puser-info">
+            <div class="row">
+              <div class="col-md-6 font-weight-bold">
+                <label>Connection_ClientCertificate</label>
+                <label>Connection_Id</label>
+                <label>Connection_LocalIpAddress</label>
+                <label>Connection_LocalPort</label>
+                <label>Connection_RemoteIpAddress</label>
+                <label>Connection_RemotePort</label>
+                <label>Handler</label>
+                <label>HasResponseStarted</label>
+                <label>Header_Accept</label>
+                <label>Header_Accept-Encoding</label>
+                <label>Header_Accept-Language</label>
+                <label>Header_access-control-allow-headers</label>
+                <label>Header_access-control-allow-methods</label>
+                <label>Header_access-control-allow-origin</label>
+                <label>Header_access-control-expose-headers</label>
+                <label>Header_Connection</label>
+                <label>Header_Content-Type</label>
+                <label>Header_Cookie</label>
+                <label>Header_Host</label>
+                <label>Header_Referer</label>
+                <label>Header_Te</label>
+              </div>
+              <div class=" offset-md-3 col-md-3 ">
+                <label>1</label>
+                <label>2</label>
+                <label>3</label>
+                <label>4</label>
+                <label>5</label>
+                <label>6</label>
+                <label>7</label>
+                <label>8</label>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-xl-6 puser-info">
+            <div class="row">
+              <div class="col-md-6 font-weight-bold">
+                <label>Header_User-Agent</label>
+                <label>HttpStatusCode</label>
+                <label>HttpVersion</label>
+                <label>Items_Items_idsrv4:tokenvalidation:effective:Bearer</label>
+                <label>LocalIpAddress</label>
+                <label>LocalPort</label>
+                <label>Method</label>
+                <label>Path</label>
+                <label>PathBase</label>
+                <label>QueryString</label>
+                <label>RawTarget</label>
+                <label>ReasonPhrase</label>
+                <label>RemoteIpAddress</label>
+                <label>RemotePort</label>
+                <label>RequestBody</label>
+                <label>RequestConnectionId</label>
+                <label>ResponseBody</label>
+                <label>Scheme</label>
+                <label>StatusCode</label>
+                <label>TraceIdentifier</label>
+                <label>User_Current</label>
+              </div>
+              <div class="offset-md-3 col-md-3 ">
+                <label>1</label>
+                <label>2</label>
+                <label>3</label>
+                <label>4</label>
+                <label>5</label>
+                <label>6</label>
+                <label>7</label>
+                <label>8</label>
+              </div>
+            </div>
+          </div>
+        </div>-->
+        <!--<pre [innerHTML]="xmlformatstring"></pre>-->
+        <pre lang="xml">{{xmlformatstring}}</pre>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('close');">Close</button>
+    </div>
+  </div>
+</ng-template>
+
+

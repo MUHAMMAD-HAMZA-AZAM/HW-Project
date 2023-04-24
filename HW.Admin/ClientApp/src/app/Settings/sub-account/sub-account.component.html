@@ -1,0 +1,366 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-4">
+        <h6 class="mainTitle" data-toggle="collapse" href="#collapse3" aria-expanded="true">Search Sub Account</h6>
+      </div>
+    </div>
+    <div id="collapse3" class="contentWrapper fs-12 collapse" #checkParent>
+      <form class="" [formGroup]="searchForm">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="input-group">
+              <input type="text" autocomplete="off"  maxlength="30" formControlName="subaccountname" class="form-control"  placeholder="Sub Account Name" />
+              <!--<div class="input-group-prepend">
+                <div class="input-group-text">
+                  <input type="radio" value="1" id="start" (click)="getRadioValue($event)" name="tradesmanSearch" checked>
+                  <label class="" for="start">Start</label>
+                  <input type="radio" class="" (click)="getRadioValue($event)" value="2" id="anyWhere" name="tradesmanSearch">
+                  <label class="" for="anyWhere">Anywhere</label>
+                  <input type="radio" class="" value="3" id="end" (click)="getRadioValue($event)" name="tradesmanSearch">
+                  <label class="" for="end">End</label>
+                </div>
+              </div>-->
+            </div>
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col-md-2">
+            <label class="">Start Date</label>
+            <input type="date" formControlName="startdate" class="form-control" />
+          </div>
+          <div class="col-md-2">
+            <label class="">End Date</label>
+            <input type="date" formControlName="enddate" class="form-control" />
+            
+          </div>
+
+        </div>
+        <div class="row mt-1">
+          <div class="col-md-2 ">
+            <div class="form-group  ">
+              <label for="cnic">Sub Account No</label>
+              <input type="number" class="form-control" formControlName="subaccountno" maxlength="13" placeholder="Sub Account No" />
+            </div>
+          </div>
+          <div class="col-md-2 ">
+            <div class="form-group  ">
+              <label for="cnic">User Id</label>
+              <input type="number" class="form-control" formControlName="userid" maxlength="11" placeholder="User Id" />
+            </div>
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col-md-2 ">
+            <div class="form-group  ">
+              <label for="cnic">User Name</label>
+              <input type="text" class="form-control" formControlName="username" maxlength="13" placeholder="User Name" />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4 inline-downlod-btns">
+            <div class="form-group">
+              <input class=" btn btn-primary btn-sm" type="button" value="Search" (click)="populateSubAccountList()" />
+            </div>
+            <div class="form-group">
+              <input class="btn btn-primary btn-sm" type="reset" (click)="resetSearchForm()" value="Reset" />
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow mb-4" [hidden]="!dataNotFound">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Sub Account List</h6>
+            <div class="fa-pull-right d-flex align-items-center">
+              <button *ngIf="userRole.allowAdd" (click)="showModal(content)" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New Sub Account</button>
+              <div class="g-pagination">
+                <div class="data-count">
+                  <span>{{recoardNoFrom}}-{{recoardNoTo}} of {{totalRecoards}}</span>
+                  <div class="newOrOld-Data">
+                    <ul>
+                      <li><a (click)="LoadNewestRecoards()"> Newest</a></li>
+                      <li><a (click)="LoadOldestRecoards()">Oldest</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="indicators">
+                  <i class="fa fa-angle-left" (click)="PriviousClick()"></i>
+                  <i class="fa fa-angle-right" (click)="NextClick()"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="show_entries">
+              <div class="no-of-entries">
+                <label>No of Enteries</label>
+                <select (change)="changePageSize()" [(ngModel)]="pageSize">
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+              </div>
+              <div class="n0-of-pages">
+                <label>No of Pages</label>
+                <select class="" [(ngModel)]="pageNumber" (change)="clickchange()">
+                  <option *ngFor="let item of pageing1" value="{{item}}">{{item}} </option>
+                </select>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th width="5%" title="Sub Account Name">SAN</th>
+                    <th width="3%" title="Sub Account No">SAN</th>
+                    <th width="3%">Account Name</th>
+                    <th width="2%" title="Customer id">CID</th>
+                    <th width="5%" title="Customer name">CID</th>
+                    <th width="2%" title="Trademan id">TID</th>
+                    <th width="5%" title="Trademan name">TN</th>
+                    <th width="2%" title="Supplier id">SID</th>
+                    <th width="5%" title="Supplier name">SN</th>
+                    <th width="3%">Status</th>
+                    <th width="5%">Created By</th>
+                    <th width="5%">Created On</th>
+                    <th width="5%">Modified By</th>
+                    <th width="5%">Modified On</th>
+                    <th *ngIf="userRole.allowAdd" width="1%">Edit</th>
+                    <th *ngIf="userRole.allowDelete" title="Delete" width="1%">Del</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of subAccountList">
+                    <td>{{item?.subAccountName}}</td>
+                    <td>{{item?.subAccountNo}}</td>
+                    <td>{{item?.accountName}}</td>
+                    <td>{{item?.customerId}}</td>
+                    <td>{{item?.customerName}}</td>
+                    <td>{{item?.tradesmanId}}</td>
+                    <td>{{item?.tradesmanName}}</td>
+                    <td>{{item?.supplierId}}</td>
+                    <td>{{item?.supplierName}}</td>
+                    <td [ngClass]="(item.active) ? 'text-primary' : 'text-danger' ">{{(item.active) ? 'Active' : 'InActive'  }}</td>
+                    <td>{{item?.createdBy}}</td>
+                    <td>{{item?.createdOn | date: "dd MMM yyy "}}</td>
+                    <td>{{item?.modifiedBy}}</td>
+                    <td>{{item?.modifiedOn | date: "dd MMM yyy "}}</td>
+                    <td *ngIf="userRole.allowAdd"><i class="text-info fa fa-pencil-alt" (click)="update(item, content)"></i></td>
+                    <td *ngIf="userRole.allowDelete"><i class="text-danger fa fa-trash-alt" (click)="delete(item?.id)"></i></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="card-body" style="padding:0px !important">
+
+              <div class="show_entries">
+                <div class="no-of-entries">
+                  <label>No of Enteriesab</label>
+                  <select (change)="changePageSize()" [(ngModel)]="pageSize">
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                </div>
+                <div class="n0-of-pages">
+                  <label>No of Pages</label>
+                  <select class="" [(ngModel)]="pageNumber" (change)="clickchange()">
+                    <option *ngFor="let item of pageing1" value="{{item}}">{{item}} </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-header justify-header">
+              <h6 class="m-0 font-weight-bold">Sub Account List</h6>
+              <div class="g-pagination">
+                <div class="data-count">
+                  <span>{{recoardNoFrom}}-{{recoardNoTo}} of {{totalRecoards}}</span>
+                  <div class="newOrOld-Data">
+                    <ul>
+                      <li><a (click)="LoadNewestRecoards()"> Newest</a></li>
+                      <li><a (click)="LoadOldestRecoards()">Oldest</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="indicators">
+                  <i class="fa fa-angle-left" (click)="PriviousClick()"></i>
+                  <i class="fa fa-angle-right" (click)="NextClick()"></i>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">{{modelText}}</h5>
+  </div>
+  <form [formGroup]="appValForm">
+    <div class="modal-body">
+      <input type="hidden" formControlName="id" />
+      <div class="row">
+        <div [hidden]="isUpdate" class="col-md-6">
+          <div class="form-group">
+            <label class="fs-12">Select User Type</label>
+            <select class="form-control" formControlName="userType" (change)="userType($event.target.value)">
+              <option [ngValue]="null" disabled>---Select User Type---</option>
+              <option value="1">Customer</option>
+              <option value="2">Tradesman</option>
+              <option value="3">Supplier</option>
+            </select>
+          </div>
+        </div>
+        <div [ngClass]="isUpdate ? 'col-md-12' : 'col-md-6'">
+          <div class="form-group">
+            <label class="fs-12">Select Account Type</label>
+            <select formControlName="accountId" required class="form-control">
+              <option [ngValue]="null" disabled>Select Account Type</option>
+              <option *ngFor="let item of activeAccountList" [value]="item?.id">{{item?.accountName}}</option>
+            </select>
+            <div *ngIf="f.accountId?.errors">
+              <div *ngIf="f.accountId.invalid && submited">
+                <small *ngIf="f.accountId.errors?.required" class="text-danger">Input is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="fs-12">Sub Account No</label>
+            <input type="number" class="form-control" formControlName="subAccountNo" placeholder="Sub Account No" />
+            <div *ngIf="f.subAccountNo?.errors">
+              <div *ngIf="f.subAccountNo.invalid && submited">
+                <small *ngIf="f.subAccountNo.errors?.required" class="text-danger">Input is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="fs-12">Sub Account Name</label>
+            <input type="text" class="form-control" formControlName="subAccountName" placeholder="Sub Account Name" />
+            <div *ngIf="f.subAccountName?.errors">
+              <div *ngIf="f.subAccountName.invalid && submited">
+                <small *ngIf="f.subAccountName.errors?.required" class="text-danger">Input is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-container [ngSwitch]="toggle">
+        <div *ngSwitchCase="'1'" class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="fs-12">Customer Id</label>
+              <input type="number" class="form-control" formControlName="customerId" placeholder="Customer Id" />
+              <div *ngIf="f.customerId?.errors">
+                <div *ngIf="f.customerId.invalid && submited">
+                  <small *ngIf="f.customerId.errors?.required" class="text-danger">Input is requried</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="fs-12">Customer Name</label>
+              <input type="text" class="form-control" formControlName="customerName" placeholder="Customer Name" />
+              <div *ngIf="f.customerName?.errors">
+                <div *ngIf="f.customerName.invalid && submited">
+                  <small *ngIf="f.customerName.errors?.required" class="text-danger">Input is requried</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngSwitchCase="'2'" class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="fs-12">Tradesman Id</label>
+              <input type="number" class="form-control" formControlName="tradesmanId" placeholder="Tradesman Id" />
+              <div *ngIf="f.tradesmanId?.errors">
+                <div *ngIf="f.tradesmanId.invalid && submited">
+                  <small *ngIf="f.tradesmanId.errors?.required" class="text-danger">Input is requried</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="fs-12">Tradesman Name</label>
+              <input type="text" class="form-control" formControlName="tradesmanName" placeholder="Tradesman Name" />
+              <div *ngIf="f.tradesmanName?.errors">
+                <div *ngIf="f.tradesmanName.invalid && submited">
+                  <small *ngIf="f.tradesmanName.errors?.required" class="text-danger">Input is requried</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngSwitchCase="'3'" class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="fs-12">Supplier Id</label>
+              <input type="number" class="form-control" formControlName="supplierId" placeholder="Supplier Id" />
+              <div *ngIf="f.supplierId?.errors">
+                <div *ngIf="f.supplierId.invalid && submited">
+                  <small *ngIf="f.supplierId.errors?.required" class="text-danger">Input is requried</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="fs-12">Supplier Name</label>
+              <input type="text" class="form-control" formControlName="supplierName" placeholder="Supplier Name" />
+              <div *ngIf="f.supplierName?.errors">
+                <div *ngIf="f.supplierName.invalid && submited">
+                  <small *ngIf="f.supplierName.errors?.required" class="text-danger">Input is requried</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="fs-12">Entity Status</label>
+            <select formControlName="isActive" required class="form-control">
+              <option [ngValue]="null" disabled>Select Entity Status</option>
+              <option [value]="1">Active</option>
+              <option [value]="2">InActive</option>
+            </select>
+            <div *ngIf="f.isActive?.errors">
+              <div *ngIf="f.isActive.invalid && submited">
+                <small *ngIf="f.isActive.errors?.required" class="text-danger">Entity status is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="row">
+        <div class="col-md-6 inline-downlod-btns">
+          <button type="button" class="btn btn-sm btn-primary" (click)="saveAndUpdate()" [disabled]="!appValForm.valid">Save</button>
+          <button type="button" class="btn btn-sm btn-primary mx-2" (click)="resetForm()">Reset</button>
+          <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('Save click')">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>

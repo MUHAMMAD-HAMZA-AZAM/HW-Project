@@ -1,0 +1,113 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Hoomwork Admin</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="assets/img/favicon.png">
+  <!-- Custom fonts for this template-->
+  <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <!-- Custom styles -->
+  <link href="assets/css/custom.css" rel="stylesheet">
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#1976d2">
+
+  
+
+  <style>
+    .loader-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      z-index: 4;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background-color: white;
+    }
+
+    .loader-logo {
+      z-index: 5;
+      width: 150px;
+      height: 150px;
+      padding-bottom: 10px;
+      background-image: url(assets/img/login-logo.png);
+      background-repeat: no-repeat;
+      background-size: 100px;
+      background-position: center;
+    }
+
+    .loader-circle {
+      border-top: 1px solid #d0d9df;
+      border-radius: 50%;
+      width: 160px;
+      height: 160px;
+      animation: spin 1.5s linear infinite;
+    }
+  </style>
+</head>
+<body id="page-top">
+
+  <app-root>
+    <div class="loader-container">
+      <div class="loader-logo">
+        <div class="loader-circle"></div>
+      </div>
+    </div>
+  </app-root>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="assets/vendor/jquery/jquery.min.js"></script>
+  <script src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="assets/js/custom.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="assets/js/sb-admin-2.min.js"></script>
+
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <!-- Page level plugins -->
+  <script src="assets/vendor/chart.js/Chart.min.js"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="assets/js/demo/chart-area-demo.js"></script>
+  <script src="assets/js/demo/chart-pie-demo.js"></script>
+  <!--<script src="assets/js/custom.js"></script>-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.0.0/jspdf.es.min.js" integrity="sha512-kF664VDsS7IhrYhMlZk8j3gZzz1K/yVRL6JCVVjIFQeyqrd85CYBuxuzNEhglaOt5uEx/nSqOKGd5ARarcKi+g==" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+
+    //var baseUrl = 'https://www.hoomwork.com/gateway/api/'
+     // var baseUrl = 'https://www.hoomwork.com/testgateway/api/'
+    // var baseUrl = 'https://www.hoomwork.com/gateway/api/'
+   //var baseUrl ='http://test.gateway.hoomwork.com/api/'
+    //var baseUrl = 'http://192.168.10.5:15790/api/';
+  //var baseUrl = 'http://172.16.1.120:15790/api/';
+   // var baseUrl = 'http://172.16.2.20:15790/api/';
+   // var baseUrl = 'http://192.168.0.104:15790/api/';
+   // var baseUrl = 'http://192.168.43.231:15790/api/';  
+ //  var baseUrl = 'http://185.15.244.235/gateway/api/';
+  //var baseUrl = 'http://172.16.2.183:15790/api/';
+   // var baseUrl = 'http://192.168.43.64:15790/api/';
+      //   var baseUrl = 'http://172.16.1.99:15790/api/';
+    //var baseUrl = 'http://192.168.10.15:15790/api/';
+   // var baseUrl = 'http://172.16.1.49:15790/api/';
+    var baseUrl = 'http://172.16.1.36:15790/api/';
+    //var baseUrl = 'http://172.16.2.111:15790/api/';
+    //var baseUrl = 'http://172.16.1.91:15790/api/';
+
+    localStorage.setItem("baseUrl", baseUrl);
+  </script>   
+  <noscript>Please enable JavaScript to continue using this application.</noscript>
+</body>
+</html>

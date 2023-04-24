@@ -1,0 +1,77 @@
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 mt-4">
+      <div class="card shadow mb-4">
+        <div class="card-header justify-header">
+          <h6 class="card-table-heading defClr">Inventory List</h6>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Category Name</th>
+                  <th>Sub Category Name</th>
+                  <th>Category Group Name</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of productList">
+                  <td>{{item?.name}}</td>
+                  <td>{{item?.categoryName}}</td>
+                  <td>{{item?.subCategoryName}}</td>
+                  <td>{{item?.categoryGroupName}}</td>
+                  <td>
+                    <button class="btn btn-primary btn-xs" type="button" (click)="getVariantByProductId(item?.id,variantModalTemplate)" >Details</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #variantModalTemplate let-modal>
+  <div class="modal-header">
+    <h4 class="card-table-heading defClr" id="modal-basic-title">Variant Details</h4>
+    <button type="button" class="btn btn-sm btn-primary ms-lg-auto me-3"  value="edit" (click)="eidtQuantity()">
+      <span>{{btnEditText}}</span>
+    </button>
+    <button type="button" class="btn btn-danger fs-4" style="background:var(--redClr) !important" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" id="variant-modal">
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Quantity</th> 
+            <th>Availability</th>
+            <th>Variant</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+          </tr>
+          <tr *ngFor="let item of variantList">
+            <td class="col-md-4"><span *ngIf="!isEditEnabled">{{item?.quantity}}</span>
+            <input *ngIf="isEditEnabled" type="text" [value]="item.quantity"
+                   (input)="item.quantity=$event.target.value" class="bg-transparent border-0 p-0 form-control" /></td>
+            <td class="fw-bold" [ngClass]="(item?.availability) ? 'text-success' : 'text-danger'" >{{(item?.availability) ? 'In Stock' : 'No Stock' }}</td> 
+            <td class="d-flex align-items-center">
+              <!--<small class="me-2 text-capitalize" >{{item?.variantName}}</small>-->
+              <div class="variant-circle" [style.backgroundColor]="item?.hexCode"></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-template>

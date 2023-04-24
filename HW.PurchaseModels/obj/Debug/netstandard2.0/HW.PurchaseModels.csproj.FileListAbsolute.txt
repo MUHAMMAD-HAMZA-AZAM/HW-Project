@@ -1,0 +1,9 @@
+D:\GitHub\Hoomwork\HW.PurchaseModels\bin\Debug\netstandard2.0\HW.PurchaseModels.deps.json
+D:\GitHub\Hoomwork\HW.PurchaseModels\bin\Debug\netstandard2.0\HW.PurchaseModels.dll
+D:\GitHub\Hoomwork\HW.PurchaseModels\bin\Debug\netstandard2.0\HW.PurchaseModels.pdb
+D:\GitHub\Hoomwork\HW.PurchaseModels\obj\Debug\netstandard2.0\HW.PurchaseModels.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Hoomwork\HW.PurchaseModels\obj\Debug\netstandard2.0\HW.PurchaseModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.PurchaseModels\obj\Debug\netstandard2.0\HW.PurchaseModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.PurchaseModels\obj\Debug\netstandard2.0\HW.PurchaseModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.PurchaseModels\obj\Debug\netstandard2.0\HW.PurchaseModels.dll
+D:\GitHub\Hoomwork\HW.PurchaseModels\obj\Debug\netstandard2.0\HW.PurchaseModels.pdb

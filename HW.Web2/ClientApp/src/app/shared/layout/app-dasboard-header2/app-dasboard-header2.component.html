@@ -1,0 +1,92 @@
+<div class="main-navigation nlp-nav mrt-92" id="main-navbar">
+  <nav class="navbar fixed-top navbar-expand-lg navbar-light">
+    <div class="container-fluid px-0">
+      <div class="nlp-top-bar px-2 px-sm-3 px-md-3 px-lg-3 px-xl-5">
+        <div class="d-flex flex-column d-sm-block">
+          <small class="mr-3"><a href="https://api.whatsapp.com/send?phone=923099994531" target="_blank"><i class="fab fa-whatsapp mr-1"></i>Customer Care</a></small>
+          <small><a href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=info@hoomwork.com" target="_blank"><i class="fas fa-envelope mr-1"></i>info@hoomwork.com</a></small>
+        </div>
+        <div *ngIf="!loginCheck" class="nlp-dd d-flex">
+          <div class="dropdown">
+            <button class="dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Registration
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
+              <a class="dropdown-item" routerLink="/registration/appregistrationbasic/user" (click)="RegisterEntityCheck(check.U.role,check.U.Show)"><i class="user">&nbsp;</i>Customer</a>
+              <a class="dropdown-item" routerLink="/registration/appregistrationbasic/tradesman" (click)="RegisterEntityCheck(check.T.role,check.T.Show)"><i class="tradesman">&nbsp;</i>Tradesman</a>
+              <!--<a class="dropdown-item" routerLink="/registration/appregistrationbasic/supplier" (click)="RegisterEntityCheck(check.S.role,check.S.Show)"><i class="supplier">&nbsp;</i>Supplier</a>-->
+            </div>
+          </div>
+          <div class="dropdown">
+            <button class="dropdown-toggle" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Login
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu3">
+              <a class="dropdown-item" routerLink="/login/Customer" (click)="RegisterEntityCheck(check.U.role,check.U.Show)"><i class="user">&nbsp;</i>Customer</a>
+              <a class="dropdown-item" routerLink="/login/Tradesman" (click)="RegisterEntityCheck(check.T.role,check.T.Show)"><i class="tradesman">&nbsp;</i>Tradesman</a>
+              <!--<a class="dropdown-item" routerLink="/login/Supplier" (click)="RegisterEntityCheck(check.S.role,check.S.Show)"><i class="supplier">&nbsp;</i>Supplier</a>-->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="container-fluid px-2 px-md-3 px-lg-3 px-xl-5 bg-white nav-box-shadow">
+      <a class="navbar-brand mr-2 mr-sm-5 d-block" routerLink=""><img src="../../../../assets/img/hw_logo.png" /></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link" routerLink="">Home <span class="sr-only">(current)</span></a>
+          <a routerLinkActive="topMenuActive" [routerLink]="['/HWUser/AboutUs']" class="nav-item nav-link">About us</a>
+          <a routerLinkActive="topMenuActive" class="nav-item nav-link" [routerLink]="['/blog']">Blog</a>
+          <a routerLinkActive="topMenuActive" [routerLink]="['/landing-page/costGuides',skillDetails?.skillId,skillDetails?.slug,'lk',skillDetails?.name]" class="nav-item nav-link">Post A Task</a>
+          <a routerLinkActive="topMenuActive" class="nav-item nav-link" [routerLink]="['/promotions/promotionlist']">Promotions</a>
+        </div>
+        <div *ngIf="!loginCheck" class="d-flex text-uppercase nav-rs align-items-center">
+          <!--<p><i class="fa fa-phone-volume mr-2"></i>+92309-9994531</p>-->
+          <a *ngIf="btnMarketPlace" href="https://mall.hoomwork.com/" target="_blank" class="btn nlp-green-btn mr-2">marketplace</a>
+          <!--<a [routerLink]="['/landing-page/liveleads']" class="btn nlp-green-btn nlp-blue-bg">earn money</a>-->
+        </div>
+        <div class="text-uppercase d-flex flex-column-reverse flex-lg-row align-items-lg-center my-3 my-lg-0" *ngIf="loginCheck">
+          <div class="d-flex align-items-center">
+            <i *ngIf="userType=='Tradesman' || userType=='Organization'" title="Refresh Credits" (click)="getWalletTradesman(userId)" class="fas fa-sync-alt mr-1 cursor-pointer order-lg-0 order-1"></i>
+            <a *ngIf="(userType=='Tradesman' || userType=='Organization') && isActiveCashWithdrawl" class="mr-2" (click)="collapseTopNav()" routerLink="/Tradesman/Invoice/trsdesmanwithdrawal">
+              <label class="mb-0 fos-14">Credits: <b class=text-primary>Rs.{{credits}}</b></label>
+            </a>
+            <a *ngIf="(userType=='Tradesman' || userType=='Organization') && !isActiveCashWithdrawl" class="mr-2" (click)="collapseTopNav()">
+              <label class="mb-0 fos-14">Credits: <b class=text-primary>Rs.{{credits}}</b></label>
+            </a>
+            <a *ngIf="userType =='Customer'" routerLink="/User/Payments/customerwithdrawal">
+            <label class="mr-2 mb-0 fos-14">Credits:<b class=text-primary>Rs.{{credits}}</b></label>
+            </a>
+          </div>
+          <div class="dropdown d-flex">
+            <!--<button class="dropdown-toggle" type="button" id="dropdownMenu4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Login
+            </button>-->
+            <div class="d-flex align-items-center logged-user-image-wrapper" id="dropdownMenu4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <div class="logged-user-image" *ngIf="userImage == null || userImage == ''; else elseBlock">
+                <img src="/assets/img/imagenotfound.png" />
+              </div>
+              <ng-template #elseBlock>
+                <div class="logged-user-image">
+                  <img [src]="userImage" />
+                </div>
+              </ng-template>
+              <small class="mr-2 ml-2">{{userName}}</small>
+              <i class="fas fa-angle-down"></i>
+            </div>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu4">
+              <a class="dropdown-item"><i class="fas fa-user">&nbsp;</i>{{userType}}</a>
+              <a class="dropdown-item" (click)="DashBoard()"><i class="fas fa-list-alt">&nbsp;</i>Dashboard</a>
+              <a class="dropdown-item" (click)="logout()"><i class='fas fa-sign-out-alt'></i>&nbsp;Logout</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
+

@@ -1,0 +1,17 @@
+D:\GitHub\Hoomwork\HW.SupplierViewModels\bin\Release\netstandard2.1\HW.SupplierViewModels.deps.json
+D:\GitHub\Hoomwork\HW.SupplierViewModels\bin\Release\netstandard2.1\HW.SupplierViewModels.dll
+D:\GitHub\Hoomwork\HW.SupplierViewModels\bin\Release\netstandard2.1\HW.SupplierViewModels.pdb
+D:\GitHub\Hoomwork\HW.SupplierViewModels\bin\Release\netstandard2.1\HW.Http.dll
+D:\GitHub\Hoomwork\HW.SupplierViewModels\bin\Release\netstandard2.1\HW.SupplierModels.dll
+D:\GitHub\Hoomwork\HW.SupplierViewModels\bin\Release\netstandard2.1\HW.Utility.dll
+D:\GitHub\Hoomwork\HW.SupplierViewModels\bin\Release\netstandard2.1\HW.SupplierModels.pdb
+D:\GitHub\Hoomwork\HW.SupplierViewModels\bin\Release\netstandard2.1\HW.Utility.pdb
+D:\GitHub\Hoomwork\HW.SupplierViewModels\bin\Release\netstandard2.1\HW.Http.pdb
+D:\GitHub\Hoomwork\HW.SupplierViewModels\obj\Release\netstandard2.1\HW.SupplierViewModels.csproj.AssemblyReference.cache
+D:\GitHub\Hoomwork\HW.SupplierViewModels\obj\Release\netstandard2.1\HW.SupplierViewModels.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Hoomwork\HW.SupplierViewModels\obj\Release\netstandard2.1\HW.SupplierViewModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.SupplierViewModels\obj\Release\netstandard2.1\HW.SupplierViewModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.SupplierViewModels\obj\Release\netstandard2.1\HW.SupplierViewModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.SupplierViewModels\obj\Release\netstandard2.1\HW.SupplierViewModels.csproj.CopyComplete
+D:\GitHub\Hoomwork\HW.SupplierViewModels\obj\Release\netstandard2.1\HW.SupplierViewModels.dll
+D:\GitHub\Hoomwork\HW.SupplierViewModels\obj\Release\netstandard2.1\HW.SupplierViewModels.pdb

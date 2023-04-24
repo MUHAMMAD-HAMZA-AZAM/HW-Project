@@ -1,0 +1,160 @@
+<section id="nd-right-content">
+  <h2 class="heading-dashboad mb-3 mb-lg-4">Inprogress task Details</h2>
+  <div class="row">
+    <div class="col-12 d-flex justify-content-end">
+      <button (click)="ViewProfile(inProgressJobDetail?.tradesmanId)" class="mp-outine-btn">Tradesman Profile</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="d-content-left-side">
+        <div class="quote-details-wrapper mb40">
+          <div class="quotes-details">
+            <fieldset disabled>
+              <form>
+                <div class="row">
+                  <div class="col-xl-6 col-lg-6">
+                    <div class="form-group">
+                      <label>Category</label>
+                      <input type="text" class="form-control" value="{{inProgressJobDetail?.catagoryName}}" />
+
+                    </div>
+                  </div>
+                  <div class="col-xl-6 col-lg-6" *ngIf="showSubCategory">
+                    <div class="form-group">
+                      <label>Sub Category</label>
+                      <input type="text" class="form-control" value="{{inProgressJobDetail?.subCatagoryName}}" />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label>Task Title</label>
+                      <input type="text" class="form-control" value="{{inProgressJobDetail?.workTitle}}" />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xl-12 col-lg-12">
+                    <div class="form-group">
+                      <label>Task Description</label>
+                      <textarea rows="6" class="form-control">{{inProgressJobDetail?.workDescription}}</textarea>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="ImageCheck" class="row">
+                  <div class="col-xl-12 col-lg-12">
+                    <div class="form-group">
+                      <label>Photos</label>
+                      <div class="uploaded-image-box-wrapper">
+                        <div *ngFor="let item of inProgressJobDetail.imageList;let index = index;" class="uploaded-image-box">
+                          <img [src]="item?.imageContent" />
+                        </div>
+                        <!--<div class="uploaded-image-box">
+                          <img src="/assets/img/slicing_13.jpg" />
+                        </div>
+                        <div class="uploaded-image-box">
+                          <img src="/assets/img/slicing_14.jpg" />
+                        </div>
+                        <div class="uploaded-image-box">
+                          <img src="/assets/img/slicing_15.jpg" />
+                        </div>-->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xl-6 col-lg-6">
+                    <div class="form-group">
+                      <label>Bid Amount (Rs.)</label>
+                      <input type="text" class="form-control" value="{{inProgressJobDetail?.workBudget}}" />
+                    </div>
+                  </div>
+                  <div class="col-xl-6 col-lg-6">
+                    <div class="form-group">
+                      <label>Task Started Date</label>
+                      <input type="text" class="form-control" value='{{inProgressJobDetail.workStartDate | date:"dd/MM/yyyy"}}' />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xl-6 col-lg-6">
+                    <div class="form-group">
+                      <label>City</label>
+                      <input type="text" class="form-control" value="{{inProgressJobDetail?.cityName}}" />
+                    </div>
+                  </div>
+                  <div class="col-xl-6 col-lg-6">
+                    <div class="form-group">
+                      <label>Town</label>
+                      <input type="text" class="form-control" value="{{inProgressJobDetail?.town}}" />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label>Address</label>
+                      <textarea rows="6" type="text" class="form-control">{{inProgressJobDetail?.streetAddress}}</textarea>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div bsModal #ImageModel="bs-modal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <button type="button" (click)="Close()" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div class="modal-body">
+        <img [src]="imageContent" alt="" />
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div bsModal #ImageModel11="bs-modal" id="myModalLightbox" class="modalLightbox" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <button type="button" (click)="closeModal()" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div class="modal-body">
+        <div>
+
+          <div class="mySlides">
+            <img [src]="imageContent" style="width:100%; height:500px; object-fit: contain">
+          </div>
+
+          <a class="prev" (click)="plusSlides(-1)">&#10094;</a>
+          <a class="next" (click)="plusSlides(1)">&#10095;</a>
+
+          <div class="imgColumn" *ngFor="let image of inProgressJobDetail.imageList;let index = index;">
+            <ng-container *ngIf="image.imageContent!=null; else noThumbnail">
+              <img class="imgOpacity shadowImg lightboxImg" data-id="index" [src]="image.imageContent" (click)="openModal();currentSlide(index+1)">
+            </ng-container>
+            <ng-template #noThumbnail>
+              <img src="../../../../assets/img/no_thumbnail.jpg" alt="" style="width:100%" class="shadowImg">
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+

@@ -1,0 +1,9 @@
+D:\GitHub\Hoomwork\HW.Http\bin\Debug\netstandard2.0\HW.Http.deps.json
+D:\GitHub\Hoomwork\HW.Http\bin\Debug\netstandard2.0\HW.Http.dll
+D:\GitHub\Hoomwork\HW.Http\bin\Debug\netstandard2.0\HW.Http.pdb
+D:\GitHub\Hoomwork\HW.Http\obj\Debug\netstandard2.0\HW.Http.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Hoomwork\HW.Http\obj\Debug\netstandard2.0\HW.Http.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.Http\obj\Debug\netstandard2.0\HW.Http.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.Http\obj\Debug\netstandard2.0\HW.Http.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.Http\obj\Debug\netstandard2.0\HW.Http.dll
+D:\GitHub\Hoomwork\HW.Http\obj\Debug\netstandard2.0\HW.Http.pdb

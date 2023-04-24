@@ -1,0 +1,147 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Campaign List</h6>
+            <button *ngIf="userRole.allowAdd" (click)="showModal(content)" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New Campaign</button>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th width="5%">Full Name</th>
+                    <th width="3%">Short Name</th>
+                    <th width="10%">Description</th>
+                    <th width="5%">Satrt Date</th>
+                    <th width="5%">End Date</th>
+                    <th width="2%">Status</th>
+                    <th width="3%">Created By</th>
+                    <th width="4%">Created On</th>
+                    <th width="3%">Modified By</th>
+                    <th width="4%">Modified On</th>
+                    <th *ngIf="userRole.allowAdd" width="1%">Edit</th>
+                    <th *ngIf="userRole.allowDelete" title="Change Status" width="3%">Change Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of compaignsList">
+                    <td>{{item?.fullName}}</td>
+                    <td>{{item?.shortName}}</td>
+                    <td>{{item?.description}}</td>
+                    <td>{{item?.startDate | date: "dd MMM yyy"}}</td>
+                    <td>{{item?.endDate | date: "dd MMM yyy"}}</td>
+                    <td [ngClass]="(item.isActive) ? 'text-primary' : 'text-danger' ">{{(item.isActive) ? 'Active' : 'InActive'  }}</td>
+                    <td>{{item?.createdBy}}</td>
+                    <td>{{item?.createdOn | date: "dd MMM yyy "}}</td>
+                    <td>{{item?.modifiedBy}}</td>
+                    <td>{{item?.modifiedOn | date: "dd MMM yyy "}}</td>
+                    <td *ngIf="userRole.allowAdd"><i class="text-info fa fa-pencil-alt" (click)="update(item, content)"></i></td>
+                    <td *ngIf="userRole.allowDelete">
+                      <label class="switch block-user-switch">
+                        <input type="checkbox" (change)="delete(item?.campaignId,$event.target.checked)" [checked]="item?.isActive" id="{{item?.isActive}}">
+                        <span class="slider"></span>
+                      </label>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">{{modelText}}</h5>
+  </div>
+  <form [formGroup]="appValForm">
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="fs-12">Full Name</label>
+            <input type="text" formControlName="fullName" class="form-control" placeholder="Full Name" />
+            <div *ngIf="f.fullName?.errors">
+              <div *ngIf="f.fullName.invalid && submited">
+                <small *ngIf="f.fullName.errors?.required" class="text-danger">Input is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="fs-12">Short Name</label>
+            <input type="text" formControlName="shortName" class="form-control" placeholder="Short Name" />
+            <div *ngIf="f.shortName?.errors">
+              <div *ngIf="f.shortName.invalid && submited">
+                <small *ngIf="f.shortName.errors?.required" class="text-danger">Input is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-group">
+            <label class="fs-12">Description</label>
+            <textarea formControlName="description" class="form-control" placeholder="Description"></textarea>
+            <div *ngIf="f.description?.errors">
+              <div *ngIf="f.description.invalid && submited">
+                <small *ngIf="f.description.errors?.required" class="text-danger">Input is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-sm-6 col-lg-6">
+          <div class="form-group">
+            <label class="fs-12">Start Date</label>
+            <input type="date" formControlName="startDate" class="form-control" />
+            <div *ngIf="f.startDate?.errors">
+              <div *ngIf="f.startDate.invalid && submited">
+                <small *ngIf="f.startDate.errors?.required" class="text-danger">Input is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-lg-6">
+          <div class="form-group">
+            <label class="fs-12">End Date</label>
+            <input type="date" formControlName="endDate" class="form-control" />
+            <div *ngIf="f.endDate?.errors">
+              <div *ngIf="f.endDate.invalid && submited">
+                <small *ngIf="f.endDate.errors?.required" class="text-danger">Input is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-sm-6 col-lg-6">
+          <div class="form-group">
+            <label class="fs-12 d-block mb-4">Status</label>
+            <label class="switch">
+              <input type="checkbox" formControlName="isActive">
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="row">
+        <div class="col-md-6 inline-downlod-btns">
+          <button type="button" class="btn btn-sm btn-primary" (click)="saveAndUpdate()" [disabled]="!appValForm.valid">Save</button>
+          <button type="button" class="btn btn-sm btn-primary mx-2" (click)="resetForm()">Reset</button>
+          <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('Save click')">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>

@@ -1,0 +1,128 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="row">
+        <div class="col-md-12">
+          <h6 class="mainTitle" data-toggle="collapse" href="#collapse2" aria-expanded="true">Filter Leadger List</h6>
+        </div>
+      </div>
+      <div id="collapse2" class="contentWrapper fs-12 collapse">
+        <form [formGroup]="appValForm">
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <label class="">Customer Id</label>
+              <input type="text" id="customerid" name="customerid" formControlName="customerId" class="form-control" (keypress)="service.numberOnly($event)" />
+            </div>
+            <div class="col-md-6">
+              <label class="">Order Id</label>
+              <input type="text" id="customerid" name="orderid" formControlName="orderId" class="form-control" (keypress)="service.numberOnly($event)" />
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <label class="">From Date</label>
+              <input type="date" id="startDate" name="startDate" formControlName="startDate" class="form-control" />
+            </div>
+            <div class="col-md-6">
+              <label class="">To Date</label>
+              <input type="date" id="endDate" name="endDate" formControlName="endDate" class="form-control" />
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-sm-4 inline-downlod-btns">
+              <div class="form-group">
+                <input class=" btn btn-primary btn-sm" type="button" (click)="suppliersOrderlist()" value="Search" />
+              </div>
+              <div class="form-group">
+                <input class=" btn btn-primary btn-sm" type="button" (click)="ResetForm()" value="Rest" />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="row job-tiles">
+        <div class="col-xl-4 col-lg-4">
+          <div class="active-job-box">
+            <h6 class="text-success">Total Commission : {{totalCommission}}</h6>
+          </div>
+        </div>
+        <div class="col-xl-4 col-lg-4">
+          <div class="active-job-box">
+            <h6 class="text-success">Total Shipping : {{totalShipping}}</h6>
+          </div>
+        </div>
+        <div class="col-xl-4 col-lg-4">
+          <div class="active-job-box">
+            <h6 class="text-success">Total Payable : {{totalPayable}}</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!showtable" class="row inline-downlod-btns justify-content-end mr-1">
+    <div class="form-group ">
+      <input class="btn btn-primary btn-sm" type="button" value="Download pdf" (click)="DownloadPdf()" />
+    </div>
+    <div class="form-group ml-2">
+      <input class="btn btn-primary btn-sm" type="button" value="Download Excel" (click)="DownloadXlsx()" />
+    </div>
+    <div class="form-group ml-2">
+      <input class="btn btn-primary btn-sm" type="submit" value="Download Csv" (click)="exportCSV()" />
+    </div>
+  </div>
+
+  <!--**************************************** Supplier Orders List*********************************-->
+  <div *ngIf="!showtable" class="row">
+    <div class="col-md-12">
+      <div class="card shadow mb-4">
+        <div class="card-header justify-header">
+          <h6 class="m-0 font-weight-bold">Supplier Leadger List</h6>
+          <label class="m-0 text-right" *ngIf="ordercount>0">Total Records: {{ordercount}} </label>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0" #dataTable>
+              <thead>
+                <tr>
+                  <th class="width2" title="OrderId">Order Ref</th>
+                  <th class="width2" title="Customer Id">Customer Id</th>
+                  <th class="width3" title="Customer Name">Customer Name</th>
+                  <th class="width3" title="">Commission</th>
+                  <th class="width3" title="">Shipping Cost</th>
+                  <th class="width3" title="Product Total Amount">Total Amount</th>
+                  <th class="width3" title="">Total Payable</th>
+                  <th class="width3" title="City Name">City</th>
+                  <th class="width3" title="Order Created Date">Created On</th>
+                  <!--<th class="width2" title="Order Details">Detail</th>-->
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of  GetSuppliersOrderlist ; let i=index">
+                  <td>#{{item?.orderId}}</td>
+                  <td>{{item?.customerId}}</td>
+                  <td>{{item?.customerName}}</td>
+                  <td>{{item?.commission}}</td>
+                  <td>{{item?.totalShippingCost}}</td>
+                  <td>Rs. {{item?.totalAmount | number:'1.0':'en-US'}}</td>
+                  <td>Rs. {{item?.totalPayableToSupplier | number:'1.0':'en-US'}}</td>
+                  <td>{{(item?.cityName ? item.cityName : '-' )}}</td>
+                  <td>{{item?.createdOn | date: 'dd MMM yyyy, h:mm a' }}</td>
+
+                  <!--<td>
+                    <i class="fas fa-eye" (click)="GetSupplierOrderDetails(item?.orderId,detailsModel)"></i>
+                  </td>-->
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

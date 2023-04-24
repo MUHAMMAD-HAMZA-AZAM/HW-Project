@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost:15780",
+      "sslPort": 0
+    }
+  },
+  "profiles": {
+    "IIS ": {
+      "commandName": "IIS",
+      "launchBrowser": false,
+      "launchUrl": "api/Analytics/start",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "HW.AnalyticsApi": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "launchUrl": "api/Analytics/start",
+      "applicationUrl": "http://localhost:15780",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

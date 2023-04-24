@@ -1,0 +1,44 @@
+<div class="container-fluid">
+  <h5 class="m-2">{{reportTitle}} </h5>
+  <button class="btn d-none" (click)="DownloadPdf()">Download Pdf</button>
+  <!--<label class="container text-secondary">From : {{startDate | date: "dd MMM yyy hh : mm : a"}}    <br /> To : {{endDate | date: "dd MMM yyy hh : mm : a"}}</label>-->
+  <!--<label>From </label><button class="btn btn-primary"> {{startDate | date: "dd MMM yyy hh : mm : a"}} </button> <label>To </label><button class="btn btn-primary">{{endDate | date: "dd MMM yyy hh : mm : a"}}</button>-->
+  <div class="card shadow my-3">
+    <div class="card-header justify-header">
+      <h6 class="m-0 font-weight-bold">Bids List</h6>
+      <label class=" fs-12 m-0">Total No. {{completeList}}</label>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th title="Bid Id" width="14%">BID</th>
+              <th width="14%">Customer Name</th>
+              <th width="14%">Tradesman Name</th>
+              <th width="14%">Amount</th>
+              <th width="10%">Status</th>
+              <th width="18%">Comments</th>
+              <th width="14%">Date<!--Created On--></th>
+
+
+            </tr>
+          </thead>
+          <tbody class="table-content-fs">
+            <tr *ngFor="let bids of bidsList">
+              <td>{{bids.bidsId}}</td>
+              <td>{{bids.customerName}}
+              <td>{{bids.tradesmanName}}</td>
+              <td>{{bids.amount}}</td>
+              <td>{{bids.status}}</td>
+              <td>{{bids.comments}}</td>
+              <td>{{bids.createdOn | date: "dd MMM yyy"}}</td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <label class="text-danger">{{DataNotFound}}</label>
+    </div>
+  </div>
+</div>

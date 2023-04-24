@@ -1,0 +1,294 @@
+<!-- product start -->
+<section class="bag-product section-b-space ratio_square pt-0" id="landing-page-category">
+  <div *ngIf="!sliderLoader">
+    <div class="image-loader img-box-banner">
+    </div>
+  </div>
+  <ngb-carousel *ngIf="supplierSliderList && sliderLoader">
+    <ng-template ngbSlide *ngFor="let slide of supplierSliderList">
+      <div class="picsum-img-wrapper">
+        <img [src]="(_httpService.AWSPATH)+(slide.imagePath)+(slide.imageName)">
+      </div>
+    </ng-template>
+  </ngb-carousel>
+
+  <section class="product_list_wrapper">
+    <div class="product_by_cat pb-5 pt-4" *ngFor="let item of productListByCategory;let i = index;">
+      <div class="collpase-btn mb-4 container d-flex align-items-center">
+        <a class="d-inline-block text-capitalize fs-28 fw-bold darkGrayClr" [routerLink]="[_httpService.apiRoutes.Product.Category]" [queryParams]="{lvl:'one',categoryId:item?.categoryId}">{{item?.name}}</a>
+          <button class="btn lightGrayClr fs-20" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapseExample'+ i">
+            <!--{{(item?.name).length > 10 ?  (item.name | slice:0:10) : item.name}}-->
+            <i class="fa fa-minus-circle"></i>
+          </button>
+      </div>
+      <div class="show" id="collapseExample{{i}}">
+        <div class="product_by_cat">
+          <div class="container">
+            <div class="d-flex flex-md-row flex-column">
+              <div class="flex-shrink-0 prod_cat_wrapper mb-3 mb-lg-0 me-md-3 me-0">
+                <ul class="d-none d-md-block">
+                  <li *ngFor="let subitem of item.subCategoryList"><a [routerLink]="[_httpService.apiRoutes.Product.Category]" [queryParams]="{lvl:'two',categoryId:subitem?.productSubCategoryId}" href="#">{{(subitem?.subCategoryName).length <= 21 ? (subitem?.subCategoryName) : (subitem?.subCategoryName | slice:0:20) + '...' }}</a></li>
+                </ul>
+                <select class="form-control d-block d-md-none" #subCategorySelect (change)='selectSubCategory(subCategorySelect.value)'>
+                  <option>---Select Options---</option>
+                  <option *ngFor="let subitem of item.subCategoryList" [value]="subitem?.productSubCategoryId">{{subitem?.subCategoryName}}</option>
+                </select>
+              </div>
+              <div class="flex-shrink-1 flex-grow-1 d-flex flex-wrap" id="prodcards_wrapper" style="gap:5px">
+                <div class="product-card" *ngFor="let product of item.productList">
+                  <div class="parent-over">
+                    <div class="product-overlay d-flex flex-column align-items-center justify-content-center">
+                      <button data-bs-toggle="modal" (click)="getProductDetailWeb(product?.productId,buyNowModelPopUp)" class="mb-3 btn custom_btn btn-lg primaryBg">Buy Now</button>
+                      <a [routerLink]="[_httpService.apiRoutes.Product.ProductDetail]" [queryParams]="{ 'va': '', 'prdt': product?.slug+'-'+product?.productId}"
+                         class="btn custom_btn btn-lg secondaryBg">Details</a>
+                    </div>
+                  </div>
+                  <div class="discount-offer d-flex justify-content-center align-items-center text-center" *ngIf="product?.discountInPercentage != 0 && product?.discountInPercentage != null">
+                    <p class="mb-0 text-white"><b class="d-block">off</b><span>{{(product.discountInPercentage > 0 ?  product.discountInPercentage + '%' : '')}}</span></p>
+                  </div>
+                  <div class="card-image">
+                    <a>
+                      <ng-container *ngIf="product?.fileName;else noImg">
+                        <img [src]="(_httpService.AWSPATH)+(product?.filePath)+(product?.fileName)" alt="">
+                      </ng-container>
+                      <ng-template #noImg>
+                        <img src="assets/images/pro1.jpg" class="img-fluid bg-img" alt="">
+                      </ng-template>
+                    </a>
+                  </div>
+                  <div class="p-2">
+                    <p class="mt-2 text-center text-capitalize">{{(product?.title ?  (product?.title.length > 48)?(product?.title | slice:0:48)+'...':(product?.title) : '')}}</p>
+                    <p class="text-center"><s *ngIf="product.discountedPrice > 0" class="ml-2">Rs.{{product.price}}</s> <span class="fw-bold"> Rs:{{(product.discountedPrice > 0) ? product.discountedPrice : product?.price}}</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!--------------------------------OLD DESIGN----------------------------------->
+  <div class="container d-none">
+    <div *ngIf="imageLoader">
+      <div class="row shadow my-5 " *ngFor="let item of productListByCategory">
+        <div class="col-12 mb-3">
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="title-basic mb-0">
+              <h2 class="title font-fraunces"><i class="ti-bolt"></i>{{item?.name}}</h2>
+            </div>
+            <button class="btn btn-xs btn-solid hover-solid btn-animation" [routerLink]="[_httpService.apiRoutes.Product.Category]" [queryParams]="{lvl:'one',categoryId:item?.categoryId}">View All</button>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="row">
+            <div class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-2 mb-3" *ngFor="let product of item.productList">
+              <div class="product-box m-0 product-wrap product-style-3">
+                <div class="img-wrapper" id="custom-product-list">
+                  <!--<a [routerLink]="[_httpService.apiRoutes.Product.ProductDetail,product?.slug+'-'+product?.productId,'']">-->
+                  <a [routerLink]="[_httpService.apiRoutes.Product.ProductDetail]" [queryParams]="{ 'va': '', 'prdt': product?.slug+'-'+product?.productId}">
+                    <ng-container *ngIf="product?.fileName;else noImg">
+                      <img [src]="(_httpService.AWSPATH)+(product?.filePath)+(product?.fileName)" alt="">
+                    </ng-container>
+                    <ng-template #noImg>
+                      <img src="assets/images/pro1.jpg" class="img-fluid bg-img" alt="">
+                    </ng-template>
+                  </a>
+                </div>
+                <div class="product-info">
+                  <!--<div class="rating">
+                    <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                  </div>-->
+                  <a [routerLink]="[_httpService.apiRoutes.Product.ProductDetail]" [queryParams]="{ 'va': '', 'prdt': product?.slug+'-'+product?.productId}">
+                    <h6>{{(product?.title ?  (product?.title.length > 48)?(product?.title | slice:0:48)+'...':(product?.title) : '')}}</h6>
+                  </a>
+
+                  <h4>Rs.{{(product.discountedPrice > 0) ? product.discountedPrice : product?.price}}</h4>
+                  <s *ngIf="product.discountedPrice > 0" class="ml-2">Rs.{{product.price}}</s><span class="text-danger px-2" *ngIf="product?.discountInPercentage != 0 && product?.discountInPercentage != null">{{(product.discountInPercentage > 0 ? '-' + product.discountInPercentage + '%' : '')}}</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <ng-template #buyNowModelPopUp let-modal>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Choose Options</h5>
+        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+        <i class="fa fa-times" data-bs-dismiss="modal" (click)="modal.dismiss('Cross click')" aria-label="Close"></i>
+      </div>
+      <div class="modal-body">
+        <div class="row gx-3 mt-3">
+          <div class="col-5">
+            <div class="product_images-wrapper">
+              <div class="main_image">
+                <!--<img class="fit_img" src="./img/17.jpg">-->
+                <ng-container *ngFor='let item of productDetail?.images.slice(0,1)'>
+                  <ng-container *ngIf="selectedFileName;else mainImg">
+                    <lib-ngx-image-zoom [thumbImage]=selectedFileName
+                                        [fullImage]=selectedFileName
+                                        [magnification]="1"
+                                        [enableScrollZoom]="true"
+                                        [enableLens]="true"
+                                        [lensWidth]="300"
+                                        [lensHeight]="300">
+
+                    </lib-ngx-image-zoom>
+
+                  </ng-container>
+                  <ng-template #mainImg>
+                    <lib-ngx-image-zoom [thumbImage]=(_httpService.AWSPATH)+(item?.filePath)+(item?.fileName)
+                                        [fullImage]=(_httpService.AWSPATH)+(item?.filePath)+(item?.fileName)
+                                        [magnification]="1"
+                                        [enableScrollZoom]="true"
+                                        [enableLens]="true"
+                                        [lensWidth]="300"
+                                        [lensHeight]="300">
+
+                    </lib-ngx-image-zoom>
+                  </ng-template>
+                </ng-container>
+
+                <div class="discount-offer d-flex justify-content-center align-items-center" *ngIf="variantDetails?.discountInPercentage > 0">
+                  <p class="mb-0 text-white text-center fs-14"><b class="d-block">off</b>{{variantDetails?.discountInPercentage}}%</p>
+                </div>
+                <div class="d-flex justify-content-between w-100 position-absolute" style="top:43%" *ngIf="productDetail?.images.length > 1">
+                  <div class="slide_navigation d-flex align-items-center justify-content-center position-relative"
+                       (click)="previousImage()">
+                    <i class="fa fa-angle-left"></i>
+                  </div>
+                  <div class="slide_navigation d-flex align-items-center justify-content-center position-relative"
+                       (click)="nextImage()">
+                    <i class="fa fa-angle-right"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex my-3 justify-content-between" style="gap:5px;" *ngIf="productDetail?.images.length > 1">
+                <div class="thumb_image" *ngFor="let proImg of productDetail?.images">
+                  <ng-container *ngIf="proImg?.fileName;else noImg">
+                    <img class="fit_img" [src]="(_httpService.AWSPATH)+(proImg?.filePath)+(proImg?.fileName)" (click)="selectFile(proImg?.filePath,proImg?.fileName)" alt="">
+                  </ng-container>
+                  <ng-template #noImg>
+                    <img class="fit_img" src="assets/images/pro1.jpg" alt="">
+                  </ng-template>
+                </div>
+
+              </div>
+            </div>
+            <div class="social_sharing my-3">
+              <div class="d-flex flex-column">
+                <!--<div class="d-flex align-items-center justify-content-between">
+                  <label>Share with a friend</label>
+                  <div class="d-flex">
+                    <input class="p-0 px-2 form-control" type="text"
+                           placeholder="0300XXXXXXX" />
+                    <button class="ms-2 btn-outline-primary btn">SEND</button>
+                  </div>
+                </div>-->
+                <div class="s_icons d-flex">
+                  <a (click)="openLink(socialLinks?.facebookUrl)" *ngIf="socialLinks?.facebookUrl"><img src="/assets/img/facebook.svg"></a>
+                  <a (click)="openLink(socialLinks?.instagramUrl)" *ngIf="socialLinks?.instagramUrl"><img src="/assets/img/instagram.svg" /></a>
+                  <a (click)="openLink(socialLinks?.twitterUrl)" *ngIf="socialLinks?.twitterUrl"><img src="/assets/img/twitter.svg" /></a>
+                  <a (click)="openLink(socialLinks?.linkedinUrl)" *ngIf="socialLinks?.linkedinUrl"><img src="/assets/img/linkedin.svg" /></a>
+                  <a (click)="openLink(socialLinks?.youtubeUrl)" *ngIf="socialLinks?.youtubeUrl"><img src="/assets/img/youtube.svg" /></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-7 pro_contents">
+            <p>
+              {{productDetail?.name}}
+            </p>
+            <div class="stock_and_price">
+              <!--<span>Brand:<small>Silk</small></span>-->
+              <div class="d-flex justify-content-between align-items-center mt-2">
+                <h4 class="m-0">
+                  Rs.{{(variantDetails?.price == null) ? (productDetail?.discountedPrice > 0 ? productDetail?.discountedPrice : productDetail?.price | number:'1.0':'en-US') : (variantDetails?.discountedPrice > 0 ? variantDetails?.discountedPrice :variantDetails?.price | number:'1.0':'en-US')}}
+                </h4>
+                <s *ngIf="variantDetails?.discountedPrice>0">
+                  Rs.{{(variantDetails?.discountedPrice == null) ? (productDetail?.discountedPrice > 0 ? productDetail?.price : 0 | number:'1.0':'en-US') : (variantDetails?.discountedPrice > 0 ? variantDetails?.price :0| number:'1.0':'en-US')}}
+                </s>
+                <span *ngIf="productDetail?.isFreeShipping">Free Shipping</span>
+                <small>{{selectedVariantIdAvailableStock}} in Stock</small>
+              </div>
+            </div>
+            <hr />
+            <div class="variant_details">
+              <span>color: <small>{{variantDetails?.varientName}}</small></span>
+              <div class="d-flex justify-content-between align-items-center mt-2">
+                <div class="d-flex">
+                  <div class="variant-circle me-1" *ngFor="let variant of productDetail?.groupItem" [style.backgroundColor]="variant?.hexCode" (click)="getVariantPrice(variant?.variantId)">
+                  </div>
+                </div>
+                <div class="qty_meter d-flex justify-content-between align-items-center px-2">
+                  <span (click)="handleQuantityChange('-')">-</span>
+                  <input type="text" [(ngModel)]="quantity" (keypress)="_httpService.numberOnly($event)" (ngModelChange)="onQuantityChange($event)" (focusout)="onFocusOutEvent($event)"/>
+                  <span (click)="handleQuantityChange('+')">+</span>
+                </div>
+              </div>
+              <div class="bulk-items mt-3" *ngIf="bulkInventorybyVarient.length > 0">
+                <h5 class="fw-600 font-laila darkGrayClr">Order in Bulk</h5>
+                <ul class="d-flex gap-4 px-2 py-3 flex-wrap">
+                  <li *ngFor="let items of bulkInventorybyVarient">
+                    <div class="d-flex flex-column text-center">
+                      <span>{{items.minQuantity}} - {{items.maxQuantity}} Pieces</span>
+                      <div>
+                        <b class="me-1 font-poppins">Rs: {{items.bulkPrice}}</b> <s class="bulkVarientPrice"> Rs: {{varientPrice}}</s>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+                <hr>
+              </div>
+              <div class="cart_actions d-flex justify-content-between mt-3">
+                <button (click)="addToCart()" class="flex-grow-1 py-2 flex-shrink-1 btn custom_btn primaryBg" [disabled]="!((variantDetails == null) ? productDetail?.availability :variantDetails?.availability) || quantity == 0 || quantity > selectedVariantIdAvailableStock">
+                  Add To
+                  Cart
+                </button>
+                <button (click)="checkOut()" class="flex-grow-1 py-2 flex-shrink-1 btn custom_btn primaryBg" [disabled]="!((variantDetails == null) ? productDetail?.availability :variantDetails?.availability) || quantity == 0 || quantity > selectedVariantIdAvailableStock">
+                  Check Out
+                </button>
+                <button (click)="continueShopping()" class="flex-grow-1 py-2 flex-shrink-1  btn custom_btn btn-lg secondaryBg">
+                  Continue
+                  Shopping
+                </button>
+              </div>
+              <div class="return_policy_options d-flex mt-3">
+                <div class="rp_box d-flex justify-content-center align-items-center  flex-column text-center">
+                  <img src="/assets/img/arrow-return.svg" alt="arrowback" />
+                  <small class="mt-2 d-block">7 Days Return Under Conditions</small>
+                </div>
+                <div class="rp_box d-flex justify-content-center align-items-center  flex-column text-center">
+                  <img src="/assets/img/moneyback.svg" alt="arrowback" />
+                  <small class="mt-2 d-block">
+                    Easy and Secure
+                    Payments
+                  </small>
+                </div>
+                <div class="rp_box d-flex justify-content-center align-items-center  flex-column text-center">
+                  <img src="/assets/img/guarantee.svg" alt="arrowback" />
+                  <small class="mt-2 d-block">
+                    Genuine<br>
+                    Product
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+        </div> -->
+      </div>
+    </div>
+  </ng-template>
+</section>
+<!-- Paragraph end -->

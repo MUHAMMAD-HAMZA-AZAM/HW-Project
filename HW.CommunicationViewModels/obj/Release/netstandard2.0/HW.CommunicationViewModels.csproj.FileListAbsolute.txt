@@ -1,0 +1,10 @@
+D:\GitHub\Hoomwork\HW.CommunicationViewModels\bin\Release\netstandard2.0\HW.CommunicationViewModels.deps.json
+D:\GitHub\Hoomwork\HW.CommunicationViewModels\bin\Release\netstandard2.0\HW.CommunicationViewModels.dll
+D:\GitHub\Hoomwork\HW.CommunicationViewModels\bin\Release\netstandard2.0\HW.CommunicationViewModels.pdb
+D:\GitHub\Hoomwork\HW.CommunicationViewModels\obj\Release\netstandard2.0\HW.CommunicationViewModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.CommunicationViewModels\obj\Release\netstandard2.0\HW.CommunicationViewModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.CommunicationViewModels\obj\Release\netstandard2.0\HW.CommunicationViewModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.CommunicationViewModels\obj\Release\netstandard2.0\HW.CommunicationViewModels.dll
+D:\GitHub\Hoomwork\HW.CommunicationViewModels\obj\Release\netstandard2.0\HW.CommunicationViewModels.pdb
+D:\GitHub\Hoomwork\HW.CommunicationViewModels\obj\Release\netstandard2.0\HW.CommunicationViewModels.csproj.AssemblyReference.cache
+D:\GitHub\Hoomwork\HW.CommunicationViewModels\obj\Release\netstandard2.0\HW.CommunicationViewModels.GeneratedMSBuildEditorConfig.editorconfig

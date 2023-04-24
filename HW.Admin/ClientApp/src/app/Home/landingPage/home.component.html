@@ -1,0 +1,251 @@
+<div class="container-fluid" *ngIf="home.allowView">
+
+  <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Home</h1>
+  </div>
+
+  <!-- Content Row -->
+
+  <div class="row justify-content-between">
+
+    <!-- Earnings (Monthly) Card Example -->
+    <!--<div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-left-primary shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Users</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">{{adminDashboardVm.allUsersCount}}</div>
+            <div class="p mb-0 text-gray-100 d-none">4% from the last week</div>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-users fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>-->
+    <!-- Earnings (Monthly) Card Example -->
+    <!--<div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-left-success shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Jobs created</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">{{adminDashboardVm.createdJobsCount}}</div>
+            <div class="p mb-0 text-gray-100 d-none">6% from the last week</div>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-briefcase fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>-->
+    <!-- Earnings (Monthly) Card Example -->
+    <div class="col-xl-2 col-md-2 mb-4 col-sm-12">
+      <div class="card border-left-info shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">To Authorize</div>
+              <div class="row no-gutters align-items-center">
+                <div class="col-auto">
+                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800 text-danger"><b>{{authorizeJobsCount}}</b></div>
+                  <div class="p mb-0 text-gray-100 d-none">1% from the last week</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-2 col-md-2 mb-4 col-sm-12">
+      <div class="card border-left-info shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Customers</div>
+              <div class="row no-gutters align-items-center">
+                <div class="col-auto">
+                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{registeredCustomersCount}}</div>
+                  <div class="p mb-0 text-gray-100 d-none">1% from the last week</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-2 col-md-2 mb-4 col-sm-12">
+      <div class="card border-left-info shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Tradesman</div>
+              <div class="row no-gutters align-items-center">
+                <div class="col-auto">
+                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{tradesmanCount}}</div>
+                  <div class="p mb-0 text-gray-100 d-none">1% from the last week</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-2 col-md-2 mb-4 col-sm-12">
+      <div class="card border-left-info shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Supplier</div>
+              <div class="row no-gutters align-items-center">
+                <div class="col-auto">
+                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{supplierCounts}}</div>
+                  <div class="p mb-0 text-gray-100 d-none">1% from the last week</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-2 col-md-2 mb-4 col-sm-12">
+      <div class="card border-left-info shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Posted Jobs</div>
+              <div class="row no-gutters align-items-center">
+                <div class="col-auto">
+                  <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{createdJobsCount}}</div>
+                  <div class="p mb-0 text-gray-100 d-none">1% from the last week</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pending Requests Card Example -->
+    <!--<div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-left-warning shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Live Ads</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">{{adminDashboardVm.liveAdsCount}}</div>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-bullhorn fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>-->
+  </div>
+  <!-- Content Row -->
+
+  <div class="row">
+
+    <!-- Area Chart -->
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+      <div class="card shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <!-- Card Body -->
+        <div class="card-body">
+          <div #barChartContainer></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pie Chart -->
+    <!--  <div class="col-xl-4 col-lg-5">
+      <div class="card shadow mb-4">
+         Card Header - Dropdown
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold ">Regions</h6>
+
+
+          !-
+        </div>
+
+         Card Body
+        <div class="card-body">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m23!1m12!1m3!1d54431.31148704413!2d74.34114659114314!3d31.497866617791257!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m8!3e6!4m5!1s0x391905afb81c3339%3A0xff3fe14cc29df900!2sASRC+Lahore+Army+Selection+Center%2C+Cavalry+Ground%2C+Lahore%2C+Punjab!3m2!1d31.4977982!2d74.376166!4m0!5e0!3m2!1sen!2s!4v1562334810140!5m2!1sen!2s" width="100%" height="315" frameborder="0" style="border:0" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>-->
+  </div>
+  <!-- Content Row -->
+  <div class="row">
+
+    <!-- Content Column -->
+    <div class="col-lg-12 mb-4">
+
+      <!-- Project Card Example -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold">Feedback</h6>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4 text-center">
+              <div #positiveContainer></div>
+
+            </div>
+
+            <div class="col-md-4 text-center">
+              <div #orgnizationContainer></div>
+            </div>
+
+            <div class="col-md-4 text-center">
+              <div #negativeContainer></div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <!-- Content Column -->
+    <div class="col-lg-12 mb-4">
+
+      <!-- Project Card Example -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold">Feedback</h6>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4 text-center">
+              <div #nuetralContainer></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

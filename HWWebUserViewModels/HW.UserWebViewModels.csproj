@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HW.UserViewModels\HW.UserViewModels.csproj" />
+    <ProjectReference Include="..\HW.Utility\HW.Utility.csproj" />
+  </ItemGroup>
+
+</Project>

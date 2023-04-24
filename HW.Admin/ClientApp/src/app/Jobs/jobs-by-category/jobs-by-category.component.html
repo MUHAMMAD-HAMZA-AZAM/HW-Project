@@ -1,0 +1,82 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-6">
+      <div class="card shadow mb-4 mt-5">
+        <div class="card-header justify-header">
+          <h6 class="m-0 font-weight-bold">Filter Jobs</h6>
+        </div>
+        <div class="card-body">
+          <div id="jobsByCategoryCollpase" class="contentWrapper fs-12 show">
+            <form [formGroup]="jobsByCategoryForm" (submit)="getJobsListByCategory()">
+              <div class="row mt-1">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="">Start Date</label>
+                    <input type="date" formControlName="startDate" class="form-control" />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="">End Date</label>
+                    <input type="date" formControlName="endDate" class="form-control" />
+                  </div>
+                </div>
+                
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>User Type</label>
+                      <div class="input-group-prepend">
+                        <div class="input-group-text user-type">                
+                          <input type="radio" value="0" id="real" (click)="getUserTypeValue($event)" name="groupOfDefaultRadios3" checked #restUserType>
+                          <label class="" for="real">Real User</label>
+                          <input type="radio" class="" (click)="getUserTypeValue($event)" value="1" id="test" name="groupOfDefaultRadios3">
+                          <label class="" for="test">Test User</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+             
+                <div class="col-sm-12 inline-downlod-btns">
+                  <div class="form-group">
+                    <button class="btn btn-primary btn-sm" type="submit">Search</button>
+                  </div>
+                  <div class="form-group ml-2">
+                    <button class="btn btn-primary btn-sm" type="button" (click)="resetForm()">Reset</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 mb-4 mt-5">
+      <div #positiveContainer></div>
+    </div>
+  </div>
+  <div class="card shadow mb-4 mt-5">
+    <div class="card-header justify-header">
+      <h6 class="m-0 font-weight-bold">Jobs By Category List</h6>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover">
+          <thead>
+            <tr>
+              <th width="50%">Category</th>
+              <th width="5%" title="Jobs Percentage">Jobs Percentage</th>
+              <th width="5%" title="Jobs Count">Jobs Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of jobCategoryList">
+              <td>{{item?.name}}</td>
+              <td>{{((item?.jobCategoryCount/totalJobs)*100).toFixed(2)}}</td>
+              <td>{{item?.jobCategoryCount}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

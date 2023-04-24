@@ -1,0 +1,9 @@
+D:\GitHub\Hoomwork\HW.EstateAgentModels\bin\Debug\netstandard2.0\HW.EstateAgentModels.deps.json
+D:\GitHub\Hoomwork\HW.EstateAgentModels\bin\Debug\netstandard2.0\HW.EstateAgentModels.dll
+D:\GitHub\Hoomwork\HW.EstateAgentModels\bin\Debug\netstandard2.0\HW.EstateAgentModels.pdb
+D:\GitHub\Hoomwork\HW.EstateAgentModels\obj\Debug\netstandard2.0\HW.EstateAgentModels.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Hoomwork\HW.EstateAgentModels\obj\Debug\netstandard2.0\HW.EstateAgentModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.EstateAgentModels\obj\Debug\netstandard2.0\HW.EstateAgentModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.EstateAgentModels\obj\Debug\netstandard2.0\HW.EstateAgentModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.EstateAgentModels\obj\Debug\netstandard2.0\HW.EstateAgentModels.dll
+D:\GitHub\Hoomwork\HW.EstateAgentModels\obj\Debug\netstandard2.0\HW.EstateAgentModels.pdb

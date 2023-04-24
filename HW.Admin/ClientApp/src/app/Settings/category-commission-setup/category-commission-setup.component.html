@@ -1,0 +1,146 @@
+ <div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Category Commission Setup List</h6>
+            <button *ngIf="userRole.allowAdd" (click)="showModal(content)" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New Category Commission Setup </button>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th width="5%">Sr#</th>
+                    <th width="15%">Category</th>
+                    <th width="15%">Commision Amount</th>
+                    <th width="10%">Commission Percentage</th>
+                    <th width="10%">Entity Status</th>
+                    <th width="10%">Start Date</th>
+                    <th width="10%">Expiration Date</th>
+                    <th width="10%">Created On</th>
+                    <th *ngIf="userRole.allowAdd" width="1%">Edit</th>
+                    <th *ngIf="userRole.allowDelete" title="Delete" width="1%">Del</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of CategoryCommissionSetupList; let i=index">
+                    <td>{{i+1}}</td>
+                    <td>{{item?.categoryName}}</td>
+                    <td>{{item?.commisionAmount}}</td>
+                    <td>{{item?.commissionPercentage}}</td>
+                    <td *ngIf="item.entityStatus=='i'">Inactive</td>
+                    <td *ngIf="item.entityStatus=='a'">Active</td>
+                    <td *ngIf="item.entityStatus=='d'">Discontinued</td>
+                    <td>{{item?.commissionStartDate | date: "dd MMM yyy"}}</td>
+                    <td>{{item?.commissionEndDate | date: "dd MMM yyy"}}</td>
+                    <td>{{item?.createdOn | date: "dd MMM yyy"}}</td>
+                    <td *ngIf="userRole.allowAdd"><i class="text-info fa fa-pencil-alt" (click)="updateCategoryCommissionSetup(item,content)"></i></td>
+                    <td *ngIf="userRole.allowDelete"><i class="text-danger fa fa-trash-alt" (click)="deleteCategoryCommissionSetup(item.categoryCommissionSetupId)"></i></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">{{modelText}}</h5>
+  </div>
+  <form [formGroup]="appValForm">
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12">Tradesman Category</label>
+            <select formControlName="categoryId" class="form-control" [attr.disabled]="disableSelectedCategory? 'disabled' : null">
+              <option [ngValue]="null" disabled>--- Select Category ---</option>
+              <option *ngFor="let item of CategoryList" value="{{item.id}}">{{item.value}}</option>
+            </select>
+            <div *ngIf="f.categoryId?.errors">
+              <div *ngIf="f.categoryId.invalid && submited">
+                <small *ngIf="f.categoryId.errors?.required" class="text-danger">Select Category</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <input type="text" class="form-control" formControlName="commisionAmount" placeholder="Commission Amount" (keypress)="service.numberOnly($event)" />
+            <!--<div *ngIf="f.commisionAmount?.errors">
+          <div *ngIf="f.commisionAmount.invalid && submited">
+            <small *ngIf="f.commisionAmount.errors?.required" class="text-danger">Enter Commission Amount</small>
+          </div>
+        </div>-->
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <input type="text" class="form-control" formControlName="commissionPercentage" placeholder="Commission Percentage" (keypress)="service.numberOnly($event)" />
+            <div *ngIf="f.commissionPercentage?.errors">
+              <div *ngIf="f.commissionPercentage.invalid && submited">
+                <small *ngIf="f.commissionPercentage.errors?.required" class="text-danger">Enter Commission Percentage</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <input type="date" class="form-control" formControlName="commissionStartDate" placeholder="Enter Start Date" min={{maxdate1}} />
+            <div *ngIf="f.commissionStartDate?.errors">
+          <div *ngIf="f.commissionStartDate.invalid && submited">
+            <small *ngIf="f.commissionStartDate.errors?.required" class="text-danger">Enter Start Date</small>
+          </div>
+        </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <input type="date" class="form-control" formControlName="commissionEndDate" placeholder="Enter Expire Date" min={{maxdate1}} />
+            <div *ngIf="f.commissionEndDate?.errors">
+              <div *ngIf="f.commissionEndDate.invalid && submited">
+                <small *ngIf="f.commissionEndDate.errors?.required" class="text-danger">Enter Expiration Date</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12">Entity Status</label>
+            <select formControlName="entityStatus" required class="form-control">
+              <option [ngValue]="null" disabled>Select Entity Status</option>
+              <option [value]="'a'">Active</option>
+              <option [value]="'i'">InActive</option>
+              <option [value]="'d'">Discontinued</option>
+            </select>
+            <div *ngIf="f.entityStatus?.errors">
+              <div *ngIf="f.entityStatus.invalid && submited">
+                <small *ngIf="f.entityStatus.errors?.required" class="text-danger">Select Entity Status</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="row">
+        <div class="col-md-6 inline-downlod-btns">
+          <button type="button" class="btn btn-sm btn-primary mr-6" style="margin:5px" (click)="saveAndUpdate()">Save</button>
+          <button type="reset" class="btn btn-sm btn-primary" (click)="resetForm()" style="margin:5px">Reset</button>
+          <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('Save click')" style="margin:5px">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>

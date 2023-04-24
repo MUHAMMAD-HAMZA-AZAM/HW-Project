@@ -1,0 +1,17 @@
+D:\GitHub\Hoomwork\HW.NotificationViewModels\bin\Debug\netstandard2.0\HW.NotificationViewModels.deps.json
+D:\GitHub\Hoomwork\HW.NotificationViewModels\bin\Debug\netstandard2.0\HW.NotificationViewModels.dll
+D:\GitHub\Hoomwork\HW.NotificationViewModels\bin\Debug\netstandard2.0\HW.NotificationViewModels.pdb
+D:\GitHub\Hoomwork\HW.NotificationViewModels\bin\Debug\netstandard2.0\HW.Http.dll
+D:\GitHub\Hoomwork\HW.NotificationViewModels\bin\Debug\netstandard2.0\HW.TradesmanModels.dll
+D:\GitHub\Hoomwork\HW.NotificationViewModels\bin\Debug\netstandard2.0\HW.Utility.dll
+D:\GitHub\Hoomwork\HW.NotificationViewModels\bin\Debug\netstandard2.0\HW.TradesmanModels.pdb
+D:\GitHub\Hoomwork\HW.NotificationViewModels\bin\Debug\netstandard2.0\HW.Utility.pdb
+D:\GitHub\Hoomwork\HW.NotificationViewModels\bin\Debug\netstandard2.0\HW.Http.pdb
+D:\GitHub\Hoomwork\HW.NotificationViewModels\obj\Debug\netstandard2.0\HW.NotificationViewModels.csproj.AssemblyReference.cache
+D:\GitHub\Hoomwork\HW.NotificationViewModels\obj\Debug\netstandard2.0\HW.NotificationViewModels.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Hoomwork\HW.NotificationViewModels\obj\Debug\netstandard2.0\HW.NotificationViewModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.NotificationViewModels\obj\Debug\netstandard2.0\HW.NotificationViewModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.NotificationViewModels\obj\Debug\netstandard2.0\HW.NotificationViewModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.NotificationViewModels\obj\Debug\netstandard2.0\HW.NotificationViewModels.csproj.CopyComplete
+D:\GitHub\Hoomwork\HW.NotificationViewModels\obj\Debug\netstandard2.0\HW.NotificationViewModels.dll
+D:\GitHub\Hoomwork\HW.NotificationViewModels\obj\Debug\netstandard2.0\HW.NotificationViewModels.pdb

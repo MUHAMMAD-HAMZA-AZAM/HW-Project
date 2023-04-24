@@ -1,0 +1,110 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card shadow mb-4">
+          <div class="card-header bg-primary">
+            <h6 class="mainTitle m-0 font-weight-bold border-0" data-toggle="collapse" href="#collapse6" aria-expanded="true">Filter Detailed Ledger Transection</h6>
+          </div>
+          <div id="collapse6" class="contentWrapper fs-12 show">
+            <div class="card-body">
+              <form [formGroup]="appValForm">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Select Account Type </label>
+                      <select class="form-control" formControlName="accountId" (change)="onAccountTypeChange($event)">
+                        <option [ngValue]="null" disabled selected hidden>--- Select Account Type ---</option>
+                        <!--<option value="{{accountTypes.AccountReceiveables}}">Account Receiveables</option>-->
+                        <!--<option value="{{accountTypes.AccountPayable}}">Account Payables</option>-->
+                        <!--<option value="{{accountTypes.Assets}}">Assets</option>-->
+                      </select>
+                      <div *ngIf="f.accountId?.errors">
+                        <div *ngIf="f.accountId.invalid && (f.accountId.dirty || f.accountId.touched)">
+                          <small class="text-danger" *ngIf="f.accountId.errors?.required">--- Select Account Type ---</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">User Id</label>
+                      <input type="text" formControlName="userId" class="form-control" (keypress)="common.numberOnly($event);" />
+                      <div *ngIf="f.userId?.errors">
+                        <div *ngIf="f.userId.invalid && (f.userId.dirty || f.userId.touched)">
+                          <small class="text-danger" *ngIf="f.userId.errors?.required">Enter User Id</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Transection From Date </label>
+                      <input type="date" maxlength="20" formControlName="fromDate" class="form-control" />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Transection To Date </label>
+                      <input type="date" maxlength="20" formControlName="toDate" class="form-control" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4 inline-downlod-btns">
+                    <button type="submit" class="btn btn-sm btn-primary mr-2" [disabled]="!appValForm.valid" (click)="showDetailedLedgerTransectionScreen()">Search</button>
+                    <button type="reset" class="btn btn-sm btn-primary" (click)="resetFilterForm()">Reset</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card shadow mb-4" [hidden]="hiddenData">
+        <div class="card-header justify-header">
+          <h6 class="m-0 font-weight-bold">Detailed General Ledger Transection Screen</h6>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th width="3%" title="Audit">Audit</th>
+                  <th width="3%" title="Description">Description</th>
+                  <th width="3%" title="Debit">Debit</th>
+                  <th width="3%" title="Credit">Credit</th>
+                  <th width="3%" title="Balance">Balance</th>
+                  <th width="3%" title="Transection Date">Transection Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of detailedGeneralLedgerTransactionList">
+                  <td>{{item?.audit}}</td>
+                  <td>{{item?.discription}}</td>
+                  <td>{{item.debit | number:'1.0':'en-US'}}</td>
+                  <td>{{item.credit | number:'1.0':'en-US'}}</td>
+                  <td>{{item.balance | number:'1.0':'en-US'}}</td>
+                  <td>{{item.transectionDate | date: "dd MMM yyy "}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <!--<div *ngIf="userLedgerRecord" class="d-flex justify-content-end">
+              <p><b>Total Debit Balance : </b>{{userLedgerRecord?.totalDebitBalance | number:'1.0':'en-US'}}</p> 
+              <p class="ml-3"><b>Total Credit Balance : </b>{{userLedgerRecord?.totalCreditBalance | number:'1.0':'en-US'}}</p>
+            </div>-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

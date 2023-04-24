@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "U0xNVzH4JEFxmzaou2lY6fEXBV1nViXwOfpx+bLzo9ilWqWOUfK9eXmKU26INN7lOWrKzb+Tcbec/GeaaSs5Ug==",
+  "success": true,
+  "projectFilePath": "E:\\Vision\\Microsoft .NET\\GitHub\\Hoomwork\\Supplier_Web\\Supplier_Web.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\muham\\.nuget\\packages\\microsoft.aspnetcore.spaservices.extensions\\5.0.7\\microsoft.aspnetcore.spaservices.extensions.5.0.7.nupkg.sha512",
+    "C:\\Users\\muham\\.nuget\\packages\\microsoft.extensions.fileproviders.abstractions\\5.0.0\\microsoft.extensions.fileproviders.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\muham\\.nuget\\packages\\microsoft.extensions.fileproviders.physical\\5.0.0\\microsoft.extensions.fileproviders.physical.5.0.0.nupkg.sha512",
+    "C:\\Users\\muham\\.nuget\\packages\\microsoft.extensions.filesystemglobbing\\5.0.0\\microsoft.extensions.filesystemglobbing.5.0.0.nupkg.sha512",
+    "C:\\Users\\muham\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512",
+    "C:\\Users\\muham\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.17\\microsoft.netcore.app.host.win-x64.5.0.17.nupkg.sha512"
+  ],
+  "logs": []
+}

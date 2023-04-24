@@ -1,0 +1,178 @@
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 mt-4">
+      <div class="card shadow mb-4">
+        <div class="card-header justify-header">
+          <h6 class="m-0 card-table-heading defClr">Orders List</h6>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>Order From</th>
+                  <th>Customer Contact#</th>
+                  <th>Order Ref</th>
+                  <th>Order Status</th>
+                  <th>Order Message</th>
+                  <th>Order Date</th>
+                  <!--<th>Quantity</th>-->
+                  <th>Shipping Address</th>
+                  <!--<th>Shipping Cost</th>-->
+                  <th>Total Payable</th>
+                  <th>Proceed</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let order of ordersList">
+                  <td>{{order.orderFrom}}</td>
+                  <td>{{order.mobileNumber}}</td>
+                  <td>{{order.orderId}}</td>
+                  <td [ngClass]="{'text-primary':order.orderStatusName == 'Inprogress','text-info': (order.orderStatusName == 'Received' || order.orderStatusName == 'Delivered'),'text-danger':(order.orderStatusName == 'Declined' || order.orderStatusName == 'Cancelled') ,'text-success':( order.orderStatusName == 'Packed&Shipped' || order.orderStatusName == 'Completed')}">{{(order?.orderStatusName == 'Inprogress' ? 'In-Progress' : order?.orderStatusName)}}</td>
+                  <td>{{order?.orderMessage  ? order.orderMessage.length > 20 ? order.orderMessage.substring(0,20) : order.orderMessage : '-' }} <i *ngIf="order?.orderMessage &&  order.orderMessage.length > 20 " class="fa fa-eye" placement="top" ngbPopover="{{order.orderMessage}}" popoverTitle="Order Message" [placement]="'auto'" [container]="'body'"></i></td>
+                  <td>{{order.orderDate | date: 'dd MMM yyyy, h:mm a'}}</td>
+                  <!--<td>{{order.quantity}}</td>-->
+                  <td>{{order?.shippingAddress  ? order.shippingAddress.length > 20 ? order.shippingAddress.substring(0,20) : order.shippingAddress : '-' }} <i *ngIf="order?.shippingAddress &&  order.shippingAddress.length > 20 " class="fa fa-eye" placement="top" ngbPopover="{{order.shippingAddress}}" popoverTitle="Shipping Address"></i></td>
+                  <!--<td>Rs. {{(order?.shippingCost)? (order.shippingCost | number:'1.0':'en-US') : '0.00'}}</td>-->
+                  <td>Rs. {{(order?.totalPayable)? (order.totalPayable | number:'1.0':'en-US') : '0.00'}}</td>
+                  <td>
+                    <button [disabled]="(order.orderStatus == Orders.Delievred || order.orderStatus == Orders.PackedAndShipped || order.orderStatus == Orders.Completed || order.orderStatus == Orders.Cancelled)" (click)="showModal(order.orderStatus, order.orderId,order.firebaseClientId,order.customerId,orderConfirmationModal) "
+                            [ngClass]="{'btn-warning':order.orderStatus == Orders.Received,'btn-info':order.orderStatus == Orders.Inprogress,'btn-danger':order.orderStatus == Orders.Cancelled,'btn-primary':(order.orderStatus == Orders.Delievred || order.orderStatus == Orders.PackedAndShipped || order.orderStatus == Orders.Completed)}" type="button" class="btn btn-xs">
+                      {{(order.orderStatus == Orders.Inprogress ) ? 'Acknowledge' : (order.orderStatus == Orders.Received) ? 'Received': (order.orderStatus == Orders.PackedAndShipped) ? 'PackedAndShipped' : (order.orderStatus == Orders.Delievred) ? 'Delivered' : (order.orderStatus == Orders.Completed) ? 'Completed'  : (order.orderStatus == Orders.Cancelled) ? 'Cancelled' :''}}
+                    </button>
+                  </td>
+                  <td><button type="button" class="btn btn-secondary btn-xs" (click)="ShowDetails(order?.orderId,order?.supplierId)">Details</button></td>
+                  <td><button type="button" class="btn btn-info" [disabled]="(order.orderStatus == Orders.Inprogress || order.orderStatus == Orders.Received)" (click)="orderTrack(order.orderId)">Track</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!----------------------------  Check User Login Status ------------------------->
+
+<ng-template #orderConfirmationModal let-modal>
+  <div class="modal-header">
+    <h3 class="modal-title fw-bold" style="color: var(--headingClr);">Confirmation!</h3>
+  </div>
+  <div class="modal-body">
+    <h4>Are you sure to change order Status?</h4>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn  btn-success" (click)="confirmOrder()">Yes</button>
+    <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">No</button>
+  </div>
+</ng-template>
+
+
+<!----------------------------  Show Track Modal --------------------------->
+<ng-template #orderTrackModal let-modal>
+  <div class="modal-header">
+    <h3 class="modal-title fw-bold" style="color: var(--headingClr);">Order Tracking!</h3>
+  </div>
+  <div class="modal-body" *ngFor="let track of trackingRecord; let i=index">
+    <h4><b>Track #{{track.tracking_number}} - Order #{{track.order_id}}</b></h4>
+    <h6 class="btn-primary py-1 pl-2">Customer Information</h6>
+    <div class="row modal-primary-user-info">
+      <div class="col-6 col-xl-6 puser-info">
+        <div class="row">
+          <div class="col-md-6 font-weight-bold">
+            <label>Customer</label><br>
+            <label>Mobile Number</label><br>
+            <label>Address</label><br>
+            <label>Destination</label><br>
+
+          </div>
+          <div class=" offset-md-2 col-md-4 ">
+            <label>{{(track.consignee.name.length <= 8) ? (track.consignee.name) : (track.consignee.name | slice:0:8) + '...'}}<i *ngIf="track.consignee.name &&  track.consignee.name.length > 8 " class="fa fa-eye" placement="top" ngbPopover="{{track.consignee.name}}" popoverTitle="" [placement]="'auto'" [container]="'body'"></i></label>
+            <label>{{track.consignee.phone_number_1}}</label>
+            <label>{{(track.consignee.destination.length <= 8) ? (track.consignee.destination) : (track.consignee.destination | slice:0:8 ) + '...'}}<i *ngIf="track.consignee.destination &&  track.consignee.destination.length > 8" class="fa fa-eye" placement="top" ngbPopover="{{track.consignee.destination}}" popoverTitle="" [placement]="'auto'" [container]="'body'"></i></label>
+            <label>{{(track.consignee.address.length <= 8) ? (track.consignee.address) : (track.consignee.address | slice:0:8 ) + '...'}}<i *ngIf="track.consignee.address &&  track.consignee.address.length > 8 " class="fa fa-eye" placement="top" ngbPopover="{{track.consignee.address}}" popoverTitle="" [placement]="'auto'" [container]="'body'"></i></label>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <h6 class="btn-primary py-1 pl-2">Pickup Information</h6>
+    <div class="row modal-primary-user-info">
+      <div class="col-6 col-xl-6 puser-info">
+        <div class="row">
+          <div class="col-md-6 font-weight-bold">
+            <label>Shipper Name</label><br>
+            <label>Email</label><br>
+            <label>Mobile Number</label><br>
+            <label>Address</label><br>
+            <label>Origin</label><br>
+          </div>
+          <div class=" offset-md-2 col-md-4 ">
+            <label>{{(track.pickup.person_of_contact.length <= 8) ? (track.pickup.person_of_contact) : (track.pickup.person_of_contact | slice:0:8 ) + '...'}}<i *ngIf="track.pickup.person_of_contact &&  track.pickup.person_of_contact.length > 8 " class="fa fa-eye" placement="top" ngbPopover="{{track.pickup.person_of_contact}}" popoverTitle="" [placement]="'auto'" [container]="'body'"></i></label>
+            <!-- <label>{{track.pickup.person_of_contact}}</label> -->
+            <label>{{track.pickup.email}}</label>
+            <label>{{track.pickup.phone_number}}</label>
+            <label>{{track.pickup.origin}}</label>
+            <label>{{(track.pickup.address.length <= 8) ? (track.pickup.address) : (track.pickup.address | slice:0:8 ) + '...'}}<i *ngIf="track.pickup.address &&  track.pickup.address.length > 8 " class="fa fa-eye" placement="top" ngbPopover="{{track.pickup.address}}" popoverTitle="" [placement]="'auto'" [container]="'body'"></i></label>
+            <!-- <label>{{track.pickup.address}}</label> -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <h6 class="btn-primary py-1 pl-2">Order Information</h6>
+    <div class="row modal-primary-user-info">
+      <div class="col-6 col-xl-6 puser-info">
+        <div class="row">
+          <div class="col-md-6 font-weight-bold">
+            <label>Order Id</label><br>
+            <label>Product</label><br>
+            <label>Quantity</label><br>
+            <label>Description</label><br>
+            <label>Weight</label><br>
+            <label>Shipping Mode</label><br>
+            <label>Amount</label><br>
+          </div>
+          <div class=" offset-md-2 col-md-4 ">
+            <ng-container *ngFor="let item of track.order_information.items">
+              <label>{{item.order_id}}</label><br>
+              <label>{{(item.product_type.length <= 8) ? (item.product_type) : (item.product_type | slice:0:8 ) + '...'}}<i *ngIf="item.product_type &&  item.product_type.length > 8 " class="fa fa-eye" placement="top" ngbPopover="{{item.product_type}}" popoverTitle="" [placement]="'auto'" [container]="'body'"></i></label><br>
+              <label>{{item.quantity}}</label><br>
+              <label>{{(item.description.length <= 8) ? (item.description) : (item.description | slice:0:8 ) + '...'}}<i *ngIf="item.description &&  item.description.length > 8 " class="fa fa-eye" placement="top" ngbPopover="{{item.description}}" popoverTitle="" [placement]="'auto'" [container]="'body'"></i></label><br>
+            </ng-container>
+            <label>{{track.order_information.weight}} KG</label><br>
+            <label>{{track.order_information.shipping_mode}}</label><br>
+            <label>{{track.order_information.amount}}</label><br>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <h6 class="btn-primary py-1 pl-2">Tracking History</h6>
+    <div class="row modal-primary-user-info">
+      <div class="col-6 col-xl-6 puser-info">
+        <div class="row">
+          <label>Status</label>
+          <label>Product</label>
+        </div>
+      </div>
+      <div class=" offset-md-2 col-md-4 ">
+        <ng-container *ngFor="let item of track.tracking_history">
+          <label>{{item.status}}</label>
+          <label>{{item.date_time}}</label>
+        </ng-container>
+      </div>
+
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>
+
+

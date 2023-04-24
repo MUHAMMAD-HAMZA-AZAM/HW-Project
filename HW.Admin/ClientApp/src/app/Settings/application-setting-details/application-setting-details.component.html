@@ -1,0 +1,109 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Application Setting Details List</h6>
+            <button *ngIf="userRole.allowAdd" (click)="showModal(content)" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New Setting</button>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th width="7%">Setting Name</th>
+                    <th width="5%">Setting Key Name</th>
+                    <th width="5%">Setting Key Value</th>
+                    <th width="5%">Created By</th>
+                    <th width="5%">Created On</th>
+                    <th width="5%">Modified By</th>
+                    <th width="5%">Modified On</th>
+                    <th *ngIf="userRole.allowAdd" width="1%">Edit</th>
+                    <th *ngIf="userRole.allowDelete" title="Delete" width="1%">Del
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of settingDetailsList">
+                    <td>{{item?.settingName}}</td>
+                    <td>{{item?.settingKeyName}}</td>
+                    <td>{{item?.settingKeyValue}}</td>
+                    <td>{{item?.createdBy}}</td>
+                    <td>{{item?.createdOn | date: "dd MMM yyy "}}</td>
+                    <td>{{item?.modifiedBy}}</td>
+                    <td>{{item?.modifiedOn | date: "dd MMM yyy "}}</td>
+                    <td *ngIf="userRole.allowAdd"><i class="text-info fa fa-pencil-alt" (click)="update(item, content)"></i></td>
+                    <td *ngIf="userRole.allowDelete">
+                      <label class="switch block-user-switch">
+                        <input type="checkbox" (change)="delete(item?.applictaionSettingDetailId)" [checked]="item?.isActive">
+                        <span class="slider"></span>
+                      </label>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">{{modelText}}</h5>
+  </div>
+  <form [formGroup]="appValForm">
+    <div class="modal-body">
+      <input type="hidden" formControlName="applictaionSettingDetailId" />
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label class="fs-12">Setting Name</label>
+            <select formControlName="applicationSettingId" class="form-control">
+              <option [value]="null" disabled selected >---Select Setting Name---</option>
+              <option *ngFor="let item of settingList" [value]="item?.applicationSettingId">{{item?.settingName}}</option>
+            </select>
+            <div *ngIf="f.applicationSettingId?.errors">
+              <div *ngIf="f.applicationSettingId.invalid && submited">
+                <small *ngIf="f.applicationSettingId.errors?.required" class="text-danger">Input is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group">
+            <label class="fs-12">Setting Key name</label>
+            <input type="text" class="form-control" formControlName="settingKeyName" />
+            <div *ngIf="f.settingKeyName?.errors">
+              <div *ngIf="f.settingKeyName.invalid && submited">
+                <small *ngIf="f.settingKeyName.errors?.required" class="text-danger">Input is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group">
+            <label class="fs-12">Setting Key Value</label>
+            <input type="text" class="form-control" formControlName="settingKeyValue" />
+            <div *ngIf="f.settingKeyValue?.errors">
+              <div *ngIf="f.settingKeyValue.invalid && submited">
+                <small *ngIf="f.settingKeyValue.errors?.required" class="text-danger">Input is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    </div>
+    <div class="modal-footer">
+      <div class="row">
+        <div class="col-md-6 inline-downlod-btns">
+          <button type="button" class="btn btn-sm btn-primary" (click)="saveAndUpdate()" [disabled]="!appValForm.valid">Save</button>
+          <button type="button" class="btn btn-sm btn-primary mx-2" (click)="resetForm()">Reset</button>
+          <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('Save click')">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>
+

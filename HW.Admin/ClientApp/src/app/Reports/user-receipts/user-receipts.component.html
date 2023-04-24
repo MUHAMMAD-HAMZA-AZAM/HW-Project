@@ -1,0 +1,134 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card shadow mb-4">
+          <div class="card-header bg-primary">
+            <h6 class="mainTitle m-0 font-weight-bold border-0" data-toggle="collapse" href="#collapse6" aria-expanded="true">Filter User Receipts</h6>
+          </div>
+          <div id="collapse6" class="contentWrapper fs-12 show">
+            <div class="card-body">
+              <form [formGroup]="appValForm">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Select User Type </label>
+                      <select class="form-control" formControlName="userTypeId">
+                        <option [ngValue]="null" disabled selected hidden>--- Select User Type ---</option>
+                        <option value="{{userType.CRole}}">Customer</option>
+                        <option value="{{userType.TRole}}">Sole Tradesman</option>
+                        <option value="{{userType.ORole}}">Organization</option>
+                        <option value="{{userType.SRole}}">Supplier</option>
+                      </select>
+
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">User Id</label>
+                      <input type="text" maxlength="20" formControlName="userId" class="form-control" (keypress)="common.numberOnly($event);" />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4 inline-downlod-btns">
+                    <button type="submit" class="btn btn-sm btn-primary mr-2" [disabled]="!appValForm.valid" (click)="showUserReceipts()">Search</button>
+                    <button type="reset" class="btn btn-sm btn-primary" (click)="resetForm()">Reset</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card shadow mb-4" [hidden]="customerNoDataFound" *ngIf="showCustomerReceipts">
+        <div class="card-header justify-header">
+          <h6 class="m-0 font-weight-bold">Customer Payment Receipts</h6>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th width="3%" title="Sr#">Sr#</th>
+                  <th width="3%" title="Date">Date</th>
+                  <th width="3%" title="To">To</th>
+                  <th width="3%" title="Total Amount">Total Amount</th>
+                  <th width="3%" title="Discount">Discount</th>
+                  <th width="3%" title="Paid via Wallet">Paid Via Wallet</th>
+                  <th width="3%" title="Paid Amount">Paid Amount</th>
+                  <th width="3%" title="Payment Method">Payment Method</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of customerPaymentReceipts;let index = index;">
+                  <th>{{index+1}}</th>
+                  <td>{{item.createdOn | date :"dd/MM/yyyy"}}</td>
+                  <td>Tradesman</td>
+                  <td>{{item.amount  | number:'1.0':'en-US'}}</td>
+                  <td>{{item.discountedAmount  | number:'1.0':'en-US'}}</td>
+                  <td>{{item.paidViaWallet  | number:'1.0':'en-US'}}</td>
+                  <td>{{item.payableAmount  | number:'1.0':'en-US'}}</td>
+                  <td *ngIf="item.paymentStatus == 1;">JazzCash</td>
+                  <td *ngIf="item.paymentStatus == 4;">Wallet</td>
+                  <td *ngIf="item.paymentStatus != 4 && item.paymentStatus != 1;">Cash</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="card shadow mb-4" [hidden]="tradesmanNoDataFound" *ngIf="showTradesmanReceipts">
+        <div class="card-header justify-header">
+          <h6 class="m-0 font-weight-bold"> Tradesman Payment Receipts</h6>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr class="text-uppercase">
+                  <th width="2%">sr#</th>
+                  <th width="2%" title="Job Quotation Id">JQ ID</th>
+                  <th width="2%" title="Agreed Budget">AB</th>
+                  <th width="2%" title="Additional Charges">AC</th>
+                  <th width="2%" title="Total Amount">TA</th>
+                  <th width="2%" title="Discount">Discount</th>
+                  <th width="2%" title="Commission">Commission</th>
+                  <th width="2%" title="Payable By Hoomwork">PBH</th>
+                  <th width="2%" title="Paid Via Wallet">PVW</th>
+                  <th width="2%" title="Paid By Customer">PBC</th>
+                  <th width="2%" title="Payment Method">Payment Method</th>
+                  <th width="2%" title="Date">Date</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of tradesmanPaymentReceipts;let index = index;">
+                  <th>{{index+1}}</th>
+                  <td>{{item.jobQuotationId}}</td>
+                  <td>{{item.tradesmanInitialBudget  | number:'1.0':'en-US'}}</td>
+                  <td>{{item.additionalCharges  | number:'1.0':'en-US'}}</td>
+                  <td>{{item.amount  | number:'1.0':'en-US'}}</td>
+                  <td>{{item.discountedAmount  | number:'1.0':'en-US'}}</td>
+                  <td>{{item.commission  | number:'1.0':'en-US'}}</td>
+                  <td>{{item.netPayableToTradesman  | number:'1.0':'en-US'}}</td>
+                  <td>{{item.paidViaWallet  | number:'1.0':'en-US'}}</td>
+                  <td>{{item.payableAmount  | number:'1.0':'en-US'}}</td>
+                  <td *ngIf="item.paymentStatus == 1;">JazzCash</td>
+                  <td *ngIf="item.paymentStatus == 4;">Wallet</td>
+                  <td *ngIf="item.paymentStatus != 4 && item.paymentStatus != 1;">Cash</td>
+                  <td>{{item.paymentMonth}}</td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+D:\GitHub\Hoomwork\HW.Job ViewModels\bin\Debug\netstandard2.0\HW.JobViewModels.deps.json
+D:\GitHub\Hoomwork\HW.Job ViewModels\bin\Debug\netstandard2.0\HW.JobViewModels.dll
+D:\GitHub\Hoomwork\HW.Job ViewModels\bin\Debug\netstandard2.0\HW.JobViewModels.pdb
+D:\GitHub\Hoomwork\HW.Job ViewModels\obj\Debug\netstandard2.0\HW.JobViewModels.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Hoomwork\HW.Job ViewModels\obj\Debug\netstandard2.0\HW.JobViewModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.Job ViewModels\obj\Debug\netstandard2.0\HW.JobViewModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.Job ViewModels\obj\Debug\netstandard2.0\HW.JobViewModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.Job ViewModels\obj\Debug\netstandard2.0\HW.JobViewModels.dll
+D:\GitHub\Hoomwork\HW.Job ViewModels\obj\Debug\netstandard2.0\HW.JobViewModels.pdb

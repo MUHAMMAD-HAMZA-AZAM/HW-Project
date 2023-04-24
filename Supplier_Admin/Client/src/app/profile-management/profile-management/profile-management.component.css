@@ -1,0 +1,4 @@
+::ng-deep .autocomplete-container .suggestions-container ul {
+  display: flex;
+  flex-direction: column;
+}

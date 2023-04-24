@@ -1,0 +1,88 @@
+<div class="index-heder register-bg">
+  <div class="caption">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-7 caption-container my-auto">
+          <h1>Boost Your Business By Posting</h1>
+          <h2 class="mb-4">Free Classified Ads.</h2>
+        </div>
+        <div class="col-lg-5 form-signup">
+          <form id="registrationBasic" [formGroup]="appValForm">
+            <div class="form-group col-md-12 btn-primary text-center btn-block btn-register">About Your Business</div>
+            <div class="form-row mt-4">
+              <div class="form-group col-md-12">
+                <label for="tradeName" class="sr-only">Trade Name</label>
+                <input type="text" autocomplete="false" class="form-control" id="tradeName" formControlName="CompanyName" [ngClass]="{ 'is-invalid':submitted &&  f.CompanyName.errors }" placeholder="Trade Name">
+                <span class="text-danger" *ngIf=" submitted && f.CompanyName.errors?.required">{{tradeNameErrorMessage}}</span>
+              </div>
+
+              <div class="form-group col-md-12">
+                <label for="CompanyRegistrationNo" class="sr-only">Company Registration No</label>
+                <input type="text" autocomplete="false" class="form-control" id="CompanyRegistrationNo" formControlName="CompanyRegistrationNo" [ngClass]="{ 'is-invalid':submitted &&  f.CompanyRegistrationNo.errors }" placeholder="Company Registration No">
+              </div>
+
+              <div class="form-group col-md-12 block">
+                <ng-multiselect-dropdown [placeholder]="'Select Category'"
+                                         [data]="dropdownListCategory"
+                                         formControlName="PrimaryTrade"
+                                         [settings]="dropdownListCategorySettings"
+                                         (onSelect)="onCategorySelect($event)"
+                                         (onDeSelect)="resetSelection($event)">
+                </ng-multiselect-dropdown>
+                <span class="text-danger" *ngIf=" submitted && f.PrimaryTrade.errors?.required">{{primaryTradeErrorMessage}}</span>
+              </div>
+
+
+              <div class="form-group col-md-12">
+                <ng-multiselect-dropdown [placeholder]="'Select Subcategory'"
+                                         [data]="SubCategories"
+                                         formControlName="ProductIds"
+                                         [settings]="SubCategorySettings"
+                                         [(ngModel)]="selectedItemsSubCategory">
+                </ng-multiselect-dropdown>
+                <span class="text-danger" *ngIf=" submitted && f.ProductIds.errors?.required">{{subCategoryErrorMessage}}</span>
+              </div>
+              <div class="form-group col-md-6">
+                <!--<select id="businessCity" class="form-control" required>
+      <option selected>City</option>
+      <option>Lahore</option>
+      <option>Faisalabad</option>
+      <option>Sialkot</option>
+    </select>-->
+                <!--<ng-multiselect-dropdown [placeholder]="'Select City'"
+                             [data]="cityList"
+                             formControlName="CityId"
+                             [settings]="SubCategorySettings">
+    </ng-multiselect-dropdown>-->
+                <select class="form-control" formControlName="CityId">
+                  <option value="" disabled>City</option>
+                  <option *ngFor="let option of cityList" [value]="option.id">
+                    {{option.value}}
+                  </option>
+                </select>
+                <!--<label class="form-control-placeholder sr-only" for="businessCity">City</label>-->
+              </div>
+              <div class="form-group col-md-6">
+                <select id="businessCity" class="form-control" formControlName="DeliveryRadius" required>
+                  <option value="" disabled>Delivery radius</option>
+                  <option *ngFor="let option of distanceList" [value]="option.id">
+                    {{option.id}} {{option.value}}
+                  </option>
+
+                </select>
+                <label class="form-control-placeholder sr-only" for="businessCity">Delivery Radius</label>
+              </div>
+              <div class="form-group col-md-12">
+                <label for="businessAdrs" class="sr-only">Business Address</label>
+                <textarea id="businessAdrs" class="form-control desc" formControlName="BusinessAddress" [ngClass]="{ 'is-invalid':submitted &&  f.BusinessAddress.errors }" placeholder="Business Address"></textarea>
+                <span class="text-danger" *ngIf=" submitted && f.BusinessAddress.errors?.required">{{bussinessErrorMessage}}</span>
+              </div>
+            </div>
+            <div class="text-center"></div><a href="register.html" class="btn btn-light pl-4 pr-4">Back</a>
+            <a class="btn btn-primary pull-right pl-4 pr-4" (click)="SendVerificationLink()">Save</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

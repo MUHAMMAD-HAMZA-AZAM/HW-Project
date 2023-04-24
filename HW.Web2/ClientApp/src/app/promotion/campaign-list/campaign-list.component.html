@@ -1,0 +1,95 @@
+<div class="heading-bar d-flex align-items-center" style="background:url('../../../assets/img/pro_bg.png')">
+  <div class="container">
+    <h1 class="py-3 laila-font text-white">Ads</h1>
+  </div>
+</div>
+<div class="container pt-4">
+  <section id="nd-right-content">
+    <div *ngIf="notFound" id="no-found" class="text-center d-flex justify-content-center align-items-center">
+      <div>
+        <h1 class="mb-3  text-uppercase"><i class="fas fa-exclamation-circle text-danger"></i> Oops!</h1>
+        <h5 class="text-danger text-capitalize">you don't have any {{campaignName}} yet. </h5>
+      </div>
+    </div>
+  </section>
+  <!-------------------- Show Customer CampaignsList -------------------------->
+  <div *ngIf="customerCampaignsList?.length > 0 ">
+    <div class="pb-3 d-flex justify-content-between align-items-center flex-wrap">
+      <h4 class="text-uppercase" style="color:var(--mheadingClr)">Customer {{campaignName}}</h4>
+      <a [routerLink]="[this.common.apiUrls.UserManagement.GetPromotionsListByUserRole]" [queryParams]="{rId : userRoles.CRole,cTId:campaignId }" class="btn mp-outine-btn mt-2 mb-2 d-block text-left ">see more</a>
+    </div>
+    <div class="row promo-cards">
+      <div class="mb-4 col-12 col-sm-6 col-lg-4 col-xl-3" *ngFor="let item of customerCampaignsList">
+        <div class="card">
+          <div class="promo-img-wrapper">
+            <img class="card-img-top" [src]="common.transform(item?.image)" alt="Card image cap">
+          </div>
+          <div class="card-body">
+            <h6 class="card-title">{{(item?.name.length) <= 20 ? (item?.name) : (item.name | slice:0:20)+'...' }}</h6>
+            <a [routerLink]="[this.common.apiUrls.UserManagement.GetPromotionDetailsByUserRole]" [queryParams]="{pId : item?.promotionId,rId:userRoles.CRole,cTId:campaignId}" class="btn mp-outine-btn mt-2 text-left">details</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-------------------- Show Customer CampaignsList -------------------------->
+  <div *ngIf="tradesmanCampaignList?.length > 0 ">
+    <div class="pb-3 d-flex justify-content-between align-items-center flex-wrap">
+      <h4 class="text-uppercase" style="color:var(--mheadingClr)">Tradesman {{campaignName}}</h4>
+      <a [routerLink]="[this.common.apiUrls.UserManagement.GetPromotionsListByUserRole]" [queryParams]="{rId : userRoles.TRole,cTId:campaignId }" class="btn mp-outine-btn mt-2 mb-2 d-block text-left ">see more</a>
+    </div>
+    <div class="row promo-cards">
+      <div class="mb-4 col-12 col-sm-6 col-lg-4 col-xl-3" *ngFor="let item of tradesmanCampaignList">
+        <div class="card">
+          <div class="promo-img-wrapper">
+            <img class="card-img-top" [src]="common.transform(item?.image)" alt="Card image cap">
+          </div>
+          <div class="card-body">
+            <h6 class="card-title">{{(item?.name.length) <= 20 ? (item?.name) : (item.name | slice:0:20)+'...' }}</h6>
+            <a [routerLink]="[this.common.apiUrls.UserManagement.GetPromotionDetailsByUserRole]" [queryParams]="{pId : item?.promotionId,rId:userRoles.TRole,cTId:campaignId}" class="btn mp-outine-btn mt-2 text-left">details</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-------------------- Show Customer CampaignsList -------------------------->
+  <div *ngIf="organizationCampaignList?.length > 0 ">
+    <div class="pb-3 d-flex justify-content-between align-items-center flex-wrap">
+      <h4 class="text-uppercase" style="color:var(--mheadingClr)">Organizations {{campaignName}}</h4>
+      <a [routerLink]="[this.common.apiUrls.UserManagement.GetPromotionsListByUserRole]" [queryParams]="{rId : userRoles.ORole,cTId:campaignId }" class="btn mp-outine-btn mt-2 mb-2 d-block text-left ">see more</a>
+    </div>
+    <div class="row promo-cards">
+      <div class="mb-4 col-12 col-sm-6 col-lg-4 col-xl-3" *ngFor="let item of organizationCampaignList">
+        <div class="card">
+          <div class="promo-img-wrapper">
+            <img class="card-img-top" [src]="common.transform(item?.image)" alt="Card image cap">
+          </div>
+          <div class="card-body">
+            <h6 class="card-title">{{(item?.name.length) <= 20 ? (item?.name) : (item.name | slice:0:20)+'...' }}</h6>
+            <a [routerLink]="[this.common.apiUrls.UserManagement.GetPromotionDetailsByUserRole]" [queryParams]="{pId : item?.promotionId,rId:userRoles.ORole,cTId:campaignId}" class="btn mp-outine-btn mt-2 text-left">details</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-------------------- Show Customer CampaignsList -------------------------->
+  <div *ngIf="supplierCampaignList?.length > 0 ">
+    <div class="pb-3 d-flex justify-content-between align-items-center flex-wrap">
+      <h4 class="text-uppercase" style="color:var(--mheadingClr)">Supplier {{campaignName}}</h4>
+      <a [routerLink]="[this.common.apiUrls.UserManagement.GetPromotionsListByUserRole]" [queryParams]="{rId : userRoles.SRole,cTId:campaignId }" class="btn mp-outine-btn mt-2 mb-2 d-block text-left ">see more</a>
+    </div>
+    <div class="row promo-cards">
+      <div class="mb-4 col-12 col-sm-6 col-lg-4 col-xl-3" *ngFor="let item of supplierCampaignList">
+        <div class="card">
+          <div class="promo-img-wrapper">
+            <img class="card-img-top" [src]="common.transform(item?.image)" alt="Card image cap">
+          </div>
+          <div class="card-body">
+            <h6 class="card-title">{{(item?.name.length) <= 20 ? (item?.name) : (item.name | slice:0:20)+'...' }}</h6>
+            <a [routerLink]="[this.common.apiUrls.UserManagement.GetPromotionDetailsByUserRole]" [queryParams]="{pId : item?.promotionId,rId:userRoles.SRole,cTId:campaignId}" class="btn mp-outine-btn mt-2 text-left">details</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

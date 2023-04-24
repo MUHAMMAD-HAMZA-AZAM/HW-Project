@@ -1,0 +1,6 @@
+D:\GitHub\Hoomwork\HWWebUserViewModels\bin\Debug\HW.UserWebViewModels.dll
+D:\GitHub\Hoomwork\HWWebUserViewModels\bin\Debug\HW.UserWebViewModels.pdb
+D:\GitHub\Hoomwork\HWWebUserViewModels\obj\Debug\HW.UserWebViewModels.csproj.AssemblyReference.cache
+D:\GitHub\Hoomwork\HWWebUserViewModels\obj\Debug\HW.UserWebViewModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HWWebUserViewModels\obj\Debug\HW.UserWebViewModels.dll
+D:\GitHub\Hoomwork\HWWebUserViewModels\obj\Debug\HW.UserWebViewModels.pdb

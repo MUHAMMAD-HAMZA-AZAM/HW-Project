@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-5">
+      <div class="notification-content p-3">
+        <h4 class="text-primary mb-3">
+          Notifications
+        </h4>
+        <div infiniteScroll
+             [infiniteScrollDistance]="1"
+             [infiniteScrollThrottle]="20"
+             (scrolled)="onScroll()"
+             [scrollWindow]="true"
+             *ngIf="notificationList.length > 0 ">
+          <a class="dropdown-item d-flex mb-2" *ngFor="let notification of notificationList">
+            <div class="dropdown-list-image mr-1">
+              <i class="fas fa-bell fa-fw"></i>
+            </div>
+            <div>
+              <span class="d-block">{{notification.body}}</span>
+              <small class="small text-gray-500">{{notification.createdOn | date: 'M/d/yy, h:mm a'}}</small>
+            </div>
+          </a>
+          <div class="loader-overlay">
+            <div class="spin-loader"
+                 data-ng-class="{'shrink': vm.shrinkOnHide, 'expand': !vm.shrinkOnHide}"></div>
+          </div>
+        </div>
+        </div>
+    </div>
+  </div>
+</div>
+

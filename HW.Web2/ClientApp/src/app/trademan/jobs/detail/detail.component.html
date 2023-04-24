@@ -1,0 +1,198 @@
+<!--------------------------------------------- New Theme Jobs Details Design ----------------------------------------------------------------------->
+
+<div class="d-content-left-side">
+  <h2 class="heading-dashboad mb-3 mb-lg-4">Details</h2>
+  <div class="quote-details-wrapper mb40">
+    <div class="quotes-details">
+      <form>
+        <fieldset>
+          <div class="row">
+            <div class="col-xl-12 col-lg-12">
+              <div class="form-group">
+                <label>Job Title</label>
+                <input type="text" class="form-control" maxlength="18" value="{{jobdetail.jobTitle}}" disabled />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xl-6 col-lg-6">
+              <div class="form-group">
+                <label>Customer Budget</label>
+                <input type="text" class="form-control" maxlength="18" value="{{jobdetail.budget}}" disabled />
+              </div>
+            </div>
+            <div class="col-xl-6 col-lg-6">
+              <div class="form-group">
+                <label>Your Bid</label>
+                <input type="text" class="form-control" maxlength="40" value='{{jobdetail.tradesmanBid}}' disabled />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xl-12 col-12 ">
+              <div class="form-group">
+                <label>Job Description</label>
+                <textarea rows="6" maxlength="250" class="form-control desc" value="{{jobdetail.jobDescription}}" disabled></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xl-12 col-lg-12">
+              <div class="form-group">
+                <label>Images</label>
+                <div class="uploaded-image-box-wrapper">
+                  <div class="uploaded-image-box" *ngFor="let image of jobdetail.jobImages;let index = index;">
+                    <i *ngIf="readOnly" class="fas fa-times" (click)="CancelImage(index+1)"></i>
+                    <img [src]="common.transform(image.imageContent)" (click)="openModal();currentSlide(index+1)" alt="" style="width:100%" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-6 col-lg-6">
+              <div class="form-group">
+                <label>Expected Job Start Date</label>
+                <input type="text" class="form-control" value='{{jobdetail.expectedJobStartDate | date: "dd-MMM-yyyy"}}' disabled />
+              </div>
+            </div>
+            <div class="col-xl-6 col-lg-6">
+              <div class="form-group">
+                <label for="gender">Payment Made By</label>
+                <select class="form-control" disabled>
+                  <option>HoomWork</option>
+                  <option selected>Customer</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="jobdetail.audioMessage!=null">
+            <div class="col-xl-12 col-lg-12">
+              <div class="form-group">
+                <label for="paymentMode">Voice Message</label>
+                <audio src='{{jobdetail.audioMessage}}' style="width:100%" controls preload='auto'>
+                </audio>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xl-12 col-lg-12">
+              <agm-map class="border" style="width:100%; height:300px;" [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+                <agm-marker [latitude]="latitude" [longitude]="longitude" (markerClick)="markerClicked(infowindow)">
+                  <agm-info-window [isOpen]="show" #infowindow>
+                    <div *ngIf="show==true" style="width:250px">
+                      <div class="card">
+                        <div>
+                          <strong>Job Address</strong>
+                          <p>{{address}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </agm-info-window>
+                </agm-marker>
+              </agm-map>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end">
+            <!--<div class="form-group mr-2">
+              <button class="btn mp-outine-btn" id="updateBtn" (click)="CallBackPopup(jobdetail.jobQuotationId,jobdetail.customerId)">Request A Callback</button>
+            </div>-->
+            <div class="form-group">
+              <button *ngIf="!jobdetail?.isFinished" class="btn mp-outine-btn" type="button" id="updateBtn" (click)="OpenMarkFinish()">Mark As Finish</button>
+              <button *ngIf="jobdetail?.isFinished" class="btn mp-outine-btn" type="button">Need Customer Approval</button>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div bsModal #CallBackModel="bs-modal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <button type="button" (click)="CloseCallBack()" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div class="modal-body">
+        <h2>Thank You</h2>
+        Your request has been sent. Soon you will receive response.
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div bsModal #ImageModel11="bs-modal" id="myModalLightbox" class="modalLightbox" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <button type="button" (click)="closeModal()" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div class="modal-body">
+        <div>
+
+          <div class="mySlides">
+            <img [src]="imageContent" style="width:100%; height:500px; object-fit: contain">
+          </div>
+
+          <a class="prev" (click)="plusSlides(-1)">&#10094;</a>
+          <a class="next" (click)="plusSlides(1)">&#10095;</a>
+
+          <div class="imgColumn" *ngFor="let image of jobdetail.jobImages;let index = index;">
+            <ng-container *ngIf="image.imageContent!=null; else noThumbnail">
+              <img class="imgOpacity shadowImg lightboxImg" data-id="index" [src]="common.transform(image.imageContent)" (click)="openModal();currentSlide(index+1)">
+            </ng-container>
+            <ng-template #noThumbnail>
+              <img src="../../../../assets/img/no_thumbnail.jpg" alt="" style="width:100%" class="shadowImg">
+            </ng-template>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!------------------------------------------------  Mark Finish Modal ----------------------------------------------------->
+
+<div bsModal #MarkFinishModel="bs-modal" class="modal fade custom-model-style" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content px-4 py-4">
+      <div class="modal-header p-0">
+        <h6 class="modal-title text-uppercase" id="exampleModalLongTitle" style="color: var(--headingClr);">Job status</h6>
+        <hr class="hl mt-0">
+      </div>
+      <div class="modal-body p-0 mt-3">
+        <h5>Have you delivered the services?</h5>
+      </div>
+      <div class="modal-footer p-0 mt-2">
+        <button type="button" class="mp-outine-btn" (click)="CompleteJob()">Yes</button>
+        <button type="button" class="mp-outine-btn" (click)="CloseMarkFinish()">no</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!------------------------------------------------  Image Modal ----------------------------------------------------->
+
+<div bsModal #ImageModel="bs-modal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <button type="button" (click)="Close()" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div class="modal-body">
+        <img [src]="imageContent" alt="" />
+      </div>
+
+    </div>
+  </div>
+</div>
+
+

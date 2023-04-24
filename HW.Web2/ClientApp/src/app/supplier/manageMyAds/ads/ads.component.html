@@ -1,0 +1,123 @@
+<!--------------------------------------------------- New Theme Manage My Ads Design  ------------------------------------------------------------>
+  <section id="nd-right-content">
+    <h2 class="heading-dashboad mb-3 mb-lg-4">Manage Ads</h2>
+    
+    <div class="my-bids-tab-wrapper"  >
+      <ul class="nav nav-pills" id="pills-tab" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">active </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">inactive</a>
+        </li>
+      </ul>
+      </div>
+
+      <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active px-2 pt-2" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+          <div *ngIf="activeConcatAds.length <= 0" id="no-found" class="text-center d-flex justify-content-center align-items-center">
+            <div>
+              <h1 class="mb-3  text-uppercase"><i class="fas fa-exclamation-circle text-danger"></i> Oops!</h1>
+              <h5 class="text-danger text-capitalize">You  don't have any active Ads. </h5> 
+            </div>
+          </div>
+          <div class="infinite-scroll-search-results-myjobs" infiniteScroll
+                [infiniteScrollDistance]="2"
+                [infiniteScrollThrottle]="50"
+                (scrolled)="onScroll()"
+                [scrollWindow]="false">
+            <div class="row">
+              <div class="col-lg-6 pb-2 pb-lg-2" *ngFor="let activeAd of activeConcatAds">
+                <div class="mq-box p-3">
+                  <div class="d-flex align-items-center flex-wrap flex-column flex-sm-row align-items-center">
+                    <div class="mq-rounded-img mb-2 mb-sm-0">
+
+                      <ng-container *ngIf="activeAd.adImage!=null; else noThumbnail">
+                        <img [src]="common.transform(activeAd.adImage)" alt="">
+                      </ng-container>
+                      <ng-template #noThumbnail>
+                        <img src="../../../../assets/img/imagenotfound.png" alt="" />
+                      </ng-template>
+
+                    </div>
+                    <div class="mq-details ml-2">
+                      <h6 class="mb-1 text-center text-sm-left"><a (click)="JobDetail(activeAd.supplierAdsId)">{{(activeAd.adTitle.length > 25)?(activeAd.adTitle | slice:0:25)+'...':(activeAd.adTitle)}}</a></h6>
+                      <div class="d-flex justify-content-between flex-wrap">
+                        <div class="d-flex flex-column text-center text-sm-left">
+                          <small><i class="fa fa-map-marker"></i><b>{{activeAd.town}} ,{{activeAd.city}}</b></small>
+                          <small>product price:<b>{{activeAd.price | number:'1.0':'en-US'}}</b></small>
+                          <small>views: <i class="far fa-eye"></i><b>{{activeAd.adViewCount > 0 ? activeAd.adViewCount : 0 }}</b></small>
+                          <small>posted date:<b>{{activeAd.activeFrom | date: "dd-MMM-yyyy"}}</b></small>
+                          <small>Expire days:<b>{{DifferenceOfDate(activeAd.activeFrom,activeAd.activeTo)}} DAYS</b></small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <hr class="hl">
+                  <div class="mq-box-footer d-flex justify-content-center justify-content-sm-end">
+                    <div class="">
+                      <a (click)="JobDetail(activeAd.supplierAdsId)" class="btn  mp-outine-btn">View Details</a>
+                    </div>
+                    <div class="">
+                      <a (click)="Promote(activeAd.supplierAdsId,activeAd.subCategoryValue,activeAd.adTitle,activeAd.adImage)" class="btn  mp-outine-btn ml-2">Promote</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane fade px-2 pt-2"
+          id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+          <div *ngIf="inActiveConcatAds.length <= 0" id="no-found" class="text-center d-flex justify-content-center align-items-center">
+            <div>
+              <h1 class="mb-3  text-uppercase"><i class="fas fa-exclamation-circle text-danger"></i> Oops!</h1>
+              <h5 class="text-danger text-capitalize">You don't have any Inactive Ad. </h5>
+            </div>
+          </div>
+          <div class="row infinite-scroll-search-results-myjobs" infiniteScroll
+          [infiniteScrollDistance]="2"
+          [infiniteScrollThrottle]="50"
+          (scrolled)="onScrollCompletedjobs()"
+          [scrollWindow]="false">
+            <div class="col-lg-6 pb-2 pb-lg-2" *ngFor="let inActiveAd of inActiveConcatAds">
+              <div class="mq-box p-3">
+                <div class="d-flex align-items-center flex-wrap flex-column flex-sm-row align-items-center">
+                  <div class="mq-rounded-img mb-2 mb-sm-0">
+
+                    <ng-container *ngIf="inActiveAd.adImage!=null; else noThumbnail">
+                      <img [src]="common.transform(inActiveAd.adImage)" alt="">
+                    </ng-container>
+                    <ng-template #noThumbnail>
+                      <img src="../../../../assets/img/imagenotfound.png" alt="" />
+                    </ng-template>
+
+                  </div>
+                  <div class="mq-details ml-2">
+                    <h6 class="mb-1 text-center text-sm-left"><a (click)="JobDetail(activeAd.supplierAdsId)">{{(inActiveAd.adTitle.length > 25)?(inActiveAd.adTitle | slice:0:25)+'...':(inActiveAd.adTitle)}}</a></h6>
+                    <div class="d-flex justify-content-between flex-wrap">
+                      <div class="d-flex flex-column">
+                        <small><i class="fa fa-map-marker"></i><b>{{inActiveAd.town}} ,{{inActiveAd.city}}</b></small>
+                        <small>product price:<b>{{inActiveAd.price | number:'1.0':'en-US'}}</b></small>
+                        <small>Views: <i class="far fa-eye"></i><b>{{inActiveAd.adViewCount > 0 ? inActiveAd.adViewCount : 0 }}</b></small>
+                        <small>posted date:<b>{{inActiveAd.activeFrom | date: "dd-MMM-yyyy"}}</b></small>
+                        <small>Expire days:<b>{{DifferenceOfDate(inActiveAd.activeFrom,inActiveAd.activeTo)}} DAYS</b></small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr class="hl">
+                <div class="mq-box-footer d-flex justify-content-end">
+                  <div class="">
+                    <a disabled onClick="window.location = 'manage-my-ad-promote-package.html'" class="btn  mp-outine-btn">Relist</a>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+  </section>

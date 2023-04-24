@@ -1,0 +1,24 @@
+
+<div id="wrapper">
+  <div id="content-wrapper" class="d-flex flex-column">
+    <div id="content">
+      <app-header></app-header>
+      <div class="main-content-body " [ngClass]="{'add-left-pdng': loginCheck=='true'}">
+        <span *ngIf="loginCheck==true">
+          <app-leftmenu></app-leftmenu>
+        </span>
+        <router-outlet></router-outlet>
+        <section id="downloadAPP" class="bg-primary text-white">
+          <div class="container text-center">
+            <h2 class="mb-4">Download our APP</h2>
+            <p class="mb-3">Managing your job is easier with the rated people homes app, downloade it today.</p>
+            <a href="">
+              <img style="width:180px" src="../assets/img/andriodapp.png" />
+            </a>
+          </div>
+        </section>
+        <app-appcommonfooter></app-appcommonfooter>
+      </div>
+    </div>
+  </div>
+</div>

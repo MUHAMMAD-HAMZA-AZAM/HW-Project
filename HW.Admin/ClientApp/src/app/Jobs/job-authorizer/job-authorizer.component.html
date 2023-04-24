@@ -1,0 +1,107 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row" *ngIf="userRole.allowAdd">
+      <div class="col-xl-4">
+        <div class="card shadow mb-4">
+          <div class="card-header bg-primary">
+            <h6 class="mainTitle m-0 font-weight-bold border-0" data-toggle="collapse" href="#collapse6" aria-expanded="true">Add New Authorizer</h6>
+          </div>
+          <div id="collapse6" class="contentWrapper fs-12 show">
+            <div class="card-body">
+              <form [formGroup]="authorizerForm">
+                <div class="row">
+                  <input type="hidden" formControlName="id" />
+                  <div class="col-xl-12">
+                    <div class="form-group">
+                      <label class="fs-12">Username</label>
+                      <input type="text" formControlName="userName" required class="form-control" />
+                      <div *ngIf="f.userName?.errors">
+                        <div *ngIf="f.userName.invalid && (f.userName.touched || f.userName.dirty)">
+                          <label class="text-danger" *ngIf="f.userName.errors?.required">Input is required</label>
+                          <label class="text-danger" *ngIf="f.userName.errors?.maxlength">Input allows maximum 50 characters</label>
+                          <label class="text-danger" *ngIf="f.userName.errors?.minlength">Input required minimum 3 characters</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-12">
+                    <div class="form-group">
+                      <label class="fs-12">Phone Number</label>
+                      <input type="text" formControlName="phoneNumber" required class="form-control" maxlength="11" />
+                      <div *ngIf="f.phoneNumber?.errors">
+                        <div *ngIf="f.phoneNumber.invalid && (f.phoneNumber.touched || f.phoneNumber.dirty)">
+                          <label class="text-danger" *ngIf="f.phoneNumber.errors?.required">Input is required</label>
+                          <label class="text-danger" *ngIf="f.phoneNumber.errors?.minlength">Input required minimum 11 characters</label><br />
+                          <label class="text-danger" *ngIf="f.phoneNumber.errors?.pattern">Input allown only numeric value</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-12">
+                    <div class="form-group">
+                      <label class="fs-12 d-block mb-4">Status</label>
+                      <label class="switch">
+                        <input type="checkbox" formControlName="isActive">
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4 inline-downlod-btns">
+                    <button type="button" class="btn btn-sm btn-primary mr-2" [disabled]="!authorizerForm.valid" (click)="save()">Save</button>
+                    <button type="button" class="btn btn-sm btn-primary" (click)="resetForm()">Reset</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Authorizer List</h6>
+            <!--<button class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New Authorizer</button>-->
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th class="width3">Username</th>
+                    <th class="width2">Phone</th>
+                    <th class="width3">Created By</th>
+                    <th class="width3">Created On</th>
+                    <th class="width3">Modified By</th>
+                    <th class="width3">Modifid On</th>
+                    <th class="width2">Status</th>
+                    <th *ngIf="userRole.allowAdd || userRole.allowDelete" class="width1">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of jobAuthorizerList">
+                    <td>{{item?.userName}}</td>
+                    <td>{{item?.phoneNumber}}</td>
+                    <td>{{item?.createdBy}}</td>
+                    <td>{{item?.createdOn | date}}</td>
+                    <td>{{item?.modifiedBy}}</td>
+                    <td>{{item?.modifiedOn | date}}</td>
+                    <td [ngClass]="(!item?.isActive) ? 'text-danger' : 'text-success'">{{item?.isActive ? 'Active' : 'InActive'}}</td>
+                    <td *ngIf="userRole.allowAdd || userRole.allowDelete">
+                      <i *ngIf="userRole.allowAdd" class="fas fa-pencil-alt" (click)="handleEdit(item)"></i>
+                      <i *ngIf="userRole.allowDelete"class="ml-2 fas fa-trash" (click)="handleDelete(item.id)"></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

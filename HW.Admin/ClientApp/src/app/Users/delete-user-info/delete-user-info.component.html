@@ -1,0 +1,128 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card shadow mb-4">
+          <div class="card-header bg-primary">
+            <h6 class="mainTitle m-0 font-weight-bold border-0" data-toggle="collapse" href="#collapse6" aria-expanded="true">Delete User</h6>
+          </div>
+          <div id="collapse6" class="contentWrapper fs-12 show">
+            <div class="card-body">
+              <form [formGroup]="deleteUserForm">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Email</label>
+                      <input type="text" maxlength="40" class="form-control" formControlName="UserName"  />
+                      <div *ngIf="f.UserName?.errors">
+                        <div *ngIf="f.UserName.invalid  && (f.UserName.touched || f.UserName.dirty)">
+                          <small class="text-danger" *ngIf="f.UserName.errors?.pattern"> * Please provide a valid email address</small>
+                          <small class="text-danger" *ngIf="f.UserName.errors?.maxlength"> * emails allows maximum 40 characters</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Phone</label>
+                      <input type="text" maxlength="11" class="form-control" formControlName="Phone" (keypress)="service.numberOnly($event)" />
+                      <div *ngIf="f.Phone?.errors">
+                        <div *ngIf="f.Phone.invalid  && (f.Phone.touched || f.Phone.dirty)">
+                          <small class="text-danger" *ngIf="f.Phone.errors?.pattern">* Please provide a valid 11 digit phone number</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">User Role</label>
+                      <select class="form-control" formControlName="UserRole">
+                        <option [ngValue]="null" disabled selected hidden>Select User Role</option>
+                        <option value="Tradesman">Tradesman</option>
+                        <option value="Organization">Organization</option>
+                        <option value="Customer">Customer</option>
+                        <option value="Supplier">Supplier</option>
+                      </select>
+
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">User Id</label>
+                      <input type="text" maxlength="11" class="form-control" formControlName="userId" />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4 inline-downlod-btns">
+                    <button type="button" class="btn btn-sm btn-primary mr-2" (click)="getuserData()">Search</button>
+                    <button type="reset" class="btn btn-sm btn-primary" (click)="resetForm()">Reset</button>
+                  </div>
+                </div>
+              </form>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="row" [hidden]="!dataNotFound">
+      <div class="col-sm-12">
+          <div class="table-responsive">
+          <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0" #dataTable>
+            <thead>
+              <tr>
+                <th width="1%">UserId</th>
+                <th>User Name</th>
+                <th width="6%">User Type</th>
+                <th width="5%">Email</th>
+                <th width="3%">Mobile</th>
+
+                <th width="5%" title="Created Date">CD</th>
+
+                <th width="3%" title="Source Of Reg">SOR</th>
+                <th width="1%" *ngIf="userRole.allowDelete">Delete</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of userdata">
+                <ng-container *ngIf="data?.firstName">
+                  <td class="width1">{{data.userId}}</td>
+                  <td class="width5">{{data.firstName}} {{data.lastName}}</td>
+                  <td>{{data.userType}}</td>
+
+                  <td>{{data.email}}</td>
+                  <td>{{data.mobileNumber}}</td>
+
+                  <td>{{data.createdOn | date: "dd MMM yyy"}}</td>
+                  <td>{{data.sourceOfReg}}</td>
+                  <td *ngIf="userRole.allowDelete">
+                  <i class="text-danger fa fa-trash-alt" (click)="deleteuserconfirm(data.id ,data.userId, deleteContent)"></i>
+                  </td>
+                </ng-container>
+              </tr>
+
+            </tbody>
+          </table>
+       
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #deleteContent let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Delete Confirmation</h5>
+  </div>
+  <div class="modal-body">
+    <h5>Are you sure you want to delete user  {{ userIdd}} ?</h5>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-primary" (click)="deleteUser()">Ok</button>
+    <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('cancel click')">Cancel</button>
+  </div>
+</ng-template>

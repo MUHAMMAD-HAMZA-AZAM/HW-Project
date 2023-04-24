@@ -1,0 +1,215 @@
+<div class="container-fluid">
+  <div class="settings-wrapper">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Sub Product List</h6>
+            <button *ngIf="userRole.allowAdd" (click)="showModal(content)" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New Sub Product</button>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <!--<th width="1%" title="Product Id">PID</th>-->
+                    <th width="10%">Sub Product Name</th>
+                    <th width="10%">Product Name</th>
+                    <th width="10%">Product Image</th>
+                    <th width="10%">Seo Title</th>
+                    <th width="10%">Seo Description</th>
+                    <th width="10%">Og Title</th>
+                    <th width="10%">Og Description</th>
+                    <th width="10%">Canonical Url</th>
+                    <!--<th width="1%" title="Order By">OB</th>-->
+                    <th width="2%">Status</th>
+                    <th width="2%">Commission</th>
+                    <th width="6%" title="Created Date">CD</th>
+                    <th width="6%" title="Created By">CB</th>
+                    <th width="6%" title="Modified Date">MD</th>
+                    <th width="6%" title="Modified By">MB</th>
+                    <th *ngIf="userRole.allowAdd" width="1%">Edit</th>
+                    <th *ngIf="userRole.allowDelete" title="Delete" width="1%">Del</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let product of productList">
+                    <!--<td>{{product.productSubCategoryId}}</td>-->
+                    <td>{{product.subCategoryName}}</td>
+                    <td>{{product.productName}}</td>
+                    <td><img [src]="service.transform(product?.subProductImage)" style="height:100px;width:90px" /></td>
+                    <td>{{product.seoTitle}}</td>
+                    <td>{{product.seoDescription}}</td>
+                    <td>{{product.ogTitle}}</td>
+                    <td>{{product.ogDescription}}</td>
+                    <td>{{product.canonical}}</td>
+
+                    <!--<td>{{product.orderByColumn}}</td>-->
+                    <!--<td *ngIf="product.isActive == true">Active</td>
+  <td *ngIf="product.isActive != true">In Active</td>-->
+                    <td [ngClass]="(product.isActive) ? 'text-primary' : 'text-danger' ">{{product.isActive ? 'Active' : 'InActive'}}</td>
+                    <td>{{product?.commission}}</td>
+                    <td>{{product.createdOn | date: "dd MMM yyy "}}</td>
+                    <td>{{product.createdBy}}</td>
+                    <td>{{product.modifiedOn | date: "dd MMM yyy "}}</td>
+                    <td>{{product.modifiedBy}}</td>
+                    <td *ngIf="userRole.allowAdd"><i class="text-info fa fa-pencil-alt" (click)="updateProducts(product,content)"></i></td>
+                    <td *ngIf="userRole.allowDelete"><i class="text-danger fa fa-trash-alt" (click)="deleteProduct(product,deleteContent)"></i></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #deleteContent let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Delete Confirmation</h5>
+  </div>
+  <div class="modal-body">
+    <h5>Are you want to delete?</h5>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-primary" (click)="confirmDeleteCity()">Ok</button>
+    <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('cancel click')">Cancel</button>
+  </div>
+</ng-template>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Add New Sub Product</h5>
+  </div>
+  <div class="modal-body">
+    <form name="form" #f="ngForm" novalidate>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12">Sub Product Name</label>
+            <input required="required" [(ngModel)]="productName" #productNamee="ngModel" autocomplete="off" min="4" max="30" type="text" class="form-control" name="productName" id="productName" />
+            <div *ngIf="productNamee.invalid && (productNamee.dirty || productNamee.touched)" class="text-danger">
+              <label class="fs-12" style="margin:0" *ngIf="productNamee.errors.required">Input is required. </label>
+            </div>
+          </div>
+          <p class="text-danger">{{productNameExist}}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <label class="">Product Type</label>
+          <ng-multiselect-dropdown placeholder="Supplier Types" style="display:inline; vertical-align:top"
+                                   [settings]="supplierdropdownSettings"
+                                   [data]="categoryList"
+                                   required
+                                   [(ngModel)]="selectedSupplierType"
+                                   name="selectedSupplierType"
+                                   (onSelect)="onItemSelect($event)"
+                                   (onSelectAll)="onItemSelectAll($event)"
+                                   (onDeSelect)="OnItemDeSelect($event)"
+                                   (onDeSelectAll)="OnItemDeSelectALL($event)"
+                                   (OnDeSelect)="OnItemDeSelect($event)">
+          </ng-multiselect-dropdown>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12">Sub Product Commission</label>
+            <input required="required" [(ngModel)]="commission" #productNamee="ngModel" autocomplete="off" min="1" max="3" type="number" class="form-control" name="commission" id="commission" />
+            <!--<div *ngIf="productNamee.invalid && (productNamee.dirty || productNamee.touched)" class="text-danger">
+              <label class="fs-12" style="margin:0" *ngIf="productNamee.errors.required">Input is required. </label>
+            </div>-->
+          </div>
+          <!--<p class="text-danger">{{productNameExist}}</p>-->
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12">Seo Title</label>
+            <input required="required" [(ngModel)]="seoTitle" #seoTitles="ngModel" type="text" class="form-control" name="seoTitle" id="seoTitle" />
+            <div *ngIf="seoTitles.invalid && (seoTitles.dirty || seoTitles.touched)" class="text-danger">
+              <label class="fs-12" style="margin:0" *ngIf="seoTitles.errors.required"> * Seo Title is required. </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12">Seo Description</label>
+            <input required="required" [(ngModel)]="seoDescription" #seoDesciptions="ngModel" type="text" class="form-control" name="seoDescription" id="seoDescription" />
+            <div *ngIf="seoDesciptions.invalid && (seoDesciptions.dirty || seoDesciptions.touched)" class="text-danger">
+              <label class="fs-12" style="margin:0" *ngIf="seoDesciptions.errors.required"> * Seo Description is required. </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12">Og Title</label>
+            <input required="required" [(ngModel)]="ogTitle" #ogTitles="ngModel" type="text" class="form-control" name="ogTitle" id="ogTitle" />
+            <div *ngIf="ogTitles.invalid && (ogTitles.dirty || ogTitles.touched)" class="text-danger">
+              <label class="fs-12" style="margin:0" *ngIf="ogTitles.errors.required"> * OgTitle is required. </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12">Og Description</label>
+            <input required="required" [(ngModel)]="ogDescription" #ogdescriptions="ngModel" type="text" class="form-control" name="ogDescription" id="ogDescription" />
+            <div *ngIf="ogdescriptions.invalid && (ogdescriptions.dirty || ogdescriptions.touched)" class="text-danger">
+              <label class="fs-12" style="margin:0" *ngIf="ogdescriptions.errors.required"> * Og Description is required. </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12">Canonical Url</label>
+            <input [(ngModel)]="canonical" #canonicals="ngModel" type="text" class="form-control" name="canonical" id="canonical" />
+
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12">Image</label>
+            <input type="file" class="form-control-file" (change)="fileChangeEvent($event)" />
+            <image-cropper [imageChangedEvent]="imageChangedEvent"
+                           [maintainAspectRatio]="true"
+                           [aspectRatio]="4 / 4"
+                           format="png"
+                           (imageCropped)="imageCropped($event)"
+                           (imageLoaded)="imageLoaded()"
+                           (cropperReady)="cropperReady()"
+                           (loadImageFailed)="loadImageFailed()">
+            </image-cropper>
+          </div>
+        </div>
+      </div>
+
+      <!--<div class="row">
+    <div class="col-md-12">
+      <div class="form-group">
+        <label class="fs-12">Order Number</label>
+        <input type="number" [(ngModel)]="orderByColumn" autocomplete="off" min="1" max="3" class="form-control" name="orderByColumn" id="orderByColumn" />
+      </div>
+      <p class="text-danger">{{productNameExist}}</p>
+    </div>
+  </div>-->
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-primary" (click)="save()" >Save</button>
+    <button type="button" class="btn btn-primary btn-sm" ngbAutofocus (click)="modal.close('Save click')">Cancel</button>
+  </div>
+</ng-template>
+
+<!-- [disabled]="!f.valid" -->

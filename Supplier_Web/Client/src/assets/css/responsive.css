@@ -1,0 +1,131 @@
+/********************************************************************/
+/************************MAX WIDTH CSS**********************/
+/********************************************************************/
+@media (max-width: 1399.98px) {
+}
+
+@media (max-width: 1199.98px) {
+  .main-nav-heading ul {
+    max-height: 500px;
+  }
+
+  .return_policy_options .rp_box small {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .top_catgories ul {
+    gap: 25px
+  }
+
+  .top_catgories li a {
+    font-size: 0.8125rem;
+  }
+
+  .logo img {
+    height: 40px;
+  }
+
+  .main-nav-heading ul {
+    max-height: 500px;
+    width: 171px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .prod_cat_wrapper {
+    flex-basis: 0px;
+    max-height: auto;
+    overflow-y: visible;
+  }
+
+  .main-nav-heading {
+    background: none;
+  }
+
+}
+
+@media (max-width: 575.98px) {
+  #prodcards_wrapper .product-card {
+    width: 100%;
+  }
+  /*  .mobile_cat_navigation .mcn {
+    display: block !important;
+    width: 300px;
+  }*/
+  .custom_btn {
+    font-size: 0.875rem;
+  }
+
+  .return_policy_options .rp_box small {
+    font-size: 10px !important;
+  }
+}
+
+
+/********************************************************************/
+/************************MIN WIDTH CSS**********************/
+/********************************************************************/
+@media (min-width: 576px) {
+  #prodcards_wrapper .product-card {
+    width: 255px;
+  }
+}
+
+@media (min-width: 768px) {
+  #prodcards_wrapper .product-card {
+    width: 246px;
+  }
+
+  #prodcards_wrapper.pc6 .product-card {
+    width: 228px;
+  }
+}
+
+@media (min-width: 992px) {
+  #prodcards_wrapper .product-card {
+    width: 242px;
+  }
+
+  #prodcards_wrapper.pc6 .product-card {
+    width: 230px;
+  }
+}
+
+@media (min-width: 1200px) {
+  #prodcards_wrapper .product-card {
+    width: 225px;
+  }
+
+  #prodcards_wrapper.pc6 .product-card {
+    width: 219px;
+  }
+}
+
+@media (min-width: 1400px) {
+  #prodcards_wrapper .product-card {
+    width: 215px;
+  }
+
+  #prodcards_wrapper.pc6 .product-card {
+    width: 211px;
+  }
+}
+
+@media (min-width: 991px) and (max-width: 1199.98px) {
+  /*  .container {
+    max-width: 1060px;
+  }*/
+  .related_products .product-card .card-image {
+    height: 117px;
+  }
+
+    .related_products .product-card .card-image img {
+      object-fit: contain;
+    }
+
+  .related_products .product-card {
+    height: 210px;
+  }
+}

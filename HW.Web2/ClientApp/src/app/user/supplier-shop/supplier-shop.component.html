@@ -1,0 +1,135 @@
+<div class="container">
+  <div class="row">
+    <div id="page-wrapper">
+      <div class="col-lg-12">
+        <div class="row">
+          <div class="col-lg-12 bg-white">
+            <div class="row page-header">
+              <!--<div class="col-lg-12">
+      <div class="row">
+        <div class="col-lg-9 col-md-8">
+          <div class="row">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="marketplace.html">Browse by Brand</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Can Furniture</li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>-->
+              <!-- /.col-lg-12 -->
+            </div>
+            <div class="row">
+              <div class="col-md-12 brand-banner">
+                <img src="../../../assets/img/market_bnr1.jpg" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 brandIdentity">
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 col-sm-12 brandIdentity-logo ">
+                    <!--<img src="../../../assets/img/brnad4.jpg" alt="" />-->
+                    <p><i class="fas fa-phone mr-2"></i> {{shopSupplier.contactNo}}</p>
+                    <!--<p><i class="fas fa-mail"></i> {{shopSupplier.email}}</p>-->
+                    <ng-container *ngIf="shopSupplier.email !=null && shopSupplier.email !=''">
+                      <p><i class="fa fa-envelope mr-2"></i><a href="mailto:{{shopSupplier.email}}">{{shopSupplier.email}}</a></p>
+                    </ng-container>
+                  </div>
+                  <div class="col-lg-9 col-md-8 col-sm-12 brandIdentity-reviewDescription">
+                    <h3>{{shopSupplier.supplierCompanyName}}</h3>
+                    <p><i class="fa fa-map-marker-alt"></i> {{shopSupplier.supplierAddress}} <a href="" data-toggle="modal" data-target="#supplierMap">View Map</a>.</p>
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12 feedback">
+                <div class="row bg-light heading"><div class="col-md-12"><h4>Feedback</h4></div></div>
+                <div class="row" *ngFor="let feedback of Feedbacks">
+                  <div class="col-lg-12">
+                    <div class="fdback-user">
+                      <h5>{{feedback.customerName}}</h5>
+                      <p>{{feedback.comments}} </p>
+                      <star-rating value="{{feedback.rating}}" totalstars="5" checkedcolor="gold" uncheckedcolor="black" size="24px" readonly="false"></star-rating>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row bg-light heading"><div class="col-md-12"><h4>Top Selling Items</h4></div></div>
+            <!--<div class="row marketplace mb-4">
+              <div class="col-lg-4 col-sm-6 product-item" *ngFor="let itemProduct of shopSupplierProduct">
+                <div class="card h-100">
+                  <a routerLink="/User/MarketPlaceIndex/SupplierAdDetail/{{itemProduct.adId}}">
+                    <ng-container *ngIf="itemProduct.adImage!=null">
+                      <img class="card-img-top img-height" [src]="transform(itemProduct.adImage)" alt="">
+                    </ng-container>
+                    <ng-container *ngIf="itemProduct.adImage==null">
+                      <img class="card-img-top" src="../../../assets/img/no_thumbnail.jpg" alt="">
+                    </ng-container>
+                  </a>
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <a routerLink="/User/MarketPlaceIndex/SupplierAdDetail/{{itemProduct.adId}}">{{itemProduct.adTitle}} </a>
+                    </h5>
+                    <p class="card-supplier">
+                      <a><span>{{shopSupplier.supplierCompanyName}}</span></a>
+                    </p>
+                    <h4 class="card-price">
+                      <a routerLink="/User/MarketPlaceIndex/SupplierAdDetail/{{itemProduct.adId}}">{{itemProduct.price}}</a>
+                    </h4>
+                  </div>
+                </div>
+              </div>
+            </div>-->
+            <div class="row updated-marketplace text-center">
+              <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12" *ngFor="let cat of shopSupplierProduct">
+                <div class="mp-product-box">
+                  <div class="mp-product-img">
+                    <img *ngIf="cat.adImage!=null" [src]="common.transform(cat.adImage)" />
+                    <img *ngIf="cat.adImage==null" src="../../../assets/img/no_thumbnail.jpg" />
+                  </div>
+                  <div class="mp-product-details">
+                    <h6>{{cat.adTitle}}</h6>
+                    <small>By: {{cat.supplierCompanyName}}</small>
+                    <h5>Rs. {{cat.price}}</h5>
+                    <div>
+                      <!--<a href="javascript:void(0);" style="cursor:pointer" (click)="AdDetail(cat.supplierAdId)">View Details</a>-->
+                      <a routerLink="/User/MarketPlaceIndex/SupplierAdDetail/{{cat.adId}}">View Details</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="supplierMap" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="row">
+        <div class="col-md-10" style="text-align:center;margin-top:10px">
+          <h4>Supplier shop Location</h4>
+        </div>
+        <div class="col-md-2">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+      </div>
+     
+  
+      <div class="modal-body">
+        <agm-map class="border" style="width:100%; height:300px;" [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+          <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+        </agm-map>
+      </div>
+    </div>
+  </div>
+</div>

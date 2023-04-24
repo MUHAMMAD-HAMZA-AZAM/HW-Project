@@ -1,0 +1,247 @@
+<!--------------------------------------------- New Theme Tradesman Profile Design ----------------------------------------------------------------------->
+
+<div class="d-content-left-side">
+  <h2 class="heading-dashboad mb-3 mb-lg-4">Profile</h2>
+  <div class="quote-details-wrapper mb40">
+    <div class="row mb-5">
+      <div class="col-12">
+        <div id="common-profile">
+          <div class="d-flex align-items-center flex-column flex-md-row">
+            <ng-container *ngIf="!profileImageCheck;else imgFound">
+              <div *ngIf="replaceUserProfileImage == null;else showImage " class="profile-img mr-0 mr-md-3">
+                <img src="../../../../assets/img/imagenotfound.png" />
+              </div>
+              <ng-template #showImage>
+                <div class="profile-img mr-0 mr-md-3">
+                  <img [src]="replaceUserProfileImage" />
+                </div>
+              </ng-template>
+            </ng-container>
+            <ng-template #imgFound>
+              <div class="profile-img mr-0 mr-sm-3">
+                <img [src]="ImageVm.imageBase64" alt="profile image" />
+              </div>
+            </ng-template>
+            <div *ngIf="!readOnly" class="profile-details quotes-details mt-2 mt-md-0 " id="edit-profile-input">
+              <div>
+                <span class="btn btn-default mp-outine-btn">
+                  change photo
+                  <input #quotesfileinput type="file" name="quotesfileinput" class="form-control"
+                         id="quotesfileinput"
+                         placeholder="Enter Job Title images" accept="image/*" (change)="fileChangeEvent($event)" />
+                </span>
+              </div>
+              <!--<a routerLink="/User/Profile/PersonalProfileEdit" class="btn mp-outine-btn mt-2">change photo</a>-->
+            </div>
+            <div *ngIf="readOnly" class="profile-details align-items-center align-items-sm-start d-flex flex-column mt-2 mt-md-0 ">
+              <h5>{{fullName}}</h5>
+              <div>
+                <a (click)="EditProfile()" class="btn mp-outine-btn mt-2">edit profile</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="quotes-details">
+      <form [formGroup]="appValForm">
+        <fieldset [disabled]="readOnly">
+          <fieldset [disabled]="personalProfile">
+            <div class="row">
+              <div class="col-xl-6 col-lg-6">
+                <div class="form-group">
+                  <label>First name</label>
+                  <input type="text" class="form-control" maxlength="18" formControlName="firstName" />
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6">
+                <div class="form-group">
+                  <label>last name</label>
+                  <input type="text" class="form-control" maxlength="18" formControlName="lastName" />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xl-6 col-lg-6">
+                <div class="form-group">
+                  <label>cnic</label>
+                  <input type="text" class="form-control" maxlength="13" formControlName="cnic" />
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6">
+                <div class="form-group">
+                  <label>email</label>
+                  <input type="text" class="form-control" maxlength="40" formControlName="email" />
+                  <!--<span *ngIf="!verifyEmail && profile.email!=''" (click)="VerifyEmailAddress()" class="verifyAccount fa fas fa-exclamation-triangle"> Verify Email</span>-->
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xl-6 col-lg-6">
+                <div class="form-group">
+                  <label>phone</label>
+                  <input type="text" class="form-control" maxlength="11" formControlName="mobileNumber" />
+                  <!--<span *ngIf="!verifyPhone && profile.mobileNumber!=''" (click)="VerifyPhoneNumber()" class="verifyAccount fa fas fa-exclamation-triangle"> Verify PhoneNumber</span>-->
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6">
+                <div class="form-group">
+                  <label for="gender">Gender</label>
+                  <select formControlName="gender" class="form-control">
+                    <option value="1">Male</option>
+                    <option value="2">Female</option>
+                    <option value="3">Other</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xl-6 col-12 ">
+                <div class="form-group">
+                  <label>Date Of Birth</label>
+                  <input type="text" class="form-control" formControlName="dateOfBirth" />
+                </div>
+              </div>
+              <div class="col-xl-6 col-lg-6">
+                <div class="form-group">
+                  <label>What Describe You best</label>
+                  <input type="text" class="form-control" value="{{isOrganization ? 'Organization' : 'Sole Trader' }}" />
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          <div class="row">
+            <div class="col-xl-6 col-lg-6">
+              <div class="form-group">
+                <label >Delivery Radius</label>
+                <select  class="form-control" formControlName="travelingDistance" [value]="null">
+                  <option value="" selected disabled>---Select an Option---</option>
+                  <option *ngFor="let item of DeliveryRadiousList;" [value]="item.id">{{item.id}}  {{item.value}}</option>
+                </select>
+                <span class="text-danger" *ngIf="submittedForm && f.travelingDistance.errors?.required">Delivery Radius is Required.</span>
+              </div>
+            </div>
+            <div class="col-xl-6 col-12 ">
+              <div class="form-group">
+                <label [ngClass]="{'text-danger': tradesmanSkillsSelected.length <=0 }">What Services Offer?</label>
+                <ng-multiselect-dropdown placeholder="Search..."
+                                         [data]="TradesmanSkills"
+                                         formControlName="tradesmanSkills"
+                                         [settings]="tradesmanSkillsSettings"
+                                         [disabled]="dropdownReadOnly"
+                                         [(ngModel)]="tradesmanSkillsSelected">
+                </ng-multiselect-dropdown>
+                <span class="text-danger" *ngIf="submittedForm && f.tradesmanSkills.errors?.required">Please select atleast one service.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="isOrganization">
+            <div class="col-xl-6 col-lg-6">
+              <div class="form-group">
+                <label>Trade Name</label>
+                <input type="text" class="form-control" formControlName="companyName" />
+                <span class="text-danger" *ngIf="submittedForm && f.companyName.errors?.required">Please enter tradename.</span>
+              </div>
+            </div>
+            <div class="col-xl-6 col-lg-6">
+              <div class="form-group">
+                <label>Company Registration Number</label>
+                <input type="text" class="form-control" maxlength="50" formControlName="companyRegNo" />
+                <span class="text-danger" *ngIf="submittedForm && f.companyRegNo.errors?.required">Please enter registration number.</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xl-6 col-lg-6">
+              <div class="form-group">
+                <label>City</label>
+                <select formControlName="cityId" (change)="CityValue($event)" class="form-control">
+                  <option *ngFor="let item of CitiesList;" [value]="item.id">{{item.value}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-xl-6 col-lg-6">
+              <div class="form-group">
+                <label>Town</label>
+                <!--<input type="text" maxlength="30" id="town" formControlName="town" (keypress)="charOnly($event)" class="form-control">-->
+                <ng-autocomplete [data]="searchtownList"
+                                 [searchKeyword]="townkeyword"
+                                 (selected)='selecttownEvent($event)'
+                                 (inputCleared)='unselecttownEvent($event)'
+                                 placeholder="Select town ..."
+                                 (inputChanged)='onChangetownSearch($event)'
+                                 [itemTemplate]="itemTemplate"
+                                 [notFoundTemplate]="notFoundTemplate"
+                                 formControlName="town">
+                </ng-autocomplete>
+
+                <ng-template #itemTemplate let-item>
+                  <a [innerHTML]="item.value"></a>
+                </ng-template>
+
+                <ng-template #notFoundTemplate let-notFound>
+                  <div [innerHTML]="notFound"></div>
+                </ng-template>
+                <span class="text-danger" *ngIf="submittedForm && f.town.errors?.required">Please enter town name.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xl-12 col-12 ">
+              <div class="form-group">
+                <label>Business Address</label>
+                <textarea rows="6" maxlength="250" class="form-control desc" formControlName="businessAddress"></textarea>
+                <span class="text-danger" *ngIf="submittedForm && f.businessAddress.errors?.required">Please enter business address.</span>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <div *ngIf="!readOnly" class="row mt-2">
+          <div class="col-xl-6 col-lg-6">
+            <div class="form-group">
+              <button class="btn mp-outine-btn" id="updateBtn" *ngIf="UpdateBtn" (click)="Save()">Update</button>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<div bsModal #cropModal="bs-modal" class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h6 class="modal-title">Change Profile Picture</h6>
+        <button type="button" class="close" (click)="hideModal()">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body" style="height:500px">
+        <image-cropper [imageChangedEvent]="imageChangedEvent"
+                       [maintainAspectRatio]="true"
+                       [cropperStaticWidth]="381"
+                       [cropperStaticHeight]="250"
+                       format="png"
+                       (imageCropped)="imageCropped($event)">
+        </image-cropper>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="hideModal()">Close</button>
+        <button type="button" class="btn btn-success" (click)="SaveImage()">Save</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+

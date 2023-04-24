@@ -1,0 +1,50 @@
+<div class="container-fluid">
+  <h5 class="m-2">{{reportTitle}}</h5>
+  <button class="btn d-none" (click)="DownloadPdf()">Download Pdf</button>
+  <!--<label class="container text-secondary">From : {{startDate | date: "dd MMM yyy hh : mm : a"}}    <br /> To : {{endDate | date: "dd MMM yyy hh : mm : a"}}</label>-->
+  <div class="card shadow my-3">
+    <div class="card-header justify-header">
+      <h6 class="m-0 font-weight-bold">Posted Job List</h6>
+      <label class=" m-0 fs-12">Total No. {{completeList}}</label>
+
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th title="Job Quotation Id" width="10%">JQID</th>
+              <th width="14%">Customer Name</th>
+              <th width="14%">Job Title</th>
+              <th width="12%">Skill Name</th>
+              <th width="12%">Sub Skill Name</th>
+              <th width="12%">Budget</th>
+              <!--<th width="10%">Job Address</th>-->
+              <th title="Desired Bid" width="8%">DB<!--Desired Bids--></th>
+              <!--<th width="2%">Status</th>-->
+              <th width="12%">Date</th>
+
+
+            </tr>
+          </thead>
+          <tbody class="table-content-fs">
+            <tr *ngFor="let job of JobsList">
+              <td>{{job.jobQuotationId}}</td>
+              <td>{{job.firstName}} {{job.lastName}}</td>
+              <td>{{job.workTitle}}</td>
+              <td>{{job.skillName}}</td>
+              <td>{{job.subSkillName}}</td>
+              <td>{{job.workBudget}}</td>
+              <!--<td>{{job.jobAddress }}</td>-->
+              <td>{{job.desiredBids}}</td>
+              <!--<td>{{job.statusName}}</td>-->
+              <td>{{job.createdOn | date: "dd MMM yyy "}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <label class="text-danger">{{DataNotFound}}</label>
+    </div>
+  </div>
+</div>
+

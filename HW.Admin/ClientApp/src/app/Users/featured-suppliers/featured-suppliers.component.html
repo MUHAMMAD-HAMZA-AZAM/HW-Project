@@ -1,0 +1,232 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row" *ngIf="userRole.allowAdd">
+      <div class="col-sm-12 col-md-10 col-lg-8 col-xl-5">
+        <div class="card shadow mb-4">
+          <div class="card-header bg-primary">
+            <h6 class="m-0 text-white font-weight-bold border-0">Supplier Info</h6>
+          </div>
+          <div class="contentWrapper fs-12">
+            <div class="card-body">
+              <form [formGroup]="supplierForm" novalidate>
+                <input type="hidden" formControlName="supplierId" />
+                <input type="hidden" formControlName="imageId1" />
+                <input type="hidden" formControlName="imageId2" />
+                <input type="hidden" formControlName="imageId3" />
+                <fieldset [disabled]="true">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="fs-12">First Name</label>
+                        <input type="text" formControlName="firstName" class="form-control" />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="fs-12">Last Name</label>
+                        <input type="text" formControlName="lastName" required class="form-control" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="fs-12">Mobile</label>
+                        <input type="text" formControlName="mobileNumber" required class="form-control" />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="fs-12">CNIC</label>
+                        <input type="text" formControlName="cnic" required class="form-control" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <!--<div class="col-md-6">
+                          <div class="form-group">
+                            <label class="fs-12">Gender</label>
+                            <input type="text" formControlName="gender" required class="form-control" />
+                          </div>
+                        </div>-->
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="fs-12">Business Address</label>
+                        <input type="text" formControlName="businessAddress" required class="form-control" />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="fs-12">Company Name</label>
+                        <input type="text" formControlName="companyName" required class="form-control" />
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+                  <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="fs-12">Registration Number</label>
+                          <input disabled type="text" formControlName="registrationNumber" required class="form-control" />
+                        </div>
+                      </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="fs-12 d-block mb-4">Featured Status</label>
+                        <!--<input type="text" formControlName="status" class="form-control" />-->
+                        <label class="switch">
+                          <input type="checkbox" formControlName="featuredSupplier">
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <!--<div class="col-md-6">
+                      <div class="form-group">
+                        <label class="fs-12">City</label>
+                        <ng-multiselect-dropdown placeholder="City" style="display:inline;"
+                                                 [settings]="dropdownListForCity"
+                                                 [data]="cityList"
+                                                 formControlName="selectedCities"
+                                                 name="selectedCities"
+                                                 (onSelect)="onCitySelect($event)"
+                                                 (onSelectAll)="onCitySelectAll($event)"
+                                                 (onDeSelect)="onCityDeSelect($event)"
+                                                 (onDeSelectAll)="onCityDeSelectALL($event)"
+                                                 (OnDeSelect)="onCityDeSelect($event)">
+                        </ng-multiselect-dropdown>
+                      </div>
+                    </div>-->
+                  </div>
+
+                  <div class="row flex-wrap">
+                    <div class="col-md-6 col-lg-6 col-xl-4">
+                      <div class="form-group">
+                        <label>Image 1</label>
+                        <input type="file" class="form-control-file" id="image1" #imageOne (change)="handleFileSelect($event)" required />
+                        <!--<image-cropper [imageChangedEvent]="imageChangedEvent1"
+                     [maintainAspectRatio]="true"
+                     [aspectRatio]="4 / 4"
+                     (imageCropped)="imageCropped1($event)"
+                     format="png">
+      </image-cropper>-->
+                        <img style="position: relative; margin-top: 10px;" *ngIf="image1 !=null" height="80" [src]="service.transform(image1)" />
+                      </div>
+                      <label class="switch">
+                        <input type="checkbox" formControlName="imageStatus1" #is1 id="img1" (change)="radioChange1()">
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-4">
+                      <div class="form-group">
+                        <label>Image 2</label>
+                        <input type="file" class="form-control-file" id="image2" (change)="handleFileSelect($event)" />
+                        <!--<image-cropper [imageChangedEvent]="imageChangedEvent2"
+                     [maintainAspectRatio]="true"
+                     [aspectRatio]="4 / 4"
+                     (imageCropped)="imageCropped2($event)"
+                     format="png">
+      </image-cropper>-->
+                        <img style="position: relative; margin-top: 10px;" *ngIf="image2 !=null" height="80" [src]="service.transform(image2)" />
+
+                      </div>
+                      <label class="switch">
+                        <input type="checkbox" (change)="radioChange2()" #is2 formControlName="imageStatus2" id="img2">
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-4">
+                      <div class="form-group">
+                        <label>Image 3</label>
+                        <input type="file" class="form-control-file" id="image3" (change)="handleFileSelect($event)" />
+                        <!--<image-cropper [imageChangedEvent]="imageChangedEvent3"
+                     [maintainAspectRatio]="true"
+                     [aspectRatio]="4 / 4"
+                     (imageCropped)="imageCropped3($event)"
+                     format="png">
+      </image-cropper>-->
+                        <img style="position: relative; margin-top: 10px;" *ngIf="image3 !=null" height="80" [src]="service.transform(image3)" />
+                      </div>
+                      <label class="switch">
+                        <input type="checkbox" (change)="radioChange3()" #is3 formControlName="imageStatus3" id="img3">
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                    <small class="text-danger" *ngIf="noimage">Please select atlease one image</small>
+                    <small class="text-danger" *ngIf="nosupplierselect">Please select a supplier</small>
+                  </div>
+                <div class="row mt-2">
+                  <div class="col-md-4 inline-downlod-btns">
+                    <button type="submit" class="btn btn-sm btn-primary mr-2" (click)="save()">Save</button>
+                    <button type="reset" class="btn btn-sm btn-primary" (click)="resetForm()">Reset</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      <div class="col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Featured Suppliers List</h6>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th width="7%" title="Company Name">CN</th>
+                    <!--<th width="5%" title="First Name">First Name</th>
+                    <th width="5%" title="Last Name">Last Name</th>-->
+                    <th width="5%" title="Last Name">CNIC</th>
+                    <th width="5%">Phone</th>
+                    <th width="5%" title="Registration Number">RN</th>
+                    <th width="3%">City</th>
+                    <th width="3%" title="Featured Status">Featured Status</th>
+                    <!--<th width="3%" title="Images Status">IS</th>-->
+                    <th width="8%" title="">Images</th>
+                    <th *ngIf="userRole.allowAdd" width="1%">Edit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let supplier of featuredSupplierList">
+                    <!--<td>{{supplier?.firstName}}</td>
+                    <td>{{supplier?.lastName}}</td>-->
+                    <td>{{supplier?.companyName}}</td>
+                    <td>{{supplier?.cnic}}</td>
+                    <td>{{supplier?.mobileNumber}}</td>
+                    <td>{{supplier?.registrationNumber}}</td>
+                    <td>{{supplier?.cityName}}</td>
+                    <td>{{supplier?.featuredSupplier}}</td>
+                    <!--<td>{{supplier?.fImageStatus}}</td>-->
+                    <td>
+                      <div class="d-flex flex-row justify-content-start">
+                        <div class="d-flex flex-column mr-2" *ngIf="supplier?.profileImage1 ">
+                          <img *ngIf="supplier?.profileImage1" height="50" width="50" [src]="service.transform(supplier?.profileImage1)" />
+                          <span>{{supplier?.imageStatus1}}</span>
+                        </div>
+                        <div class="d-flex flex-column mr-2" *ngIf="supplier?.profileImage2">
+                          <img *ngIf="supplier?.profileImage2" height="50" width="50" [src]="service.transform(supplier?.profileImage2)" />
+                          <span>{{supplier?.imageStatus2}}</span>
+                        </div>  
+                        <div class="d-flex flex-column" *ngIf="supplier?.profileImage3">
+                          <img *ngIf="supplier?.profileImage3" height="50" width="50" [src]="service.transform(supplier?.profileImage3)" />
+                          <span>{{supplier?.imageStatus3}}</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td *ngIf="userRole.allowAdd"><i class="text-info fa fa-pencil-alt" (click)="updateFeaturedSupplier(supplier)"></i></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+  </div>
+</div>
+

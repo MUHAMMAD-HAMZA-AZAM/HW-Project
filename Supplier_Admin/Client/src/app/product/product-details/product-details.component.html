@@ -1,0 +1,117 @@
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+  <div class="page-header">
+    <div class="row">
+      <div class="col-12 col-lg-6 offset-xxl-1">
+        <div class="page-header-left">
+          <h3>
+            Product Detail
+          </h3>
+        </div>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a [routerLink]="_httpService.apiRoutes.Home.Dashboard">Home</a></li>
+          <li class="breadcrumb-item"><a [routerLink]="_httpService.apiRoutes.Product.ProductList">Product List</a></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Container-fluid Ends-->
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-12 col-xxl-10">
+
+      <div class="card">
+        <div class="row product-page-main card-body">
+          <div *ngIf="!imageLoader" class="productDetailSkelton col-xl-12">
+            <div class="d-flex justify-content-between">
+              <div class="proName image-loader"></div>
+              <div class="editBtn image-loader"></div>
+            </div>
+            <hr>
+            <div class="cat image-loader"></div>
+            <div class="catName image-loader mt-2"></div>
+            <hr>
+            <div class="cat image-loader"></div>
+            <div class="proDescription image-loader mt-2"></div>
+            <div class="proPrice image-loader mt-2"></div>
+            <div class="cat image-loader mt-2"></div>
+            <div class="procolor image-loader mt-2"></div>
+            <hr />
+            <div class="cat image-loader mt-2"></div>
+            <div class="proPrice image-loader mt-2"></div>
+            <hr />
+            <div class="proPrice image-loader mt-2"></div>
+            <div class="row">
+              <div class="proImage image-loader d-flex col-md-2 mt-2 ms-2" *ngFor="let item of skeltonArr.productLength"></div>
+
+            </div>
+
+
+
+          </div>
+
+          <div class="col-xl-12" *ngIf="imageLoader">
+            <div class="product-page-details product-right mb-0">
+              <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <h2 class="mb-0">{{(productDetail?.name.length > 75)? (productDetail?.name| slice:0:75)+'...' :(productDetail?.name)}}</h2>
+                <a class="btn btn-primary" [routerLink]="[_httpService.apiRoutes.Product.EditProduct,productDetail?.id]">Edit</a>
+              </div>
+              <hr>
+              <h6 class="product-title">Category</h6>
+              <div class="d-flex f-16 f-w-700 product-cat-name">
+                <a [routerLink]="[_httpService.apiRoutes.Product.ProductList]" [queryParams]="{categoryId: productDetail?.categoryId,subCategoryId: 0,categoryGroupId: 0}">{{productDetail?.categoryName}}</a>
+                <a *ngIf="productDetail?.subCategoryName"
+                   [routerLink]="[_httpService.apiRoutes.Product.ProductList]" [queryParams]="{categoryId: productDetail?.categoryId,subCategoryId: productDetail?.subCategoryId,categoryGroupId: 0}" class="mx-2">{{' / ' +productDetail?.subCategoryName}}</a>
+                <a *ngIf="productDetail?.categoryGroupName"
+                   [routerLink]="[_httpService.apiRoutes.Product.ProductList]" [queryParams]="{categoryId: productDetail?.categoryId,subCategoryId: productDetail?.subCategoryId,categoryGroupId: productDetail?.categoryGroupId}">{{' / '+productDetail?.categoryGroupName}}</a>
+              </div>
+              <hr>
+              <h6 class="product-title">product details</h6>
+              <p>{{productDetail?.description}}</p>
+              <hr>
+              <h6 class="product-title mt-3">Price</h6>
+              <div class="d-flex  product-price digits mt-2">
+                <h4 *ngIf="variantDetails?.discountedPrice == 0 || variantDetails?.discountedPrice == null">Rs.{{(variantDetails?.price == null) ? productDetail?.price : (variantDetails?.price)}}</h4>
+                <h4 *ngIf="variantDetails?.discountedPrice != 0 && variantDetails?.discountedPrice != null" class="me-2">Rs.<s>{{(variantDetails?.price == null) ? productDetail?.price : (variantDetails?.price)}}</s></h4>
+                <h4 *ngIf="variantDetails?.discountedPrice != 0 && variantDetails?.discountedPrice != null">Rs.{{(variantDetails?.discountedPrice == null) ? productDetail?.discountedPrice : (variantDetails?.discountedPrice)}}</h4>
+              </div>
+              <div class="product-detail-vc d-flex flex-wrap">
+                <div class="d-flex flex-column align-items-center me-3" *ngFor="let variant of productDetail?.groupItem">
+                  <span [style.backgroundColor]="variant?.hexCode" (click)="getVariantPrice(variant?.variantId)"></span>
+                  <small>Qty:<b>{{variant?.quantity}}</b></small>
+                </div>
+              </div>
+              <hr>
+              <div *ngIf="bulkInventorybyVarient.length > 0">
+                <h6 class="product-title mt-3">Bulk Order</h6>
+                <ul class="">
+                  <li *ngFor="let items of bulkInventorybyVarient"> <span>{{items.minQuantity}} - {{items.maxQuantity}}</span><span>Rs: {{items.bulkPrice}}</span></li>
+                </ul>
+                <hr>
+              </div>
+              <h6 class="product-title">Availability?</h6>
+              <p class="f-w-900" [ngClass]="(variantDetails?.availability == null ? productDetail?.availability : variantDetails?.availability ) ? 'text-success' : 'text-danger'">
+                {{(variantDetails?.availability == null) ? (productDetail?.availability)? 'In Stock' : 'No Stock' : (variantDetails?.availability) ? 'In Stock' : 'No Stock' }}
+              </p>
+              <hr>
+              <ng-container *ngIf="productDetail?.images">
+                <h6 class="product-title mt-2">Images</h6>
+                <div class="product-detail-custom d-flex">
+                  <div *ngFor="let img of productDetail?.images" class="img-box me-2 position-relative">
+                    <img class="position-relative" [src]="(_fileService.AWSPATH)+(img.filePath)+(img.fileName)" />
+                    <div [class.is-mainmark]="img.isMain">
+                      <i class="text-white fs-2 fas fa-check"></i>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Container-fluid Ends-->

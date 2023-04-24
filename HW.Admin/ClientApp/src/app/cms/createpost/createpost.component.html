@@ -1,0 +1,144 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12 mx-auto">
+      <div class="card shadow mb-4">
+        <div class="card-header justify-header">
+          <h6 class="m-0 font-weight-bold">Add Post</h6>
+        </div>
+        <div class="card-body">
+          <form #f="ngForm" novalidate>
+            <div id="formgroup">
+              <div class="row">
+                <div class="col-xl-12">
+                  <div class="form-group">
+                    <label class='control-lable-name'>post title</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12 col-xl-12 elementHtml">
+                  <div class="form-group">
+                    <input type="text" [(ngModel)]="postTitle" name="postTitle" #titleInput="ngModel" minlength="20" maxlength="100" required id="crt1" class="form-control getControlData cms-input-post-title" autocomplete="off" placeholder="Enter Title " />
+                    <div *ngIf="titleInput.invalid && (titleInput.dirty || titleInput.touched)" class="text-danger">
+                      <div *ngIf="titleInput?.errors">
+                        <label class="fs-12" *ngIf="titleInput.errors?.required">Input is required. </label>   
+                        <label class="fs-12" *ngIf="titleInput.errors?.minlength">Input required minimum 20 characters. </label>
+                        <label class="fs-12" *ngIf="titleInput.errors?.maxlength">Input allows maximum 100 characters.</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6 col-xl-4">
+                  <div class="form-group">
+                    <label>Post Category</label>
+                    <select class="form-control" (change)="postCat($event)" [(ngModel)]="postOtherDetails.ngPostCategory" name="ngPostCategory" #ngPostCategoryy="ngModel" required>
+                      <option [ngValue]="null" [disabled]="true" >----Select post status----</option>
+                      <option *ngFor="let cat of catList" [value]="cat.categoryId">{{cat.categoryName}}</option>
+                    </select>
+                    <div *ngIf="ngPostCategoryy.invalid && (ngPostCategoryy.dirty || ngPostCategoryy.touched)" class="text-danger">
+                      <div *ngIf="ngPostCategoryy?.errors">
+                        <label class="fs-12" *ngIf="ngPostCategoryy.errors?.required">Input is required. </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-xl-4">
+                  <div class="form-group">
+                    <label>Post Status</label>
+                    <select class="form-control" (change)="postStatus($event)" id="postStatus" [(ngModel)]="postOtherDetails.ngPostStatus" name="ngPostStatus" #ngPostStatuss="ngModel" required>
+                      <option [ngValue]="null" [disabled]="true">----Select post status----</option>
+                      <option value="1">Published</option>
+                      <option value="2">Pending</option>
+                      <option value="3">Deleted</option>
+                      <option value="4">Rejected</option>
+                    </select>
+                    <div *ngIf="ngPostStatuss.invalid && (ngPostStatuss.dirty || ngPostStatuss.touched)" class="text-danger">
+                      <div *ngIf="ngPostStatuss?.errors">
+                        <label class="fs-12" *ngIf="ngPostStatuss.errors?.required">Input is required. </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-xl-4">
+                  <div class="form-group">
+                    <label>Allow Comments</label>
+                    <div class="checkbox">
+                      <label><input type="checkbox" (change)="onRadioChange($event)" #allowComment></label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-6">
+                  <div class="form-group">
+                    <label class="control-lable-name">Post Thumbnail</label>
+                    <div class="onchangeEvent">
+                      <label for="postThumb"><i class="fas fa-upload"></i> Upload Thumb Image</label>
+                      <input type="file" id="postThumb" (change)="thumbImgChange($event)" required name="thumbImage" #thumbImagee="ngModel" [(ngModel)]="ngThumbImage" class="form-control" />
+                      <div class="thumbImageControl" *ngIf="thumbImage != null">
+                        <img [src]="thumbImage" *ngIf="thumbImage != null" alt="Uplaoded Image" />
+                      </div>
+                    </div>
+                    <div *ngIf="thumbImagee.invalid && (thumbImagee.dirty || thumbImagee.touched)" class="text-danger">
+                      <div *ngIf="thumbImagee?.errors">
+                        <label class="fs-12" *ngIf="thumbImagee.errors?.required">Input is required. </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-6"></div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12 col-xl-12">
+                  <div class="form-group">
+                    <label class="control-lable-name">Post Short Summary</label>
+                    <textarea rows="3" class="form-control"  [(ngModel)]="summary" name="summary" required #summaryy="ngModel" maxlength="1000" minlength="200" > </textarea>
+                    <div *ngIf="summaryy.invalid && (summaryy.dirty || summaryy.touched)" class="text-danger">
+                      <div *ngIf="summaryy?.errors">
+                        <label class="fs-12" *ngIf="summaryy.errors?.required">Input is required. </label>
+                        <label class="fs-12" *ngIf="summaryy.errors?.minlength">Input required minimum 200 characters. </label>
+                        <label class="fs-12" *ngIf="summaryy.errors?.maxlength">Input allows maximum 1000 characters.</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12 col-xl-12"> 
+                  <div class="form-group">
+                    <label class="control-lable-name">Seo Description</label>
+                    <input type="text" class="form-control" autocomplete="off" [(ngModel)]="seoDescription" name="seoDescription" required #seoDescriptionn="ngModel" maxlength="300" minlength="50" />
+                    <div *ngIf="seoDescriptionn.invalid && (seoDescriptionn.dirty || seoDescriptionn.touched)" class="text-danger">
+                      <div *ngIf="seoDescriptionn?.errors">
+                        <label class="fs-12" *ngIf="seoDescriptionn.errors?.required">Input is required. </label>
+                        <label class="fs-12" *ngIf="seoDescriptionn.errors?.minlength">Input required minimum 50 characters. </label>
+                        <label class="fs-12" *ngIf="seoDescriptionn.errors?.maxlength">Input allows maximum 300 characters.</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="addNewElement">
+              <button (click)="addNewElement()"><i class="fas fa-plus-square" style="font-size:25px;"></i></button>
+              <div class="elementsRow" [hidden]="showElements">
+                <!--<button (click)="createform($event)" value="tb" class="btn btn-sm btn-dark">Textbox <i class="fas fa-plus"></i></button>-->
+                <button (click)="createform($event)" class="btn btn-sm btn-primary" name="{{controlid}}" id="generateTextArea" value="ta">Textarea <i class="fas fa-plus"></i></button>
+                <button (click)="createform($event)" class="btn btn-sm btn-primary" value="img">Image <i class="fas fa-plus"></i></button>
+                <button (click)="createform($event)" class="btn btn-sm btn-primary" name="{{controlid}}" id="genrateImageLeftTextRight" value="imgleft">Img Left Text Right<i class="fas fa-plus"></i></button>
+                <button (click)="createform($event)" class="btn btn-sm btn-primary" name="{{controlid}}" id="genrateImageRightTextLeft" value="imgRight">Text Left Img Right<i class="fas fa-plus"></i></button>
+              </div>
+            </div>
+            <div style="margin-top:10px;" *ngIf="userRole.allowAdd">
+              <button id="submitData" class="btn btn-primary mr-2" (click)="submitData()" [disabled]="!f.valid" value="{{controlid}}">Save</button>
+              <button id="clearData" class="btn btn-primary" (click)="clearData();f.resetForm()">Clear</button>
+            </div>
+          </form>
+          <div id="showData"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

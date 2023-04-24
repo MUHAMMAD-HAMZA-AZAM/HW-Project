@@ -1,0 +1,11 @@
+<div [ngClass]="[overlay == true?'overlay-container-custom':'']"  (click)="removeMsg()"  >
+  <div id="toast-container" class="toast-center-custom" *ngFor="let item of notifications">
+    <div [ngClass]="[item.message != null ?'show':'hidden']" class="toast {{cssClass(item) }}" aria-live="polite" style="display: block;">
+      <button type="button" class="toast-close-button" role="button" (click)="removeNotification(item)">×</button>
+      <div class="toast-message">
+        {{item.message}}
+      </div>
+    </div>
+  </div>
+</div>
+ 

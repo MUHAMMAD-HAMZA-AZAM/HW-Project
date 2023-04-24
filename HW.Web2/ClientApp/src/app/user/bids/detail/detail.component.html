@@ -1,0 +1,113 @@
+ <!----------------------------------------------------- New Theme Bids Detail Design ------------------------------------------------------>
+
+<section id="nd-right-content">
+  <div class="row">
+    <div class="col-12">
+      <div class="d-content-left-side">
+        <div class="quote-details-wrapper mb40">
+          <div class="row mb-4">
+            <div class="col-12">
+              <div id="common-profile" class="d-flex align-items-center">
+                <ng-container *ngIf="bidDetail?.tradesmanProfileImage != null; else noImgFound">
+                  <div class="profile-img mr-3">
+                    <img [src]="bidDetail?.tradesmanProfileImage" alt="user-img" />
+                  </div>
+                </ng-container>
+                <ng-template #noImgFound>
+                  <div class="profile-img mr-3">
+                    <img src="../../../../assets/img/imagenotfound.png" alt="user-img" />
+                  </div>
+                </ng-template>
+                <div class="profile-details d-flex flex-column">
+                  <h5>{{bidDetail?.tradesmanName}}</h5>
+                  <small class="mb-1 mt-1">Tradesman Id: <b>{{bidDetail?.tradesmanId}}</b></small>
+                  <button (click)="ViewProfile(bidDetail?.tradesmanId)" class="mp-outine-btn">View profile</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="quotes-details">
+            <fieldset disabled>
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group">
+                    <label>Task Title</label>
+                    <input type="text" class="form-control" value="{{bidDetail.jobTitle}}" />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-6 col-lg-6">
+                  <div class="form-group">
+                    <label>Budget (Rs.)</label>
+                    <input type="text" class="form-control" value="{{bidDetail?.customerBudget}}" />
+                  </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                  <div class="form-group">
+                    <label>Trademan Offer (Rs)</label>
+                    <input type="text" class="form-control" value="{{bidDetail?.tradesmanOffer}}" />
+                  </div>
+                </div>
+              </div>
+              <div class="row" *ngIf="bidDetail.jobDescription !== null">
+                <div class="col-xl-12 col-lg-12">
+                  <div class="form-group">
+                    <label>Description</label>
+                    <textarea rows="6" class="form-control">{{bidDetail?.jobDescription}}</textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="row" *ngIf="bidDetail.bidAudioMessage!==null">
+                <div class="col-12">
+                  <div class="form-group">
+                    <audio src='{{bidDetail?.bidAudioMessage}}' style="width:100%" controls preload='auto'>
+                    </audio>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            <!--<div class="row">
+              <div class="col-12">
+                <div class="form-group mt-2 d-flex justify-content-end">
+                  <button (click)="QuoteConfirmation()" class="btn solid-btn px-3 mr-2" style="background: var(--greenClr);">accept</button>
+                  <button (click)="DeclineBid()" class="btn solid-btn px-3" style="background: var(--redClr);">decline</button>
+                </div>
+              </div>
+            </div>-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!----------------------------------------------------- Payment Guidlines Modal ------------------------------------------------------>
+
+<div bsModal #ConfirmQuotes="bs-modal" class="modal fade custom-model-style" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content px-4 py-4">
+      <div class="modal-header p-0">
+        <h6 class="modal-title text-uppercase" id="exampleModalLongTitle" style="color: var(--headingClr);">PAYMENT GUIDELINES</h6>
+        <hr class="hl mt-0">
+      </div>
+      <div class="modal-body p-0">
+        <div class="trade-guideline mt-2">
+          <h5 class="c-green font-weight-boldtext-uppercase mb-2 mb-sm-3">Payment to Tradesman</h5>
+          <ul>
+            <li><i class="fas fa-check"></i> Make sure you and tradespeople decide job price before initiate work.</li>
+            <li><i class="fas fa-check"></i> Set clear payment terms before accepting bid such as payment date and method.</li>
+            <li><i class="fas fa-check"></i> Be clear on amounts from the start.</li>
+            <li><i class="fas fa-check"></i> If any change in price during work ask tradesman to update bid and verify update price in In-Progress Jobs or Finished Jobs.</li>
+            <li><i class="fas fa-check"></i> Pay tradesman on time and accountable him through feedback.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer p-0 mt-2">
+        <button type="button" class="mp-outine-btn" (click)="UserAgrement()">Terms &amp; conditions apply</button>
+        <button type="button" class="mp-outine-btn" (click)="AcceptBid()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>

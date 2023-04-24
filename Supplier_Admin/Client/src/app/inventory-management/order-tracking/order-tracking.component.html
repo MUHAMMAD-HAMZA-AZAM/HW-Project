@@ -1,0 +1,94 @@
+
+  <div class="container-fluid">
+    <div class="page-header">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="page-header-left">
+            <h3>
+              Order Tracking
+            </h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="order-tracking-wrapper">
+      <div class="viewCart_cart ci p-4" *ngFor='let track of trackingRecord | slice:0:1'>
+        <h6>Customer Information</h6>
+        <div class="row">
+          <div class="col-12 col-sm-5 col-md-6">
+            <label>Address</label>
+            <p>{{track.consignee.address + track.consignee.destination}}</p>
+          </div>
+          <div class="col-6 col-sm-4 col-md-3">
+            <label>Name</label>
+            <p>{{track.consignee.name}}</p>
+          </div>
+          <div class="col-6 col-sm-3">
+            <label>Mobile Number</label>
+            <p>{{track.consignee.phone_number_1}}</p>
+          </div>
+        </div>
+      </div>
+      <ng-container *ngFor="let track of trackingRecord">
+        <h5 class="mt-4 mt-xl-5 mb-2 darkGrayClr"><span class="defClr">Track</span>: #{{track.tracking_number}} <span *ngIf="track?.order_id" class="defClr">Order :</span> {{track.order_id}}</h5>
+        <div class="viewCart_cart trif p-4">
+          <div class="row pi">
+            <div class="col-12 col-sm-6 col-md-5">
+              <h6>Pickup Information</h6>
+              <div class="d-flex">
+                <label>Shipper Name</label>
+                <p>{{track.pickup.person_of_contact}}</p>
+              </div>
+              <hr />
+              <div class="d-flex">
+                <label>Product</label>
+                <p>Printing</p>
+              </div>
+            </div>
+            <div class="mt-3 mt-sm-0 col-12 col-sm-6 col-md-7">
+              <h6>Tracking History</h6>
+              <ng-container *ngFor="let item of track.tracking_history">
+                <div class="d-flex">
+                  <label>Status</label>
+                  <p>{{item.status}}</p>
+                </div>
+                <hr />
+                <div class="d-flex">
+                  <label>Date</label>
+                  <p>{{item.date_time}}</p>
+                </div>
+                <hr />
+              </ng-container>
+            </div>
+          </div>
+
+          <h6 class="mt-3">Order Information</h6>
+          <div class="d-flex oi gap-2 flex-wrap">
+            <ng-container *ngFor="let product of track.order_information.items">
+              <div>
+                <label>Product</label>
+                <p>{{product.description.length > 40 ? (product.description | slice : 0:35) + '...' : product.description}}<i *ngIf="product.description &&  product.description.length > 35 " class="fa fa-eye" placement="top" ngbPopover="{{product.description}}" popoverTitle="" [placement]="'auto'" [container]="'body'"></i></p>
+              </div>
+              <div>
+                <label>Quantity</label>
+                <p>{{product.quantity}}</p>
+              </div>
+            </ng-container>
+            <div>
+              <label>Weight</label>
+              <p>{{(track.order_information.weight | number:'1.0':'en-US') + ' KG'}}</p>
+            </div>
+            <div>
+              <label>Shipping Mode</label>
+              <p>{{track.order_information.shipping_mode}}</p>
+            </div>
+            <div>
+              <label class="primaryClr">Amount</label>
+              <p class="primaryClr">Rs {{ (track.order_information.amount > 0 ? (track.order_information.amount | number:'1.0':'en-US'): 0.00)}}</p>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+

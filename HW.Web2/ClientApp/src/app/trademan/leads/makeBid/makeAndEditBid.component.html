@@ -1,0 +1,89 @@
+
+<div class="container-fluid">
+  <div class="row">
+    <div id="page-wrapper">
+      <div class="col-lg-12">
+        <div class="row">
+          <div class="col-lg-9 bg-white pt-5">
+            <div class="row page-header d-none">
+              <div class="col-lg-12">
+                <div class="row">
+                  <div class="col-lg-8 col-md-8">
+                    <div class="row">
+                      <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                          <li class="breadcrumb-item"><a href="liveleads.html">Live leads</a></li>
+                          <li class="breadcrumb-item"><a href="liveleads-details.html">2360</a></li>
+                          <li class="breadcrumb-item active" aria-current="page">Make Bid</li>
+                        </ol>
+                      </nav>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-4 text-right">
+                    &nbsp;
+                  </div>
+                </div>
+              </div><!-- /.col-lg-12 -->
+            </div><!--heading-->
+            <div class="row">
+              <div class="col-lg-12 shop-detail text-center border-bottom bider-img">
+                <h3>{{bidVM.JobTitle}}</h3>
+                <h4>{{customerName}}</h4>
+              </div>
+            </div>
+            <div class="row mt-3 posted-job-detail pt-2">
+              <form class="col-lg-12" [formGroup]="bidForm">
+                <div class="form-row">
+                  <div class="form-group col-md-6 budgetInput">
+                    <label for="customerBudget">Customer Budget</label>
+                    <input type="number" class="form-control" id="customerBudget" disabled formControlName="CustomerBudget">
+                  </div>
+                  <div class="form-group col-md-6 budgetInput">
+                    <label for="yourBudget">Your Bid</label>
+                    <input type="number" class="form-control budget" id="yourBudget" [ngClass]="{'is-invalid' : submitted && f.Amount.errors}" formControlName="Amount">
+                    <div *ngIf="submitted && f.Amount?.errors" class="invalid-feedback">
+                      <div *ngIf="f.Amount.errors.required">{{bidsErrors.amountErrors}}</div>
+                    </div>
+                  </div>
+
+                  <div class="form-group col-md-12">
+                    <label for="inputAddress">Message</label>
+                    <textarea type="text" class="form-control desc" id="inputAddress" formControlName="Comments" placeholder="Type..."></textarea>
+                  </div>
+
+                  <div class="form-group col-md-12 record-voice">
+                    <!--<input type="text" id="subject" class="form-control" required>-->
+                    <button type="button" class="btn btn-secondary" *ngIf="!isRecording && !blobUrl" (keypress)="startRecording()" (onLongPressing)="startRecording()">Long Press</button>
+                    <button class="start-button" *ngIf="!isRecording && !blobUrl" (click)="startRecording()">Start Recording</button>
+                    <button class="stop-button" *ngIf="isRecording && !blobUrl" (click)="stopRecording()">Stop Recording</button>
+                    <button class="cancel-button" *ngIf="!isRecording && blobUrl" (click)="clearRecordedData()">Clear Recording</button>
+                    <div *ngIf="isRecording && !blobUrl"> {{recordedTime}} </div>
+                    <audio *ngIf="!isRecording && blobUrl" controls>
+                      <source [src]="blobUrl" type="audio/webm">
+                    </audio>
+                  </div>
+
+                  <div class="col-md-12 my-3 text-center">
+                    <a class="btn btn-primary pl-4 pr-4" (click)="SubmitAndUpdateBid()">Submit</a>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="col-lg-3 sec-ads">
+            <div class="row">
+              <div class="col-lg-12">
+                <a href=""><img src="img/ad1.jpg" alt="" /></a>
+              </div>
+              <div class="col-lg-12 mt-3">
+                <a href=""><img src="img/ad2.jpg" alt="" /></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>

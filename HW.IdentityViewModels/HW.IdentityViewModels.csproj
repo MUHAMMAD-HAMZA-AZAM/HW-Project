@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="FluentValidation" Version="10.3.3" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\HW.UserWebViewModels\HW.UserWebViewModels.csproj" />
+		<ProjectReference Include="..\HW.Utility\HW.Utility.csproj" />
+		<ProjectReference Include="..\HW.SupplierViewModels\HW.SupplierViewModels.csproj" />
+	</ItemGroup>
+</Project>

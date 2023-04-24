@@ -1,0 +1,12 @@
+.inputSMS {
+  height: 24px;
+  padding: 4px;
+  margin-right: 10px;
+}
+.btnSMS {
+  height: 25px;
+  background-color: #81ba00;
+  border-color: #81ba00;
+  color: white
+}
+

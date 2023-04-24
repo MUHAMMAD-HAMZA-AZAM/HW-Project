@@ -1,0 +1,526 @@
+<style>
+  .modal-content {
+    width: 1300px !important;
+  }
+</style>
+
+
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card shadow mb-4">
+          <div class="card-header bg-primary">
+            <h6 class="mainTitle m-0 font-weight-bold border-0" data-toggle="collapse" href="#collapse6" aria-expanded="true">Promotions On Packages</h6>
+          </div>
+          <div id="collapse6" class="contentWrapper fs-12 collapse">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="fs-12">Package Id</label>
+                    <select [(ngModel)]="PackageIdFilter" class="form-control">
+                      <option [ngValue]="0" disabled>Select Package</option>
+                      <option *ngFor="let promo of packageddl" [value]="promo.packageId">{{promo.packageName}}</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="fs-12">Promotion Id</label>
+                    <select [(ngModel)]="PromotionIdFilter" class="form-control">
+                      <option [ngValue]="0" disabled>Select Promotion</option>
+                      <option *ngFor="let promo1 of promotionddl" [value]="promo1.promotionId">{{promo1.promotionName}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="fs-12">User Type</label>
+                    <select class="form-control" [(ngModel)]="UserRoleIdfilter">
+                      <option value="0" selected="selected">  Select  </option>
+                      <option value="3">Customer</option>
+                      <option value="4">Supplier</option>
+                      <option value="1">Tradesman Solo</option>
+                      <option value="2">Tradesman Organization</option>
+                    </select>
+
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="fs-12">Entity Status</label>
+                    <select class="form-control" [(ngModel)]="Entity">
+                      <!-- <option [value]="0" disabled>Select Status</option>-->
+                      <option [value]="1">Active</option>
+                      <option [value]="2">InActive</option>
+                      <option [value]="3">Discontinue</option>
+
+                    </select>
+                    <!--<div *ngIf="f.entityStatus?.errors">
+        <div *ngIf="f.entityStatus.invalid && submited">
+          <small *ngIf="f.entityStatus.errors?.required" class="text-danger">Entity status is requried</small>
+        </div>
+      </div>-->
+                  </div>
+
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="col-md-4 inline-downlod-btns">
+                  <button class="btn btn-sm btn-primary mr-2" (click)="getPromotionOnPackagesList()">Search</button>
+                  <button class="btn btn-sm btn-primary" (click)="resetform()">Reset</button>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card shadow mb-4">
+        <!--<div class="card-header justify-header">
+          <h6 class="m-0 font-weight-bold">Packages List</h6>
+          <button (click)="showModal(content)" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New Package</button>
+        </div>-->
+        <div class="card-header bg-primary">
+          <h6 class="text-white fa-pull-left m-0 font-weight-bold">Promotions On Packages List</h6>
+          <div class="fa-pull-right d-flex align-items-center">
+            <button (click)="showModal(content)" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New</button>
+            <div class="g-pagination">
+              <div class="data-count">
+                <span class="text-white">{{recoardNoFrom}}-{{recoardNoTo}} of {{totalRecoards}}</span>
+                <div class="newOrOld-Data">
+                  <ul>
+                    <li><a (click)="LoadNewestRecoards()"> Newest</a></li>
+                    <li><a (click)="LoadOldestRecoards()">Oldest</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="indicators text-white">
+                <i class="fa fa-angle-left" (click)="PriviousClick()"></i>
+                <i class="fa fa-angle-right" (click)="NextClick()"></i>
+              </div>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="card-body">
+          <div class="show_entries">
+            <div class="no-of-entries">
+              <label>No of Entries</label>
+              <select (change)="changePageSize()" [(ngModel)]="pageSize">
+                <option value="50" selected>50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+            <div class="n0-of-pages">
+              <label>No of Pages</label>
+              <select class="" [(ngModel)]="pageNumber" (change)="clickchange()">
+                <option *ngFor="let item of pageing1" value="{{item}}">{{item}} </option>
+              </select>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th width="8%">Package Name</th>
+                  <th width="8%" title="Promotion Name">PN</th>
+                  <th width="6%">User Role</th>
+                  <th width="6%">Entity Status</th>
+
+                  <th width="3%" title="Original Sale Price">OSP</th>
+                  <th width="3%" title="Discount Percent Price">DPP</th>
+                  <th width="3%" title="Price After Discount">PAD</th>
+                  <th width="3%" title="Validity Days">VD</th>
+                  <th width="3%" title="Discount Days">DD</th>
+                  <th width="3%" title="Discounted Validity Days">DVD</th>
+                  <th width="3%" title="Total Applicable Jobs">TAJ</th>
+                  <th width="3%" title="Discount Jobs Applied">DJA</th>
+                  <th width="3%" title="Discounted Total Applicable Jobs">DTAJ</th>
+                  <th width="3%" title="Total Categories">TC</th>
+                  <th width="3%" title="Discount Categories">DC</th>
+                  <th width="3%" title="Discounted Total Categories">DTC</th>
+                  <th width="6%" title="Created Date">CD</th>
+                  <th width="6%" title="Created By">CB</th>
+                  <th width="6%" title="Modified Date">MD</th>
+                  <th width="6%" title="Modified By">MB</th>
+                  <th width="1%">Edit</th>
+                  <th title="Delete" width="1%">Del</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let list  of packagesList">
+                  <td>{{list.packageName}}</td>
+                  <td>{{list.promotionName}}</td>
+                  <td *ngIf="list.userRoleId == 1">Tradesman Solo</td>
+                  <td *ngIf="list.userRoleId == 2">Tradesman Org</td>
+                  <td *ngIf="list.userRoleId == 3">Customer</td>
+                  <td *ngIf="list.userRoleId == 4">Supplier</td>
+                  <td *ngIf="list.entityStatus == '1' ">Active</td>
+                  <td *ngIf="list.entityStatus == '2'">InActive</td>
+                  <td *ngIf="list.entityStatus == '3'">Discontinue</td>
+                  <!--<td>{{list.isActive}}</td>-->
+                  <td>{{list.originalSalePrice}}</td>
+                  <td>{{list.discountPercentPrice}}</td>
+                  <td>{{list.priceAfterDiscount}}</td>
+                  <td>{{list.validityDays}}</td>
+                  <td>{{list.discountDays}}</td>
+                  <td>{{list.discountedValidityDays}}</td>
+                  <td>{{list.totalApplicableJobs}}</td>
+                  <td>{{list.discountJobsApplied}}</td>
+                  <td>{{list.discountedTotalApplicableJobs}}</td>
+                  <td>{{list.totalCategories}}</td>
+                  <td>{{list.discountCategories}}</td>
+                  <td>{{list.discountedTotalCategories}}</td>
+                  <td>{{list.createdDate | date: "dd MMM yyy "}}</td>
+                  <td>{{list.createdBy}}</td>
+                  <td>{{list.updatedDate | date: "dd MMM yyy "}}</td>
+                  <td>{{list.updatedBy}}</td>
+                  <td><i class="text-info fa fa-pencil-alt" (click)="updatePackages(list , content)"></i></td>
+                  <td><i class="text-danger fa fa-trash-alt" (click)="deletepackage(list , deleteContent)"></i></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card-body" style="padding:0px !important">
+            <div class="show_entries">
+              <div class="no-of-entries">
+                <label>No of Entries</label>
+                <select (change)="changePageSize()" [(ngModel)]="pageSize">
+                  <option value="50" selected>50</option>
+                  <option value="100">100</option>
+                </select>
+              </div>
+              <div class="n0-of-pages">
+                <label>No of Pages</label>
+                <select class="" [(ngModel)]="pageNumber" (change)="clickchange()">
+                  <option *ngFor="let item of pageing1" value="{{item}}">{{item}} </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">PromotionsOnPackages List</h6>
+            <div class="g-pagination">
+              <div class="data-count">
+                <span>{{recoardNoFrom}}-{{recoardNoTo}} of {{totalRecoards}}</span>
+                <div class="newOrOld-Data">
+                  <ul>
+                    <li><a (click)="LoadNewestRecoards()"> Newest</a></li>
+                    <li><a (click)="LoadOldestRecoards()">Oldest</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="indicators">
+                <i class="fa fa-angle-left" (click)="PriviousClick()"></i>
+                <i class="fa fa-angle-right" (click)="NextClick()"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #deleteContent let-modal>
+    <!--  -->
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Delete Confirmation</h5>
+    </div>
+    <div class="modal-body">
+      <h5>Are you want to delete?</h5>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-sm btn-primary" (click)="confirmDeletePackage()">Ok</button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('cancel click')">Cancel</button>
+    </div>
+  </ng-template>
+  <ng-template #content let-modal >
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Add New PromotionsOn Packages</h5>
+    </div>
+    <div class="modal-body">
+
+      <!--<div class="card shadow mb-12">
+      <div class="card-header justify-header">
+        <h6 class="m-0 font-weight-bold">Package</h6>
+      </div>-->
+      <!--<div class="card-body">-->
+
+      <form [formGroup]="pkgForm" (submit)="save()">
+        <input type="hidden" formControlName="promotionOnPackagesId" />
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="fs-12">Package Name</label>
+              <select class="form-control" formControlName="packageId" (change)="bindpackagesdata($event)">
+                <option [ngValue]="0" disabled>Select Package</option>
+                <option *ngFor="let promo of packageddl" [value]="promo.packageId">{{promo.packageName}}</option>
+              </select>
+              <div *ngIf="f.packageId?.errors">
+                <div *ngIf="f.packageId.invalid && submited">
+                  <small *ngIf="f.packageId.errors?.required" class="text-danger">Package name is requried</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="fs-12">Promotion Name</label>
+              <select formControlName="promotionId" class="form-control" (change)="setpromotion($event)">
+                <option [ngValue]="0" disabled>Select Promotion</option>
+                <option *ngFor="let promo1 of promotionddl" [value]="promo1.promotionId">{{promo1.promotionName}}</option>
+              </select>
+              <div *ngIf="f.promotionId?.errors">
+                <div *ngIf="f.promotionId.invalid && submited">
+                  <small *ngIf="f.promotionId.errors?.required" class="text-danger">Promotion name is requried</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="fs-12">User Type</label>
+              <select class="form-control" formControlName="userRoleId" disabled>
+                <option value="0" selected="selected">  Select  </option>
+                <option value="3">Customer</option>
+                <option value="4">Supplier</option>
+                <option value="1">Tradesman Solo</option>
+                <option value="2">Tradesman Organization</option>
+              </select>
+
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="fs-12">Entity Status</label>
+              <select class="form-control" formControlName="entityStatus">
+                <!-- <option [value]="0" disabled>Select Status</option>-->
+                <option [value]="1">Active</option>
+                <option [value]="2">InActive</option>
+                <option [value]="3">Discontinue</option>
+
+              </select>
+              <div *ngIf="f.entityStatus?.errors">
+                <div *ngIf="f.entityStatus.invalid && submited">
+                  <small *ngIf="f.entityStatus.errors?.required" class="text-danger">Entity status is requried</small>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="card-header bg-primary">
+          <h6 class="text-white fa-pull-left m-0 font-weight-bold">Package Details</h6>
+          <div class="clearfix"></div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th><label>Orignal Sale Price</label></th>
+                  <th><label>Validity Days</label></th>
+                  <th><label>Total Applicable Jobs</label></th>
+                  <th><label>Total Categories</label></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <input type="text" class="form-control" formControlName="originalSalePrice" disabled />
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" formControlName="validityDays" disabled />
+                  </td>
+
+                  <td>
+                    <input type="text" class="form-control" formControlName="totalApplicableJobs" disabled />
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" formControlName="totalCategories" disabled />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-header bg-primary">
+          <h6 class="text-white fa-pull-left m-0 font-weight-bold">Promotion Details</h6>
+          <div class="clearfix"></div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th><label>Discount Percent Price</label></th>
+                  <th><label>Discount Days</label></th>
+                  <th><label>Discount Jobs Applied</label></th>
+                  <th><label>Discount Categories</label></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <input type="text" class="form-control" formControlName="discountPercentPrice" disabled />
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" formControlName="discountDays" disabled />
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" formControlName="discountJobsApplied" disabled />
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" formControlName="discountCategories" disabled />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card-header bg-primary">
+          <h6 class="text-white fa-pull-left m-0 font-weight-bold">Applied Promotion Details</h6>
+          <div class="clearfix"></div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th><label>Price After Discount</label></th>
+                  <th><label>Discount Validity Days</label></th>
+                  <th><label>Discounted Total Jobs</label></th>
+                  <th><label>Discounted Total Categories</label></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <input type="text" class="form-control" formControlName="priceAfterDiscount" disabled />
+
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" formControlName="discountedValidityDays" disabled />
+
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" formControlName="discountedTotalApplicableJobs" disabled />
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" formControlName="discountedTotalCategories" disabled />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!--</div>-->
+        <!--<div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="fs-12">Orignal Sale Price</label>
+              <input type="text" class="form-control" formControlName="originalSalePrice" disabled />
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-4 col-lg-4">
+            <div class="form-group">
+              <label class="fs-12">Discount Percent Price</label>
+              <input type="text" class="form-control" formControlName="discountPercentPrice" disabled />
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="fs-12">Price After Discount</label>
+              <input type="text" class="form-control" formControlName="priceAfterDiscount" disabled />
+            </div>
+          </div>
+
+
+        </div>-->
+
+        <!--<div class="row">
+          <div class="col-md-4 col-sm-4 col-lg-4">
+            <div class="form-group">
+              <label class="fs-12">Validity Days</label>
+              <input type="text" class="form-control" formControlName="validityDays" disabled />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="fs-12">Discount Days</label>
+              <input type="text" class="form-control" formControlName="discountDays" disabled />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="fs-12">Discount Validity Days</label>
+              <input type="text" class="form-control" formControlName="discountedValidityDays" disabled />
+            </div>
+          </div>
+        </div>-->
+        <!--<div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="fs-12">Total Applicable Jobs</label>
+              <input type="text" class="form-control" formControlName="totalApplicableJobs" disabled />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="fs-12">Discount Jobs Applied</label>
+              <input type="text" class="form-control" formControlName="discountJobsApplied" disabled />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="fs-12">Discounted Total Jobs</label>
+              <input type="text" class="form-control" formControlName="discountedTotalApplicableJobs" disabled />
+            </div>
+          </div>
+        </div>-->
+        <!--<div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="fs-12">Total Categories</label>
+              <input type="text" class="form-control" formControlName="totalCategories" disabled />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="fs-12">Discount Categories</label>
+              <input type="text" class="form-control" formControlName="discountCategories" disabled />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="fs-12">Discounted Total Catg</label>
+              <input type="text" class="form-control" formControlName="discountedTotalCategories" disabled />
+            </div>
+          </div>
+        </div>-->
+
+        <div class="row">
+          <div class="col-md-4 inline-downlod-btns">
+            <button class="btn btn-sm btn-primary mr-2">Save</button>
+            <button class="btn btn-sm btn-primary mr-2" (click)="resetForm()">Reset</button>
+            <button type="submit" class="btn btn-primary btn-sm" (click)="modal.close('Save click')">Cancel</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </ng-template>
+</div>

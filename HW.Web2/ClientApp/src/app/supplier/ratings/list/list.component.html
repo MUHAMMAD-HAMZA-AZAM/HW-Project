@@ -1,0 +1,27 @@
+<section id="nd-right-content">
+  <h2 class="heading-dashboad mb-3 mb-lg-4">Rating</h2>
+  <div *ngIf="ratings.length <= 0" id="no-found" class="text-center d-flex justify-content-center align-items-center">
+    <div>
+      <h1 class="mb-3 text-uppercase"><i class="fas fa-exclamation-circle text-danger"></i> Oops!</h1>
+      <h5 class="text-danger text-capitalize">you don't get any rating yet. </h5>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6 pb-2 pb-lg-2" *ngFor="let item of ratings;let index = index;">
+      <div class="mq-box p-3">
+        <div class="d-flex flex-column">
+          <div class="mq-details ml-2">
+            <h6 class="mb-1 text-center text-sm-left">{{item.customerName}}</h6>
+            <div class="d-flex flex-column align-items-center align-items-sm-start">
+              <small class="ml-sm-0">date:<b>{{item.createdOn |date : 'dd MMM yyyy hh:mm a'}}</b></small>
+              <small>Comment: <b>{{item.comments}}</b></small>
+              <star-rating value="{{item.rating}}" totalstars="5" checkedcolor="gold" uncheckedcolor="black" size="18px" readonly="true"></star-rating>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+

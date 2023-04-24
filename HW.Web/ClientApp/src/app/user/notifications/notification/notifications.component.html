@@ -1,0 +1,52 @@
+<div class="container-fluid">
+  <div class="row posted-job alert-dismissable" *ngFor="let item of notifications;let index = index;">
+    <div class="col-lg-12">
+      <div class="row" *ngIf="item.targetActivity=='TradesmanProfile'">
+        <div class="col-md-8" (click)="NotificationDetail(item.senderEntityId,'TradesmanProfile')">
+          <h5>{{item.title}}</h5>
+        </div>
+        <div class="col-md-4 status">
+          <p>{{item.createdOn |date: "dd/MM/yyyy hh:mm a"}}</p>
+        </div>
+        <div class="col-md-12"><p>{{item.body}}</p></div>
+      </div>
+      <div class="row" *ngIf="item.targetActivity=='BidDetails'">
+        <div class="col-md-8" (click)="NotificationDetail(item.senderEntityId,'BidDetails')">
+          <h5>{{item.title}}</h5>
+        </div>
+        <div class="col-md-4 status">
+          <p>{{item.createdOn |date: "dd/MM/yyyy hh:mm a"}}</p>
+        </div>
+        <div class="col-md-12"><p>{{item.body}}</p></div>
+      </div>
+      <div class="row" *ngIf="item.targetActivity=='PostedJobs'">
+        <div class="col-md-8" (click)="NotificationDetail(item.senderEntityId,'PostedJobs')">
+          <h5>{{item.title}}</h5>
+        </div>
+        <div class="col-md-4 status">
+          <p>{{item.createdOn |date: "dd/MM/yyyy hh:mm a"}}</p>
+        </div>
+        <div class="col-md-12"><p>{{item.body}}</p></div>
+      </div>
+      <div class="row" *ngIf="item.targetActivity=='InProgressJobDetail'">
+        <div class="col-md-8" (click)="NotificationDetail(item.senderEntityId,'InProgressJobDetail')">
+          <h5>{{item.title}}</h5>
+        </div>
+        <div class="col-md-4 status">
+          <p>{{item.createdOn |date: "dd/MM/yyyy hh:mm a"}}</p>
+        </div>
+        <div class="col-md-12"><p>{{item.body}}</p></div>
+      </div>
+      <div class="row" *ngIf="item.targetActivity=='RateTradesman'">
+        <div class="col-md-8" (click)="NotificationDetail(item.senderEntityId,'RateTradesman')">
+          <h5>{{item.title}}</h5>
+        </div>
+        <div class="col-md-4 status">
+          <p>{{item.createdOn |date: "dd/MM/yyyy hh:mm a"}}</p>
+        </div>
+        <div class="col-md-12"><p>{{item.body}}</p></div>
+      </div>
+
+    </div>
+  </div>
+</div>

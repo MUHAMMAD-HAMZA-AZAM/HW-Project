@@ -1,0 +1,10 @@
+D:\GitHub\Hoomwork\HW.AnalyticsModels\bin\Debug\netstandard2.0\HW.AnalyticsModels.deps.json
+D:\GitHub\Hoomwork\HW.AnalyticsModels\bin\Debug\netstandard2.0\HW.AnalyticsModels.dll
+D:\GitHub\Hoomwork\HW.AnalyticsModels\bin\Debug\netstandard2.0\HW.AnalyticsModels.pdb
+D:\GitHub\Hoomwork\HW.AnalyticsModels\obj\Debug\netstandard2.0\HW.AnalyticsModels.csproj.AssemblyReference.cache
+D:\GitHub\Hoomwork\HW.AnalyticsModels\obj\Debug\netstandard2.0\HW.AnalyticsModels.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Hoomwork\HW.AnalyticsModels\obj\Debug\netstandard2.0\HW.AnalyticsModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.AnalyticsModels\obj\Debug\netstandard2.0\HW.AnalyticsModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.AnalyticsModels\obj\Debug\netstandard2.0\HW.AnalyticsModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.AnalyticsModels\obj\Debug\netstandard2.0\HW.AnalyticsModels.dll
+D:\GitHub\Hoomwork\HW.AnalyticsModels\obj\Debug\netstandard2.0\HW.AnalyticsModels.pdb

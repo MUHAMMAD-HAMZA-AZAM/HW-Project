@@ -1,0 +1,230 @@
+<div class="d-content-left-side">
+  <h2 class="heading-dashboad mb-3 mb-lg-4">payment</h2>
+  <div class="row" id="user-payment">
+    <div class="col-12 col-lg-12 ">
+      <div class="row ">
+        <div class="col-6">
+          <label>Customer</label>
+          <label>Job Refr</label>
+          <label>Date</label>
+        </div>
+        <div class="col-6 text-right">
+          <label><b>{{bidDetail.customerName}}</b></label>
+          <label><b>{{bidDetail.jobQuotationId}}</b></label>
+
+          <label><b>{{bidDetail.bidPostedOn | date :'dd MMM yyyy'}}</b></label>
+        </div>
+      </div>
+      <ng-container *ngIf="isActivePromotionRedempetion || isActiveVoucherRedemption">
+        <hr />
+        <div class="row">
+          <div class="col-12">
+            <h6 class="mt-0 mb-0">Have a gift voucher code or Promotion Code?</h6>
+          </div>
+        </div>
+        <div class="row d-flex justify-content-between mt-3">
+          <div class="form-group col-8">
+            <input type="text" class="form-control" name="redeemEntry" #redeemEntry />
+            <span class="text-danger" *ngIf="existingPromoCode">You are already used this Promotional code.</span>
+            <span class="text-danger" *ngIf="invalidPromoCode">Invalid Promotional Code.</span>
+            <span class="text-danger" *ngIf="existingVoucherCode">You are already used this Voucher code.</span>
+            <span class="text-danger" *ngIf="invalidVoucherCode">Invalid Voucher Code.</span>
+            <!--<span class="text-danger" *ngIf="isDiscountAvail">You already avail discount by code.</span>-->
+            <span class="text-danger" *ngIf="redeemValue">Please enter your Gift Voucher Code or Promotion Code.</span>
+          </div>
+          <div class="form-group col-4">
+            <button type="button" class="btn btn-secondary float-right" [disabled]="redeemBtn" (click)="RedeemBtn(redeemEntry.value)">Apply </button>
+          </div>
+        </div>
+      </ng-container>
+      <hr />
+      <div class="d-flex justify-content-between">
+        <a (click)="showModal(additionalCharges)"><h6 class="mb-2 underline">Do you have any additional Charges?. Click Here.</h6></a>
+      </div>
+      <div class="row" *ngIf="!additionalhide">
+        <div class="col-6">
+          <label>Previous Amount</label>
+          <label>Additional Charges</label>
+        </div>
+        <div class="col-6 text-right">
+          <label name="discountedPrice"><b>{{previousAmount}}</b></label>
+          <label name="finalPrice"><b>{{additionalAmount}}</b></label>
+        </div>
+      </div>
+      <div class="d-flex justify-content-between">
+        <h6 class="mb-2">Amount due</h6>
+        <p *ngIf="additionalhide">{{bidDetail.tradesmanOffer}}</p>
+        <p *ngIf="!additionalhide">{{finalBudget}}</p>
+      </div>
+
+      <div class="row" *ngIf="!walletDiv">
+        <div class="col-3">
+          <label>Use Wallet Amount</label>
+        </div>
+        <div class="col-2">
+          <button type="button" name="walletBtn" [disabled]="walletBtn" class="btn btn-secondary float-left" (click)="walletRedeem()">Apply </button>
+        </div>
+        <div class="col-7 text-right">
+          <label name="walletAmount"><b>{{walletAmount}}</b></label>
+        </div>
+      </div>
+      <div class="row" *ngIf="!hide">
+        <div class="col-6">
+          <label>Discount</label>
+          <label>Final Price</label>
+        </div>
+        <div class="col-6 text-right">
+          <label name="discountedPrice"><b>{{discountedPrice}}</b></label>
+          <label name="finalPrice"><b>{{finalPrice}}</b></label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-6">
+          <label>You Have To Pay</label>
+        </div>
+        <div class="col-6 text-right">
+          <label name="finalPayment"><b>{{finalPayment}}</b></label>
+        </div>
+      </div>
+
+      <p class="text-center mt-5">Select your payment method</p>
+      <hr />
+      <div class="row">
+        <div class="col-12">
+          <div class="d-flex align-items-center justify-content-between">
+
+            <div class="form-check ml-3">
+              <input class="form-check-input" [disabled]="isFreeJob || fromWallet" type="radio" name="exampleRadios" id="exampleRadios2" value="1" [(ngModel)]="paymentMethod">
+              <label class="form-check-label" for="exampleRadios2">
+                Jazz Cash
+              </label>
+            </div>
+            <div class="pm-icon mr-1">
+              <img src="/assets/img/jazz_cash.png" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col-12">
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="form-check ml-3">
+              <input class="form-check-input" [disabled]=isFreeJob type="radio" name="exampleRadios" id="exampleRadios1" value="3" [(ngModel)]="paymentMethod" checked>
+              <label class="form-check-label" for="exampleRadios1">
+                Cash Payment
+              </label>
+            </div>
+            <div class="pm-icon mr-1">
+              <img src="/assets/img/cash-flow.png" height="50" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="row" *ngIf="isFreeJob">
+        <div class="col-12">
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="form-check ml-3">
+              <input class="form-check-input" [disabled]=fromWallet type="radio" name="exampleRadios" id="exampleRadios3" value="6" [(ngModel)]="paymentMethod" checked>
+              <label class="form-check-label" for="exampleRadios1">
+                Free Job
+              </label>
+            </div>
+            <div class="pm-icon mr-1">
+              <img src="/assets/img/cash-flow.png" height="50" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr *ngIf="fromWallet" />
+      <div class="row" *ngIf="fromWallet">
+        <div class="col-12">
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="form-check ml-3">
+              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="4" [(ngModel)]="paymentMethod" checked>
+              <label class="form-check-label" for="exampleRadios1">
+                Paid From Wallet
+              </label>
+            </div>
+            <div class="pm-icon mr-1">
+              <img src="/assets/img/cash-flow.png" height="50" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <label class="text-danger" *ngIf="isPayment">Kindly Select Payment Method</label>
+
+      <div class="row" *ngIf="isPaymentStatus">
+        <div class="col-12 col-sm-6 col-md-6 mx-auto">
+          <label class="text-danger"><b>{{pp_ResponseMessage}}</b></label>
+          <!--<label class="text-danger"><b>Your payment was not successfully processed. Please try again.</b></label>-->
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-sm-6 col-md-6 mx-auto">
+          <button class="btn mp-outine-btn py-3 mt-5 mb-5 btn-block" (click)="Proceed()">Proceed</button>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+<ng-template #additionalCharges let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title " style="color: var(--headingClr)" id="modal-basic-title">Additional Charges</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('no')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <!--<h6 class="mb-3">Do you have any additional charges?</h6>
+    <h6 class="mb-3">Previous Budget: <span style="color: var(--headingClr)">{{previousBudget}}</span></h6>-->
+    <form [formGroup]="appFormVal1">
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label>Additional Charges</label>
+            <input type="text" inputmode="numeric" (keypress)="AllowNonZeroIntegers($event)" step="1.00" maxlength="10" pattern="^[0-9]{2,10}$" class="form-control" formControlName="addtionalCharges" />
+            <ng-container *ngIf="g.addtionalCharges?.errors">
+              <ng-container *ngIf="g.addtionalCharges.invalid && formSubmit">
+                <small class="text-danger" *ngIf="g.addtionalCharges.errors?.required">Input is required</small>
+                <small class="text-danger" *ngIf="g.addtionalCharges.errors?.pattern">Invalid input</small>
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer justify-content-end">
+    <button type="button" class="btn mp-outine-btn" (click)="startJob()">yes</button>
+    <button type="button" class="btn mp-outine-btn" (click)="modal.close('no')">No</button>
+  </div>
+</ng-template>
+<div bsModal #ConfirmQuotes="bs-modal" id="confirmQuotes" class="modal fade modallist" role="dialog" [config]="{backdrop: 'static',  keyboard: false}">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="CloseModel()" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title text-center" style="float:none">PAYMENT GUIDELINES</h4>
+      </div>
+      <div class="modal-body">
+        <p style="font-weight:bold">Payment to Tradesman</p>
+        <ul>
+          <li><i class="fas fa-check"></i> Make sure you and tradespeople decide task price before initiate work.</li>
+          <li><i class="fas fa-check"></i> Set clear payment terms before accepting bid such as payment date and method.</li>
+          <li><i class="fas fa-check"></i> Be clear on amounts from the start.</li>
+          <li><i class="fas fa-check"></i> If any change in price during work ask tradesman to update bid and verify update price in In-Progress Tasks or Finished Tasks.</li>
+          <li><i class="fas fa-check"></i> Pay tradesman on time and accountable him through feedback.</li>
+        </ul>
+        <p><a style="margin-left: 10px;" href="javascript:void(0)">Terms &amp; conditions apply</a></p>
+        <div class="text-center"><a id="proceedBtn" class="btn btn-sm btn-success mt-3" (click)="AcceptBid()">OK</a></div>
+      </div>
+    </div>
+  </div>
+</div>

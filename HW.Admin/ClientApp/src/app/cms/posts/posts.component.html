@@ -1,0 +1,33 @@
+<div class="container-fluid">
+  <div class="settings-wrapper">
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mx-auto">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Posts List</h6>
+            <!--<button (click)="showModal(content)" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New City</button>-->
+          </div>
+          <div class="card-body" id="postListWrapper">
+            <div class="row">
+              <div class="col-xl-4 col-lg-6 col-md-4 col-sm-6 col-12" *ngFor="let post of postsList">
+                <div class="card" style="width: 18rem; margin-top:20px">
+                  <img [src]="service.transform(post?.headerImage)" class="card-img-top" alt="...">
+                  <div class="card-body" style="background: #fbfbfb;">
+                    <h5 class="card-title">{{post?.postTitle.length > 40 ? (post.postTitle | slice:0:40)+ '...' : post.postTitle  }}</h5>
+                    <div class="post-details">
+                      <h6>Author: <span>{{post?.userName}}</span></h6>
+                      <h6>Category: <span>{{post?.categoryName}}</span></h6>
+                      <h6>Status: <span>{{post?.postStatusName}}</span></h6>
+                    </div>
+                    <a [routerLink]="['/cms/postdetails', post?.postId]" class="btn btn-primary">More Details</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <ngb-pagination (pageChange)="getPostByPage($event)" [collectionSize]="postCount" [(page)]="pageNumber" [pageSize]="pageSize" [maxSize]="5" [boundaryLinks]="true"></ngb-pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

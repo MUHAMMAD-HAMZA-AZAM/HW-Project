@@ -1,0 +1,58 @@
+
+
+@keyframes progress {
+
+50%{
+  border-width: .5em 0;
+}
+
+to {
+  border-width: .5em 0 0 0;
+}
+
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(-270deg);
+  }
+}
+
+.progress {
+  display: inline-block;
+  font-size: 50px; /* Size of the progress indicator */
+  width: 1em;
+  height: 1em;
+  border: solid white;
+  border-top-color: red;
+  border-width: 0 0 .5em 0;
+  border-radius: 50%;
+  box-sizing: border-box;
+  margin: .1em .2em;
+  background: linear-gradient(white 50%, red 50%);
+  background-origin: border-box;
+  transform: rotate(90deg);
+  animation: rotate 1s steps(4) infinite, progress .25s linear infinite alternate;
+  text-indent: 99em;
+  overflow: hidden;
+  margin-bottom: 5vh;
+}
+
+  .progress.small {
+    font-size: 16px
+  }
+
+  .progress.large {
+    font-size: 100px
+  }
+
+.content {
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+

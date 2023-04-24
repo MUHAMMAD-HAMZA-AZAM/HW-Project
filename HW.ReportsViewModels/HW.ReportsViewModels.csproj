@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HW.IdentityViewModels\HW.IdentityViewModels.csproj" />
+    <ProjectReference Include="..\HW.Job ViewModels\HW.JobViewModels.csproj" />
+    <ProjectReference Include="..\HW.Utility\HW.Utility.csproj" />
+  </ItemGroup>
+
+</Project>

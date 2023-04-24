@@ -1,0 +1,119 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row" *ngIf="userRole.allowAdd">
+      <div class="col-md-6">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Add a FAQ</h6>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="faqForm">
+              <input type="hidden" formControlName="FaqId" />
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Question Name</label>
+                    <input type="text" required maxlength="100" minlength="10" formControlName="Header" class="form-control" />
+                    <div *ngIf="f.Header?.errors">
+                      <div *ngIf="f.Header.invalid && (f.Header.touched || f.Header.dirty )">
+                        <small class="text-danger" *ngIf="f.Header.errors?.required">Input is required</small>
+                        <small class="text-danger" *ngIf="f.Header.errors?.minlength">Input required minimum 10 characters</small>
+                        <small class="text-danger" *ngIf="f.Header.errors?.maxlength">Input allows maximum 100 characters</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Answer Here</label>
+                    <angular-editor formControlName="FAQsText" required maxlength="1000" minlength="10" [config]="config"></angular-editor>
+                    <div *ngIf="f.FAQsText?.errors">
+                      <div *ngIf="f.FAQsText.invalid && (f.FAQsText.touched || f.FAQsText.dirty )">
+                        <small class="text-danger" *ngIf="f.FAQsText.errors?.required">Input is required</small>
+                        <small class="text-danger" *ngIf="f.FAQsText.errors?.minlength">Input required minimum 10 characters</small>
+                        <small class="text-danger" *ngIf="f.FAQsText.errors?.maxlength">Input allows maximum 1000 characters</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>User Type</label>
+                    <select class="form-control" required formControlName="UserType">
+                      <option [ngValue]="null" disabled>Select User Type</option>
+                      <option value="3">Customer</option>
+                      <option value="1">Tradesman</option>
+                      <option value="4">Supplier</option>
+                    </select>
+                    <div *ngIf="f.UserType?.errors">
+                      <div *ngIf="f.UserType.invalid && (f.UserType.touched || f.UserType.dirty )">
+                        <small class="text-danger" *ngIf="f.UserType.errors?.required">Input is required</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Order Faq</label>
+                    <input type="text" maxlength="4" formControlName="OrderByColumn" class="form-control" />
+                  </div>
+                </div>
+              </div>
+              <button class="btn btn-sm btn-primary" [disabled]="!faqForm.valid" (click)="handleSubmit()">Save</button>
+              <button class="btn btn-sm btn-primary ml-2" (click)="resetForm()">Reset</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">FAQs List</h6>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th width="1%" title="FAQ ID">ID</th>
+                    <th width="10%" title="Question Name">QN</th>
+                    <th width="25%" title="Answer">Answer</th>
+                    <th width="5%" title="User Type">UT</th>
+                    <th width="2%" title="">Status</th>
+                    <th width="4%" title="Created Date">CD</th>
+                    <th width="4%" title="Created By">CB</th>
+                    <th width="4%" title="Modified Date">MD</th>
+                    <th width="4%" title="Modified By">MB</th>
+                    <th *ngIf="userRole.allowAdd" width="1%">Edit</th>
+                    <th title="Delete" *ngIf="userRole.allowDelete" width="1%">Del</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let faq of faqList">
+                    <td>{{faq.faqId}}</td>
+                    <td>{{faq.header}}</td>
+                    <td [innerHTML]="faq.faqsText"></td>
+                    <td>{{(faq.userType == 1) ? 'Tradesman' : (faq.userType == 3) ? 'Customer' : 'Supplier'  }}</td>
+                    <td [ngClass]="(faq.isActive) ? 'text-primary' : 'text-danger' ">{{faq.isActive ? 'Active' : 'InActive'}}</td>
+                    <td>{{faq.createdOn | date: "dd MMM yyy "}}</td>
+                    <td>{{faq.createdBy }}</td>
+                    <td>{{faq.modifiedOn | date: "dd MMM yyy "}}</td>
+                    <td>{{faq.modifiedBy}}</td>
+                    <td *ngIf="userRole.allowAdd"><i class="text-info fa fa-pencil-alt" (click)="updateFaq(faq)"></i></td>
+                    <td *ngIf="userRole.allowDelete"><i class="text-danger fa fa-trash-alt" (click)="deleteFaq(faq)"></i></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+D:\GitHub\Hoomwork\HW.UserViewModels\bin\Release\netstandard2.0\HW.UserViewModels.deps.json
+D:\GitHub\Hoomwork\HW.UserViewModels\bin\Release\netstandard2.0\HW.UserViewModels.dll
+D:\GitHub\Hoomwork\HW.UserViewModels\bin\Release\netstandard2.0\HW.UserViewModels.pdb
+D:\GitHub\Hoomwork\HW.UserViewModels\bin\Release\netstandard2.0\HW.Http.dll
+D:\GitHub\Hoomwork\HW.UserViewModels\bin\Release\netstandard2.0\HW.Utility.dll
+D:\GitHub\Hoomwork\HW.UserViewModels\bin\Release\netstandard2.0\HW.Utility.pdb
+D:\GitHub\Hoomwork\HW.UserViewModels\bin\Release\netstandard2.0\HW.Http.pdb
+D:\GitHub\Hoomwork\HW.UserViewModels\obj\Release\netstandard2.0\HW.UserViewModels.csproj.AssemblyReference.cache
+D:\GitHub\Hoomwork\HW.UserViewModels\obj\Release\netstandard2.0\HW.UserViewModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.UserViewModels\obj\Release\netstandard2.0\HW.UserViewModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.UserViewModels\obj\Release\netstandard2.0\HW.UserViewModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.UserViewModels\obj\Release\netstandard2.0\HW.UserViewModels.csproj.CopyComplete
+D:\GitHub\Hoomwork\HW.UserViewModels\obj\Release\netstandard2.0\HW.UserViewModels.dll
+D:\GitHub\Hoomwork\HW.UserViewModels\obj\Release\netstandard2.0\HW.UserViewModels.pdb
+D:\GitHub\Hoomwork\HW.UserViewModels\obj\Release\netstandard2.0\HW.UserViewModels.GeneratedMSBuildEditorConfig.editorconfig

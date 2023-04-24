@@ -1,0 +1,175 @@
+<div class="container-fluid">
+  <div class="settings-wrapper">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Product Category Group List</h6>
+            <button *ngIf="userRole.allowAdd" (click)="showModal(content)" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New Product Category Group</button>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th width="10%" title="Product Category Group Name">PCGN</th>
+                    <th width="10%" title="Category Name">CN</th>
+                    <th width="10%" title="Sub Category Name">SCN</th>
+                    <th width="10%" title="Seo Title ">Seo Title</th>
+                    <th width="10%" title="Seo Description">Seo Description</th>
+                    <th width="10%" title="Og Title">Og Title</th>
+                    <th width="10%" title="Og Description">Og Description</th>
+                    <th width="20%" title="Canonical ">Canonical Url</th>
+                    <th width="5%">Status</th>
+                    <th width="10%" title="Created Date">CD</th>
+                    <th width="10%" title="Created By">CB</th>
+                    <th width="10%" title="Modified Date">MD</th>
+                    <th width="10%" title="Modified By">MB</th>
+                    <th *ngIf="userRole.allowAdd" width="1%">Edit</th>
+                    <th *ngIf="userRole.allowDelete" title="Delete" width="1%">Del</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let product of productcategorygroupList">
+                    <td>{{product.name}}</td>
+                    <td>{{product.categoryName}}</td>
+                    <td>{{product.subCategoryName}}</td>
+                    <td>{{product.seoTitle}}</td>
+                    <td>{{product.seoDescription}}</td>
+                    <td>{{product.ogTitle}}</td>
+                    <td>{{product.ogDescription}}</td>
+                    <td>{{product.canonical}}</td>
+                    <td [ngClass]="(product.active) ? 'text-primary' : 'text-danger' ">{{product.active ? 'Active' : 'InActive'}}</td>
+                    <td>{{product.createdOn | date: "dd MMM yyy "}}</td>
+                    <td>{{product.createdBy}}</td>
+                    <td>{{product.modifiedOn | date: "dd MMM yyy "}}</td>
+                    <td>{{product.modifiedBy}}</td>
+                    <td><i class="text-info fa fa-pencil-alt" (click)="update(product, content)"></i></td>
+                    <td><i class="text-danger fa fa-trash-alt" (click)="deleteSubProductGroup(product,deleteContent)"></i></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #deleteContent let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Delete Confirmation</h5>
+  </div>
+  <div class="modal-body">
+    <h5>Are you want to delete?</h5>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-primary" (click)="confirmDeleteCategoryGroup()">Ok</button>
+    <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('cancel click')">Cancel</button>
+  </div>
+</ng-template>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Add New Product Category Group</h5>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="appValForm">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12">Product Category Group Name</label>
+            <input type="hidden" formControlName="productCategoryGroupId" />
+            <input type="hidden" formControlName="productCategoryId" />
+            <input required type="text" class="form-control" formControlName="name" placeholder="Category group name" />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12">Category</label>
+            <select class="form-control" (change)="onOptionsSelected($event.target.value)" formControlName="id">
+              <option [value]="null" disabled selected>---Select Category----</option>
+              <option *ngFor="let item of categoryList" [value]="item.id">{{item.value}}</option>
+            </select>
+
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="subcategoryShow">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12">Sub Category</label>
+            <select class="form-control" formControlName="subCategoryId">
+              <option [value]="null" disabled selected>---Select Sub Category----</option>
+              <option *ngFor="let item of subcategoryList" [value]="item.subCategoryId">{{item.subCategoryName}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12">Seo Title</label>
+            <input required type="text" class="form-control" formControlName="seoTitle" placeholder="Category group Seo Title" />
+            
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12">Seo Description</label>
+            <input required type="text" class="form-control" formControlName="seoDescription" placeholder="Category group Seo Description" />
+
+           
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12">Og Title</label>
+            <input required type="text" class="form-control" formControlName="ogTitle" placeholder="Category group Seo Og Title" />
+          
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12">Og Description</label>
+            <input required type="text" class="form-control" formControlName="ogDescription" placeholder="Category group Seo Og Description" />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12">Canonical Url</label>
+            <input type="text" class="form-control" formControlName="canonical" placeholder="Enter Canonical Url" />
+
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12 d-block">Status</label>
+            <label class="switch">
+              <input type="checkbox" trueFalseValue trueValue="1" falseValue="0" formControlName="active">
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-primary" (click)="save()" [disabled]="!appValForm.valid">Save</button>
+    <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('Save click')">Cancel</button>
+  </div>
+</ng-template>
+

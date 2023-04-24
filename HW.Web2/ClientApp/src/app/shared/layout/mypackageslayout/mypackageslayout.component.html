@@ -1,0 +1,29 @@
+<div id="wrapper">
+  <div id="content-wrapper" class="d-flex flex-column">
+    <div id="content">
+      <app-header2></app-header2>
+      <div class="main-content-body add-left-pdng">
+        <!--<span *ngIf="Businesscheck">-->
+        <ng-template></ng-template>
+        <app-supplierLeftmenu *ngIf="roleType == 4" ></app-supplierLeftmenu>
+        <app-trademanLeftmenu *ngIf="roleType == 1 || roleType == 2"></app-trademanLeftmenu>
+        <app-leftmenu *ngIf="roleType == 3" ></app-leftmenu>
+        <!--</span>-->
+        <router-outlet></router-outlet>
+        <section id="downloadAPP" class="bg-success text-white page-section">
+          <div class="container text-center">
+            <h2 class="mb-4">Download our APP</h2>
+            <p class="mb-3">Managing your job is easier with the rated people homes app, downloade it today.</p>
+            <a href="https://play.google.com/store/apps/details?id=com.SupplierApp.HW">
+              <img style="width:130px" src="../assets/img/andriodapp.png" />
+            </a>
+            <a class="ml-2" href=" ">
+              <img style="width:130px" src="../assets/img/iosapp.png" alt="" />
+            </a>
+          </div>
+        </section>
+        <app-appcommonfooter></app-appcommonfooter>
+      </div>
+    </div>
+  </div>
+</div>

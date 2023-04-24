@@ -1,0 +1,76 @@
+<div class="container">
+  <div class="breadcrumb pt-3" style="margin-top: 134px;">
+    <ul class="d-flex">
+      <li><a href="#">Home</a><span>|</span></li>
+      <li><a>Reset Pin Code</a></li>
+    </ul>
+  </div>
+  <h4 class="primaryClr mb-5">Reset Pin Code?</h4>
+  <form [formGroup]="appValForm">
+    <div class="row">
+      <div class="col-12 shipping_form">
+        <div class="viewCart_cart p-3 p-sm-5">
+          <div class="row justify-content-center">
+            <div class="col-12 col-lg-8 col-xl-6 d-block d-sm-flex flex-sm-row align-items-sm-center justify-content-sm-center pass_pin">
+              <div class="form-group">
+                <label>Enter Your Pin</label>
+                <div class="d-flex gap-1">
+                  <input type="password" class="form-control" autocomplete="new-password" maxlength="1" id="first" formControlName="tab1" (keyup)="movetoNext('first', 'second' , $event)" (keypress)="_httpService.numberOnly($event)" (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+                  <input type="password" class="form-control" autocomplete="new-password" maxlength="1" id="second" formControlName="tab2" (keyup)="movetoNext('first', 'third' , $event)" (keypress)="_httpService.numberOnly($event)" (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+                  <input type="password" class="form-control" autocomplete="new-password" maxlength="1" id="third" formControlName="tab3" (keyup)="movetoNext('second', 'fourth' , $event)" (keypress)="_httpService.numberOnly($event)" (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+                  <input type="password" class="form-control" autocomplete="new-password" maxlength="1" id="fourth" formControlName="tab4" (keyup)="movetoNext('third', 'fifth' , $event)" (keypress)="_httpService.numberOnly($event)" (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+                  <input type="password" class="form-control" autocomplete="new-password" maxlength="1" id="fifth" formControlName="tab5" (keyup)="movetoNext('fourth', 'fifth' , $event)" (keypress)="_httpService.numberOnly($event)" (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+                  <button (click)="saveNewPinCode()" class="mt-sm-0 ms-sm-3 rounded-pill btn  px-4 primaryBg text-white text-uppercase fs-16 fw-bold font-poppins">
+                    Submit
+                  </button>
+                </div>
+              </div>
+              </div>
+          </div>
+          <div class="row justify-content-center mt-1">
+            <div class="col-12 col-lg-8 col-xl-6 d-block d-sm-flex flex-sm-row form-group">
+              <small id="pinmessege" class="text-danger" *ngIf="!hasPinEntered"> Please enter 5 digit pin code !!</small>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>
+
+<!--section start-->
+<section class="pwd-page section-b-space d-none">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 m-auto">
+        <h2>Change Pin Code</h2>
+        <form class="theme-form" [formGroup]="appValForm">
+          <div class="form-row row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Enter Your Pin</label>
+                <div class="row">
+                  <div class="col-12 justify-content-between d-flex">
+                    <input type="password" class="form-control" autocomplete="new-password" maxlength="1" id="first" formControlName="tab1" (keyup)="movetoNext('first', 'second' , $event)" (keypress)="_httpService.numberOnly($event)" (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+                    <input type="password" class="form-control  ms-2" autocomplete="new-password" maxlength="1" id="second" formControlName="tab2" (keyup)="movetoNext('first', 'third' , $event)" (keypress)="_httpService.numberOnly($event)" (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+                    <input type="password" class="form-control  ms-2" autocomplete="new-password" maxlength="1" id="third" formControlName="tab3" (keyup)="movetoNext('second', 'fourth' , $event)" (keypress)="_httpService.numberOnly($event)" (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+                    <input type="password" class="form-control ms-2" autocomplete="new-password" maxlength="1" id="fourth" formControlName="tab4" (keyup)="movetoNext('third', 'fifth' , $event)" (keypress)="_httpService.numberOnly($event)" (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+                    <input type="password" class="form-control ms-2" autocomplete="new-password" maxlength="1" id="fifth" formControlName="tab5" (keyup)="movetoNext('fourth', 'fifth' , $event)" (keypress)="_httpService.numberOnly($event)" (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+
+                  </div>
+                  <!--<span class="text-danger ml-2" *ngIf="(f.tab1.errors?.required || f.tab2.errors?.required || f.tab3.errors?.required || f.tab4.errors?.required || f.tab5.errors?.required) ">Please enter new pin code.</span>-->
+                  <small id="pinmessege" class="text-danger" *ngIf="!hasPinEntered"> Please enter 5 digit pin code !!</small>
+                </div>
+              </div>
+              <button class="btn btn-solid w-auto" type="submit" (click)="saveNewPinCode()">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+<!--Section ends-->

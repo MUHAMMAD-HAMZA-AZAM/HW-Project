@@ -1,0 +1,117 @@
+<div class="container-fluid">
+  <div class="row">
+    <!-- /.col-lg-3 -->
+    <div id="page-wrapper">
+      <div class="col-lg-12">
+        <div class="row">
+          <div class="col-lg-12 bg-white">
+            <div class="row page-header">
+              <div class="col-lg-12">
+                <div class="row">
+                  `
+                  <div class="offset-lg-9 offset-md-8 col-lg-3 col- col-md-4  search-container text-right ">
+                    <a (click)="Skipped()" class="btn btn-primary float-right">Skip</a>
+                  </div>
+                </div>
+              </div><!-- /.col-lg-12 -->
+            </div><!--heading-->
+            <div class="row postjob postad mb-3">
+              <form class="col-lg-7 my-2 mx-auto" name="sentMessage" id="contactForm" novalidate="">
+                <div class="row">
+                  <div class="col-md-12 card">
+                    <div class="row posted-job">
+                      <div class="col-lg-3 col-md-3">
+                        <div class="row">
+                          <div class="card">
+                            <ng-container *ngIf="adImage">
+                              <a><img [src]="common.transform(adImage)" alt=""></a>
+                            </ng-container>
+                            <ng-container *ngIf="!adImage">
+                              <a><img src="../../../../assets/img/no_thumbnail.jpg" alt=""></a>
+                            </ng-container>
+                            
+                            <!--<a><img src="../../../../assets/img/pro-dtl1.jpg" alt=""></a>-->
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-9 col-md-9 my-auto">
+                        <h5>{{adTitle}}</h5>
+                        <p>{{subCat}}</p>
+                      </div>
+                    </div>
+                    <div class="row bg-dark supplier-heading"><h4 class="col-md-12 text-center text-white">Want to sell faster?</h4></div>
+                    <div class="row supplier-package">
+                      <fieldset disabled class="col-md-12">
+                        <div class=" custom-control custom-radio">
+                          <input type="radio" class="custom-control-input" id="customControlValidation2" name="radio-stacked" required>
+                          <label class="custom-control-label" for="customControlValidation2">
+                            <h5>Featured Listing</h5>
+                            <p>Your Ad  will be shown on top of the search results for as long as you choose.</p>
+                            <table class="table package-table">
+                              <tbody>
+                                <tr>
+                                  <td class="price">15,000</td>
+                                  <td>
+                                    <select id="inputState" class="form-control border-0 packagedays">
+                                      <option selected>14 Days</option>
+                                      <option>30 Days</option>
+                                      <option>14 Days</option>
+                                    </select>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </label>
+                        </div>
+                      </fieldset>
+
+                      <fieldset disabled class="col-md-12">
+                        <div class=" custom-control custom-radio mb-3">
+                          <input type="radio" class="custom-control-input" id="customControlValidation3" name="radio-stacked" required>
+                          <label class="custom-control-label" for="customControlValidation3">
+                            <h5>Spotlight Ad</h5>
+                            <p>Your Ad  will be shown on the hoomwork APP Homepage</p>
+                            <table class="table package-table">
+                              <tbody>
+                                <tr>
+                                  <td class="price">15,000</td>
+                                  <td>
+                                    <select id="inputState" class="form-control border-0 packagedays">
+                                      <option selected>14 Days</option>
+                                      <option>30 Days</option>
+                                      <option>14 Days</option>
+                                    </select>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </label>
+                        </div>
+                      </fieldset>
+                      <fieldset class="col-md-12">
+                        <div class=" custom-control custom-radio mb-3">
+                          <input type="radio" class="custom-control-input" checked id="customControlValidation3" name="radio-stacked" required>
+                          <label class="custom-control-label" for="customControlValidation3">
+                            <h5>Free</h5>
+                            <p>Your Ad  will be shown on the hoomwork APP Homepage</p>
+
+                          </label>
+                        </div>
+                      </fieldset>
+
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- /.footer -->
+      </div>
+      <!-- /.col-lg-9 -->
+    </div>
+    <!-- /.row -->
+  </div>
+</div>

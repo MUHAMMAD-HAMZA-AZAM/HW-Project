@@ -1,0 +1,24 @@
+<div class="container-fluid">
+ <div class="row payments">
+    <div class="col-md-12 table-responsive">
+      <table class="table table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Date</th>
+            <th scope="col">To</th>
+            <th scope="col">Amount Paid</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of payment;let index = index;">
+            <th scope="row">{{index+1}}</th>
+            <td>{{item.createdOn | date :"dd/MM/yyyy hh:mm a"}}</td>
+            <td>Tradesman</td>
+            <td>{{item.amount}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top border-bottom" id="mainNav">
+    <div class="container-fluid">
+      <a class="navbar-brand" routerLink="/Index"><img src="assets/img/Hoomwork-logo.png" alt="" /></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item" [routerLinkActive]="['active']" data-nav="Index">
+            <a class="nav-link js-scroll-trigger"   routerLink="/Index">Home</a>
+          </li>
+          <li *ngIf="!loginCheck" class="nav-item" data-nav="CustomerLogin" [routerLinkActive]="['active']" id="loginOption">
+            <a class="nav-link js-scroll-trigger" routerLink="/login" id="logout">Login</a>
+          </li>
+          <li *ngIf="!loginCheck" class="nav-item dropdown" [routerLinkActive]="['active']">
+            <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sign Up</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" routerLink="/registration/appregistrationbasic/tradesman" (click)="RegisterEntityCheck(check.T.role,check.T.Show)"><i class="tradesman">&nbsp;</i>Tradesman</a>
+              <a class="dropdown-item" routerLink="/registration/appregistrationbasic/organization" (click)="RegisterEntityCheck(check.O.role,check.O.Show)"><i class="tradesman">&nbsp;</i>Organization</a>
+              <a class="dropdown-item" routerLink="/registration/appregistrationbasic/user" (click)="RegisterEntityCheck(check.U.role,check.U.Show)"><i class="user">&nbsp;</i>User</a>
+              <a class="dropdown-item" routerLink="/registration/appregistrationbasic/supplier" (click)="RegisterEntityCheck(check.S.role,check.S.Show)"><i class="supplier">&nbsp;</i>Supplier</a>
+            </div>
+          </li>
+          <li *ngIf="loginCheck==true" class="nav-item" [routerLinkActive]="['active']" data-nav="Contact">
+            <a class="nav-link js-scroll-trigger"  routerLink="/User/Home/Blogs">Blogs</a>
+          </li>
+          <li class="nav-item" data-nav="Contact" [routerLinkActive]="['active']">
+            <a class="nav-link js-scroll-trigger" routerLink="/Contacts/User/ContactUs">Contact Us</a>
+          </li>
+          <li [routerLinkActive]="['active']" *ngIf="loginCheck" class="nav-item dropdown profileimg12">
+            <ng-container *ngIf="role==Customer">
+              <a *ngIf="userImage!=null" class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img [src]="userImage" id="profileimg" style="border-radius: 100%; width:50px; height:50px;" />
+              </a>
+              <a *ngIf="userImage==null" class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="assets/img/userimage.png" id="profileimg" style="border-radius: 100%; width:50px; height:50px;" />
+              </a>
+            </ng-container>
+          
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <p id="username" class="text-center pt-3">{{userName}} </p>
+              <a class="dropdown-item" (click)="DashBoard()"><i class="user">&nbsp;</i>Dashboard</a>
+              <a class="dropdown-item" (click)="logout()"><i class='fas fa-sign-out-alt'></i>&nbsp;Logout</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+      </nav>
+

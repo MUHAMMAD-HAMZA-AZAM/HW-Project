@@ -1,0 +1,105 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Urgent Jobs List</h6>
+            <button class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Assign To Tradesman</button>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th width="3%">Customer Id</th>
+                    <th width="5%">Customer Name</th>
+                    <th width="5%">Phone</th>
+                    <th width="3%">JqId</th>
+                    <th width="10%">Job Title</th>
+                    <th width="3%">Job Budget</th>
+                    <th width="5%">Job Start Date</th>
+                    <th width="3%">City</th>
+                    <th width="3%">Address</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of urgentJobsList">
+                    <td>{{item?.customerId}}</td>
+                    <td>{{item?.customerName}}</td>
+                    <td>{{item?.mobileNumber}}</td>
+                    <td>{{item?.jobId}}</td>
+                    <td>{{item?.jobTitle}}</td>
+                    <td>{{item?.workBudget}}</td>
+                    <td>{{item?.workstartDate | date: "dd MMM yyy "}}</td>
+                    <td>{{item?.city}}</td>
+                    <td>{{item?.town}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">{{modelText}}</h5>
+  </div>
+  <form [formGroup]="appValForm">
+    <input type="hidden" formControlName="id" />
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <input type="text" class="form-control" maxlength="50" formControlName="accountTypeCode" placeholder="Account Type Code" />
+            <div *ngIf="f.accountTypeCode?.errors">
+              <div *ngIf="f.accountTypeCode.invalid && submited">
+                <small *ngIf="f.accountTypeCode.errors?.required" class="text-danger">Account type code requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <input type="text" class="form-control" maxlength="50" formControlName="accounTypeName" placeholder="Account Type Name" />
+            <div *ngIf="f.accountTypeName?.errors">
+              <div *ngIf="f.accountTypeName.invalid && submited">
+                <small *ngIf="f.accountTypeName.errors?.required" class="text-danger">User Type is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="fs-12">Entity Status</label>
+            <select formControlName="isActive" required class="form-control">
+              <option [ngValue]="null" disabled>Select Entity Status</option>
+              <option [value]="1">Active</option>
+              <option [value]="2">InActive</option>
+            </select>
+            <div *ngIf="f.isActive?.errors">
+              <div *ngIf="f.isActive.invalid && submited">
+                <small *ngIf="f.isActive.errors?.required" class="text-danger">Entity status is requried</small>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="row">
+        <div class="col-md-6 inline-downlod-btns">
+          <button type="button" class="btn btn-sm btn-primary" (click)="saveAndUpdate()" [disabled]="!appValForm.valid">Save</button>
+          <button type="button" class="btn btn-sm btn-primary mx-2" (click)="resetForm()">Reset</button>
+          <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('Save click')">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>-->

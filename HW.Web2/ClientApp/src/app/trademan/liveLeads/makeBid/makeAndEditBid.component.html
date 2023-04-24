@@ -1,0 +1,144 @@
+<!--------------------------------------------------- New Make Bid  Design ------------------------------------------------------------>
+<div class="d-content-left-side">
+  <div class="quote-details-wrapper">
+    <form [formGroup]="bidForm">
+      <div class="quotes-details">
+        <div class="row">
+          <div class="col-xl-6 col-lg-6">
+            <div class="form-group">
+              <label>Customer Budget(Rs)</label>
+              <input type="text" class="form-control" placeholder="Budget" formControlName="CustomerBudget" disabled />
+
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6">
+            <div class="form-group">
+              <label>Your Bid</label>
+              <input type="text" formControlName="Amount" class="form-control" (keypress)="AllowNonZeroIntegers($event)" pattern="^[0-9]{1,10}$" placeholder="Your bid" [ngClass]="{ 'is-invalid': f.Amount.invalid && (f.Amount.touched || f.Amount.dirty )}" />
+              <div *ngIf="f.Amount?.errors">
+                <div *ngIf="f.Amount.invalid && (f.Amount.touched || f.Amount.dirty)">
+                  <small class="text-danger" *ngIf="f.Amount.errors?.required">Please enter Bid amount.</small>
+                  <small class="text-danger" *ngIf="f.Amount.errors?.pattern">Bid Amount must have 1 digits.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-12 col-lg-12">
+            <div class="form-group">
+              <label>Message</label>
+              <textarea rows="6" class="form-control" maxlength="250" formControlName="Comments" placeholder="Type..."></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <audio class="audio pb-3 w-100" *ngIf="!isRecording && blobUrl" controls>
+            0
+            <source [src]="blobUrl" type="audio/webm">
+          </audio>
+          <span *ngIf="isRecording && !blobUrl">{{recordedTime}}</span>
+        </div>
+      </div>
+      <div class="row" *ngIf="voiceMessage">
+        <div class="col-xl-6">
+          <div class="form-group">
+            <button class="mp-outine-btn px-4" *ngIf="!isRecording && !blobUrl" (click)="startRecording()">Start recording</button>
+            <button class="mp-outine-btn px-4" *ngIf="isRecording && !blobUrl" (click)="stopRecording()">Stop recording</button>
+            <button class="mp-outine-btn px-4" *ngIf="!isRecording && blobUrl" (click)="clearRecordedData()">Clear recording</button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6">
+          <div class="form-group">
+            <button *ngIf="!voiceMessage; else vm" class="mp-outine-btn px-4" [disabled]="submitBtn" (click)="checkUserStatus()">Submit</button>
+            <ng-template #vm>
+              <button class="mp-outine-btn px-4" (click)="sendVoiceMessage()">Send Voice Message</button>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- TRADESMAN GUIDELINES  Model Start-->
+<div class="modal fade custom-model-style" bsModal #TradesmanGuidelines="bs-modal" id="confirmQuotes1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"  [config]="{backdrop: 'static',  keyboard: false}" >
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content px-4 py-4">
+      <div class="modal-header p-0">
+        <h6 class="modal-title" id="exampleModalLongTitle" style="color: var(--headingClr);">TRADESMAN GUIDELINES</h6>
+        <hr class="hl mt-0">
+      </div>
+      <div class="modal-body p-0 mt-3">
+        <h2 class="c-green font-weight-bold mb-3">THANK YOU</h2>
+        <small class="d-block">After bid submission contact the customer by pressing "Request call-back"</small>
+        <small>Make appointment with customer to visit workplace.Analyze actual work and negotiate price and time with customer.</small>
+        <small>If required! Edit bids to update price and time.</small>
+        <small>Ask for feedback.</small>
+      </div>
+      <div class="modal-footer p-0">
+        <button type="button" class="mp-outine-btn" data-dismiss="modal" (click)="SubmitAndUpdateBid(voiceMessageModel)">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--TRADESMAN GUIDELINES Model End-->
+<!--------------------------------------------- Verify Account Message Modal --------------------------------------->
+
+<div class="modal fade custom-model-style" bsModal #verifyAccountMessageModal="bs-modal" id="verifyAccountMessageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content px-4 py-4">
+      <div class="modal-header p-0">
+        <h6 class="modal-title" id="exampleModalLongTitle" style="color: var(--headingClr);"><i class="fas fa-lock mr-1"></i>Verify Account</h6>
+      </div>
+      <div class="modal-body p-0 mt-2">
+        <small class="d-block mt-2">Please verify your account before posting a bid.</small>
+      </div>
+      <div class="modal-footer mt-2 p-0">
+        <button type="button" class="btn btn-danger" (click)="closeVerifyAccountMessageModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-------------------------------------------------------------- Confirmation Audio Message Nodal -------------------------------------------------->
+<ng-template #voiceMessageModel let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-title">VOICE MESSAGE</h4>
+    <!--<button type="button" class="close" aria-describedby="modal-title">
+      <span aria-hidden="true">&times;</span>
+    </button>-->
+  </div>
+  <div class="modal-body">
+    <p><strong>Do you want to send voice message?</strong></p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn mp-outine-btn" (click)="confirm()">YES</button>
+    <button type="button" class="btn mp-outine-btn" (click)="noVoiceMessage()">NO</button>
+  </div>
+</ng-template>
+
+<!--------------------------------------------- Block Account Message Modal --------------------------------------->
+
+<div bsModal #blockAccountMessageModal="bs-modal" class="modal fade custom-model-style nd-verifyAccount" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content px-4 py-4">
+      <div class="modal-header p-0">
+        <h6 class="modal-title" id="exampleModalLongTitle" style="color: var(--redClr);"> ACCOUNT BLOCKED </h6>
+        <hr class="hl mt-0">
+      </div>
+      <div class="modal-body p-0 mt-3">
+        <p class="fos-14 mb-1" style="color:var(--headingClr)">Your Account has been blocked.</p>
+        <p style="color:var(--headingClr)" class="fos-14 mb-1">Please contact with customer support.<b style="color:var(--greenClr)">PH:0309-9994534</b></p>
+      </div>
+      <div class="modal-footer p-0">
+        <button type="button" class="mp-outine-btn" (click)="hideBlockModal()">CLOSE</button>
+      </div>
+    </div>
+  </div>
+</div>
+

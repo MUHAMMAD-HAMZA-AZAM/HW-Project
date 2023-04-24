@@ -1,0 +1,10 @@
+D:\GitHub\Hoomwork\HW.PackagesAndPaymentsModels\bin\Debug\netcoreapp2.0\HW.PackagesAndPaymentsModels.deps.json
+D:\GitHub\Hoomwork\HW.PackagesAndPaymentsModels\bin\Debug\netcoreapp2.0\HW.PackagesAndPaymentsModels.dll
+D:\GitHub\Hoomwork\HW.PackagesAndPaymentsModels\bin\Debug\netcoreapp2.0\HW.PackagesAndPaymentsModels.pdb
+D:\GitHub\Hoomwork\HW.PackagesAndPaymentsModels\obj\Debug\netcoreapp2.0\HW.PackagesAndPaymentsModels.csproj.AssemblyReference.cache
+D:\GitHub\Hoomwork\HW.PackagesAndPaymentsModels\obj\Debug\netcoreapp2.0\HW.PackagesAndPaymentsModels.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Hoomwork\HW.PackagesAndPaymentsModels\obj\Debug\netcoreapp2.0\HW.PackagesAndPaymentsModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.PackagesAndPaymentsModels\obj\Debug\netcoreapp2.0\HW.PackagesAndPaymentsModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.PackagesAndPaymentsModels\obj\Debug\netcoreapp2.0\HW.PackagesAndPaymentsModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.PackagesAndPaymentsModels\obj\Debug\netcoreapp2.0\HW.PackagesAndPaymentsModels.dll
+D:\GitHub\Hoomwork\HW.PackagesAndPaymentsModels\obj\Debug\netcoreapp2.0\HW.PackagesAndPaymentsModels.pdb

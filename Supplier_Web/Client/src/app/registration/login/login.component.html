@@ -1,0 +1,236 @@
+<div class="container">
+  <div class="breadcrumb pt-3" style="margin-top: 134px;">
+    <ul class="d-flex">
+      <li><a href="#">Home</a><span>|</span></li>
+      <li><a>Login</a></li>
+    </ul>
+  </div>
+  <h4 class="primaryClr mb-4">Log In</h4>
+  <div class="row">
+    <div class="mb-xl-0 mb-4 col-lg-12 col-xl-4">
+      <div class="font-poppins darkGrayClr">
+        <h4 class="font-laila primaryClr">New User</h4>
+        <p class="m-0 darkGrayClr fs-13 fw-bold">Create An Account</p>
+        <p class="fs-12 darkGrayClr">
+          Sign up for a free account at our store.
+          Registration is quick and easy. It allows you
+          to be able to order from out shop.
+          Top start shopping click register.
+        </p>
+        <a routerLink="/user/signup" class="mb-2 rounded-pill btn p-2 px-4 primaryBg text-white  fs-16 fw-500">Register</a>
+      </div>
+    </div>
+    <div class="mb-md-0 mb-4 col-12 col-md-6 col-xl-4 shipping_form">
+      <div class="row">
+        <form [formGroup]="appValForm">
+          <div class="col-12">
+            <div class="form-group">
+              <label>Email Or Phone*</label>
+              <input type="text" autocomplete="off" maxlength="40" formControlName="emailOrPhoneNumber" class="form-control" id="emailOrPhoneNumber" placeholder="Email or Phone Number">
+              <label class="text-danger" *ngIf="submittedApplicationForm && f.emailOrPhoneNumber.errors?.required">{{common.validationMessage.Login.userName}}</label>
+
+            </div>
+          </div>
+          <div class="col-12 pass_pin py-3">
+            <div class="form-group">
+              <label>Enter Your Pin</label>
+              <div class="d-flex gap-1">
+                <input type="password" class="form-control" autocomplete="new-password" maxlength="1" id="first" formControlName="tab1" (keyup)="movetoNext('first', 'second' , $event)" (keypress)="common.numberOnly($event)" (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+                <input type="password" class="form-control" autocomplete="new-password" maxlength="1" id="second" formControlName="tab2" (keyup)="movetoNext('first', 'third' , $event)" (keypress)="common.numberOnly($event)" (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+                <input type="password" class="form-control" autocomplete="new-password" maxlength="1" id="third" formControlName="tab3" (keyup)="movetoNext('second', 'fourth' , $event)" (keypress)="common.numberOnly($event)" (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+                <input type="password" class="form-control" autocomplete="new-password" maxlength="1" id="fourth" formControlName="tab4" (keyup)="movetoNext('third', 'fifth' , $event)" (keypress)="common.numberOnly($event)" (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+                <input type="password" class="form-control" autocomplete="new-password" maxlength="1" id="fifth" formControlName="tab5" (keyup)="movetoNext('fourth', 'fifth' , $event)" (keypress)="common.numberOnly($event)" (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+
+              </div>
+              <label class="text-danger ml-2" *ngIf="submittedApplicationForm && (f.tab1.errors?.required || f.tab2.errors?.required || f.tab3.errors?.required || f.tab4.errors?.required || f.tab5.errors?.required) ">{{common.validationMessage.RegistrationErrorMessages.pin}}</label>
+              <small class="text-danger mb-4" >{{emailErrorMessage}}</small>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group d-flex align-items-center">
+            <button (click)="Login(verifyAccount)" class="rounded-pill btn py-3 px-4 primaryBg text-white text-uppercase fs-16 fw-bold font-poppins">
+              Login
+            </button>
+            <a [routerLink]="['/user/forgotPassword']" class="ps-3 fs-12 darkGrayClr font-poppins">Forgot Password?</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4">
+      <div class="viewCart_cart p-4 p-xxl-5 font-poppins text-capitalize darkGrayClr fs-14">
+        <button (click)="signInWithFacebook(verifyAccount)" class="rounded-pill mb-2 d-flex align-items-center justify-content-center btn p-3 c-blue text-white text-uppercase w-100 fs-16 fw-500">
+          <i class="fa fa-facebook-f fs-22 fw-bold me-2"></i>Login
+          With
+          Facebook
+        </button>
+        <button (click)="signInWithGoogle(verifyAccount)" class="mb-2 rounded-pill d-flex align-items-center justify-content-center btn p-3 c-red text-white text-uppercase w-100 fs-16 fw-500">
+          <i class=" fa fa-google fs-22 fw-bold me-2"></i>Login
+          With
+          Gmail
+        </button>
+        <p class="darkGrayClr text-center m-0 mt-4 d-flex flex-wrap">
+          Create an account? <a routerLink="/user/signup"  class="fw-bold darkGrayClr">
+            Click
+            here
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!--section start-->
+<section class="login-page section-b-space d-none">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <h3>Login</h3>
+        <div class="theme-card">
+          <form class="theme-form" [formGroup]="appValForm">
+            <div class="form-group">
+              <label for="email">Email or Phone Number<span class="txtclr-red">*</span></label>
+              <input    type="text" autocomplete="off" maxlength="40" formControlName="emailOrPhoneNumber" class="form-control" id="emailOrPhoneNumber" placeholder="Email or Phone Number">
+              <span class="text-danger" *ngIf="submittedApplicationForm && f.emailOrPhoneNumber.errors?.required">{{common.validationMessage.Login.userName}}</span>
+
+            </div>
+            <div class="form-group mb-0">
+              <label>Enter Your Pin<span class="txtclr-red">*</span></label>
+              <div class="row">
+                <div class="col-12 justify-content-between d-flex">
+                  <input type="password" class="form-control" autocomplete="new-password" maxlength="1" id="first" formControlName="tab1" (keyup)="movetoNext('first', 'second' , $event)" (keypress)="common.numberOnly($event)" (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+                  <input type="password" class="form-control  ms-2" autocomplete="new-password" maxlength="1" id="second" formControlName="tab2" (keyup)="movetoNext('first', 'third' , $event)" (keypress)="common.numberOnly($event)" (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+                  <input type="password" class="form-control  ms-2" autocomplete="new-password" maxlength="1" id="third" formControlName="tab3" (keyup)="movetoNext('second', 'fourth' , $event)" (keypress)="common.numberOnly($event)" (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+                  <input type="password" class="form-control ms-2" autocomplete="new-password" maxlength="1" id="fourth" formControlName="tab4" (keyup)="movetoNext('third', 'fifth' , $event)" (keypress)="common.numberOnly($event)" (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+                  <input type="password" class="form-control ms-2" autocomplete="new-password" maxlength="1" id="fifth" formControlName="tab5" (keyup)="movetoNext('fourth', 'fifth' , $event)" (keypress)="common.numberOnly($event)" (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+
+                </div>
+                <span class="text-danger ml-2" *ngIf="submittedApplicationForm && (f.tab1.errors?.required || f.tab2.errors?.required || f.tab3.errors?.required || f.tab4.errors?.required || f.tab5.errors?.required) ">{{common.validationMessage.RegistrationErrorMessages.pin}}</span>
+                <small class="text-danger mb-4">{{emailErrorMessage}}</small>
+              </div>
+            </div>
+            <div class="row no-gutters login-third-party mb-4">
+              <div class="col-12 col-sm-6 mb-2 mb-sm-0">
+                <button type="button" class="btn btn-block" (click)="signInWithFacebook(verifyAccount)" style="background: var(--fbClr);">
+                  <i class="fa fa-facebook-f"></i>
+                  <span>login with Facebook</span>
+                </button>
+              </div>
+              <div class="col-12 col-sm-6">
+                <button type="button" class="btn btn-block" (click)="signInWithGoogle(verifyAccount)" style="background: var(--gmClr);">
+                  <i class="fa fa-google"></i>
+                  <span>login with Gmail</span>
+                </button>
+              </div>
+            </div>
+
+            <button type="button" class="btn btn-solid" (click)="Login(verifyAccount)">Login</button>
+            <button [routerLink]="['/user/forgotPassword']" type="button" class="btn btn-solid float-end">
+              Forgot Password
+            </button>
+          </form>
+        </div>
+      </div>
+      <div class="col-lg-6 right-login">
+        <h3>New Customer</h3>
+        <div class="theme-card authentication-right">
+          <h6 class="title-font">Create An Account</h6>
+          <p>
+            Sign up for a free account at our store. Registration is quick and easy. It allows you to be
+            able to order from our shop. To start shopping click register.
+          </p>
+          <a routerLink="/user/signup" class="btn btn-solid">Create an Account</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--Section ends-->
+<!--Section ends-->
+<ng-template #verifyAccount let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Verify Account</h4>
+  </div>
+  <div class="modal-body shipping_form" [formGroup]="verifyValForm">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label>Enter OTP*</label>
+          <input type="text" class="form-control " maxlength="6" autocomplete="off" id="otp" (keypress)="common.numberOnly($event)" formControlName="otp" placeholder="Your OTP" />
+          <label class="text-danger" *ngIf="otpsubmitted && g.otp.errors?.required">{{common.validationMessage.RegistrationErrorMessages.otp}}</label>
+          <label class="text-danger fos-12 d-block" *ngIf="inValidOTP==true">{{errorMsg}}</label>
+          <label ng-if="IsPhoneNumberTimerRunning" class="text-danger fos-12 d-block">{{phoneNumberdisplay}}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="font-laila fw-bold btn primaryBg text-white px-3 d-flex align-items-center justify-content-center rounded-pill" (click)="VerifyOTP()">Verify</button>
+    <button type="button" class="font-laila fw-bold btn secondaryBg text-white px-3 d-flex align-items-center justify-content-center rounded-pill" (click)="ResendOTP()">Resend</button>
+    <button type="button" class="font-laila fw-bold btn c-red text-white px-3 d-flex align-items-center justify-content-center rounded-pill" (click)="closeModal()">Cancel</button>
+  </div>
+</ng-template>
+
+
+<div class="container d-none">
+  <div class="card registration">
+    <div class="card-body">
+      <h4 class="card-title text-center">Customer-Log In</h4>
+
+      <form [formGroup]="appValForm">
+        <div class="form-group p-1">
+          <label>Email</label>
+          <!--<input type="email" name="email" class="form-control" formControlName="emailOrPhoneNumber" />-->
+        </div>
+        <div class="form-group p-1">
+          <label>Password</label>
+          <div class="row">
+            <!--<div class="col-sm-2">
+              <input type="password" name="password" maxlength="1" class="form-control" formControlName="tab1" />
+            </div>
+            <div class="col-sm-2">
+              <input type="password" name="password" maxlength="1" class="form-control" formControlName="tab2" />
+            </div>
+            <div class="col-sm-2">
+              <input type="password" name="password" maxlength="1" class="form-control" formControlName="tab3" />
+            </div>
+            <div class="col-sm-2">
+              <input type="password" name="password" maxlength="1" class="form-control" formControlName="tab4" />
+            </div>
+            <div class="col-sm-2">
+              <input type="password" name="password" maxlength="1" class="form-control" formControlName="tab5" />
+            </div>-->
+          </div>
+        </div>
+        <div class="form-group text-end p-1">
+          <label>Forgot Password?</label>
+        </div>
+        <div class="form-group p-1">
+          <button type="submit" class="btn btn-success form-control" (click)="Login(verifyAccount)">Log In</button>
+        </div>
+        <div class="form-group text-center p-1">
+          <label>OR</label>
+        </div>
+        <div class="form-group p-1">
+          <div class="row">
+            <div class="col-sm-6">
+              <button type="submit" class="btn btn-primary form-control">Continue with Facebook</button>
+            </div>
+            <div class="col-sm-6">
+              <button type="submit" class="btn btn-danger form-control">Continue with Facebook</button>
+            </div>
+          </div>
+        </div>
+        <div class="form-group text-end p-1">
+          <label>Don't have an account?<a href="#">Register here</a></label>
+        </div>
+      </form>
+
+    </div>
+
+  </div>
+</div>

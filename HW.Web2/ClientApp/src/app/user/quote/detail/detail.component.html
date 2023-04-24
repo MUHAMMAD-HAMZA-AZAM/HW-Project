@@ -1,0 +1,244 @@
+<!--------------------------------------------- New Theme Edit Job Design --------------------------------------->
+
+<section id="nd-right-content">
+  <div class="row">
+    <div class="col-12">
+      <div class="d-content-left-side">
+        <div class="quote-details-wrapper mb40">
+          <div class="quotes-details">
+            <div class="d-flex justify-content-between mb-3">
+              <button (click)="EditJob()" *ngIf="readOnly" class="btn solid-btn px-3" style="background: var(--greenClr);">
+                <svg class="btn-icon">
+                  <use xlink:href="/assets/sprites/sprite.svg#edite" />
+                </svg>
+                <span>edit task</span>
+              </button>
+              <button (click)="Save()" *ngIf="!readOnly" class="btn solid-btn px-3" style="background: var(--greenClr);">
+                <span> <i class="fas fa-check fa-1x"></i> save</span>
+              </button>
+              <button (click)="ConfirmModel()" class="btn solid-btn px-3" style="background: var(--redClr);" *ngIf="cancelBtn">
+                <svg class="btn-icon">
+                  <use xlink:href="/assets/sprites/sprite.svg#cancel" />
+                </svg>
+                <span>cancel task</span>
+              </button>
+            </div>
+            <fieldset [disabled]="readOnly">
+              <form [formGroup]="appValForm">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label>Task Title</label>
+                      <input type="text" class="form-control" placeholder="Enter Task Tilte" pattern="^[^-\s][a-zA-Z0-9_\s-]+$" formControlName="title" [ngClass]="{'is-invalid': f.title.invalid && (f.title.touched || f.title.dirty)}" />
+                      <div *ngIf="f.title?.errors">
+                        <div *ngIf="f.title.invalid && (f.title.touched || f.title.dirty)">
+                          <small *ngIf="f.title.errors.required" class="text-danger">Please enter task title.</small>
+                          <small *ngIf="f.title.errors.pattern" class="text-danger">Invalid task Title.</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xl-6 col-lg-6">
+                    <div class="form-group">
+                      <label>Choose Category</label>
+                      <select formControlName="categoryId" class="form-control" (change)="bindSubSkills($event.target.value)" [attr.disabled]="disableSelectedCategory? 'disabled' : null">
+                        <option *ngFor="let item of listOfSkills;" [value]="item.id">{{item.value}}</option>
+                      </select>
+                      <div *ngIf="f.categoryId?.errors">
+                        <div *ngIf="f.categoryId.invalid && (f.categoryId.touched || f.categoryId.dirty)">
+                          <small class="text-danger" *ngIf="f.categoryId.errors?.required">Please Select Category</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-6 col-lg-6" *ngIf="showSubSkillList">
+                    <div class="form-group">
+                      <label>Tentative Market Rate (Material Cost Is Not Included)</label>
+                      <select class="form-control" (change)="getSubSkillDetails($event.target.value)" formControlName="subSkillId" [ngClass]="{ 'is-invalid': f.subSkillId.invalid && (f.subSkillId.touched || f.subSkillId.dirty )}" [attr.disabled]="disableSelectedCategory? 'disabled' : null">
+                        <option *ngFor="let item of listOfSubSkills" [value]="item.id">{{item.value}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xl-12 col-lg-12">
+                    <div class="form-group">
+                      <label>Task Description</label>
+                      <textarea rows="6" class="form-control" placeholder="Enter Task Details" maxlength="150" formControlName="jobDescription" [ngClass]="{'is-invalid': f.jobDescription.invalid && (f.jobDescription.touched || f.jobDescription.dirty)}"></textarea>
+                      <div *ngIf="f.jobDescription?.errors">
+                        <div *ngIf="f.jobDescription.invalid && (f.jobDescription.touched || f.jobDescription.dirty)">
+                          <small *ngIf="f.jobDescription.errors.required" class="text-danger">Please enter task title.</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xl-7 col-lg-8">
+                    <div class="form-group">
+                      <label>Add Photos(Optional) <Small>(Max 4)</Small></label>
+                      <div class="custom-input-file-bg">
+                        <i class="fas fa-camera"></i>
+                        <span class="btn btn-default mp-outine-btn">
+                          Choose Files
+                          <input type="file" class="form-control"
+                                 id="quotesfileinput"
+                                 placeholder="Enter Job Tilte" accept="image/*" (change)="OnSelectFile($event)" multiple="multiple" />
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xl-12 col-lg-12">
+                    <div class="form-group">
+                      <label></label>
+                      <!-- <input type="text" class="form-control" placeholder="Enter Job Tilte" /> -->
+                      <div class="uploaded-image-box-wrapper">
+                        <div class="uploaded-image-box" *ngFor="let image of listOfImages;let index = index;">
+                          <i *ngIf="readOnly==''" class="fas fa-times" (click)="CancelImage(index+1)"></i>
+                          <img [src]="image.imageBase64" (click)="openModal();currentSlide(index+1)" alt="" style="width:100%" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div bsModal #ImageModal="bs-modal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                      <!-- Modal content-->
+                      <div class="modal-content" *ngIf="imageContent!=null">
+                        <div (click)="Close()" class="btn-close" data-dismiss="modal"><i class="fas fa-times-circle"></i></div>
+                        <img [src]="imageContent" style="height:450px;width:auto;object-fit:contain" alt="" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-xl-6 col-lg-6">
+                    <div class="form-group">
+                      <label>Budget (Rs.)</label>
+                      <input type="number" minlength="2" step="1.00" maxlength="10" (change)="handleBudgetAmount($event.target.value)" (keypress)="AllowNonZeroIntegers($event)" class="form-control" placeholder="Enter Your Budget" pattern="^[0-9]{2,10}$" formControlName="budget" [ngClass]="{ 'is-invalid': f.budget.invalid && (f.budget.touched || f.budget.dirty )}" />
+                      <div *ngIf="f.budget?.errors">
+                        <div *ngIf="f.budget.invalid && (f.budget.touched || f.budget.dirty)">
+                          <small class="text-danger" *ngIf="f.budget.errors?.required">Please enter your budget.</small>
+                          <small class="text-danger" *ngIf="f.budget.errors?.pattern">Budget price must have 2 digits</small>
+                          <small class="text-danger" *ngIf="f.budget.errors?.invalidBudget">{{f.budget.errors?.invalidBudget}}</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xl-6 col-lg-6">
+                    <div class="form-group">
+                      <label>Expected Start Date?</label>
+                      <!--<i class="fas fa-calendar-alt"></i>-->
+                      <input type="date" class="form-control" formControlName="startingDateTime" min={{maxdate1}} [ngClass]="{ 'is-invalid': f.startingDateTime.invalid && (f.startingDateTime.touched || f.startingDateTime.dirty )}" />
+                      <div *ngIf="f.startingDateTime?.errors">
+                        <div *ngIf="f.startingDateTime.invalid && (f.startingDateTime.touched || f.startingDateTime.dirty)">
+                          <small class="text-danger" *ngIf="f.startingDateTime.errors?.required">enter task starting date.</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label>Expected Start Time?</label>
+                      <ngb-timepicker [(ngModel)]="time" [meridian]="meridian" formControlName="startTime"></ngb-timepicker>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xl-6 col-lg-6">
+                    <div class="form-group">
+                      <label>City</label>
+                      <select formControlName="cityId" (change)="selectedCity($any($event.target.value))" class="form-control">
+                        <option *ngFor="let item of CitiesList;" [value]="item.id">{{item.value}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-xl-6 col-lg-6">
+                    <div class="form-group">
+                      <label>Town</label>
+                      <ng-autocomplete [data]="searchtownList"
+                                       [searchKeyword]="townkeyword"
+                                       (selected)='selecttownEvent($event)'
+                                       (inputCleared)='unselecttownEvent($event)'
+                                       placeHolder="Select town ..."
+                                       (inputChanged)='onChangetownSearch($event)'
+                                       [itemTemplate]="itemTemplate"
+                                       [notFoundTemplate]="notFoundTemplate"
+                                       formControlName="area">
+                      </ng-autocomplete>
+
+                      <ng-template #itemTemplate let-item>
+                        <a [innerHTML]="item.value"></a>
+                      </ng-template>
+
+                      <ng-template #notFoundTemplate let-notFound>
+                        <div [innerHTML]="notFound"></div>
+                      </ng-template>
+
+                      <div *ngIf="f.area?.errors">
+                        <div *ngIf="f.area.invalid && (f.area.touched || f.area.dirty)">
+                          <small *ngIf="f.area.errors.required" class="text-danger">Please enter your town.</small>
+                        </div>
+                        <span class="text-danger" *ngIf="townInvalidInput">Invalid town name</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label>Address</label>
+                      <textarea rows="6" type="text" class="form-control" placeholder="Enter Complete Address" (keypress)="charOnly($event)" maxlength="250" formControlName="address" [ngClass]="{'is-invalid': f.address.invalid && (f.address.touched || f.address.dirty)}"></textarea>
+                      <div *ngIf="f.address?.errors">
+                        <div *ngIf="f.address.invalid && (f.address.touched || f.address.dirty)">
+                          <small *ngIf="f.address.errors.required" class="text-danger">Please enter your address.</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!---------------------------------------------  Job Images Modal --------------------------------------->
+
+<div bsModal #ImageModel="bs-modal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <button type="button" class="close" (click)="Close()" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div class="modal-body">
+        <img [src]="imageContent" alt="" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--------------------------------------------- Cancel job Modal --------------------------------------->
+
+<div bsModal #CancelJob="bs-modal" role="dialog" class="modal fade">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        Are you sure you want to Cancel this task?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="DeleteJob()">Yes</button>
+        <button type="button" class="btn btn-danger" (click)="CloseModel()">No</button>
+      </div>
+    </div>
+  </div>
+</div>

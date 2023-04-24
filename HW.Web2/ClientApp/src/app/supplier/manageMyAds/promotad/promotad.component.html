@@ -1,0 +1,91 @@
+<div class="d-content-left-side">
+  <h2 class="heading-dashboad mb-3 mb-lg-4">Promote Ad</h2>
+  <div class="quote-details-wrapper mb40">
+    <div class="row mb-5">
+      <div class="col-12">
+        <div id="common-profile">
+          <div class="d-flex align-items-center flex-column flex-md-row">
+            <ng-container>
+              <div *ngIf="adImage == null ; else imgFound " class="profile-img mr-0 mr-md-3">
+                <img src="../../../../assets/img/imagenotfound.png" alt="profile image" />
+              </div>
+            </ng-container>
+            <ng-template #imgFound>
+              <div class="profile-img mr-0 mr-sm-3">
+                <img [src]="common.transform(adImage)" alt="profile image" />
+              </div>
+            </ng-template>
+            <div class="profile-details quotes-details mt-2 mt-md-0 d-flex flex-column align-items-center align-items-sm-start" id="edit-profile-input">
+              <h5>{{adTitle}}</h5>
+              <p style="color:var(--textClr)">{{subCat}}</p>
+            </div>
+          </div>
+        </div>
+        <div id="promote-ad">
+          <form>
+            <h4 style="color:var(--headingClr)" class="mb-2 mb-md-4 mt-4 mt-md-5" >Want to sell faster?</h4>
+              <fieldset disabled>
+                <div class=" custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" id="customControlValidation2" name="radio-stacked" required>
+                  <div class="custom-control-label" for="customControlValidation2">
+                    <h6>Featured Listing</h6>
+                    <p>Your Ad  will be shown on top of the search results for as long as you choose.</p>
+                    <table class="table row package-table d-none">
+                      <tbody>
+                        <tr>
+                          <td class="price">15,000</td>
+                          <td>
+                            <select id="inputState" class="form-control border-0 packagedays">
+                              <option selected>14 Days</option>
+                              <option>30 Days</option>
+                              <option>14 Days</option>
+                            </select>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset disabled>
+                <div class=" custom-control custom-radio mb-3">
+                  <input type="radio" class="custom-control-input" id="customControlValidation3" name="radio-stacked" required>
+                  <div class="custom-control-label" for="customControlValidation3">
+                    <h6>Sportlight AD</h6>
+                    <p>Your Ad  will be shown on the hoomwork APP Homepage.</p>
+                    <table class="table row package-table d-none">
+                      <tbody>
+                        <tr>
+                          <td class="price">15,000</td>
+                          <td>
+                            <select id="inputState" class="form-control border-0 packagedays">
+                              <option selected>14 Days</option>
+                              <option>30 Days</option>
+                              <option>14 Days</option>
+                            </select>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset>
+                <div class=" custom-control custom-radio mb-3">
+                  <input type="radio" class="custom-control-input" checked id="customControlValidation3" name="radio-stacked" required>
+                  <div class="custom-control-label" for="customControlValidation3">
+                    <h6>Free</h6>
+                    <p>Press skip to post free ad.</p>
+                  </div>
+                </div>
+              </fieldset>
+          </form>
+          <div class="d-flex justify-content-end">
+            <button (click)="Skipped()" class="mp-outine-btn btn">skip</button>
+          </div>
+        </div>
+    </div>
+    </div>
+  </div>
+</div>
+

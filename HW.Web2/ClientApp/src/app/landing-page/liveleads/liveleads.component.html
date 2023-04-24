@@ -1,0 +1,170 @@
+<!----------------------------------------- LiveLeads Panel -------------------------------------------------->
+<div class="container pt-5">
+  <section id="nd-right-content">
+    <h2 class="heading-dashboad mb-3 mb-lg-4">Live Leads<small id="ltw"> (Last Month)</small></h2>
+    <div class="my-bids-tab-wrapper" id="livelead-tabs">
+      <ul class="nav nav-pills" id="pills-tab" role="tablist">
+        <li class="nav-item">
+          <!--<a (click)="activeLeads()" class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-active" role="tab" aria-controls="pills-active" aria-selected="true" style="font-size:18px">Active  ({{totalActiveLeads >= 0 ? totalActiveLeads : 0 }})</a>-->
+          <a (click)="activeLeads()" class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-active" role="tab" aria-controls="pills-active" aria-selected="true">Active</a>
+        </li>
+        <li class="nav-item">
+          <!--<a (click)="inProgressLeads()" class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-inprogress" role="tab" aria-controls="pills-inprogress" aria-selected="false" style="font-size:18px">InProgress ({{totalInProgressLeads >= 0 ? totalInProgressLeads : 0 }})</a>-->
+          <a (click)="inProgressLeads()" class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-inprogress" role="tab" aria-controls="pills-inprogress" aria-selected="false">InProgress </a>
+        </li>
+        <li class="nav-item">
+          <!--<a (click)="completedLeads()" class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-completed" role="tab" aria-controls="pills-complted" aria-selected="false" style="font-size:18px">Completed ({{totalCompletedLeads >= 0 ? totalCompletedLeads : 0 }})</a>-->
+          <a (click)="completedLeads()" class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-completed" role="tab" aria-controls="pills-complted" aria-selected="false">Completed</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tab-content" id="pills-tabContent">
+      <!-------------------------------------- Active Live Leads Tab ------------------------------------------------->
+      <div class="tab-pane fade show active pt-2 " id="pills-active" role="tabpanel" aria-labelledby="pills-home-tab">
+        <div *ngIf="activeWebLiveLeadsBit" id="no-found" class="text-center d-flex justify-content-center align-items-center">
+          <div>
+            <h1 class="mb-3  text-uppercase"><i class="fas fa-exclamation-circle text-danger"></i> Oops!</h1>
+            <h5 class="text-danger text-capitalize">no active live leads yet </h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 pb-2 pb-lg-2" *ngFor="let item of activeWebLiveLeads;let index = index;">
+            <div class="mq-box p-3">
+              <div class="d-flex align-items-center align-items-sm-left flex-wrap flex-column flex-sm-row">
+                <div class="mq-rounded-img mb-2 mb-sm-0">
+
+                  <ng-container *ngIf="item?.jobImage!=null; else noThumbnail">
+                    <img [src]="service.transform(item?.jobImage)" alt="">
+                  </ng-container>
+                  <ng-template #noThumbnail>
+                    <img src="../../../../assets/img/imagenotfound.png" alt="" />
+                  </ng-template>
+
+                </div>
+                <div class="mq-details ml-2">
+                  <h6 class="mb-1 text-center text-sm-left">{{(item?.workTitle.length > 28)? analytic?.ipLocation : (item?.workTitle)}}</h6>
+                  <div class="d-flex justify-content-between flex-wrap">
+                    <div class="d-flex flex-column text-center text-sm-left">
+                      <small>Details:<b>{{(item?.workDescription.length > 15)? (item?.workDescription | slice:0:15)+'...' :(item?.workDescription)}}</b></small>
+                      <small>City:<b>{{item?.cityName}}</b></small>
+                      <small>posted date:<b>{{item?.createdOn | date : "dd MMM yyyy"}}</b></small>
+                      <small>Budget:<b>{{item?.workBudget}}</b></small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr class="hl">
+              <div class="mq-box-footer d-flex justify-content-center justify-content-sm-end">
+                <div class="">
+                  <button (click)="login(item.jobQuotationId,'Liveleads')" class="mp-outine-btn">bid now</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="activeWebLiveLeads.length > 0">
+          <div class="col-xl-12 d-flex justify-content-end">
+            <ngb-pagination (pageChange)="getActiveJobsByPage($event)" [collectionSize]="totalActiveLeads" [(page)]="activePageNumber" [pageSize]="pageSize" [maxSize]="5" [boundaryLinks]="true"></ngb-pagination>
+          </div>
+        </div>
+      </div>
+      <!-------------------------------------- Inprogress Live Leads Tab ------------------------------------------------->
+      <div class="tab-pane fade  pt-2" id="pills-inprogress" role="tabpanel" aria-labelledby="pills-profile-tab">
+        <div *ngIf="inprogressWebLiveLeadsBit" id="no-found" class="text-center d-flex justify-content-center align-items-center">
+          <div>
+            <h1 class="mb-3  text-uppercase"><i class="fas fa-exclamation-circle text-danger"></i> Oops!</h1>
+            <h5 class="text-danger text-capitalize">no inprogress live leads yet  </h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 pb-2 pb-lg-2" *ngFor="let item of inProgressWebLiveLeads;let index = index;">
+            <div class="mq-box p-3">
+              <div class="d-flex align-items-center align-items-sm-left flex-wrap flex-column flex-sm-row">
+                <div class="mq-rounded-img mb-2 mb-sm-0">
+
+                  <ng-container *ngIf="item?.jobImage!=null; else noThumbnail">
+                    <img [src]="service.transform(item?.jobImage)" alt="">
+                  </ng-container>
+                  <ng-template #noThumbnail>
+                    <img src="../../../../assets/img/imagenotfound.png" alt="" />
+                  </ng-template>
+
+                </div>
+                <div class="mq-details ml-2">
+                  <h6 class="mb-1 text-center text-sm-left">{{(item?.workTitle.length > 28)? (item?.workTitle | slice:0:28)+'...' : (item?.workTitle)}}</h6>
+                  <div class="d-flex justify-content-between flex-wrap">
+                    <div class="d-flex flex-column text-center text-sm-left">
+                      <small>Details:<b>{{(item?.workDescription.length > 15)? (item?.workDescription | slice:0:15)+'...' :(item?.workDescription)}}</b></small>
+                      <small>City:<b>{{item?.cityName}}</b></small>
+                      <small>posted date:<b>{{item?.createdOn | date : "dd MMM yyyy"}}</b></small>
+                      <small>Budget:<b>{{item?.workBudget}}</b></small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="inProgressWebLiveLeads?.length > 0">
+          <div class="col-xl-12 d-flex justify-content-end">
+            <ngb-pagination (pageChange)="getInProgressJobsByPage($event)" [collectionSize]="totalInProgressLeads" [(page)]="inprogressPageNumber" [pageSize]="pageSize" [maxSize]="5" [boundaryLinks]="true"></ngb-pagination>
+          </div>
+        </div>
+      </div>
+      <!-------------------------------------- Completed Live Leads Tab ------------------------------------------------->
+      <div class="tab-pane fade  pt-2" id="pills-completed" role="tabpanel" aria-labelledby="pills-profile-tab">
+        <div *ngIf="completedWebLiveLeadsBit" id="no-found" class="text-center d-flex justify-content-center align-items-center">
+          <div>
+            <h1 class="mb-3  text-uppercase"><i class="fas fa-exclamation-circle text-danger"></i> Oops!</h1>
+            <h5 class="text-danger text-capitalize">no completed live leads yet  </h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 pb-2 pb-lg-2" *ngFor="let item of completedWebLiveLeads;let index = index;">
+            <div class="mq-box p-3">
+              <div class="d-flex align-items-center align-items-sm-left flex-wrap flex-column flex-sm-row">
+                <div class="mq-rounded-img mb-2 mb-sm-0">
+
+                  <ng-container *ngIf="item?.jobImage!=null; else noThumbnail">
+                    <img [src]="service.transform(item?.jobImage)" alt="">
+                  </ng-container>
+                  <ng-template #noThumbnail>
+                    <img src="../../../../assets/img/imagenotfound.png" alt="" />
+                  </ng-template>
+
+                </div>
+                <div class="mq-details ml-2">
+                  <h6 class="mb-1 text-center text-sm-left">{{(item?.workTitle.length > 28)? (item?.workTitle | slice:0:28)+'...' : (item?.workTitle)}}</h6>
+                  <div class="d-flex justify-content-between flex-wrap">
+                    <div class="d-flex flex-column text-center text-sm-left">
+                      <small>Details:<b>{{(item?.workDescription.length > 15)? (item?.workDescription | slice:0:15)+'...' :(item?.workDescription)}}</b></small>
+                      <small>City:<b>{{item?.cityName}}</b></small>
+                      <small>posted date:<b>{{item?.createdOn | date : "dd MMM yyyy"}}</b></small>
+                      <small>Budget:<b>{{item?.workBudget}}</b></small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="completedWebLiveLeads.length > 0">
+          <div class="col-xl-12 d-flex justify-content-end">
+            <ngb-pagination (pageChange)="getCompletedJobsByPage($event)" [collectionSize]="totalCompletedLeads" [(page)]="completedPageNumber" [pageSize]="pageSize" [maxSize]="5" [boundaryLinks]="true"></ngb-pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="modal fade" id="downloadapp" tabindex="-1" role="dialog" aria-labelledby="downloadappLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button class="btn btn-success" (click)="login('','')">OK</button>
+      </div>
+    </div>
+  </div>
+</div>

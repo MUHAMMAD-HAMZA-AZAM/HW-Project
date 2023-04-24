@@ -1,0 +1,215 @@
+<!-- breadcrumb start -->
+<!--<div class="breadcrumb-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="page-title">
+          <h2>orderlist</h2>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <nav aria-label="breadcrumb" class="theme-breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a [routerLink]="'/'">Home</a></li>
+            <li class="breadcrumb-item"><a [routerLink]="[_httpService.apiRoutes.User.DashBoard]">Dashboard</a></li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>-->
+<!-- breadcrumb End -->
+<!-- tracking page start -->
+<!--<section class="tracking-page section-b-space" *ngIf="!dataNotFound">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">-->
+<!--<h3 class="mb-4 font-weight-bold">my orders</h3>-->
+<!--<div class="order-table table-responsive">
+  <table class="table mb-0 table-striped table-borderless">
+    <thead class="">
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Mobile</th>
+        <th scope="col">Order Ref</th>
+        <th scope="col">Status</th>
+        <th scope="col">Order Date</th>
+        <th scope="col">Shipping Address</th>-->
+<!--<th scope="col">Shipping Cost</th>-->
+<!--<th scope="col">Total Payable</th>
+    <th scope="col">Payment</th>
+    <th scope="col">Details</th>
+  </tr>
+</thead>
+<tbody>
+  <tr *ngFor="let item of customerOrdersList">
+    <td>{{item.customerName}}</td>
+    <td>{{item.contactNumber}}</td>
+    <td>{{item.orderId}}</td>
+    <td [ngClass]="{'text-primary':item.orderStatusName == 'Inprogress','text-info': (item.orderStatusName == 'Received' || item.orderStatusName == 'Delivered'),'text-danger':(item.orderStatusName == 'Declined' || item.orderStatusName == 'Canceled') ,'text-success':( item.orderStatusName == 'Packed&Shipped' || item.orderStatusName == 'Completed')}">{{(item?.orderStatusName == 'Inprogress' ? 'In-Progress' : item?.orderStatusName)}}</td>-->
+<!-- <td>{{item?.orderStatusName}}</td> -->
+<!--<td>{{(item.orderStatus == Orders.Received ? 'Received' : (item.orderStatus == Orders.Inprogress ? 'InProgress' : (item.orderStatus == Orders.PackedAndShipped ? 'Packed&Shipped' : 'Completed')))}}</td>-->
+<!--<td>{{item.orderDate | date: "dd MMM yyy h:mm a"}}</td>
+<td>{{ (item?.shippingAdress !=null?  (item?.shippingAdress.length > 20)?(item?.shippingAdress | slice:0:20)+'...':(item?.shippingAdress) : '')}} <i *ngIf="item?.shippingAdress && item.shippingAdress.length > 25" placement="top" ngbPopover="{{item.shippingAdress}}" class="fa fa-eye"></i></td>-->
+<!--<td>Rs. {{(item?.shippingCost)? (item.shippingCost | number:'1.0':'en-US') : '0.00'}}</td>-->
+<!--<td>Rs. {{(item?.payableAmount)? (item.payableAmount | number:'1.0':'en-US') : '0.00'}}</td>
+            <td>
+              <a [routerLink]="[_httpService.apiRoutes.User.OrderPayment,item.orderId]"
+                 *ngIf="item.isPaymentReceived==null">Pay Now</a>
+              <p *ngIf="item.isPaymentReceived" class="text-success fs-6">Completed</p>
+              <p *ngIf="item.isPaymentReceived==false" class="text-warning fs-6">Pending</p>
+            </td>
+            <td><button type="button" class="btn btn-xs btn-solid" (click)="orderDetails(item.orderId)">Details</button></td>
+            <td><button type="button" class="btn btn-info" [disabled]="(item.orderStatus == Orders.Inprogress || item.orderStatus == Orders.Received)" (click)="showTrackModal(item.orderId,orderTrackModal)">Track</button></td>
+            <td><button type="button" class="btn btn-danger" [disabled]="(item.orderStatus == Orders.Delievred || item.orderStatus == Orders.Completed || item.orderStatus == Orders.Declined || item.orderStatus == Orders.PackedAndShipped )" (click)="showModal(item.orderId,orderCancelModal)">Cancel Order</button></td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>-->
+<!--<div class="row mt-4">
+  <div class="col-xl-12 d-flex justify-content-end" *ngIf="customerOrdersList?.length > 0">
+    <ngb-pagination (pageChange)="getOrderListByPage($event)" [collectionSize]="totalCustomerOrders" [(page)]="activePageNumber" [pageSize]="pageSize" [maxSize]="5" [boundaryLinks]="true"></ngb-pagination>
+  </div>
+</div>-->
+<!--</div>
+</section>-->
+<!-- tracking page end -->
+<!-- Not Found Product -->
+<!--<div class="not-found-wrapper d-flex align-items-center justify-content-center" *ngIf="dataNotFound">
+  <div class="text-center">
+    <h1>Sorry :(</h1>
+    <p>Did not found any order in your OrderList</p>
+  </div>
+</div>-->
+<!--New Section Starts-->
+<div class="container-fluid px-5">
+  <div class="breadcrumb pt-3" style="margin-top: 134px;">
+    <ul class="d-flex">
+      <li><a [routerLink]="'/'">Home</a><span>|</span></li>
+      <li><a [routerLink]="[_httpService.apiRoutes.User.DashBoard]">Dashboard</a></li>
+    </ul>
+  </div>
+  <h4 class="primaryClr mb-5">
+    My Orders</h4>
+    <table class="table table-borderless" *ngIf="!dataNotFound">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Mobile</th>
+          <th>Order ref</th>
+          <th>Status</th>
+          <th>Order Date</th>
+          <th>Shipping Address</th>
+          <th>Total Payable</th>
+          <th>Payment</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of customerOrdersList">
+          <td>{{item.customerName}}</td>
+          <td>{{item.contactNumber}}</td>
+          <td>{{item.orderId}}</td>
+          <td [ngClass]="{'text-primary':item.orderStatusName == 'Inprogress','text-info': (item.orderStatusName == 'Received' || item.orderStatusName == 'Delivered'),'text-danger':(item.orderStatusName == 'Declined' || item.orderStatusName == 'Canceled') ,'text-success':( item.orderStatusName == 'Packed&Shipped' || item.orderStatusName == 'Completed')}">{{((item?.orderStatusName == 'Inprogress' &&  item.isPaymentModeConfirm ) ? 'In-Progress' : ((item?.orderStatusName == 'Inprogress' &&  !item.isPaymentModeConfirm ) ? 'Payment Pending': item.orderStatusName))}}</td>
+          <td>{{item.orderDate | date: "dd MMM yyy h:mm a"}}</td>
+          <td>{{ (item?.shippingAdress ?  (item?.shippingAdress.length > 20)?(item?.shippingAdress | slice:0:20)+'...':(item?.shippingAdress) : '')}} <i *ngIf="item?.shippingAdress && item.shippingAdress.length > 25" placement="top" ngbPopover="{{item.shippingAdress}}" class="fa fa-eye"></i></td>
+          <td>Rs: {{(item?.payableAmount)? (item.payableAmount | number:'1.0':'en-US') : '0.00'}}</td>
+          <td>
+            <a [routerLink]="[_httpService.apiRoutes.User.OrderPayment,item.orderId]"
+               *ngIf="item.isPaymentReceived==null">Pay Now</a>
+            <p *ngIf="item.isPaymentReceived" class="text-success fs-6">Completed</p>
+            <p *ngIf="item.isPaymentReceived==false" class="text-warning fs-6">Pending</p>
+          </td>
+          <td class="d-flex flex-column gap-1">
+            <button class="btn primaryBg text-white p-1 font-laila fw-bold" (click)="orderDetails(item.orderId)">Details</button>
+            <button class="btn primaryBg text-white p-1 font-laila fw-bold" [disabled]="(item.orderStatus == Orders.Inprogress || item.orderStatus == Orders.Received || item.orderStatus == Orders.Declined || item.orderStatus == Orders.Completed )" (click)="orderTrack(item.orderId)">Track</button>
+            <button class="btn secondaryBg text-white p-1 font-laila fw-bold" [disabled]="(item.orderStatus == Orders.Delievred || item.orderStatus == Orders.Completed || item.orderStatus == Orders.Declined || item.orderStatus == Orders.PackedAndShipped )" (click)="showModal(item.orderId,orderCancelModal)">Cancel</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</div>
+
+
+<!-- Not Found Product -->
+<div class="not-found-wrapper d-flex align-items-center justify-content-center" *ngIf="dataNotFound">
+  <div class="text-center">
+    <h1>Sorry :(</h1>
+    <p>Did not found any order in your OrderList</p>
+  </div>
+</div>
+
+<!--New Section Ends-->
+<!---------------------------- Cancel Order Modal ------------------------->
+
+<ng-template #orderCancelModal let-modal>
+  <div class="modal-header">
+    <h3 class="modal-title fw-bold" style="color: var(--headingClr);">Confirmation!</h3>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="appValForm">
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label ngbAutoFocus><b>Reason to cancel</b></label>
+            <select class="form-control" formControlName="reasonId">
+              <option [ngValue]="null" disabled selected>--- Select a Reason ---</option>
+              <option *ngFor="let reason of orderCancellationReasonsList" value="{{reason.id}}">{{reason.value}}</option>
+            </select>
+            <div *ngIf="f.reasonId?.errors">
+              <div *ngIf="f.reasonId.invalid && (f.reasonId.touched || f.reasonId.dirty)">
+                <small class="text-danger" *ngIf="f?.reasonId?.errors?.required">Input is Required</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label><b>Customer Comments (mandatory)</b></label>
+            <textarea formControlName="comments" class="form-control" rows="5" (keypress)="_httpService.charOnly($event)"></textarea>
+            <div *ngIf="f.comments?.errors">
+              <div *ngIf="f.comments.invalid && (f.comments.touched || f.comments.dirty)">
+                <small class="text-danger" *ngIf="f?.comments?.errors?.required">Input is Required</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label><b>Cancellation Policy</b></label>
+            <ul>
+              <li> Before cancelling the order,kindly read the our following terms & conditions</li>
+              <li>1. Once you submit this form you agree to cancel the selected items(s) in your order.We will be unable to retrieve your order once it is cancelled.</li>
+              <li>2. Once you confirm your item(s),we will process your refund within 24 hours,provided the item(s) has not been handed over to the logistics partner yet.Please note that,if you item has already been handed over to the logistics partner we will be unable to proceed with your cancellation requst and we will inform you accordingly.</li>
+              <li>3. If you are cancelling your order partially, not all the items in your order,then we will be unable to refund you the shipping fee.</li>
+              <li>4. Once your item(s) has been successfully cancelled you will receive a notification from us with your refund summary.</li>
+            </ul>
+            <div class="form-check mt-2">
+              <input class="form-check-input" type="checkbox" formControlName="cancellationPolicy" value="1" id="flexCheckDefault" checked required>
+              <label class="form-check-label" for="flexCheckDefault">&nbsp; I have read and accepted the <b>Cancellation Policy of Hoomwork.</b></label>
+            </div>
+            <div *ngIf="f.cancellationPolicy?.errors">
+              <div *ngIf="f.cancellationPolicy.invalid && (f.cancellationPolicy.touched || f.cancellationPolicy.dirty)">
+                <small class="text-danger" *ngIf="f?.cancellationPolicy?.errors?.required">Input is Required</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-xs btn-solid" (click)="cancelOrder()">Yes, cancel this order</button>
+    <button type="button" class="btn btn-xs btn-danger" (click)="closeModal()">No</button>
+  </div>
+</ng-template>
+
+

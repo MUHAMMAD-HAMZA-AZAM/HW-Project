@@ -1,0 +1,120 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Account List</h6>
+            <button *ngIf="userRole.allowAdd" (click)="showModal(content)" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New Account</button>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th width="5%">Account Name</th>
+                    <th width="5%">Account Code</th>
+                    <th width="10%">Account Type Name</th>
+                    <th width="10%">Status</th>
+                    <th width="5%">Created By</th>
+                    <th width="5%">Created On</th>
+                    <th width="5%">Modified By</th>
+                    <th width="5%">Modified On</th>
+                    <th *ngIf="userRole.allowAdd" width="1%">Edit</th>
+                    <th *ngIf="userRole.allowDelete" title="Delete" width="1%">Del</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of accountList">
+                    <td>{{item?.accountName}}</td>
+                    <td>{{item?.accountNo}}</td>
+                    <td>{{item?.accounTypeName}}</td>
+                    <td [ngClass]="(item.active) ? 'text-primary' : 'text-danger' ">{{(item.active) ? 'Active' : 'InActive'  }}</td>
+                    <td>{{item?.createdBy}}</td>
+                    <td>{{item?.createdOn | date: "dd MMM yyy "}}</td>
+                    <td>{{item?.modifiedBy}}</td>
+                    <td>{{item?.modifiedOn | date: "dd MMM yyy "}}</td>
+                    <td *ngIf="userRole.allowAdd"><i class="text-info fa fa-pencil-alt" (click)="update(item, content)"></i></td>
+                    <td *ngIf="userRole.allowDelete"><i class="text-danger fa fa-trash-alt" (click)="delete(item?.id)"></i></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">{{modelText}}</h5>
+  </div>
+  <form [formGroup]="appValForm">
+    <div class="modal-body">
+      <input type="hidden" formControlName="id"/> 
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <input type="text" class="form-control" formControlName="accountNo" placeholder="Account No" />
+            <div *ngIf="f.accountNo?.errors">
+              <div *ngIf="f.accountNo.invalid && submited">
+                <small *ngIf="f.accountNo.errors?.required" class="text-danger">User Type is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <input type="text" class="form-control" formControlName="accountName" placeholder="Account Name" />
+            <div *ngIf="f.accountName?.errors">
+              <div *ngIf="f.accountName.invalid && submited">
+                <small *ngIf="f.accountName.errors?.required" class="text-danger">User Type is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="fs-12">Select Account Type</label>
+            <select formControlName="accountTypeId" required class="form-control">
+              <option [ngValue]="null" disabled>Select Account Type</option>
+              <option *ngFor="let item of activeAccountTypeList" [value]="item?.id">{{item?.accounTypeName}}</option>
+            </select>
+            <div *ngIf="f.accountTypeId?.errors">
+              <div *ngIf="f.accountTypeId.invalid && submited">
+                <small *ngIf="f.accountTypeId.errors?.required" class="text-danger">Account Type is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="fs-12">Entity Status</label>
+            <select formControlName="isActive" required class="form-control">
+              <option [ngValue]="null" disabled>Select Entity Status</option>
+              <option [value]="1">Active</option>
+              <option [value]="2">InActive</option>
+            </select>
+            <div *ngIf="f.isActive?.errors">
+              <div *ngIf="f.isActive.invalid && submited">
+                <small *ngIf="f.isActive.errors?.required" class="text-danger">Entity status is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="row">
+        <div class="col-md-6 inline-downlod-btns">
+          <button type="button" class="btn btn-sm btn-primary" (click)="saveAndUpdate()" [disabled]="!appValForm.valid">Save</button>
+          <button type="button" class="btn btn-sm btn-primary mx-2" (click)="resetForm()">Reset</button>
+          <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('Save click')">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>

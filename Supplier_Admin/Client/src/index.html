@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Supplier Admin</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="assets/images/favicon.png">
+  <link rel="manifest" href="./manifest.json">
+  <!--<link href="https://fonts.googleapis.com/css?family=lato:300,400,700,900" rel="stylesheet">-->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <!--<script src="https://unpkg.com/feather-icons@4.10.0/dist/feather.min.js"></script>-->
+</head>
+<body>
+  <app-root></app-root>
+  <script type="text/javascript">
+    // var baseUrl = 'http://172.16.1.91:15790/api/';
+     var baseUrl = 'http://172.16.1.36:15790/api/';
+    //var baseUrl = 'http://172.16.1.125:15790/api/';
+    //var baseUrl = 'http://172.16.1.248:15790/api/';
+    //var baseUrl = 'http://185.15.244.235/gateway/api/';
+    //var baseUrl = 'http://172.16.2.111:15790/api/';
+    //var baseUrl = 'http://172.18.192.1:15790/api/';
+    localStorage.setItem("baseUrl", baseUrl);
+  </script>
+
+  <script>
+    (function (w, d, u) {
+      var s = d.createElement('script'); s.async = true; s.src = u + '?' + (Date.now() / 60000 | 0);
+      var h = d.getElementsByTagName('script')[0]; h.parentNode.insertBefore(s, h);
+    })(window, document, 'https://cdn.bitrix24.com/b20527995/crm/site_button/loader_4_kuxx7v.js');
+
+
+    setTimeout(function () {
+      $(".b24-widget-button-social").append('<a target="_blank" href="https://api.whatsapp.com/send?phone=923099994531" class="b24-widget-button-social-item " title="" data-b24-widget-sort="300" style="background-color: rgb(142, 200, 47);display: flex;justify-content: center;align-items: center;"><i class="fab fa-whatsapp  text-white" style="font-size: 28px;"></i></a>');
+    }, 3000);
+
+  </script>
+
+</body>
+</html>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</script>-->

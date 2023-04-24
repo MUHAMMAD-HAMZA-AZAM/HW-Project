@@ -1,0 +1,172 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Tradesman Commision Override List</h6>
+            <button *ngIf="userRole.allowAdd" (click)="showModal(content)" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New</button>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th width="4%">Category Commission Setup Id</th>
+                    <th width="5%">Category Id</th>
+                    <th width="2%">Tradesman Id</th>
+                    <th width="3%">Commission Override Amount</th>
+                    <th width="3%">Commission Override Percentage</th>
+                    <th width="3%">Reference Person</th>
+                    <th width="3%">Status</th>
+                    <th width="5%">Created By</th>
+                    <th width="5%">Created On</th>
+                    <th width="5%">Modified By</th>
+                    <th width="5%">Modified On</th>
+                    <th *ngIf="userRole.allowAdd" width="1%">Edit</th>
+                    <th *ngIf="userRole.allowDelete" title="Delete" width="1%">Del</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of overrideTradesmanCommissionList">
+                    <td>{{item?.categoryCommissionSetupId}}</td>
+                    <td>{{item?.categoryName}}</td>
+                    <td>{{item?.tradesmanId}}</td>
+                    <td>{{item?.commisionAmount}}</td>
+                    <td>{{item?.commissionPercentage}}</td> 
+                    <td>{{item?.referencePerson}}</td>
+                    <td [ngClass]="(item.active) ? 'text-primary' : 'text-danger' ">{{(item.active) ? 'Active' : 'InActive'  }}</td>
+                    <td>{{item?.createdBy}}</td>
+                    <td>{{item?.createdOn | date: "dd MMM yyy "}}</td>
+                    <td>{{item?.modifiedBy}}</td>
+                    <td>{{item?.modifiedOn | date: "dd MMM yyy "}}</td>
+                    <td *ngIf="userRole.allowAdd"><i class="text-info fa fa-pencil-alt" (click)="update(item, content)"></i></td>
+                    <td *ngIf="userRole.allowDelete"><i class="text-danger fa fa-trash-alt" (click)="delete(item?.id)"></i></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">{{modelText}}</h5>
+  </div>
+  <form [formGroup]="appValForm">
+    <div class="modal-body">
+      <input type="hidden" formControlName="id" />
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="fs-12">Commission Setup Id</label>
+            <select formControlName="categoryCommissionSetupId" required class="form-control">
+              <option [value]="null" disabled>---Select Commission Setup Id---</option>
+              <option *ngFor="let item of categoryCommissionSetupList" [value]="item.categoryCommissionSetupId">{{item.categoryCommissionSetupId}}</option>
+            </select>
+            <div *ngIf="f.role?.errors">
+              <div *ngIf="f.role.invalid && submited">
+                <small *ngIf="f.role.errors?.required" class="text-danger">Input is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="fs-12">Entity Status</label>
+            <select formControlName="isActive" required class="form-control">
+              <option [value]="null" disabled>---Select Entity Status---</option>
+              <option [value]="1">Active</option>
+              <option [value]="2">InActive</option>
+            </select>
+            <div *ngIf="f.isActive?.errors">
+              <div *ngIf="f.isActive.invalid && submited">
+                <small *ngIf="f.isActive.errors?.required" class="text-danger">Entity status is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-sm-6 col-lg-6">
+          <div class="form-group">
+            <label class="fs-12">Commission Override Amount</label>
+            <input type="number" formControlName="commisionAmount" class="form-control" placeholder="Commission Override Amount" />
+            <div *ngIf="f.commisionAmount?.errors">
+              <div *ngIf="f.commisionAmount.invalid && (f.commisionAmount.touched || f.commisionAmount.dirty)">
+                <small *ngIf="f.commisionAmount.errors?.required" class="text-danger">Input is requried</small>
+                <small *ngIf="f.commisionAmount.errors?.pattern" class="text-danger">Input allows maximum 3 number</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-lg-6">
+          <div class="form-group">
+            <label class="fs-12">Commission Override Percentage</label>
+            <input type="number" formControlName="commissionPercentage" class="form-control" placeholder="Commission Override Percentage" />
+            <div *ngIf="f.commissionPercentage?.errors">
+              <div *ngIf="f.commissionPercentage.invalid && (f.commissionPercentage.touched || f.commissionPercentage.dirty)">
+                <small *ngIf="f.commissionPercentage.errors?.required" class="text-danger">Input is requried</small>
+                <small *ngIf="f.commissionPercentage.errors?.pattern" class="text-danger">Input allows maximum 3 number</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="fs-12">Category Id</label>
+            <select formControlName="categoryId" required class="form-control">
+              <option [value]="null" disabled>---Select Category---</option>
+              <option *ngFor="let item of categoryList" [value]="item.id">{{item.value}}</option>
+            </select>
+            <div *ngIf="f.categoryId?.errors">
+              <div *ngIf="f.categoryId.invalid && submited">
+                <small *ngIf="f.categoryId.errors?.required" class="text-danger">Entity status is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="fs-12">Tradesman Id</label>
+            <input type="number" formControlName="tradesmanId" class="form-control" placeholder="TradesmanId" />
+            <div *ngIf="f.tradesmanId?.errors">
+              <div *ngIf="f.tradesmanId.invalid && (f.tradesmanId.touched || f.tradesmanId.dirty)">
+                <small *ngIf="f.tradesmanId.errors?.required" class="text-danger">Input is requried</small>
+                <small *ngIf="f.tradesmanId.errors?.pattern" class="text-danger">Input allows maximum 10 number</small>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="fs-12">Reference Person</label>
+            <input type="text" formControlName="referencePerson" class="form-control" placeholder="Reference Person" />
+            <div *ngIf="f.referencePerson?.errors">
+              <div *ngIf="f.referencePerson.invalid && submited">
+                <small *ngIf="f.referencePerson.errors?.required" class="text-danger">Input is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="row">
+        <div class="col-md-6 inline-downlod-btns">
+          <button type="button" class="btn btn-sm btn-primary" (click)="saveAndUpdate()" [disabled]="!appValForm.valid">Save</button>
+          <button type="button" class="btn btn-sm btn-primary mx-2" (click)="resetForm()">Reset</button>
+          <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('Save click')">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>

@@ -1,0 +1,51 @@
+ <!-- -------------------------------------  New Theme Invoice Design --------------------------------------------------------->
+<section id="nd-right-content">
+  <h2 class="heading-dashboad mb-3 mb-lg-4">invoices</h2>
+  <div *ngIf="notFound" id="no-found" class="text-center d-flex justify-content-center align-items-center">
+    <div>
+      <h1 class="mb-3  text-uppercase"><i class="fas fa-exclamation-circle text-danger"></i> Oops!</h1>
+      <h5 class="text-danger text-capitalize">You don't have any invoice. </h5>
+    </div>
+  </div>
+    <div class="overflow-auto">
+  <table *ngIf="payment?.length > 0" class="table table-bordered" id="cus-table">
+    <thead>
+      <tr class="text-uppercase">
+        <th scope="col">sr#</th>
+        <th scope="col">Task Id</th>
+        <th scope="col">Agreed Budget</th>
+        <th scope="col">Additional Charges</th>
+        <th scope="col">Total Amount</th>
+        <th scope="col">Discount</th>
+        <th scope="col">Commission</th>
+        <th scope="col">PayableByHoomwork</th>
+        <th scope="col">PaidViaWallet</th>
+        <th scope="col">PaidByCustomer</th>
+        <th scope="col">Payment Method</th>
+        <th scope="col">Date</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of payment;let index = index;">
+        <th scope="row">{{index+1}}</th>
+        <td>{{item.jobQuotationId}}</td>
+        <td>Rs. {{item.tradesmanInitialBudget  | number:'1.0':'en-US'}}</td>
+        <td>Rs. {{item.additionalCharges  | number:'1.0':'en-US'}}</td>
+        <td>Rs. {{item.amount  | number:'1.0':'en-US'}}</td>
+        <td>Rs. {{item.discountedAmount  | number:'1.0':'en-US'}}</td>
+        <td>Rs. {{item.commission  | number:'1.0':'en-US'}}</td>
+        <td>Rs. {{item.netPayableToTradesman  | number:'1.0':'en-US'}}</td>
+        <td>Rs. {{item.paidViaWallet  | number:'1.0':'en-US'}}</td>
+        <td>Rs. {{item.payableAmount  | number:'1.0':'en-US'}}</td>
+        <td *ngIf="item.paymentStatus == 1;">JazzCash</td>
+        <td *ngIf="item.paymentStatus == 4;">Wallet</td>
+        <td *ngIf="item.paymentStatus != 4 && item.paymentStatus != 1;">Cash</td>
+        <td>{{item.paymentMonth}}</td>
+      </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+</section>

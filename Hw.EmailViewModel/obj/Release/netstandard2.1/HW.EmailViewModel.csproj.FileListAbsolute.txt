@@ -1,0 +1,15 @@
+D:\GitHub\Hoomwork\Hw.EmailViewModel\bin\Release\netstandard2.1\HW.EmailViewModel.deps.json
+D:\GitHub\Hoomwork\Hw.EmailViewModel\bin\Release\netstandard2.1\HW.EmailViewModel.dll
+D:\GitHub\Hoomwork\Hw.EmailViewModel\bin\Release\netstandard2.1\HW.EmailViewModel.pdb
+D:\GitHub\Hoomwork\Hw.EmailViewModel\bin\Release\netstandard2.1\HW.CommunicationModels.dll
+D:\GitHub\Hoomwork\Hw.EmailViewModel\bin\Release\netstandard2.1\HW.TradesmanModels.dll
+D:\GitHub\Hoomwork\Hw.EmailViewModel\bin\Release\netstandard2.1\HW.CommunicationModels.pdb
+D:\GitHub\Hoomwork\Hw.EmailViewModel\bin\Release\netstandard2.1\HW.TradesmanModels.pdb
+D:\GitHub\Hoomwork\Hw.EmailViewModel\obj\Release\netstandard2.1\HW.EmailViewModel.csproj.AssemblyReference.cache
+D:\GitHub\Hoomwork\Hw.EmailViewModel\obj\Release\netstandard2.1\HW.EmailViewModel.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Hoomwork\Hw.EmailViewModel\obj\Release\netstandard2.1\HW.EmailViewModel.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\Hw.EmailViewModel\obj\Release\netstandard2.1\HW.EmailViewModel.AssemblyInfo.cs
+D:\GitHub\Hoomwork\Hw.EmailViewModel\obj\Release\netstandard2.1\HW.EmailViewModel.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\Hw.EmailViewModel\obj\Release\netstandard2.1\HW.EmailViewModel.csproj.CopyComplete
+D:\GitHub\Hoomwork\Hw.EmailViewModel\obj\Release\netstandard2.1\HW.EmailViewModel.dll
+D:\GitHub\Hoomwork\Hw.EmailViewModel\obj\Release\netstandard2.1\HW.EmailViewModel.pdb

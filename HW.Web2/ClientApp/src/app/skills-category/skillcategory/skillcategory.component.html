@@ -1,0 +1,89 @@
+<div class="skill-image-wrapper">
+    <img [src]="service.transform(skillDetails.skillImage)"/>
+  <div class="container">
+      <div class="sk-header-skill">
+        <h3>{{skillDetails?.name}}</h3>
+        <p>{{skillDetails?.slug}}</p>
+      </div>
+  </div>
+</div>
+<!--<div class="sub-skill-breadcrumb d-flex">
+  <div class="container d-flex align-items-center align-items-lg-center align-items-xl-center align-items-md-center align-items-sm-center">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a href="#" class="text-primary">Library</a></li> 
+        <li class="breadcrumb-item"><a href="#">Data</a></li>
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+      </ol>
+    </nav>
+  </div>
+</div>-->
+<div class="container">
+  <div class="sk-skill-details" *ngIf="skillDetails?.description">
+    <h2 class="pt-2 pt-lg-5"><b>best {{skillDetails?.name}} services  in Lahore</b></h2>
+    <div [innerHTML]="skillDetails?.description">
+    </div>
+    <hr/>
+  </div>
+</div>
+<!--<ng-template #elseBlock>
+  <div class="sk-skill-details">
+    <h3>best ac service in paskitan and asia</h3>
+    <p>
+      Regardless of whether its home or office, Air conditioner units are an indispensable piece of our day by day life. Having an air conditioner requires regular maintenance to function effectively and efficiently throughout its years of service.
+
+      <br />Particularly even before the late spring season begins, AC units should be overhauled to ensure they are working properly. If not, the efficiency of your air conditioner decreases and your AC quits performing appropriately, hence delivering less cooling and paying greater power.
+
+      Therefore, it's significant that you choose the right AC maintenance Service.
+
+      <br />For your AC to keep functioning properly, you have to do ordinary running tasks on your AC to appreciate more effective without the need to replace it with a new one. If you choose to do your AC repairing yourself make sure that you shut down the unit before doing anything to your AC machine.
+
+      <br />If fixes or administrations are done on your own, know that you may wind up making more harm to the unit. One wrong move and the unit might undergo new issues. There are numerous cases where you require professional and experienced AC Technicians to do the job for you. Searching for those experts is a difficult task itself. That's where Mr Mahir jumps in, offering the best AC services in Lahore and Karachi,  helping you find the best AC Technicians to do your job.
+
+      <br />Mr Mahir AC Repair Services has established itself as the leading channel that provides AC Service in Lahore and Karachi. We do all kinds of AC Repair, AC Technician Services, AC Installation, AC Maintenance, AC Gas Refilling, AC Advanced Piping Services, AC Mounting, and Dismounting & all types of Air Conditioner Service & Split AC Repair in Lahore and Karachi.
+    </p>
+    <p>
+      Regardless of whether its home or office, Air conditioner units are an indispensable piece of our day by day life. Having an air conditioner requires regular maintenance to function effectively and efficiently throughout its years of service.
+
+      <br />Particularly even before the late spring season begins, AC units should be overhauled to ensure they are working properly. If not, the efficiency of your air conditioner decreases and your AC quits performing appropriately, hence delivering less cooling and paying greater power.
+
+      Therefore, it's significant that you choose the right AC maintenance Service.
+
+      <br />For your AC to keep functioning properly, you have to do ordinary running tasks on your AC to appreciate more effective without the need to replace it with a new one. If you choose to do your AC repairing yourself make sure that you shut down the unit before doing anything to your AC machine.
+
+      <br />If fixes or administrations are done on your own, know that you may wind up making more harm to the unit. One wrong move and the unit might undergo new issues. There are numerous cases where you require professional and experienced AC Technicians to do the job for you. Searching for those experts is a difficult task itself. That's where Mr Mahir jumps in, offering the best AC services in Lahore and Karachi,  helping you find the best AC Technicians to do your job.
+
+      <br />Mr Mahir AC Repair Services has established itself as the leading channel that provides AC Service in Lahore and Karachi. We do all kinds of AC Repair, AC Technician Services, AC Installation, AC Maintenance, AC Gas Refilling, AC Advanced Piping Services, AC Mounting, and Dismounting & all types of Air Conditioner Service & Split AC Repair in Lahore and Karachi.
+    </p>
+    <div class="sk-services">
+      <h2 class="text-primary">Services</h2>
+      <p>
+        Our AC technicians have years of practical, in-field experience. They possess just the right knowledge and skills needed to diagnose and rule out any AC complication and give you a solution regarding all problems you may have.
+      </p>
+      <div class="sk-services-inner">
+        <h5>AC Technician Services</h5>
+        <p>If you are looking for the best AC technician in Lahore for your Split AC Repair and AC Installation Services, know that we are the best fit for that.</p>
+      </div>
+      <div class="sk-services-inner">
+        <h5>AC Repair Services</h5>
+        <p>Mr Mahir offers various AC General Services such as AC Installation, AC Maintenance, AC Gas refilling, etc..</p>
+      </div>
+      <div class="sk-services-inner">
+        <h5>AC Installation Services</h5>
+        <p>IWe have a perfect team of AC Technicians and who can get your AC Installation done in Lahore and Karachi . Our AC technicians are highly experienced in dealing with all types of AC units of any make and model.</p>
+      </div>
+      <div class="sk-services-inner">
+        <h5>AC Maintenance Services</h5>
+        <p>If you are looking for the best AC technician in Lahore for your Split AC Repair and AC Installation Services, know that we are the best fit for that.</p>
+      </div>
+      <div class="sk-services-inner">
+        <h5>AC Gas Refilling Services</h5>
+        <p>
+          We have grown tremendously ever since our formation and can carry out these critical and careful tasks such as gas refilling services with a flare.
+          From servicing and repairing to maintenance & support, we do it all. Call us today!
+        </p>
+      </div>
+    </div>
+  </div>
+</ng-template>-->

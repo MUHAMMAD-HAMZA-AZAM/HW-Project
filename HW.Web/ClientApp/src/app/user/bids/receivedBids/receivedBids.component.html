@@ -1,0 +1,87 @@
+<div class="container-fluid">
+  <div class="row">
+    <div id="page-wrapper">
+      <div class="col-lg-12">
+        <div class="row">
+          <div class="col-lg-12 bg-white">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="tab-content">
+                  <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active">
+                      <div class="row page-header">
+                        <div class="col-lg-12">
+                          <div class="row bg-light filter-bg">
+                            <h4 class="col-md-5 my-auto" id="jobQuotationTitle">{{jobTitle}}</h4>
+                            <div class="col-md-7">
+                              <form class="row form-inline">
+                                <label class="sr-only " for="selectTrade">Sort By</label>
+                                <select (change)="BidSorted($event)" class="custom-select my-1 mr-sm-2" id="selectTrade">
+                                  <option selected="">Sort By</option>
+                                  <option value="1">Latest</option>
+                                  <option value="2">Old</option>
+                                  <option value="3">Shortlisted</option>
+                                </select>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row posted-job finishedjob" id="ReceivedBidContainer" *ngFor="let item of receivedBids;let index = index;">
+                        <div class="row posted-job finishedjob">
+                          <div class="col-lg-3 col-md-3">
+                            <div class="row">
+                              <div class="card" *ngIf="jobImages!=null">
+                                <a (click)="BidDetail(item.bidId)">
+                                  <img [src]="jobImages" alt="...">
+                                </a>
+                              </div>
+                              <div class="card" *ngIf="jobImages==null">
+                                <a (click)="BidDetail(item.bidId)">
+                                  <img src="../../../../assets/img/no_thumbnail.jpg" alt="...">
+                                </a>
+                              </div>
+
+                            </div>
+                          </div><div class="col-lg-9 col-md-9">
+                            <div class="row">
+                              <div class="col-lg-6 col-md-6 pt-3">
+                                <a (click)="BidDetail(item.bidId)">
+                                  <h4 class="tradesman-name">
+                                    {{item.bidBy}}<i class="fa fa-angle-right"></i>
+                                  </h4>
+                                </a>
+                                <p>
+                                  <a (click)="BidDetail(item.bidId)">View Details <i class="fa fa-angle-double-right"></i></a>
+                                </p>
+                              </div>
+                              <div class="col-lg-6 col-md-6 status statuslike">
+                                <div class="row" >
+                                  <p class="text-success shortlist"><i (click)="IsSelected(item.isSelected,item.bidId,index)" [ngClass]="[item.isSelected == true ?  'fa fa-thumbs-up' : 'far fa-thumbs-up']"></i></p>
+                                </div>
+                                <!--<div class="row" *ngIf="item.isSelected==false">
+                                  <p class="text-success shortlist"><i (click)="UnSelected(true,item.bidId,index)" class="far fa-thumbs-up"></i></p>
+                                </div>-->
+                              </div>
+                              <div class="col-lg-12 footer">
+                                <ul class="list-unstyled">
+                                  <li>Job Referance: {{quotationId}}</li>
+                                  <li>Posted: {{item.bidOn| date : 'dd/MMM/yyyy'}}</li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,249 @@
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-4">
+        <h6 class="mainTitle" data-toggle="collapse" href="#collapse1"  aria-expanded="true">Posted Jobs Report </h6>
+      </div>
+    </div>
+    <!--<button style="font-size: .775rem !important;margin-bottom:5px" *ngIf="reportFilter" (click)="funReportFilter()" class="btn btn-sm btn-primary">Show Filter</button>-->
+    <div id="collapse1" class="contentWrapper fs-12 show">
+      <form class="" #checkParent>
+        <!--<div class="container">-->
+        <div class="row ">
+          <div class="col-md-4">
+            <label for="customerName">Customer Name</label>
+            <div class="input-group">
+              <input type="text" autocomplete="off" maxlength="40" id="customerName" name="customerName" class="form-control" [(ngModel)]="customerName" placeholder="Customer Name" />
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  <input type="radio" value="1" id="start" (click)="getRadioValue($event)" name="groupOfDefaultRadios" checked #restChecked>
+                  <label class="" for="start">Start</label>
+                  <input type="radio" class="" (click)="getRadioValue($event)" value="2" id="anyWhere" name="groupOfDefaultRadios">
+                  <label class="" for="anyWhere">Anywhere</label>
+                  <input type="radio" class="" value="3" id="end" (click)="getRadioValue($event)" name="groupOfDefaultRadios">
+                  <label class="" for="end">End</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+
+          <div class="col-md-4">
+            <label for="customerName">Tradesman Name</label>
+            <div class="input-group">
+              <input type="text" autocomplete="off" maxlength="40" id="tradesmanName" name="tradesmanName" class="form-control" [(ngModel)]="tradesmanName" placeholder="Tradesman Name" />
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  <input type="radio" value="1" id="start1" (click)="getRadioValue($event)" name="groupOfDefaultRadios1" checked>
+                  <label class="" for="start1">Start</label>
+                  <input type="radio" class="" (click)="getRadioValue($event)" value="2" id="anyWhere1" name="groupOfDefaultRadios1">
+                  <label class="" for="anyWhere1">Anywhere</label>
+                  <input type="radio" class="" value="3" id="end1" (click)="getRadioValue($event)" name="groupOfDefaultRadios1">
+                  <label class="" for="end1">End</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-2">
+            <label for="tradesmanName">Job Quotaion Id</label>
+            <input type="text" autocomplete="off" maxlength="10" id="jobId" name="jobId" class="form-control" [(ngModel)]="jobId" placeholder="Job quotation Id " />
+          </div>
+          <div class="col-md-2">
+            <label for="tradesmanName">Job Detail Id</label>
+            <input type="text" autocomplete="off" id="jobDetId" maxlength="10" name="jobDetId" class="form-control" [(ngModel)]="jobDetId" placeholder="Job detail id " />
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-2">
+            <label class="">Job Posted From Date</label>
+            <input type="date" id="startDate" [(ngModel)]="startDate" name="startDate" class="form-control" />
+            <div *ngIf="submittedApplicationForm" class="invalid-feedback">
+              <div><p>{{startDateErrorMessage}}</p></div>
+            </div>
+          </div>
+
+          <div class="col-md-2">
+            <label class="">Job Posted To Date</label>
+            <input type="date" id="endDate" [(ngModel)]="endDate" name="endDate" class="form-control" />
+            <div *ngIf="submittedApplicationForm" class="invalid-feedback">
+              <div><p>{{endDateErrorMessage}}</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-2">
+            <label class="">Job End From Date</label>
+            <input type="date" id="fromDate" [(ngModel)]="fromDate" name="fromDate" class="form-control" />
+
+            <!--<div *ngIf="submittedApplicationForm" class="invalid-feedback">
+        <div><p>{{startDateErrorMessage}}</p></div>
+      </div>-->
+          </div>
+          <div class="col-md-2">
+            <label class="">Job End To Date</label>
+            <input type="date" id="toDate" [(ngModel)]="toDate" name="toDate" class="form-control" />
+
+            <!--<div *ngIf="submittedApplicationForm" class="invalid-feedback">
+        <div><p>{{endDateErrorMessage}}</p></div>
+      </div>-->
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-2">
+            <label class="">City</label>
+            <ng-multiselect-dropdown placeholder="City" style="display:inline;"
+                                     [settings]="dropdownListForCity"
+                                     [data]="cityList"
+                                     [(ngModel)]="selectedCities"
+                                     name="selectedCities"
+                                     (onSelect)="onCitySelect($event)"
+                                     (onSelectAll)="onCitySelectAll($event)"
+                                     (onDeSelect)="onCityDeSelect($event)"
+                                     (onDeSelectAll)="onCityDeSelectALL($event)"
+                                     (OnDeSelect)="onCityDeSelect($event)">
+            </ng-multiselect-dropdown>
+          </div>
+
+          <div class=" col-md-2 ">
+            <label class="">Job Status</label>
+            <ng-multiselect-dropdown placeholder="Job Status" style="display:inline;"
+                                     [settings]="statusdropdownSettings" d
+                                     [data]="statusList"
+                                     [(ngModel)]="jobStatus"
+                                     name="jobStatus"
+                                     (onSelect)="onStatusSelect($event)"
+                                     (onSelectAll)="onStatusSelectAll($event)"
+                                     (onDeSelect)="onStatusDeSelect($event)"
+                                     (onDeSelectAll)="onStatusDeSelectALL($event)"
+                                     (OnDeSelect)="onStatusDeSelect($event)">
+            </ng-multiselect-dropdown>
+
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-4 addressSearch">
+            <div class="form-group  ">
+              <label for="businessAddress">Location</label>
+              <input type="text" class="form-control desc" placeholder="Location" maxlength="50" [(ngModel)]="location" id="location" name="location" autocomplete="off" (keyup)="serachAddress(location)" autocapitalize="off" spellcheck="off" #search />
+            </div>
+            <div class="addressSearchResult" *ngIf="isAddress">
+              <ul>
+                <li *ngFor="let address of searchedAddress">
+                  <a (click)="setAddressValue($event)">{{address.customerAddress}}</a>
+                </li>
+                <li *ngIf="!locationSearchKeyMatch" class="text-danger text-center">No location Found</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>User Type</label>
+              <div class="input-group-prepend">
+                <div class="input-group-text user-type">
+                  <input type="radio" value="3" id="all" (click)="getRadioValueut($event)" name="groupOfDefaultRadios3" checked>
+                  <label class="" for="all">All User</label>
+                  <input type="radio" value="1" id="real" (click)="getRadioValueut($event)" name="groupOfDefaultRadios3">
+                  <label class="" for="real">Real User</label>
+                  <input type="radio" class="" (click)="getRadioValueut($event)" value="2" id="test" name="groupOfDefaultRadios3">
+                  <label class="" for="test">Test User</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4 inline-downlod-btns">
+            <div class="form-group">
+              <input class=" btn btn-primary btn-sm" type="submit" value="Search" (click)="loadJobs()" />
+            </div>
+            <div class="form-group">
+              <input class="btn btn-primary btn-sm" type="submit" (click)="resetForm()" value="Reset" />
+            </div>
+            <ng-container *ngIf="userRole.allowExport">
+              <div class="form-group">
+                <input *ngIf="jobcount>0" class="btn btn-primary btn-sm" type="button" value="Download pdf" (click)="DownloadPdf()" />
+              </div>
+              <div class="form-group">
+                <input *ngIf="jobcount>0" class="btn btn-primary btn-sm" type="button" value="Download Excel" (click)="DownloadXlsx()" />
+              </div>
+              <div class="form-group">
+                <input *ngIf="jobcount>0" class="btn btn-primary btn-sm" type="submit" value="Download Csv" (click)="exportCSV()" />
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="card shadow mb-4" [hidden]="!showTable">
+      <div class="card-header justify-header">
+        <h6 class="m-0 font-weight-bold">Posted Jobs List</h6>
+        <label class="m-0 text-right" *ngIf="jobcount > 0">Total: {{jobcount}} </label>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" #dataTable>
+            <thead>
+              <tr>
+                <th title="Customer Id" width="1%">CID</th>
+                <th width="1%">Customer Name</th>
+                <th width="1%" title="CustomerMobileNo">CMN</th>
+                <th title="Job Quotation Id" width="1%">JQID</th>
+                <th title="Job Detail Id" width="1%">JDID</th>
+                <th width="1%">Job Title</th>
+                <th width="1%">Job Discription</th>
+                <th width="1%">City</th>
+                <th width="1%">Job Town</th>
+                <th width="1%">Job Address</th>
+                <th width="4%" title="Job Start Date">JSD</th>
+                <th width="3%" title="Job Creation Date">CD</th>
+                <th width="1%">Skill Name</th>
+                <th width="1%">Sub Skill Name</th>
+                <th width="1%">Budget</th>
+                <th title="Tradesman Name" width="1%">TMN</th>
+                <th title="User Type" width="1%">UT</th>
+                <th title="Desired Bids" width="1%">DB</th>
+                <th width="1%">Status</th>
+              </tr>
+            </thead>
+            <tbody class="table-content-fs">
+              <tr *ngFor="let job of JobsList">
+                <td>{{job.customerId}}</td>
+                <td>{{job.firstName}} {{job.lastName}}</td>
+                <td>{{job.customerMobileNo}}</td>
+                <td>{{job.jobQuotationId}}</td>
+                <td>{{job.jobDetailId}}</td>
+                <td>{{job.workTitle | slice:0:25}}</td>
+                <td>{{job.workDescription | slice:0:25}}</td>
+                <td>{{job.city}}</td>
+                <td>{{job.area}}</td>
+                <td>{{(job.jobAddress)? (job.jobAddress | slice:0:25) :(job.jobAddress)}}</td>
+                <td>{{job.workStartDate | date: "dd MMM yyy"}}</td>
+                <td>{{job.createdOn | date: "dd MMM yyy"}}</td>
+                <td>{{job.skillName}}</td>
+                <td>{{job.subSkillName}}</td>
+                <td>{{job.workBudget}}</td>
+                <td>{{job.tradesmanName}}</td>
+                <td>{{job.isTestUser ? 'Test' : 'Real'}}</td>
+                <td>{{job.desiredBids}}</td>
+                <td>{{job.statusName}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <p *ngIf="showNullMessage" class="text-danger">No result found.</p>
+      </div>
+    </div>
+  </div>

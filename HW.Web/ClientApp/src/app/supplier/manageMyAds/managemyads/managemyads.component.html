@@ -1,0 +1,129 @@
+<div class="container-fluid">
+  <div class="row">
+    <!-- /.col-lg-3 -->
+    <div id="page-wrapper">
+      <div class="col-lg-12">
+        <div class="row">
+          <div class="col-lg-9 bg-white">
+            <div class="row">
+              <div class="col-md-12">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs mt-4" role="tablist">
+                  <li role="presentation"><a href="#activejobs" aria-controls="activejobs" role="tab" data-toggle="tab" class="active">Active</a></li>
+                  <li role="presentation"><a href="#completedjobs" aria-controls="completedjobs" role="tab" data-toggle="tab">Inactive</a></li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+
+                  <div role="tabpanel" class="tab-pane active search-results" id="activejobs" infinite-scroll
+                       [infiniteScrollDistance]="0"
+                       [infiniteScrollThrottle]="20"
+                       [scrollWindow]="false"
+                       (scrolled)="onScroll()">
+                    
+                    <div class="manage-ad border-bottom card" *ngFor="let activeAd of activeConcatAds">
+                      <div class="row">
+                        <div class="col-lg-3 col-md-3 tumb-image">
+                          <div class="card">
+                            <a (click)="JobDetail(activeAd.supplierAdsId)">
+                              <ng-container *ngIf="activeAd.adImage">
+                                <img [src]="common.transform(activeAd.adImage)" alt="" />
+                              </ng-container>
+                              <ng-container *ngIf="!activeAd.adImage">
+                                <img src="../../../../assets/img/no_thumbnail.jpg" alt="" />
+                              </ng-container>
+                            </a>
+                          </div>
+                        </div>
+                        <div class="col-lg-9 col-md-9">
+                          <h5 class="ad-title"><a (click)="JobDetail(activeAd.supplierAdsId)">{{activeAd.adTitle}}</a></h5>
+                          <p class="locatio">{{activeAd.addres}}</p>
+                          <h6 class="itemprice">{{activeAd.price}}</h6>
+                          <p><a (click)="JobDetail(activeAd.supplierAdsId)">View Details <i class="fa fa-angle-double-right"></i></a></p>
+                          <div class="row">
+                            <div class="col-md-9 views my-auto">
+                              <span>
+                                <i class="far fa-eye"></i><b class="valueviews">{{activeAd.adViewCount}}</b>
+                              </span>
+                              | Expire in  {{DifferenceOfDate(activeAd.activeFrom,activeAd.activeTo)}} DAYS
+                            </div>
+                            <div class="col-md-3 text-right">
+                              <button type="button" (click)="Promote(activeAd.supplierAdsId,activeAd.subCategoryValue,activeAd.adTitle,activeAd.adImage)"  class="btn btn-outline-success"> Promote</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div><!--posted job-->
+                    </div>
+
+                  </div>
+                  <div role="tabpanel" class="tab-pane  search-results" id="completedjobs"  infinite-scroll
+                       [infiniteScrollDistance]="0"
+                       [infiniteScrollThrottle]="20"
+                       [scrollWindow]="false"
+                       (scrolled)="onScrollCompletedjobs()">
+                    <!--<div class="search-results"
+                         infiniteScroll
+                         [infiniteScrollDistance]="0"
+                         [infiniteScrollThrottle]="20"
+                         (scrolled)="onScrollCompletedjobs()">-->
+                    <div class="manage-ad border-bottom card" *ngFor="let inActiveAd of inActiveConcatAds">
+                      <div class="row">
+                        <div class="col-lg-3 col-md-3 tumb-image">
+                          <div class="card">
+                            <a (click)="JobDetail(inActiveAd.supplierAdsId)">
+                              <ng-container *ngIf="inActiveAd.adImage">
+                                <img [src]="common.transform(inActiveAd.adImage)" alt="" />
+                              </ng-container>
+                              <ng-container *ngIf="!inActiveAd.adImage">
+                                <img src="../../../../assets/img/no_thumbnail.jpg" alt="" />
+                              </ng-container>
+
+                            </a>
+                          </div>
+                        </div>
+                        <div class="col-lg-9 col-md-9">
+                          <h5 class="ad-title"><a (click)="JobDetail(inActiveAd.supplierAdsId)">{{inActiveAd.adTitle}}</a></h5>
+                          <p class="locatio">{{inActiveAd.addres}}</p>
+                          <h6 class="itemprice">{{inActiveAd.price}}</h6>
+                          <p><a (click)="JobDetail(inActiveAd.supplierAdsId)">View Details <i class="fa fa-angle-double-right"></i></a></p>
+                          <div class="row">
+                            <div class="col-md-9 views my-auto">
+                              <span>
+                                <i class="far fa-eye"></i><b class="valueviews">50</b>
+                              </span>
+                              |	Expire in {{DifferenceOfDate(inActiveAd.activeFrom,inActiveAd.activeTo)}} DAYS
+                            </div>
+                            <div class="col-md-3 text-right">
+                              <button  type="button" onClick="window.location = 'manage-my-ad-promote-package.html'" class="btn d-none btn-outline-success"> Relist</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div><!--posted job-->
+                    </div>
+
+                    <!--</div>-->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 sec-ads">
+            <div class="row">
+              <div class="col-lg-12">
+                <a href=""><img src="../../../../assets/img/ad1.jpg" alt="" /></a>
+              </div>
+              <div class="col-lg-12 mt-3">
+                <a href=""><img src="../../../../assets/img/ad2.jpg" alt="" /></a>
+              </div>
+            </div>
+          </div><!--ads content-->
+        </div>
+
+
+        <!-- /.footer -->
+      </div>
+      <!-- /.col-lg-9 -->
+    </div>
+    <!-- /.row -->
+  </div>
+</div>

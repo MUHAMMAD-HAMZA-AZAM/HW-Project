@@ -1,0 +1,48 @@
+<div class="container-fluid">
+  <h5 class="m-2">{{reportTitle}} </h5>
+  <button class="btn d-none" (click)="DownloadPdf()">Download Pdf</button>
+  <!--<label class="container text-secondary">
+    From : {{startDate | date: "dd MMM yyy hh : mm : a"}}
+    <br /> To : {{endDate | date: "dd MMM yyy hh : mm : a"}}
+  </label>-->
+  <div class="card shadow my-3">
+    <div class="card-header justify-header">
+      <h6 class="m-0 font-weight-bold">Tradesman List</h6>
+      <label class=" m-0 fs-12">Total No. {{completeList}}</label>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th title="Trademan Id" width="14%">TMID</th>
+              <th width="14%">Name</th>
+              <th width="14%">Mobile</th>
+              <th width="14%">Town</th>
+              <!--<th width="15%">Last Active</th>-->
+              <th width="14%">CNIC</th>
+              <th width="14%">City</th>
+              <th width="14%">Date</th>
+              <!--<th width="3%">Last Modified</th>-->
+            </tr>
+          </thead>
+          <tbody class="table-content-fs">
+            <tr *ngFor="let tradesman of tradesmanList">
+              <td>{{tradesman.tradesmanId}}</td>
+              <td>{{tradesman.firstName}} {{tradesman.lastName}}</td>
+              <td>{{tradesman.mobileNumber}}</td>
+              <td>{{tradesman.area}}</td>
+              <!--<td>{{tradesman.lastActive | date: "dd MMM yyy "}}</td>-->
+              <td>{{tradesman.cnic}}</td>
+              <td>{{tradesman.city}}</td>
+              <!--<td>{{tradesman.modifiedOn | date: "dd MMM yyy "}}</td>-->
+              <td>{{tradesman.createdOn | date: "dd MMM yyy"}}</td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <label class="text-danger">{{DataNotFound}}</label>
+    </div>
+  </div>
+</div>

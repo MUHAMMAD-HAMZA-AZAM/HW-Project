@@ -1,0 +1,368 @@
+<!--<div class="skill-image-wrapper">
+  <img [src]="service.transform(skillDetail.skillImage)" />
+  <div class="container">
+    <div class="sk-header-skill">
+      <h3>How much does {{skillDetail?.name}} work cost in 2022?</h3>
+    </div>
+  </div>
+</div>-->
+<!--<div class="container mt-5" id="cost_guide">
+  <ng-container *ngIf="subSkillsList.length > 0">
+    <div class="row m-0 align-items-stretch cost_guide_header">
+      <div class="col-sm-5 d-sm-flex align-items-center d-none">
+          <h5>General {{skillDetail?.name}} work costs</h5>
+      </div>
+      <div class="col-sm-7 p-0 p-sm-2">
+        <h4>The average cost of {{skillDetail?.name}} is <span>Rs.{{minPrice}} <span *ngIf="maxPrice > minPrice">- Rs.{{maxPrice}}</span></span></h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-bordered text-capitalize" style="width:100%">
+          <tbody>
+            <tr *ngFor="let item of subSkillsList" (click)="postJob(item)">
+              <td style="width:70%">{{item.name}}</td>
+              <td style="width:25%" class="text-right"><b>Rs. {{item.subSkillPrice| number:'1.0':'en-US' }}</b></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-container>
+<ng-template #noCostFound>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card p-3">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12 p-2 text-capitalize">
+              <h5 style="color:black; text-align:center;color:red">No Cost Guide</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<div class="sk-skill-details" *ngIf="skillDetail?.description">
+    <h2 class="pt-2 pt-lg-5"><b>best {{skillDetail?.name}} in Lahore</b></h2>
+    <div [innerHTML]="skillDetail?.description">
+    </div>
+    <hr />
+  </div>
+</div>-->
+<!--<div class="skill-image-wrapper">
+<img [src]="service.transform(skillDetail.skillImage)" />
+<div class="container">
+    <div class="sk-header-skill">
+      <h3>{{skillDetail?.name}}</h3>
+      <p>{{skillDetail?.slug}}</p>
+    </div>
+  </div>
+</div>-->
+<div class="heading-bar d-flex align-items-center" style="background:url('../../../assets/img/cu_bg.png')">
+  <div class="container">
+    <h1 class="py-3 laila-font text-white">Post A Task</h1>
+  </div>
+</div>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-12" *ngIf="showSubcategory">
+      <div class="d-flex pt-breadcrumb mb-4">
+        <a routerLink="">Home <small class="mx-3">|</small></a>
+        <span (click)="handleGoback()">Main Service</span>
+      </div>
+
+      <h5 class="laila-font">Main Service</h5>
+      <div class="my-3 selected-category bg-green d-flex align-items-center justify-content-between">
+        <h6 class="laila-font text-white font-weight-bold">{{(skillName).length <= 19 ? skillName : (skillName | slice:0:19) + '...' }}</h6>
+        <i class="fa fa-times" (click)="handleGoback()"></i>
+      </div>
+    </div>
+    <div class="col-12 mb-3 d-flex justify-content-between align-items-center">
+      <!--<h5 *ngIf="!showcategory" class="laila-font">Select a Service</h5>-->
+      <h5 *ngIf="showSubcategory" class="laila-font clr-d-gray">Select a Sub Service</h5>
+      <!--<button *ngIf="showSubcategory" class="btn nlp-green-btn" (click)="handleGoback()" type="button">Go Back</button>-->
+    </div>
+  </div>
+  <div class="row">
+    <ng-container *ngIf="!showcategory">
+      <div class="col-12 col-sm-6 col-lg-4 col-xl-3" *ngFor="let skill of skillList">
+        <div class="ct-icon mb-2" [class.act_cat]="skill.skillId==skillId">
+          <a href="javascript:void(0)" class="d-flex align-items-center" (click)="selectSkill(skill)" title="{{skill.name}}">
+            <svg-icon-sprite [src]="skill.skillIconPath" [classes]="'service-icon'" [width]="'25px'" [viewBox]="'0 0 70 70'"></svg-icon-sprite>
+            <span class="d-block ml-2">{{(skill.name).length <= 25 ? skill.name : (skill.name | slice:0:24) + '...' }}</span>
+          </a>
+          <!--<span *ngIf="skill.skillId==skillId">Selected</span>-->
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <div class="row">
+    <ng-container *ngIf="showSubcategory">
+      <ng-container *ngFor="let item of skillLists">
+        <div class="col-12 col-sm-6 col-lg-4 col-xl-3" *ngIf="item?.subSkillPrice">
+          <div class="ct-icon mb-2">
+            <a href="javascript:void(0)" class="d-flex flex-column justify-content-center align-items-center" (click)="selectSubSkill(item)" title="{{item.name}}">
+              <span class="d-block">{{(item.name).length <= 25 ? item.name : (item.name | slice:0:24) + '...' }}</span>
+              <small>{{item.subSkillPrice}}</small>
+            </a>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+  <!--<div class="modal-services-wrapper" *ngIf="showSubcategory">
+    <div class="ms-skill" *ngFor="let item of skillLists">
+      <button class="btn" (click)="selectSubSkill(item)">{{item.name}}</button>
+      <label>{{item.subSkillPrice}}</label>
+    </div>
+  </div>-->
+  <form [formGroup]="appValForm" *ngIf="categorySelect">
+
+    <div class="row">
+      <div class="col-12">
+        <div class="d-flex pt-breadcrumb mb-4">
+          <a routerLink="">Home <small class="mx-3">|</small></a>
+          <span (click)="cancelCategory()">Main Service</span><small class="mx-3">|</small>
+          <span (click)="cancelSubCategory()">Sub Service</span>
+        </div>
+        <h5 class="laila-font mb-3">Task Details</h5>
+      </div>
+
+      <div class="col-12 d-flex f-gap-5 flex-wrap">
+
+        <div class="form-group">
+          <label>Main Service</label>
+          <div class="selected-category bg-green d-flex align-items-center justify-content-between">
+            <h6 class="laila-font text-white font-weight-bold">{{(skillName).length <= 19 ? skillName : (skillName | slice:0:19) + '...'}}</h6>
+            <i class="fa fa-times" (click)="cancelCategory()"></i>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Sub Service</label>
+          <div class="selected-category bg-green d-flex align-items-center justify-content-between">
+            <h6 class="laila-font text-white font-weight-bold">{{(getQuotes.subCategoryName).length <= 19 ? getQuotes.subCategoryName : (getQuotes.subCategoryName | slice:0:19) + '...' }}</h6>
+            <i class="fa fa-times" (click)="cancelSubCategory()"></i>
+          </div>
+        </div>
+        <div class="form-group d-flex flex-column">
+          <label>Tentative Budget</label>
+          <div class="selected-category bg-green d-flex align-items-center justify-content-between">
+              <h6 class="laila-font text-white font-weight-bold">{{getQuotes.budget}}</h6>
+            <i class="fa fa-check"></i>
+          </div>
+              <small class="laila-font text-dark font-weight-bold">{{getQuotes.priceReview}}</small>
+        </div>
+
+
+
+      </div>
+    </div>
+    <div class="d-flex mt-3">
+      <button class="btn nlp-green-btn" (click)="handleNextClick()">Save</button>
+    </div>
+  </form>
+
+  <div class="sk-skill-details" *ngIf="skillDetail?.description">
+    <h2 class="pt-2 pt-lg-5"><b>best {{skillDetail?.name}} in Lahore</b></h2>
+    <div [innerHTML]="skillDetail?.description">
+    </div>
+    <hr />
+  </div>
+</div>
+
+
+<!-- Login -->
+<ng-template #loginModal let-modal>
+  <div class="modal-content px-4 py-4">
+    <div class="modal-header justify-content-between p-0">
+      <h4 class="modal-title fw-bold laila-font clr-green">Please Enter Following Details</h4>
+      <button type="button" class="btn modal-close-btn" (click)="modal.dismiss('Cross click')"><i class="fa fa-times"></i></button>
+    </div>
+    <div class="modal-body p-0 mt-3">
+      <form [formGroup]="loginForm">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input ngbAutofocus type="text" autocomplete="off" maxlength="11" class="form-control"
+                     formControlName="phoneNumber" (keypress)="numberOnly($event)"
+                     [ngClass]="{'is-invalid' : submittedApplicationForm && f.phoneNumber.errors}" />
+              <ng-container *ngIf="submittedApplicationForm && f.phoneNumber?.errors">
+                <small class="text-danger" *ngIf="f.phoneNumber.errors?.required">Phone number required</small>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Enter Pin Code</label>
+              <div class="nd-pincode-wrapper d-flex justify-content-between" style="gap:5px">
+                <input type="password" inputmode="numeric" autocomplete="new-password"
+                       (keypress)="numberOnly($event)" class="form-control" id="first"
+                       (keyup)="movetoNext('firs', 'second' , $event)" maxlength="1" formControlName="tab1" required (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+
+                <input type="password" inputmode="numeric" class="form-control"
+                       (keypress)="numberOnly($event)" autocomplete="new-password" id="second"
+                       (keyup)="movetoNext('first', 'third' , $event)" maxlength="1" formControlName="tab2" required (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+
+                <input type="password" inputmode="numeric" class="form-control"
+                       (keypress)="numberOnly($event)" autocomplete="new-password" id="third"
+                       (keyup)="movetoNext('second', 'fourth' , $event)" formControlName="tab3" maxlength="1" required (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+
+                <input type="password" inputmode="numeric" class="form-control"
+                       (keypress)="numberOnly($event)" autocomplete="new-password" id="fourth"
+                       (keyup)="movetoNext('third', 'fifth' , $event)" formControlName="tab4" maxlength="1" required (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+
+                <input type="password" inputmode="numeric" class="form-control"
+                       (keypress)="numberOnly($event)" autocomplete="new-password" id="fifth"
+                       (keyup)="movetoNext('fourth', 'fifth' , $event)" formControlName="tab5" maxlength="1" required (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+
+              </div>
+              <small class="text-danger" *ngIf="submittedApplicationForm && f.tab1.errors?.required || submittedApplicationForm && f.tab2.errors?.required || submittedApplicationForm && f.tab3.errors?.required ||  submittedApplicationForm && f.tab4.errors?.required || submittedApplicationForm && f.tab5.errors?.required ">Please enter your pin</small>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer px-0">
+      <button type="button" (click)="login()" class="btn nlp-green-btn">Login</button>
+      <button type="button" (click)="registerNow()" class="btn nlp-green-btn">Sign Up</button>
+      <div *ngIf="isLogin">
+        <span class="text-success">Login Successfully</span>
+      </div>
+    </div>
+  </div>
+
+</ng-template>
+
+<!-- SignUp -->
+<ng-template #signUpModal let-modal>
+  <div class="modal-content px-4 py-4">
+    <div class="modal-header justify-content-between p-0">
+      <h4 class="modal-title fw-bold laila-font clr-green">Sign Up!</h4>
+      <button type="button" class="btn modal-close-btn" (click)="modal.dismiss('Cross click')"><i class="fa fa-times"></i></button>
+    </div>
+    <div class="modal-body p-0 mt-3">
+      <form [formGroup]="signupForm">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Name</label>
+              <input ngbAutofocus type="text" class="form-control" formControlName="name" [ngClass]="{'is-invalid' : submittedForm && g.phoneNumber.errors}" />
+              <ng-container *ngIf="submittedForm && g.name?.errors">
+                <small class="text-danger" *ngIf="g.name.errors.required">Name is required</small>
+              </ng-container>
+
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input type="text" autocomplete="off" maxlength="11" class="form-control" (keypress)="numberOnly($event)"
+                     formControlName="phoneNumber"
+                     [ngClass]="{'is-invalid' : submittedForm && g.phoneNumber.errors}" />
+              <ng-container *ngIf="submittedForm && g.phoneNumber?.errors">
+                <small class="text-danger" *ngIf="g.phoneNumber.errors.required">Phone number required</small>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Enter Pin Code</label>
+              <div class="nd-pincode-wrapper d-flex justify-content-between" style="gap:5px">
+                <input type="password" inputmode="numeric" autocomplete="new-password"
+                       (keypress)="numberOnly($event)" class="form-control" id="first"
+                       (keyup)="movetoNext('firs', 'second' , $event)" maxlength="1" formControlName="tab1" required (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+
+                <input type="password" inputmode="numeric" class="form-control"
+                       (keypress)="numberOnly($event)" autocomplete="new-password" id="second"
+                       (keyup)="movetoNext('first', 'third' , $event)" maxlength="1" formControlName="tab2" required (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+
+                <input type="password" inputmode="numeric" class="form-control"
+                       (keypress)="numberOnly($event)" autocomplete="new-password" id="third"
+                       (keyup)="movetoNext('second', 'fourth' , $event)" formControlName="tab3" maxlength="1" required (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+
+                <input type="password" inputmode="numeric" class="form-control"
+                       (keypress)="numberOnly($event)" autocomplete="new-password" id="fourth"
+                       (keyup)="movetoNext('third', 'fifth' , $event)" formControlName="tab4" maxlength="1" required (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+
+                <input type="password" inputmode="numeric" class="form-control"
+                       (keypress)="numberOnly($event)" autocomplete="new-password" id="fifth"
+                       (keyup)="movetoNext('fourth', 'fifth' , $event)" formControlName="tab5" maxlength="1" required (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+
+              </div>
+              <small class="text-danger" *ngIf="submittedForm && g.tab1.errors?.required || submittedForm && g.tab2.errors?.required || submittedForm && g.tab3.errors?.required ||  submittedForm && g.tab4.errors?.required || submittedForm && g.tab5.errors?.required ">Please enter your pin</small>
+              <!--<small id="pinmessege" class="text-danger" *ngIf="hasPinentered!=true && hasPin ==true "> Inavlid Pin Code !!</small>-->
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer px-0">
+      <div *ngIf="userAvailabilty">
+        <span class="text-danger">{{userAvailabiltyErrorMessage}}</span>
+      </div>
+      <div *ngIf="isLogin">
+        <span class="text-success">Login Successfully</span>
+      </div>
+      <button type="button" class="btn nlp-green-btn" (click)="submit()">Save</button>
+    </div>
+  </div>
+</ng-template>
+
+
+<!-- OTP Verify -->
+<ng-template #otpVerifyModal let-modal>
+  <div class="modal-content px-4 py-4">
+    <div class="modal-header justify-content-between p-0">
+      <h4 class="modal-title fw-bold laila-font clr-green">Enter OTP</h4>
+      <button type="button" class="btn modal-close-btn" (click)="modal.dismiss('Cross click')"><i class="fa fa-times"></i></button>
+    </div>
+    <div class="modal-body p-0 mt-3">
+      <form [formGroup]="verifyForm">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>OTP Code</label>
+              <input ngbAutofocus type="text" inputmode="numeric" (keypress)="numberOnly($event)"
+                     maxlength="6" class="form-control" formControlName="verificationCode"
+                     [ngClass]="{'is-invalid' : submitt && h.verificationCode.errors}" />
+              <div *ngIf="submitt && h.verificationCode?.errors" class="invalid-feedback">
+                <small class="text-danger" *ngIf="h.verificationCode.errors.required">{{verficationCodeErrorMessage}}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer px-0">
+      <small style="cursor:pointer" class="d-block text-right underline text-warning" (click)="ResendCode()">Resend Code</small>
+      <span class="text-danger fos-12 d-block" *ngIf="statusCode==true">Invalid Code</span>
+      <button type="button" (click)="VarifyAccount()" class="btn nlp-green-btn">Verify</button>
+
+    </div>
+  </div>
+</ng-template>
+
+<!-- Success Message Popup -->
+<ng-template #successMessageModal let-modal>
+  <div class="modal-content px-4 py-4">
+    <div class="modal-header p-0">
+      <h4 class="modal-title fw-bold laila-font clr-green">Submission Successful</h4>
+      <button type="button" class="btn modal-close-btn" (click)="modal.dismiss('Cross click')"><i class="fa fa-times"></i></button>
+    </div>
+    <div class="modal-body p-0">
+      <h6 class="my-4 clr-d-gray">Your Job has been posted successfully!</h6>
+    </div>
+    <div class="modal-footer px-0">
+      <button ngbAutoFoucs type="button" (click)="navigateToDashboard()" class="btn nlp-green-btn">OK</button>
+    </div>
+  </div>
+</ng-template>

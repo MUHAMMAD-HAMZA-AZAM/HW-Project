@@ -1,0 +1,188 @@
+<!--------------------------------------------------- New My Jobs Design ------------------------------------------------------------>
+<section id="nd-right-content">
+  <h2 class="heading-dashboad mb-3 mb-lg-4">My tasks</h2>
+  <div class="my-bids-tab-wrapper">
+    <ul class="nav nav-pills" id="pills-tab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Active tasks</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Completed tasks</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="pills-tabContent">
+      <div class="tab-pane fade show active px-2 pt-2" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+        <div *ngIf="activeConcatAds.length <= 0" id="no-found" class="text-center d-flex justify-content-center align-items-center">
+          <div>
+            <h1 class="mb-3  text-uppercase"><i class="fas fa-exclamation-circle text-danger"></i> Oops!</h1>
+            <h5 class="text-danger text-capitalize">You  don't have any active task. </h5>
+          </div>
+        </div>
+        <div class="row align-content-start infinite-scroll-search-results-myjobs" infiniteScroll
+             [infiniteScrollDistance]="2"
+             [infiniteScrollThrottle]="50"
+             (scrolled)="onScroll()"
+             [scrollWindow]="false">
+          <div class="col-lg-6 pb-2 pb-lg-2" *ngFor="let activeAd of activeConcatAds">
+            <div class="mq-box p-3">
+              <div class="d-flex align-items-center flex-wrap flex-column flex-sm-row align-items-center">
+                <div class="mq-rounded-img mb-2 mb-sm-0">
+                  <a (click)="JobDetail(activeAd.jobDetailId)">
+                    <ng-container *ngIf="activeAd.bidImage!=null; else noThumbnail">
+                      <img [src]="common.transform(activeAd.bidImage)" alt="">
+                    </ng-container>
+                    <ng-template #noThumbnail>
+                      <img src="../../../../assets/img/imagenotfound.png" alt="" />
+                    </ng-template>
+                  </a>
+                </div>
+                <div class="mq-details ml-2">
+                  <h6 class="mb-1 text-center text-sm-left"><a (click)="JobDetail(activeAd.jobDetailId)">{{(activeAd.workTitle.length > 20)?(activeAd.workTitle | slice:0:20)+'...':(activeAd.workTitle)}}</a></h6>
+                  <div class="d-flex justify-content-between flex-wrap">
+                    <div class="d-flex flex-column">
+                      <small>Task Ref:<b>{{activeAd.jobQuotationId}}</b></small>
+                      <small>budget:<b>{{activeAd.workBudget | number:'1.0':'en-US'}}</b></small>
+                    </div>
+                    <div class="d-flex flex-column">
+                      <small class="ml-2 ml-sm-0">posted by:<b>{{activeAd.customerName}}</b></small>
+                      <small class="ml-2 ml-sm-0">pasted date:<b>{{activeAd.date |  date:'mediumDate' }}</b></small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr class="hl">
+              <div class="mq-box-footer d-flex justify-content-end">
+                <div class="">
+                  <button type="button" (click)="showEsclateModal(esclateContent,activeAd)" class="btn mp-outine-btn mr-2">Esclate</button>
+                  <a (click)="JobDetail(activeAd.jobDetailId,activeAd?.jobQuotationId)" class="btn mp-outine-btn">Mark Finished</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade px-2 pt-2" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+        <div *ngIf="inActiveConcatAds.length <= 0 " id="no-found" class="text-center d-flex justify-content-center align-items-center">
+          <div>
+            <h1 class="mb-3  text-uppercase"><i class="fas fa-exclamation-circle text-danger"></i> Oops!</h1>
+            <h5 class="text-danger text-capitalize">You don't have any completed task. </h5>
+          </div>
+        </div>
+        <div class="row align-content-start infinite-scroll-search-results-myjobs" infiniteScroll
+             [infiniteScrollDistance]="2"
+             [infiniteScrollThrottle]="50"
+             (scrolled)="onScrollCompletedjobs()"
+             [scrollWindow]="false"
+             *ngIf="inActiveConcatAds.length > 0">
+          <div class="col-lg-6 pb-2 pb-lg-2" *ngFor="let inActiveAd of inActiveConcatAds">
+            <div class="mq-box p-3">
+              <div class="d-flex align-items-center flex-wrap flex-column flex-sm-row align-items-center">
+                <div class="mq-rounded-img mb-2 mb-sm-0">
+                  <a (click)="RewiewJob(inActiveAd.jobDetailId)">
+                    <ng-container *ngIf="inActiveAd.bidImage!=null; else noThumbnail">
+                      <img [src]="common.transform(inActiveAd.bidImage)" alt="">
+                    </ng-container>
+                    <ng-template #noThumbnail>
+                      <img src="../../../../assets/img/imagenotfound.png" alt="" />
+                    </ng-template>
+                  </a>
+                </div>
+                <div class="mq-details ml-2">
+                  <h6 class="mb-1 text-center text-sm-left"><a (click)="RewiewJob(inActiveAd.jobDetailId)">{{(inActiveAd.workTitle.length > 20)?(inActiveAd.workTitle | slice:0:20)+'...':(inActiveAd.workTitle)}}</a></h6>
+                  <div class="d-flex justify-content-between flex-wrap">
+                    <div class="d-flex flex-column">
+                      <small>Task Ref:<b>{{inActiveAd.jobQuotationId}}</b></small>
+                      <small>budget:<b>{{inActiveAd.workBudget | number:'1.0':'en-US'}}</b></small>
+                    </div>
+                    <div class="d-flex flex-column">
+                      <small class="ml-2 ml-sm-0">posted by:<b>{{inActiveAd.customerName}}</b></small>
+                      <small class="ml-2 ml-sm-0">pasted date:<b>{{inActiveAd.date |  date:'mediumDate' }}</b></small>
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center justify-content-center justify-content-sm-start">
+                    <h6 style="color: var(--greenClr);" class="mr-2">{{inActiveAd.rating}}</h6>
+                    <div class="tm-rating">
+                      <ng-container *ngFor="let items of [0,1,2,3,4]; let i = index">
+                        <i class="fa-star" [ngClass]="(i < inActiveAd.rating)?'fas' : 'far' "></i>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <hr class="hl">
+              <div class="mq-box-footer d-flex justify-content-end">
+                <div class="">
+                  <ng-container *ngIf="inActiveAd.rating !=0 ; else noFeedback">
+                    <a (click)="RewiewJob(inActiveAd.jobDetailId)" class="btn  mp-outine-btn">View Details</a>
+                  </ng-container>
+                  <ng-template #noFeedback>
+                    <a (click)="FeedbackPopup(inActiveAd.jobDetailId)" class="mp-outine-btn">awaiting feedback</a>
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+<!--------------------------------------------- Escalate options --------------------------------------->
+
+<ng-template #esclateContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title " style="color: var(--headingClr)" id="modal-basic-title">Resolution Center</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="appFormVal">
+      <div class="mb-2">
+        <h6>Can you give us more details on why?</h6>
+      </div>
+      <div class="checkbox mr-2" *ngFor="let item of esclateOption;let i=index">
+        <label class="fos-12 d-flex"><input type="radio" class="mr-2" value="{{item.id}}" id="{{item.id}}{{i}}" formControlName="esclateOption" [ngClass]="{'is-invalid' : f.esclateOption.invalid && f.esclateOption.errors}">{{item.name}}</label>
+      </div>
+      <div *ngIf="f.esclateOption?.errors">
+        <div *ngIf="f.esclateOption.invalid && (f.esclateOption.touched || f.esclateOption.dirty)">
+          <small class="text-danger" *ngIf="f.esclateOption.errors?.required">Input is required.</small>
+        </div>
+      </div>
+      <div class="mt-3">
+        <h6>Comments</h6>
+        <textarea placeholder="" class="form-control" formControlName="comment"></textarea>
+        <div *ngIf="f.comment?.errors">
+          <div *ngIf="f.comment.invalid && (f.comment.touched || f.comment.dirty)">
+            <small class="text-danger" *ngIf="f.comment.errors?.required">Input is required.</small>
+          </div>
+        </div>
+        <small class="text-success" *ngIf="responseMessage">Request Have Send Successfully</small>
+        <small class="text-danger" *ngIf="errorMessage">Your Request is Already In Pending.</small>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer justify-content-center">
+    <button type="button" class="btn mp-outine-btn" (click)="continueEsclateIssue()">Continue</button>
+  </div>
+</ng-template>
+
+<!-- Feedback  Model Start-->
+<div class="modal fade custom-model-style" bsModal #FeedbackModel="bs-modal" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content px-4 py-4">
+      <div class="modal-header p-0">
+        <h6 class="modal-title" id="exampleModalLongTitle" style="color: var(--headingClr);">AWATING FEEDBACK</h6>
+        <hr class="hl mt-0">
+      </div>
+      <div class="modal-body p-0 mt-3">
+        <h2 class="c-green font-weight-bold mb-3">THANK YOU</h2>
+        <small class="d-block">Your request has been sent. Soon you will receive response.</small>
+      </div>
+      <div class="modal-footer p-0">
+        <button type="button" class="mp-outine-btn" data-dismiss="modal" (click)="CloseFeedback()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+D:\GitHub\Hoomwork\HW.ElmahModels\bin\Debug\netstandard2.1\HW.ElmahModels.deps.json
+D:\GitHub\Hoomwork\HW.ElmahModels\bin\Debug\netstandard2.1\HW.ElmahModels.dll
+D:\GitHub\Hoomwork\HW.ElmahModels\bin\Debug\netstandard2.1\HW.ElmahModels.pdb
+D:\GitHub\Hoomwork\HW.ElmahModels\obj\Debug\netstandard2.1\HW.ElmahModels.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Hoomwork\HW.ElmahModels\obj\Debug\netstandard2.1\HW.ElmahModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.ElmahModels\obj\Debug\netstandard2.1\HW.ElmahModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.ElmahModels\obj\Debug\netstandard2.1\HW.ElmahModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.ElmahModels\obj\Debug\netstandard2.1\HW.ElmahModels.dll
+D:\GitHub\Hoomwork\HW.ElmahModels\obj\Debug\netstandard2.1\HW.ElmahModels.pdb

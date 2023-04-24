@@ -1,0 +1,189 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row" *ngIf="userRole.allowAdd">
+      <div class="col-md-8 col-xl-4 col-lg-6">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Add New Page SEO</h6>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="pageSeoForm" (submit)="handleSubmit()">
+              <!--{{pageSeoForm.value | json}}-->
+              <input type="hidden" formControlName="pageId" name="pageId" />
+              <div class="row">
+                <div class="col-xl-12">
+                  <div class="form-group">
+                    <label>Page Title</label>
+                    <input type="text" class="form-control" formControlName="pageTitle" placeholder="Enter page title name" />
+                    <div *ngIf="f.pageTitle?.errors">
+                      <div *ngIf="f.pageTitle.invalid && (f.pageTitle.touched || f.pageTitle.dirty )">
+                        <small class="text-danger" *ngIf="f.pageTitle.errors?.required">Input is required</small>
+                        <small class="text-danger" *ngIf="f.pageTitle.errors?.maxlength">Input allowed maximum 200 characters</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-12">
+                  <div class="form-group">
+                    <label>Og Title</label>
+                    <input type="text" class="form-control" formControlName="ogTitle" placeholder="Enter Og page title " />
+                    <div *ngIf="f.ogTitle?.errors">
+                      <div *ngIf="f.ogTitle.invalid && (f.ogTitle.touched || f.ogTitle.dirty )">
+                        <small class="text-danger" *ngIf="f.ogTitle.errors?.required">Input is required</small>
+                        <small class="text-danger" *ngIf="f.ogTitle.errors?.maxlength">Input allowed maximum 500 characters</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-12">
+                  <div class="form-group">
+                    <label>Project Name</label>
+                    <select (change)="getSitePagesList($any($event).target.value)" formControlName="projectId" class="form-control">
+                      <option selected disabled value="null">Select Project Name</option>
+                      <option value="1">HoomWork Web</option>
+                      <option value="2">Supplier Web</option>
+
+                    </select>
+                    <div *ngIf="f.projectId?.errors">
+                      <div *ngIf="f.projectId.invalid && (f.projectId.touched || f.projectId.dirty )">
+                        <small class="text-danger" *ngIf="f.projectId.errors?.required">Input is required</small>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12">
+                  <div class="form-group">
+                    <label>Page Name</label>
+                    <select class="form-control" formControlName="sitePageId">
+                      <option value="null" disabled>--- Select Page ---</option>
+                      <option [value]="item.pageId" *ngFor="let item of sitePagesList">{{item?.pageName}}</option>
+                    </select>
+                    <div *ngIf="f.sitePageId?.errors">
+                      <div *ngIf="f.sitePageId.invalid && (f.sitePageId.touched || f.sitePageId.dirty )">
+                        <small class="text-danger" *ngIf="f.sitePageId.errors?.required">Input is required</small>
+                        <small class="text-danger" *ngIf="f.sitePageId.errors?.maxlength">Input allowed maximum 50 characters</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12">
+                  <div class="form-group">
+                    <label>Keywords</label>
+                    <input type="text" class="form-control" formControlName="keywords" placeholder="Enter page Keyword" />
+                    <div *ngIf="f.keywords?.errors">
+                      <div *ngIf="f.keywords.invalid && (f.keywords.touched || f.keywords.dirty )">
+                        <small class="text-danger" *ngIf="f.keywords.errors?.required">Input is required</small>
+                        <small class="text-danger" *ngIf="f.keywords.errors?.maxlength">Input allowed maximum 1000 characters</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12">
+                  <div class="form-group">
+                    <label>Description</label>
+                    <textarea class="form-control" rows="3" formControlName="description" placeholder="Enter description"></textarea>
+                    <div *ngIf="f.description?.errors">
+                      <div *ngIf="f.description.invalid && (f.description.touched || f.description.dirty )">
+                        <small class="text-danger" *ngIf="f.description.errors?.required">Input is required</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12">
+                  <div class="form-group">
+                    <label>Og Description</label>
+                    <textarea class="form-control" rows="3" formControlName="ogDescription" placeholder="Enter ogDescription"></textarea>
+                    <div *ngIf="f.ogDescription?.errors">
+                      <div *ngIf="f.ogDescription.invalid && (f.ogDescription.touched || f.ogDescription.dirty )">
+                        <small class="text-danger" *ngIf="f.ogDescription.errors?.required">Input is required</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-12">
+                  <div class="form-group">
+                    <label>Canonical URL</label>
+                    <input type="text" class="form-control" formControlName="canonical" placeholder="Enter Canonical URL" />
+                   
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12">
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-sm btn-primary" [disabled]="!pageSeoForm.valid">Save</button>
+                    <button type="button" class="btn btn-sm btn-primary ml-2" (click)="resetForm()">Reset</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Page List</h6>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th width="2%">Project Name</th>
+                    <th width="2%">Page Name</th>
+                    <th width="4%">Page Title</th>
+                    <th width="4%">OG Title</th>
+                    <th width="6%">Keywords</th>
+                    <th width="10%">Description</th>
+                    <th width="10%"> OG Description</th>
+                    <th width="10%"> Canonical URL</th>
+                    <th width="4%" title="Created Date">CD</th>
+                    <th width="3%" title="Created By">CB</th>
+                    <th *ngIf="userRole.allowAdd" width="1%">Edit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of pagesList">
+                    <td>{{item?.projectId =='1' ? 'HoomWork Web': 'Supplier Web' }}</td>
+                    <td>{{item?.pageName}}</td>
+                    <td>{{item?.pageTitle}}</td>
+                    <td>{{item?.ogTitle}}</td>
+                    <td>{{item?.keywords}}</td>
+                    <td>{{item?.description}}</td>
+                    <td>{{item?.ogDescription}}</td>
+                    <td>{{item?.canonical}}</td>
+                    <td>{{item?.createdOn | date}}</td>
+                    <td>{{item?.createdBy}}</td>
+                    <td *ngIf="userRole.allowAdd"><i class="text-info fa fa-pencil-alt" (click)="updatePage(item)"></i></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

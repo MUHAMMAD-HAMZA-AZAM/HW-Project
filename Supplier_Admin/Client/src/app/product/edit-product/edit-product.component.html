@@ -1,0 +1,447 @@
+                <!-- Container-fluid starts-->
+<div class="container-fluid">
+  <div class="page-header">
+    <div class="row">
+      <div class="col-12 col-lg-6 offset-xxl-1">
+        <div class="page-header-left">
+          <h3>
+            Edit Product
+          </h3>
+        </div>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a [routerLink]="service.apiRoutes.Home.Dashboard">Home</a></li>
+          <li class="breadcrumb-item"><a [routerLink]="service.apiRoutes.Product.ProductList">Product List</a></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Container-fluid Ends-->
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-12 col-xxl-10">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="defClr">Edit Product</h5>
+        </div>
+        <div class="card-body">
+          <div class="product-adding validations-wrapper">
+            <form class="needs-validation add-product-form" [formGroup]="appFormValue" (submit)="save()">
+              <!--{{appFormValue.value | json}}-->
+              <div class="form">
+                <h6 class="defClr my-3">Basic Information</h6>
+                <div class="row">
+                  <div class="col-12 col-md-8">
+                    <div class="form-group mb-3">
+                      <label for="title">Title<span class="txtclr-red">*</span></label>
+                      <input class="form-control" formControlName="title" placeholder="Ex. Water Dispensar KA300" id="title" type="text" maxlength="100">
+                      <ng-container *ngIf="f.title?.errors">
+                        <ng-container *ngIf="(f?.title?.invalid && f?.title?.touched) || f?.title?.dirty">
+                          <span class="text-danger" *ngIf="f?.title?.errors?.required">Input is required</span>
+                        </ng-container>
+                      </ng-container>
+                      <!--<ng-container *ngIf="appFormValue?.get('title')?.errors">
+                        <ng-container *ngIf="appFormValue?.get('title')?.invalid && appFormValue?.get('title')?.touched || appFormValue?.get('title')?.dirty">
+                          <span class="text-danger" *ngIf="appFormValue?.get('title').?errors?.required">Input is required</span>
+                        </ng-container>
+                      </ng-container>-->
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-md-8">
+                  <div class="form-group mb-3">
+                    <label>Add Search Tags</label>
+                    <tag-input formControlName="searchTag" [onlyFromAutocomplete]="true" [maxItems]="5">
+                      <tag-input-dropdown blinkIfDupe="false" allowDupes="false" [autocompleteObservable]='getProductSearchTags'
+                                          displayBy="display"
+                                          identifyBy="value"
+                                          [offset]="'10,0'">
+                      </tag-input-dropdown>
+                    </tag-input>
+                    <ng-container *ngIf="f.searchTag.errors">
+                      <ng-container *ngIf="f.searchTag.invalid && f.searchTag.touched || f.searchTag.dirty">
+                        <span class="text-danger" *ngIf="f.searchTag.errors.required">Input is required</span>
+                      </ng-container>
+                    </ng-container>
+                  </div>
+                </div>
+                <!--<div class="row" *ngIf="!isConfirmedSelection">
+                  <div class="col-12 col-sm-7 col-md-8 col-lg-6">
+                    <div class="form-group mb-3">
+                      <label for="title">Category<span class="txtclr-red">*</span></label>
+                      <input class="form-control" formControlName="selectedCategory" id="selectedCategory" type="text">
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-5 col-md-4">
+                    <div class="form-group mb-3 mt-0 mt-sm-4">
+                      <button type="button" (click)="changeCategorySelection()" class="btn btn-secondary btn-sm">Change Category</button>
+                    </div>
+                  </div>
+                </div>-->
+                <div class="row">
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="title">Select Category</label>
+                    </div>
+                    <div class="category-dropdown-wrapper d-flex">
+                      <div class="category-dropdown">
+                        <ul class="d-flex flex-column py-2">
+                          <li (click)="getSubProductList(item?.id,item?.text);setIndex(i)" [class.active-cat]="selectedIndex === i" class="px-3 py-1"
+                              *ngFor="let item of categoryList;let i = index" [value]="item?.id">{{item?.text}}</li>
+                        </ul>
+                      </div>
+                      <div class="category-dropdown ms-3" *ngIf="isSubCategory">
+                        <ul class="d-flex flex-column py-2">
+                          <li (click)="getProductCategoryGroupList(subItem?.productSubCategoryId,subItem?.subCategoryName);setSubIndex(j)" [class.active-cat]="selectedSubIndex === j" class="px-3 py-1"
+                              *ngFor="let subItem of subCategoryList ;let j = index" [value]="subItem?.productSubCategoryId">{{subItem?.subCategoryName}}</li>
+                        </ul>
+                      </div>
+                      <div class="category-dropdown ms-3" *ngIf="isSubCategoryGroup">
+                        <ul class="d-flex flex-column py-2">
+                          <li class="px-3 py-1" (click)="getSubCategoryGroup($event);setSubGroupIndex(k)" *ngFor="let item of subCategoryGroupList;let k=index"
+                              [class.active-cat]="selectedSubGroupIndex === k" [value]="item?.id">{{item?.name}}</li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="float-end mt-2">
+                      <button type="button" (click)="confirmCategorySelection()" [disabled]="disableFlag" class="btn btn-primary">Confirm</button>
+                      <button type="button" (click)="cancelCategorySelection()" class="btn btn-primary ms-2">Cancel</button>
+                    </div>
+                  </div>
+                </div>
+                <ng-container *ngIf="detailsFlag">
+                  <h6 *ngIf="isCategoryAttributes" class="defClr my-2">Product Attributes</h6>
+                  <div formArrayName="productAttributes" #productAttribute>
+                    <div class="row">
+                      <ng-container *ngFor="let attribute of productAttributesControl?.controls; let i = index">
+                        <div class="col-6 col-sm-3 col-md-4 col-lg-2">
+                          <div class="form-group mb-2">
+                            <label>{{(productAttributeList.length > 0) ? (productAttributeList[i].name) : product.productAttributes[i].attributeName}}</label>
+                            <input type="text" class="form-control" [formControlName]="i">
+                            <ng-container *ngIf="attribute?.errors">
+                              <ng-container *ngIf="attribute.invalid && attribute.touched || attribute.dirty">
+                                <span class="text-danger" *ngIf="attribute.errors?.required">Input is required</span>
+                              </ng-container>
+                            </ng-container>
+                          </div>
+                        </div>
+                      </ng-container>
+                    </div>
+                  </div>
+                  <h6 class="defClr my-3">Images<span class="txtclr-red">*</span></h6>
+                  <div class="col-12">
+                    <div class="form-group custom-input-file">
+                      <p *ngIf="selectedFileList" class="fs-6 mb-1">You have Selected: <b>{{selectedFileList.length > 0 ? selectedFileList.length : selectedImageList.length }}</b></p>
+                      <input type="file" id="uploade-file" formControlName="image" #uploadedFile class="form-control" multiple (change)="handleInputFileChange($event)" accept="image/*" />
+                      <label for="uploade-file"><i class="fas fa-cloud-upload me-2"></i> Choose File</label>
+                    </div>
+                    <div class="d-flex flex-wrap mb-2">
+                      <div class="selected-images me-2 mb-2" *ngFor="let imgItem of selectedImageList;let i= index" (click)="markAsMainImage(imgItem)">
+                        <i class="fas fa-times cursor-pointer" (click)="removeSelectedImage(imgItem)"></i>
+                        <img [src]="imgItem?.file" />
+                        <!--<img [src]="(_fileService.AWSPATH)+(imgItem.filePath)+(imgItem.fileName)" />-->
+                        <div [class.is-mainmark]="imgItem.isMain">
+                          <i class="text-white fs-2 fas fa-check"></i>
+                        </div>
+                      </div>
+                    </div>
+                    <span class="text-danger" *ngIf="imageRequiredFlag">Can't remove this, atleast one image is required.</span>
+                    <div class="images-note">
+                      <span class="text-danger"><b>Note:</b></span>
+                      <ul>
+                        <li>1.Minimum one image is required.</li>
+                        <li class="d-block">2.You can add upto 5 images.</li>
+                        <li>3.You can add JPEG,JPG and PNG format images only.</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <h6 class="defClr my-3">Price & Stock</h6>
+                  <div class="col-12">
+                    <div class="form-group">
+                      <button type="button" (click)="addSkuFormGroup(null)" class="btn btn-secondary">Add New SKU <i class="fas fa-plus"></i></button>
+                    </div>
+                  </div>
+                  <div formArrayName="productSku" *ngFor="let sku of productSkuControls?.controls;let j = index">
+                    <div [formGroupName]="j">
+                      <div class="row g-2">
+                        <div class="col-sm-4 col-xl-2">
+                          <div class="form-group mb-3">
+                            <label>Product Quantity<span class="txtclr-red">*</span></label>
+                            <input class="form-control" placeholder="Quantity" formControlName="quantity" type="text" (keypress)="service.numberOnly($event)" maxlength="7">
+                            <ng-container *ngIf="sku.get('quantity')?.errors">
+                              <ng-container *ngIf="sku?.get('quantity')?.invalid && sku?.get('quantity')?.touched || sku?.get('quantity')?.dirty">
+                                <span class="text-danger" *ngIf="sku?.get('quantity')?.errors?.required">Input is required</span>
+                              </ng-container>
+                            </ng-container>
+                          </div>
+                        </div>
+                        <div class="col-sm-4 col-xl-2">
+                          <div class="form-group mb-3">
+                            <label for="price">Price<span class="txtclr-red">*</span></label>
+                            <input class="form-control" placeholder="Price" formControlName="price" type="text" (keypress)="service.AllowNonZeroIntegers($event)" maxlength="10">
+                            <ng-container *ngIf="sku?.get('price')?.errors">
+                              <ng-container *ngIf="sku?.get('price')?.invalid && sku?.get('price')?.touched || sku?.get('price')?.dirty">
+                                <span class="text-danger" *ngIf="sku?.get('price')?.errors?.required">Input is required</span>
+                              </ng-container>
+                            </ng-container>
+                          </div>
+                        </div>
+                        <div class="col-sm-4 col-xl-2">
+                          <div class="form-group mb-3">
+                            <label for="price">Discount</label>
+                            <input class="form-control" placeholder="Price" formControlName="discountInPercentage" type="text" maxlength="2">
+                            <ng-container *ngIf="sku?.get('discountInPercentage')?.errors">
+                              <ng-container *ngIf="sku?.get('discountInPercentage')?.invalid && sku?.get('discountInPercentage')?.touched || sku?.get('discountInPercentage')?.dirty">
+                                <span class="text-danger" *ngIf="sku?.get('discountInPercentage')?.errors?.required">Input is required</span>
+                              </ng-container>
+                            </ng-container>
+                          </div>
+                        </div>
+                        <div class="col-sm-4 col-xl-2">
+                          <div class="form-group mb-3">
+                            <label for="price">Colour<span class="txtclr-red">*</span></label>
+                            <select class="form-control variant-dropdown" formControlName="productVariantId" (change)="isExsitingVariant($event,j)">
+                              <option [value]="null" disabled>---Select Variant----</option>
+                              <option [ngStyle]="(variant?.hexCode == '#FFFFFF' || variant?.hexCode == '#FFFF00') ? {'color':'black', 'backgroundColor':variant?.hexCode} :{'color':'white', 'backgroundColor':variant?.hexCode}"
+                                      *ngFor="let variant of variantList" [value]="variant?.id">
+                                {{variant?.colorName | uppercase}}
+                              </option>
+                            </select>
+                            <ng-container *ngIf="sku?.get('productVariantId')?.errors">
+                              <ng-container *ngIf="sku?.get('productVariantId')?.invalid && sku?.get('productVariantId')?.touched || sku?.get('productVariantId')?.dirty">
+                                <span class="text-danger" *ngIf="sku?.get('productVariantId')?.errors?.required">Input is required</span>
+                              </ng-container>
+                            </ng-container>
+                          </div>
+                        </div>
+                        <div class="col-sm-2 col-xl-2" *ngIf="productSkuControls?.controls[j].get('productVariantId').value">
+                          <div class="form-group d-flex flex-column align-items-start">
+                            <label>Add In Bulk</label>
+                            <i class="text-info fas fa-edit fa-2x cursor-pointer" title="Add in bulk" (click)="addBullkOrder(bulkOrderTemplate,j,productSkuControls?.controls[j].get('productVariantId').value)"></i>
+                          </div>
+                        </div>
+                        <div class="col-sm-4 col-lg-2 col-xl-2">
+                          <div class="form-group d-flex flex-column align-items-start">
+                            <label>Availability</label>
+                            <label class="switch mt-1">
+                              <input type="checkbox" trueFalseValue trueValue="1" falseValue="0" formControlName="availability">
+                              <span class="slider round"></span>
+                            </label>
+                          </div>
+                        </div>
+                        <div class="col-1 d-flex align-items-center">
+                          <div class="form-group mb-0">
+                            <i *ngIf="j > 0" (click)="removeSkuFromGrop(j)" class="cursor-pointer fas fa-trash text-danger f-30"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <h6 class="defClr my-3  d-none">Manage Bulk Ordering</h6>
+                  <!--<div class="col-12  d-none">
+                    <div class="form-group">
+                      <button type="button" (click)="addBulkSkuFormGroup(null)" class="btn btn-secondary">Add New <i class="ms-1 fas fa-plus"></i></button>
+                    </div>
+                  </div>
+                  <div class="d-none" formArrayName="bulkSku" *ngFor="let sku of bulkSkuControls?.controls;let k = index">
+                    <div [formGroupName]="k">
+                      <div class="row g-2">
+                        <div class="col-12 col-sm-3 col-xl-2">
+                          <div class="form-group mb-3">
+                            <label>Min Quantity</label>
+                            <input class="form-control" placeholder="Min Quantity" formControlName="minQuantity" type="text" (keypress)="service.numberOnly($event)" maxlength="4">
+                            <ng-container *ngIf="sku.get('minQuantity')?.errors">
+                              <ng-container *ngIf="sku?.get('minQuantity')?.invalid && sku?.get('minQuantity')?.touched || sku?.get('minQuantity')?.dirty">
+                                <span class="text-danger" *ngIf="sku?.get('minQuantity')?.errors?.required">Input is required</span>
+                              </ng-container>
+                            </ng-container>
+                          </div>
+                        </div>
+                        <div class="col-12 col-sm-3 col-xl-2">
+                          <div class="form-group mb-3">
+                            <label>Max Quantity</label>
+                            <input class="form-control" placeholder="Max Quantity" formControlName="maxQuantity" type="text" (keypress)="service.numberOnly($event)" maxlength="4">
+                            <ng-container *ngIf="sku.get('maxQuantity')?.errors">
+                              <ng-container *ngIf="sku?.get('maxQuantity')?.invalid && sku?.get('maxQuantity')?.touched || sku?.get('maxQuantity')?.dirty">
+                                <span class="text-danger" *ngIf="sku?.get('maxQuantity')?.errors?.required">Input is required</span>
+                              </ng-container>
+                            </ng-container>
+                          </div>
+                        </div>
+                        <div class="col-12 col-sm-3 col-xl-2">
+                          <div class="form-group mb-3">
+                            <label>Bulk Price</label>
+                            <input class="form-control" placeholder="Bulk Price" formControlName="bulkPrice" type="text" (keypress)="service.numberOnly($event)" maxlength="4">
+                            <ng-container *ngIf="sku.get('bulkPrice')?.errors">
+                              <ng-container *ngIf="sku?.get('bulkPrice')?.invalid && sku?.get('bulkPrice')?.touched || sku?.get('bulkPrice')?.dirty">
+                                <span class="text-danger" *ngIf="sku?.get('bulkPrice')?.errors?.required">Input is required</span>
+                              </ng-container>
+                            </ng-container>
+                          </div>
+                        </div>
+                        <div class="col-3 d-none">
+                          <div class="form-group mb-3">
+                            <label for="price">Discount</label>
+                            <input class="form-control" placeholder="Discount" formControlName="bulkdiscount" type="text" maxlength="2">-->
+                            <!--<ng-container *ngIf="sku.get('bulkdiscount')?.errors">
+                              <ng-container *ngIf="sku.get('bulkdiscount').invalid && sku.get('bulkdiscount').touched || sku.get('bulkdiscount').dirty">
+                                <span class="text-danger" *ngIf="sku.get('bulkdiscount')?.errors.required">Input is required</span>
+                              </ng-container>
+                            </ng-container>-->
+                          <!--</div>
+                        </div>
+                        <div class="col-1 d-flex align-items-center">
+                          <div class="form-group mb-0">-->
+                            <!--<i *ngIf="k > 0" (click)="removeBulkSkuFromGrop(k)" class="cursor-pointer fas fa-trash text-danger f-30"></i>-->
+                            <!--<i (click)="removeBulkSkuFromGrop(k)" class="cursor-pointer fas fa-trash text-danger f-30"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>-->
+                  <h6 class="defClr my-3">Description<span class="txtclr-red">*</span></h6>
+                  <div class="col-12">
+                    <div class="form-group">
+                      <textarea class="form-control" id="description" formControlName="description" placeholder="Write Description" rows="7" maxlength="1000"></textarea>
+                      <ng-container *ngIf="f.description?.errors">
+                        <ng-container *ngIf="(f?.description?.invalid && f?.description?.touched) || f?.description?.dirty">
+                          <span class="text-danger" *ngIf="f?.description?.errors?.required">Input is required</span>
+                        </ng-container>
+                      </ng-container>
+                      <!--<ng-container *ngIf="appFormValue?.get('description').errors !=null">
+                        <ng-container *ngIf="appFormValue?.get('description')?.invalid && appFormValue?.get('description')?.touched || appFormValue?.get('description')?.dirty">
+                          <span class="text-danger" *ngIf="appFormValue?.get('description').errors?.required">Input is required</span>
+                        </ng-container>
+                      </ng-container>-->
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12 col-md-8">
+                      <div class="form-group mb-1">
+                        <label for="title">Youtube URL<span class="txtclr-red"></span></label>
+                        <input class="form-control mt-2" formControlName="youtubeURL" placeholder="Enter your Youtube URL" id="title" type="text" maxlength="100">
+                      </div>
+                    </div>
+                  </div>
+                  <!--Product Weight-->
+                  <h6 class="defClr my-3">Estimated Weight (KG)<span class="text-danger">*</span></h6>
+                  <div class="col-12">
+                    <div class="form-group">
+                      <input type="text" inputmode="numeric"  maxlength="7"  min="0" step="0.25" class="form-control" id="weight" formControlName="weight" placeholder="Estimated Weight (KG)"  />
+                      <ng-container *ngIf="f.weight.errors">
+                        <ng-container *ngIf="f.weight.invalid && f.weight.touched || f.weight.dirty">
+                          <span class="text-danger" *ngIf="f.weight.errors.required">Input is required</span>
+                          <span class="text-danger" *ngIf="f.weight.errors.pattern">Invalid Input</span>
+                        </ng-container>
+                      </ng-container>
+                    </div>
+                  </div>
+                  <h6 class="defClr mt-3">Product Status</h6>
+                  <div class="col-12 my-3">
+                    <label class="switch">
+                      <input type="checkbox" trueFalseValue trueValue="1" falseValue="0" formControlName="isActive">
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                  <div class="col-12">
+                    <button type="submit" [disabled]="!appFormValue.valid" class="btn btn-primary m-r-10">Save</button>
+                  </div>
+                </ng-container>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Container-fluid Ends-->
+<!--Bulk Order Entry-->
+
+<ng-template #bulkOrderTemplate let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Manage Bulk Ordering</h5>
+  </div>
+  <div class="modal-body p-10">
+    <div class="col-12">
+      <div class="form-group">
+        <button type="button" (click)="addBulkSkuFormGroup(null)" class="btn btn-secondary">Add New<i class="ms-1 fas fa-plus"></i></button>
+          <input class="float-end mt-2 ms-2 me-3" type="color" name="favcolor" value="{{hexCode}}">
+        <label class="float-end mt-2 me-1">{{varientName}}</label>
+      </div>
+    </div>
+    <form [formGroup]="bulkOrderForm">
+      <div formArrayName="bulkSku" *ngFor="let sku of bulkSkuControls?.controls;let k = index">
+        <div [formGroupName]="k">
+          <div class="row col-12 g-2">
+            <div class="col-4">
+              <div class="form-group mb-3">
+                <input type="hidden" formControlName="bulkVarientId" />
+                <label for="price">Min Quantity</label>
+                <input class="form-control" placeholder="Min Quantity" formControlName="minQuantity" type="text" (keypress)="service.numberOnly($event)" maxlength="7">
+                <ng-container *ngIf="sku?.get('minQuantity')?.errors">
+                  <ng-container *ngIf="sku?.get('minQuantity')?.invalid && sku?.get('minQuantity')?.touched || sku?.get('minQuantity')?.dirty">
+                    <span class="text-danger" *ngIf="sku?.get('minQuantity')?.errors?.required">Input is required</span>
+                  </ng-container>
+                </ng-container>
+                <ng-container *ngIf="invalidmMinInput && k==0">
+                  <span class="text-danger">Min Quantity must be greater then five</span>
+                </ng-container>
+                <ng-container *ngIf="invalidCompareInput && currentindex==k">
+                  <span class="text-danger">Min Quantity must be greater then added bulk max quantity</span>
+                </ng-container>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="form-group mb-3">
+                <label for="price">Max Quantity</label>
+                <input class="form-control" placeholder="Max Quantity" formControlName="maxQuantity" type="text" (keypress)="service.numberOnly($event)" maxlength="7">
+                <ng-container *ngIf="sku?.get('maxQuantity')?.errors">
+                  <ng-container *ngIf="sku?.get('maxQuantity')?.invalid && sku?.get('maxQuantity')?.touched || sku?.get('maxQuantity')?.dirty">
+                    <span class="text-danger" *ngIf="sku?.get('maxQuantity')?.errors?.required">Input is required</span>
+                  </ng-container>
+                </ng-container>
+                <ng-container *ngIf="invalidMaxInput && currentindex==k">
+                  <span class="text-danger">Max Quantity must be greater then Min Quantity</span>
+                </ng-container>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="form-group mb-3">
+                <label for="price">Bulk Price</label>
+                <input class="form-control" placeholder="Bulk Price" formControlName="bulkPrice" type="text" (keypress)="service.numberOnly($event)" maxlength="7">
+                <ng-container *ngIf="sku?.get('bulkPrice')?.errors">
+                  <ng-container *ngIf="sku?.get('bulkPrice')?.invalid && sku?.get('bulkPrice')?.touched || sku?.get('bulkPrice')?.dirty">
+                    <span class="text-danger" *ngIf="sku?.get('bulkPrice')?.errors?.required">Input is required</span>
+                  </ng-container>
+                </ng-container>
+              </div>
+            </div>
+            <div class="col-12 col-sm-3 col-xl-2 d-none">
+              <div class="form-group mb-3">
+                <input class="form-control" placeholder="Discount" formControlName="bulkDiscount" type="text" (keypress)="service.numberOnly($event)" maxlength="2">
+                <ng-container *ngIf="sku.get('bulkDiscount')?.errors">
+                  <ng-container *ngIf="sku.get('bulkDiscount').invalid && sku.get('bulkDiscount').touched || sku.get('bulkDiscount').dirty">
+                    <span class="text-danger" *ngIf="sku.get('bulkDiscount')?.errors.required">Input is required</span>
+                  </ng-container>
+                </ng-container>
+              </div>
+            </div>
+            <div class="col-1 d-flex align-items-center">
+              <div class="form-group mb-0">
+                <i (click)="removeBulkSkuFromGrop(k)" class="cursor-pointer fas fa-trash text-danger f-30"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-primary" [disabled]="!bulkOrderForm.valid" (click)="confirmBulkOrder()">Submit</button>
+    <button type="button" class="btn btn-danger btn-sm" (click)="modal.close('cancel click')">Cancel</button>
+  </div>
+</ng-template>

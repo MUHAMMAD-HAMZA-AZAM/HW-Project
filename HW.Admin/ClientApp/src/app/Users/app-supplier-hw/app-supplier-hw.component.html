@@ -1,0 +1,1018 @@
+<style>
+  .modal-header .close {
+    padding: 0px;
+    margin: 0px;
+  }
+</style>
+<div class="container-fluid">
+  <div class="aj-heading-wrapper d-none">
+    <div style="min-width:10%">
+      <h5>Suppliers</h5>
+    </div>
+    <div class="active-job-details" style="min-width:90%;justify-content:flex-start !important">
+      <div class="active-job-box" style="margin-right:.33%">
+        <h6 class="text-success">Supplier: {{supplierStatsVM.supplierCount}}</h6>
+      </div>
+      <div class="active-job-box">
+        <h6 class="text-danger">Ads: {{supplierStatsVM.supplierAdsCount}}</h6>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-4">
+        <h6 class="mainTitle" data-toggle="collapse" href="#collapse3" aria-expanded="true">Search Supplier</h6>
+      </div>
+    </div>
+    <div id="collapse3" class="contentWrapper fs-12 collapse " #checkParent>
+      <form #checkParent>
+        <div class="row">
+          <div class="col-md-4">
+            <label for="customerName">Supplier Name</label>
+            <div class="input-group">
+              <input type="text" autocomplete="off" id="supplierName" maxlength="30" name="supplierName" class="form-control" [(ngModel)]="supplierName" placeholder="Supplier Name" (keypress)="service.omit_special_char($event)" />
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  <input type="radio" value="1" id="start" (click)="getRadioValue($event)" name="groupOfDefaultRadios" checked>
+                  <label class="" for="start">Start</label>
+                  <input type="radio" class="" (click)="getRadioValue($event)" value="2" id="anyWhere" name="groupOfDefaultRadios">
+                  <label class="" for="anyWhere">Anywhere</label>
+                  <input type="radio" class="" value="3" id="end" (click)="getRadioValue($event)" name="groupOfDefaultRadios">
+                  <label class="" for="end">End</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col-md-2">
+            <label class="">Start Date</label>
+            <input type="date" id="startDate" [(ngModel)]="startDate" name="startDate" class="form-control" />
+            <div *ngIf="submittedApplicationForm" class="invalid-feedback">
+              <div><p>{{startDateErrorMessage}}</p></div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <label class="">End Date</label>
+            <input type="date" id="endDate" [(ngModel)]="endDate" name="endDate" class="form-control" />
+            <div *ngIf="submittedApplicationForm" class="invalid-feedback">
+              <div><p>{{endDateErrorMessage}}</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col-md-2">
+            <label class="">Supplier Type</label>
+            <ng-multiselect-dropdown placeholder="Supplier Types" style="display:inline; vertical-align:top"
+                                     [settings]="supplierdropdownSettings"
+                                     [data]="categoryList"
+                                     [(ngModel)]="selectedSupplierType"
+                                     name="selectedSupplierType"
+                                     (onSelect)="onItemSelect($event)"
+                                     (onSelectAll)="onItemSelectAll($event)"
+                                     (onDeSelect)="OnItemDeSelect($event)"
+                                     (onDeSelectAll)="OnItemDeSelectALL($event)"
+                                     (OnDeSelect)="OnItemDeSelect($event)">
+            </ng-multiselect-dropdown>
+          </div>
+          <div class="col-md-2">
+            <label class="">City</label>
+            <ng-multiselect-dropdown placeholder="City" style="display:inline;"
+                                     [settings]="dropdownListForCity"
+                                     [data]="cityList"
+                                     [(ngModel)]="selectedCities"
+                                     name="selectedCities"
+                                     (onSelect)="onCitySelect($event)"
+                                     (onSelectAll)="onCitySelectAll($event)"
+                                     (onDeSelect)="onCityDeSelect($event)"
+                                     (onDeSelectAll)="onCityDeSelectALL($event)"
+                                     (OnDeSelect)="onCityDeSelect($event)">
+            </ng-multiselect-dropdown>
+          </div>
+
+        </div>
+        <div class="row mt-1">
+          <div class="col-md-2 ">
+            <div class="form-group  ">
+              <label for="cnic">CNIC</label>
+              <input type="text" class="form-control" [(ngModel)]="cnic" maxlength="13" id="cnic" name="cnic" placeholder="CNIC" (keypress)="service.numberOnly($event)" />
+            </div>
+          </div>
+          <div class="col-md-2 ">
+            <div class="form-group  ">
+              <label for="cnic">Mobile Number</label>
+              <input type="text" class="form-control" [(ngModel)]="mobile" maxlength="11" id="Mobile" name="Mobile" placeholder="Mobile Number" (keypress)="service.numberOnly($event)" />
+            </div>
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col-md-2">
+            <label class="">Salesman</label>
+            <ng-multiselect-dropdown placeholder="Salesman" style="display:inline;"
+                                     [settings]="salesmandropdownSettings"
+                                     [data]="salesmanList1"
+                                     [(ngModel)]="selectedsalesman"
+                                     name="selectedsalesman">
+
+            </ng-multiselect-dropdown>
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col-md-2 ">
+            <div class="form-group  ">
+              <label for="cnic">Email</label>
+              <input type="text" class="form-control" [(ngModel)]="email" maxlength="40" id="email" name="email" placeholder="Email" />
+            </div>
+          </div>
+          <div class="col-md-2 addressSearch">
+            <div class="form-group  ">
+              <label for="businessAddress">Location</label>
+              <input type="text" class="form-control desc" [(ngModel)]="location" maxlength="50" placeholder="Location" id="location" name="location" autocomplete="off" autocapitalize="off" spellcheck="off" #search />
+            </div>
+            <div class="addressSearchResult" *ngIf="isAddress">
+              <ul>
+                <li *ngFor="let address of searchedAddress">
+                  <a (click)="setAddressValue($event)">{{address.customerAddress}}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>User Type</label>
+              <div class="input-group-prepend">
+                <div class="input-group-text user-type">
+                  <input type="radio" value="3" id="all" (click)="getRadioValueut($event)" name="groupOfDefaultRadios1" checked>
+                  <label class="" for="all">All User</label>
+                  <input type="radio" value="1" id="real" (click)="getRadioValueut($event)" name="groupOfDefaultRadios1">
+                  <label class="" for="real">Real User</label>
+                  <input type="radio" class="" (click)="getRadioValueut($event)" value="2" id="test" name="groupOfDefaultRadios1">
+                  <label class="" for="test">Test User</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Email Verification Type</label>
+              <div class="input-group-prepend">
+                <div class="input-group-text user-type">
+                  <input type="radio" value="1" id="all1" (click)="getRadioValueemail($event)" name="groupOfDefaultRadios2" checked #restChecked>
+                  <label class="" for="all1">All User</label>
+                  <input type="radio" value="2" id="real1" (click)="getRadioValueemail($event)" name="groupOfDefaultRadios2">
+                  <label class="" for="real1">Email Verified</label>
+                  <input type="radio" class="" (click)="getRadioValueemail($event)" value="3" id="test1" name="groupOfDefaultRadios2">
+                  <label class="" for="test1">Email Unverified</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Mobile Verification Type</label>
+              <div class="input-group-prepend">
+                <div class="input-group-text user-type">
+                  <input type="radio" value="1" id="allMobileUsers" (click)="getRadioValueMobileNo($event)" name="groupOfDefaultRadios3" checked>
+                  <label class="" for="allMobileUsers">All User</label>
+                  <input type="radio" value="2" id="verifiedMobileUser" (click)="getRadioValueMobileNo($event)" name="groupOfDefaultRadios3">
+                  <label class="" for="verifiedMobileUser">Mobile Verified</label>
+                  <input type="radio" class="" (click)="getRadioValueMobileNo($event)" value="3" id="unVerifiedMobileUser1" name="groupOfDefaultRadios3">
+                  <label class="" for="unVerifiedMobileUser1">Mobile Unverified</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Source Of Reg</label>
+              <div class="input-group-prepend">
+                <div class="input-group-text user-type">
+                  <input type="radio" value="0" id="allMobileUsers11" (click)="getRadioValuesource($event)" name="groupOfDefaultRadios41" checked>
+                  <label class="" for="allMobileUsers11">All User</label>
+                  <input type="radio" value="1" id="verifiedMobileUser1" (click)="getRadioValuesource($event)" name="groupOfDefaultRadios41">
+                  <label class="" for="verifiedMobileUser1">Custom</label>
+                  <input type="radio" class="" (click)="getRadioValuesource($event)" value="2" id="unVerifiedMobileUser21" name="groupOfDefaultRadios41">
+                  <label class="" for="unVerifiedMobileUser21">Facebook</label>
+                  <input type="radio" class="" (click)="getRadioValuesource($event)" value="3" id="unVerifiedMobileUser21" name="groupOfDefaultRadios41">
+                  <label class="" for="unVerifiedMobileUser21">Google</label>
+                  <input type="radio" class="" (click)="getRadioValuesource($event)" value="4" id="unVerifiedMobileUser21" name="groupOfDefaultRadios41">
+                  <label class="" for="unVerifiedMobileUser21">Apple</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4 inline-downlod-btns">
+            <div class="form-group">
+              <input class="btn btn-primary btn-sm" type="submit" value="Search" (click)="populateSupplierList()" />
+            </div>
+            <div class="form-group">
+              <input class="btn btn-primary btn-sm" type="reset" (click)="resetForm()" value="Reset" />
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="inline-downlod-btns justify-content-end" *ngIf="supplierListVM.length > 0">
+    <div class="form-group ml-2" *ngIf=" selecteddatasingle.length> 0 && userRole.allowDelete">
+      <input class="btn btn-primary btn-sm" type="button" value="Delete Supplier" (click)="DeleteSelectedUser(contentdeleteuser)" />
+    </div>
+    <div class="form-group ml-2" *ngIf="selecteddatasingle.length> 0 && userRole.allowAdd">
+      <input class="btn btn-primary btn-sm" type="button" value="Link With Salesman" (click)="SalesmanConfirm(contentsales)" />
+    </div>
+    <ng-container *ngIf="userRole.allowExport">
+      <div class="form-group ml-2">
+        <input class="btn btn-primary btn-sm" type="button" value="Download pdf" (click)="DownloadPdf()" />
+      </div>
+      <div class="form-group ml-2">
+        <input class="btn btn-primary btn-sm" type="button" value="Download Excel" (click)="DownloadXlsx()" />
+      </div>
+      <div class="form-group ml-2">
+        <input class="btn btn-primary btn-sm" type="button" value="Download Csv" (click)="exportCSV()" />
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="card shadow mb-4" [hidden]="!dataNotFound">
+    <div class="card-header justify-header">
+      <h6 class="m-0 font-weight-bold">Hoomwork Supplier List</h6>
+      <div class="fa-pull-right d-flex align-items-center">
+        <div class="g-pagination">
+          <div class="data-count">
+            <span>{{recoardNoFrom}}-{{recoardNoTo}} of {{totalRecoards}}</span>
+            <div class="newOrOld-Data">
+              <ul>
+                <li><a (click)="LoadNewestRecoards()"> Newest</a></li>
+                <li><a (click)="LoadOldestRecoards()">Oldest</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="indicators">
+            <i class="fa fa-angle-left" (click)="PriviousClick()"></i>
+            <i class="fa fa-angle-right" (click)="NextClick()"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="show_entries">
+        <div class="no-of-entries">
+          <label>No of Enteries</label>
+          <select (change)="changePageSize()" [(ngModel)]="supplierStatsVM.pageSize">
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+        <div class="n0-of-pages">
+          <label class="">No of Pages</label>
+          <select class="" [(ngModel)]="pageNumber" (change)="clickchange()">
+            <option *ngFor="let item of pageing1" value="{{item}}">{{item}} </option>
+          </select>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0" #dataTable>
+          <thead>
+            <tr>
+              <th width="1%" *ngIf="pdfrequest">Select</th>
+              <th title="Supplier Id" width="1%">SID</th>
+              <th width="6%">Supplier Name</th>
+              <th width="5%">Email</th>
+              <th width="3%">Mobile</th>
+              <th width="3%">CNIC</th>
+              <th width="3%">RegisterBy</th>
+              <th width="5%" title="Created Date">CD</th>
+              <th width="5%" title="Last Active">LA</th>
+              <th width="1%" title="Email Verified">EV</th>
+              <th width="1%" title="Mobile No Verified">MV</th>
+              <th width="3%">Category</th>
+              <th width="3%" title="Source Of Reg">SOR</th>
+              <th width="1%" title="Featured Supplier">FS</th>
+              <th width="1%" title="All Good Status">AGS</th>
+              <th width="15%">Address</th>
+              <th title="Supplier Products" width="1%">SP<!--Live Ads--></th>
+              <!--<th width="1%" title="User Type">UT</th>-->
+              <th title="Details" width="1%" *ngIf="pdfrequest">Det</th>
+              <th width="1%" title="Change User Type" *ngIf="userRole.allowEdit">CUT</th>
+              <th title="Block Supplier User" width="1%" *ngIf="userRole.allowEdit">BSU</th>
+              <!--<th title="Statistical Analysis" width="1%">SA</th>-->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let supplier of cloneList">
+              <td *ngIf="supplier.isselectedforexport==true && pdfrequest"> <input type="checkbox" #checkboxes ng-checked="true" checked class="custom-checkbox checked" (change)="onCheckboxChange($event,supplier)" value={{supplier.supplierId}} /></td>
+              <td *ngIf="supplier.isselectedforexport==false && pdfrequest">
+                <input type="checkbox" #checkboxes ng-checked="true" class="custom-checkbox checked" (change)="onCheckboxChange($event,supplier)" value={{supplier.supplierId}} />
+              </td>
+              <td>{{supplier.supplierId}}</td>
+              <!--<td>{{supplier.companyName != null && supplier.companyName.length > 30 ? supplier.companyName.substring(0,30) : supplier.companyName }} <i class="fa fa-eye" *ngIf="supplier.companyName != null && supplier.companyName.length > 30" placement="top" ngbPopover={{supplier.companyName}} popoverTitle="Name"></i></td>-->
+              <td>{{(supplier.companyName !=null && supplier.companyName.length > 30 ) ? (supplier.companyName | slice:0:30 )+'...':(supplier.companyName)}}</td>
+
+              <td>{{supplier.email}}</td>
+              <td>{{supplier.mobileNo}}</td>
+              <td>{{supplier.cnic}}</td>
+              <td>{{supplier.salesmanName}}</td>
+              <td>{{supplier.createdOn | date: "dd MMM yyy"}}</td>
+              <td>{{supplier.lastActive | date: "dd MMM yyy"}}</td>
+              <td *ngIf="supplier.emailConfirmed== true ">Yes</td>
+              <td *ngIf="supplier.emailConfirmed!= true ">No</td>
+              <td *ngIf="supplier.phoneNumberConfirmed">Yes</td>
+              <td *ngIf="!supplier.phoneNumberConfirmed">No</td>
+              <td>{{supplier.supplierCategory != null && supplier.supplierCategory.length > 5 ? supplier.supplierCategory.substring(0,5) : supplier.supplierCategory }} <i class="fa fa-eye" *ngIf="supplier.supplierCategory != null && supplier.supplierCategory.length > 5" placement="top" ngbPopover={{supplier.supplierCategory}} popoverTitle="Cetegory"></i></td>
+              <td>{{supplier.sourceOfReg}}</td>
+              <td>{{supplier?.featuredSupplier}}</td>
+              <td>{{supplier?.isAllGoodStatus}}</td>
+              <td>{{supplier.supplierAddress != null && supplier.supplierAddress.length > 50 ? supplier.supplierAddress.substring(0,50) : supplier.supplierAddress }} <i class="fa fa-eye" *ngIf="supplier.supplierAddress != null && supplier.supplierAddress.length > 50" placement="top" ngbPopover={{supplier.supplierAddress}} popoverTitle="Address"></i></td>
+              <td>{{supplier.countSupplierProduct}}</td>
+              <!--<td *ngIf="pdfrequest">
+                <i class="fas fa-eye" data-target="#supplierprofile" data-toggle="modal" data-backdrop="static" data-keyboard="false" (click)="GetBussinessProfile(supplier.supplierId)"></i>
+              </td>-->
+              <td>
+                <i class="fas fa-eye" (click)="BussinessProfile(supplier.supplierId,supplierprofile)"></i>
+              </td>
+              <td *ngIf="userRole.allowEdit"><button (click)="showModel1(supplier.userId,content1)" class="border-primary fa fa-user-edit primary-color" [class.text-danger]="supplier.isTestUser" aria-hidden="true"></button></td>
+              <td *ngIf="userRole.allowEdit">
+                <label class="switch block-user-switch">
+                  <input type="checkbox" (change)="handleChange($event)" [checked]="supplier.isActive" id="{{supplier.supplierId}}">
+                  <span class="slider"></span>
+                </label>
+              </td>
+              <!--<td><i class="fas fa-eye" (click)="showAnalyticsModal(supplier.supplierId,analyticsModal)"></i></td>-->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-body" style="padding:0px !important">
+        <div class="show_entries">
+          <div class="no-of-entries">
+            <label>No of Entries</label>
+            <select (change)="changePageSize()" [(ngModel)]="supplierStatsVM.pageSize">
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+          <div class="n0-of-pages">
+            <label class="">No of Pages</label>
+            <select class="" [(ngModel)]="pageNumber" (change)="clickchange()">
+              <option *ngFor="let item of pageing1" value="{{item}}">{{item}} </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="card-header justify-header">
+        <h6 class="m-0 font-weight-bold">Hoomwork Supplier List</h6>
+        <div class="g-pagination">
+          <div class="data-count">
+            <span>{{recoardNoFrom}}-{{recoardNoTo}} of {{totalRecoards}}</span>
+            <div class="newOrOld-Data">
+              <ul>
+                <li><a (click)="LoadNewestRecoards()"> Newest</a></li>
+                <li><a (click)="LoadOldestRecoards()">Oldest</a></li>
+              </ul>
+            </div>
+
+          </div>
+          <div class="indicators">
+            <i class="fa fa-angle-left" (click)="PriviousClick()"></i>
+            <i class="fa fa-angle-right" (click)="NextClick()"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <ng-template #content1 let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Confirmation Required</h4>
+    </div>
+    <div class="modal-body">
+      <h6>Are you want to change user type ?</h6>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-sm btn-primary" value="true" (click)="confrimCreateTest();modal.close()">Ok</button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('Save click')">Cancel</button>
+    </div>
+  </ng-template>
+
+  <ng-template #contentdeleteuser let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Confirmation Required</h4>
+      <!--<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>-->
+    </div>
+    <div class="modal-body">
+      <blockquote>Before delete please make sure selected suppliers are test supplier</blockquote>
+      <h6>Are you want to delete Suppliers ?</h6>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-sm btn-primary" value="true" (click)="DeleteUsersConfirm();modal.close()">Ok</button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('Save click')">Cancel</button>
+    </div>
+  </ng-template>
+
+  <ng-template #contentsales let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Select Salesman</h4>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="pkgForm">
+        <input type="hidden" formControlName="salesmanId" />
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="fs-12">Salesman Name</label>
+              <select class="form-control" formControlName="salesmanId">
+                <option *ngFor="let item of salesmanList;" [value]="item.salesmanId">{{item.name}}</option>
+              </select>
+              <div *ngIf="f1.salesmanId?.errors">
+                <div *ngIf="f1.salesmanId.invalid && submited">
+                  <small *ngIf="f1.salesmanId.errors?.required" class="text-danger">Name is requried</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-sm btn-primary" value="true" (click)="SavelinkedSaleman();">Ok</button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('Save click')">Cancel</button>
+    </div>
+  </ng-template>
+
+
+</div>
+<ng-template #analyticsModal let-modal>
+  <div class="">
+    <div class="modal-xl">
+      <div class="modal-header flex-column">
+        <h5 class="text-primary">Statistical Analysis</h5>
+      </div>
+      <div class="modal-body" style="width:100%;">
+        <h6 class="btn-primary py-1 pl-2">Supplier Information</h6>
+        <div class="row modal-primary-user-info">
+          <div class="col-6 col-xl-6 puser-info">
+            <div class="row">
+              <div class="col-md-6 font-weight-bold">
+                <label>IP Address</label>
+                <label>Device</label>
+                <label>IP Location</label>
+                <label>Application Type</label>
+                <label>Application Version</label>
+                <label>Platfrom</label>
+                <label>OS</label>
+                <label>OS Version</label>
+                <label>Browser</label>
+
+              </div>
+              <div class=" offset-md-2 col-md-4 ">
+                <label>{{analytic?.ip ? analytic.ip: '-'}}</label>
+                <label>{{analytic?.device ? analytic.device : '-'}}</label>
+                <label>{{(analytic?.ipLocation) ? (analytic?.ipLocation | slice:0:25)+'...' : '-'}}</label>
+                <label>{{analytic?.applicationType ? analytic.applicationType : '-'}}</label>
+                <label>{{analytic?.applicaitonVersion  ? analytic.applicaitonVersion : '-'}}</label>
+                <label>{{analytic?.platform ? analytic.platform : '-'}}</label>
+                <label>{{analytic?.os ? analytic.os : '-' }}</label>
+                <label>{{analytic?.osVersion ? analytic.osVersion: '-'}}</label>
+                <label>{{analytic?.browser ? analytic.browser: '-' }}</label>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-xl-6 puser-info">
+            <div class="row">
+              <div class="col-md-6 font-weight-bold">
+                <label>Browser Version</label>
+                <label>Desktop Device</label>
+                <label>Tablet Device</label>
+                <label>Mobile Device</label>
+                <label>Country</label>
+                <label>Country Capital</label>
+                <label>City</label>
+                <label>District</label>
+              </div>
+              <div class="offset-md-3 col-md-3 ">
+                <label>{{analytic?.browserVersion ? analytic.browserVersion : '-'}}</label>
+                <label>{{analytic?.desktopDevice == true ? 'Yes' : 'No'}}</label>
+                <label>{{analytic?.tabletDevice == true ? 'Yes' : 'No'}}</label>
+                <label>{{analytic?.mobileDevice == true ? 'Yes' : 'No' }}</label>
+                <label>{{analytic?.country? analytic.country : '-'}}</label>
+                <label>{{analytic?.countryCapital ? analytic.countryCapital : '-' }}</label>
+                <label>{{analytic?.city ? analytic.city : '-' }}</label>
+                <label>{{analytic?.district ? analytic.district : '-'}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('close');">Close</button>
+    </div>
+  </div>
+</ng-template>
+
+
+
+
+
+<ng-template #supplierprofile let-c="close" let-d="dismiss">
+  <div class="job-details-model">
+    <div class="">
+      <!--modal-dialog-->
+      <div class="modal-content">
+        <div class="modal-header flex-column">
+          <div class="modal-body" style="width:100%;">
+            <section class="section-inner">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-lg-12 user-header" style="min-height:150px;">
+                    <div class="user-image">
+                      <ng-container *ngIf="supplierProfileDetails.profileImage !=null; else noThumbnail">
+                        <img [src]="service.transform(supplierProfileDetails.profileImage)" alt="...">
+                      </ng-container>
+                      <ng-template #noThumbnail>
+                        <img height="280" width="280" class="figure-img rounded" src="../../../assets/img/user-placeholder.png" alt="">
+                      </ng-template>
+                    </div>
+                    <div>
+                      <h4 class="d-block">{{supplierProfileDetails.supplierName}}</h4>
+                      <h4>Credit : Rs.{{walletAmount}}</h4>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 sidebar-list pl-0">
+                    <ul class="list-group">
+                      <li class="list-group-item">
+                        <i class="fas fa-phone-alt mr-2"></i> <span style="font-size:1.25rem;font-weight:500">{{supplierProfileDetails.mobileNumber}} </span>
+                        <p><i class="fas fa-envelope mr-2"></i>{{supplierProfileDetails.emailAddress}}</p>
+                      </li>
+                      <li class="list-group-item">
+                        <h5>All Good Status</h5>
+                        <input type="checkbox" class="custom-checkbox" [checked]="supplierProfileDetails.isAllGoodStatus" (change)="changeStatus($event)" value="{{supplierProfileDetails.supplierId}}" />
+
+                      </li>
+                      <li class="list-group-item">
+
+                        <h5>Active Products</h5>
+
+                        <p>{{supplierProfileDetails.authorizedCountSupplierProduct}}</p>
+
+                      </li>
+                      <li class="list-group-item">
+
+                        <h5>InActive Products</h5>
+
+                        <p>{{supplierProfileDetails.unAuthorizedCountSupplierProduct}}</p>
+                      </li>
+                      <li class="list-group-item">
+                        <h5>Business Address</h5>
+                        <p><i class="fas fa-map-marker-alt mr-2"></i>{{supplierProfileDetails.businessAddress ?(supplierProfileDetails?.businessAddress | slice:0:50) + '...':(supplierProfileDetails?.jobAddress)}}</p>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="col-lg-9 col-md-8 user-penal">
+
+
+
+                    <ngb-tabset [destroyOnHide]="false" (tabChange)="GetSupplierOrderDetails($event)">
+
+                      <ngb-tab title="Business Information">
+                        <ng-template ngbTabContent>
+                          <div class="tab-content">
+
+                            <div class="row">
+
+                              <div class="col-lg-4 form-group">
+                                <label for="tital">Seller Id</label>
+                                <input type="text" class="form-control" value="{{supplierProfileDetails.publicId}}" disabled id="id">
+                              </div>
+                              <div class="col-lg-4 form-group">
+                                <label>Shop Name</label>
+                                <input type="text" class="form-control" value="{{supplierProfileDetails.shopName}}" disabled id="shopname">
+
+                              </div>
+                              <div class="col-lg-4 form-group">
+                                <label for="category">Company Name</label>
+                                <input type="text" class="form-control" value="{{supplierProfileDetails.companyName}}" disabled id="company">
+                              </div>
+                              <div class="col-lg-4 form-group">
+                                <label for="sebcategory">Country</label>
+                                <input type="text" class="form-control" id="country" value="{{supplierProfileDetails.countryName}}" disabled>
+                              </div>
+
+                              <div class="col-lg-4 form-group">
+                                <label for="jobDescription">State</label>
+                                <input class="form-control" id="state" value="{{supplierProfileDetails.stateName}}" disabled>
+                              </div>
+
+                              <div class="col-lg-4 form-group">
+                                <label for="jobAddress">InChargePerson Name</label>
+                                <input class="form-control" id="inChargePerson" value="{{supplierProfileDetails.inChargePerson}}" disabled>
+                              </div>
+                              <div class="col-lg-6 form-group">
+                                <label for="jobAddress">InChargePerson ContactNo</label>
+                                <input class="form-control" id="inChargePersonmobile" value="{{supplierProfileDetails.inchargePersonMobileNo}}" disabled>
+                              </div>
+                              <div class="col-lg-6 form-group">
+                                <label for="jobAddress">InChargePerson Email</label>
+                                <input class="form-control" id="inChargePersonemail" value="{{supplierProfileDetails.inchargePersonEmail}}" disabled>
+                              </div>
+
+                              <div class="col-lg-6 form-group">
+                                <label for="jobAddress">NTN Number</label>
+                                <input class="form-control" id="NTNNumber" value="{{supplierProfileDetails.ntnNumber}}" disabled>
+                              </div>
+                              <div class="col-lg-6 form-group">
+                                <label for="jobAddress">Registration Number</label>
+                                <input class="form-control" id="regno" value="{{supplierProfileDetails.registrationNumber}}" disabled>
+                              </div>
+                              <div class="col-lg-12 form-group">
+                                <label for="jobAddress">Area</label>
+                                <input class="form-control" id="area" value="{{supplierProfileDetails.areaName}}" disabled>
+                              </div>
+                              <div class="col-lg-12 form-group">
+                                <label for="jobAddress">Location</label>
+                                <input class="form-control" id="location" value="{{supplierProfileDetails.locationName}}" disabled>
+                              </div>
+
+                              <div class="col-lg-6 form-group">
+                                <label for="jobAddress">ID Card Frontside</label>
+                                <div class="user-image">
+                                  <ng-container *ngIf="supplierProfileDetails.idfrontImage !=null; else noThumbnail">
+                                    <img height="280" width="280" class="figure-img  rounded" [src]="service.transform(supplierProfileDetails.idfrontImage)" alt="...">
+                                  </ng-container>
+                                  <ng-template #noThumbnail>
+                                    <img height="280" width="280" class="figure-img rounded" src="../../../assets/img/user-placeholder.png" alt="">
+                                  </ng-template>
+                                </div>
+                              </div>
+                              <div class="col-lg-6 form-group">
+                                <label for="jobAddress">ID Card Backside</label>
+                                <div class="user-image">
+                                  <ng-container *ngIf="supplierProfileDetails.idbackImage !=null; else noThumbnail">
+                                    <img height="280" width="280" class="figure-img  rounded" [src]="service.transform(supplierProfileDetails.idbackImage)" alt="...">
+                                  </ng-container>
+                                  <ng-template #noThumbnail>
+                                    <img height="280" width="280" class="figure-img rounded" src="../../../assets/img/user-placeholder.png" alt="">
+                                  </ng-template>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+
+
+                        </ng-template>
+                      </ngb-tab>
+
+                      <ngb-tab>
+                        <ng-template ngbTabTitle>Bank Account Information</ng-template>
+                        <ng-template ngbTabContent>
+
+                          <!--****************Bank Account information**********************-->
+                          <div class="tab-content">
+
+                            <div class="row">
+
+                              <div class="col-lg-6 form-group">
+                                <label for="tital">Account Title</label>
+                                <input type="text" class="form-control" value="{{supplierProfileDetails.accountTitle}}" disabled id="id">
+                              </div>
+                              <div class="col-lg-6 form-group">
+                                <label>Account Number</label>
+                                <input type="text" class="form-control" value="{{supplierProfileDetails.accountNumber}}" disabled id="shopname">
+
+                              </div>
+                              <div class="col-lg-6 form-group">
+                                <label for="category">Bank  Name</label>
+                                <input type="text" class="form-control" value="{{supplierProfileDetails.bankName}}" disabled id="company">
+                              </div>
+                              <div class="col-lg-6 form-group">
+                                <label for="sebcategory">Branch Code</label>
+                                <input type="text" class="form-control" id="country" value="{{supplierProfileDetails.branchCode}}" disabled>
+                              </div>
+                              <div class="col-lg-6 form-group">
+                                <label for="jobAddress">IBAN Number</label>
+                                <input class="form-control" id="area" value="{{supplierProfileDetails.iban}}" disabled>
+                              </div>
+                              <div class="col-lg-6 form-group">
+                                <label for="jobAddress">Check Image</label>
+                                <div class="user-image">
+                                  <ng-container *ngIf="supplierProfileDetails?.chequeImage; else noThumbnail">
+                                    <img height="280" width="280" class="figure-img  rounded" [src]="service.transform(supplierProfileDetails.chequeImage)" alt="...">
+                                  </ng-container>
+                                  <ng-template #noThumbnail>
+                                    <img height="280" width="280" class="figure-img rounded" src="../../../assets/img/user-placeholder.png" alt="">
+                                  </ng-template>
+                                </div>
+                              </div>
+
+                            </div>
+
+
+                          </div>
+
+                        </ng-template>
+                      </ngb-tab>
+
+                      <ngb-tab>
+                        <ng-template ngbTabTitle>Warehouse Address</ng-template>
+                        <ng-template ngbTabContent>
+                          <!--****************Whear hose adress information**********************-->
+                          <div class="tab-content">
+
+                            <div class="row">
+
+
+                              <div class="col-lg-6 form-group">
+                                <label for="sebcategory">Name</label>
+                                <input type="text" class="form-control" id="Name" value="{{supplierProfileDetails.whearHousePersonName}}" disabled>
+                              </div>
+
+                              <div class="col-lg-6 form-group">
+                                <label for="jobDescription">Email Address</label>
+                                <input class="form-control" id="Email" value="{{supplierProfileDetails.whearHousePersonCountryName}}" disabled>
+                              </div>
+                              <div class="col-lg-6 form-group">
+                                <label for="jobAddress">Contact Number</label>
+                                <input class="form-control" id="Contact" value="{{supplierProfileDetails.whearHousePersonMobileNumber}}" disabled>
+                              </div>
+
+                              <div class="col-lg-6 form-group">
+                                <label for="sebcategory">Country</label>
+                                <input type="text" class="form-control" id="country" value="{{supplierProfileDetails.whearHousePersonCountryName}}" disabled>
+                              </div>
+
+                              <div class="col-lg-6 form-group">
+                                <label for="jobDescription">State</label>
+                                <input class="form-control" id="state" value="{{supplierProfileDetails.whearHousePersonStateName}}" disabled>
+                              </div>
+                              <div class="col-lg-6 form-group">
+                                <label for="jobAddress">Area</label>
+                                <input class="form-control" id="area" value="{{supplierProfileDetails.whearHousePersonAreaName}}" disabled>
+                              </div>
+                              <div class="col-lg-6 form-group">
+                                <label for="jobAddress">Location</label>
+                                <input class="form-control" id="location" value="{{supplierProfileDetails.whearHousePersonLocationName}}" disabled>
+                              </div>
+
+                              <div class="col-lg-6 form-group">
+                                <label for="jobAddress">Email Address</label>
+                                <input class="form-control" id="inChargePersonmobile" value="{{supplierProfileDetails.whearHouseEmail}}" disabled>
+                              </div>
+                              <div class="col-lg-12 form-group">
+                                <label for="jobAddress">Address</label>
+                                <input class="form-control" id="inChargePersonemail" value="{{supplierProfileDetails.whearHouseAddress}}" disabled>
+                              </div>
+
+
+
+
+                            </div>
+                          </div>
+
+
+                        </ng-template>
+                      </ngb-tab>
+                      <!--****************Return Address Information**********************-->
+
+                      <ngb-tab title="Return Address">
+                        <ng-template ngbTabContent>
+                          <div class="tab-content">
+                            <div class="row">
+
+
+                              <div class="col-lg-6 form-group">
+                                <label for="sebcategory">Name</label>
+                                <input type="text" class="form-control" id="Name" value="{{supplierProfileDetails.returnPersonName}}" disabled>
+                              </div>
+
+                              <div class="col-lg-6 form-group">
+                                <label for="jobDescription">Email Address</label>
+                                <input class="form-control" id="Email" value="{{supplierProfileDetails.returnPersonCountryName}}" disabled>
+                              </div>
+                              <div class="col-lg-6 form-group">
+                                <label for="jobAddress">Contact Number</label>
+                                <input class="form-control" id="Contact" value="{{supplierProfileDetails.returnHousePersonMobileNumber}}" disabled>
+                              </div>
+
+                              <div class="col-lg-6 form-group">
+                                <label for="sebcategory">Country</label>
+                                <input type="text" class="form-control" id="country" value="{{supplierProfileDetails.returnPersonCountryName}}" disabled>
+                              </div>
+
+                              <div class="col-lg-6 form-group">
+                                <label for="jobDescription">State</label>
+                                <input class="form-control" id="state" value="{{supplierProfileDetails.returnPersonStateName}}" disabled>
+                              </div>
+                              <div class="col-lg-6 form-group">
+                                <label for="jobAddress">Area</label>
+                                <input class="form-control" id="area" value="{{supplierProfileDetails.returnPersonAreaName}}" disabled>
+                              </div>
+                              <div class="col-lg-6 form-group">
+                                <label for="jobAddress">Location</label>
+                                <input class="form-control" id="location" value="{{supplierProfileDetails.returnPersonLocationName}}" disabled>
+                              </div>
+
+                              <div class="col-lg-6 form-group">
+                                <label for="jobAddress">Email Address</label>
+                                <input class="form-control" id="ContactNo" value="{{supplierProfileDetails.returnEmailAddress}}" disabled>
+                              </div>
+                              <div class="col-lg-12 form-group">
+                                <label for="jobAddress">Address</label>
+                                <input class="form-control" id="Address" value="{{supplierProfileDetails.returnAddress}}" disabled>
+                              </div>
+                            </div>
+                          </div>
+                        </ng-template>
+                      </ngb-tab>
+                      <ngb-tab title="Social Links">
+                        <ng-template ngbTabContent>
+                          <div class="tab-content">
+                            <div class="row">
+
+
+                              <div class="col-lg-6 form-group">
+                                <a [ngClass]="(supplierProfileDetails.facebookUrl==null || supplierProfileDetails.facebookUrl==''  ) ? 'disabledlink' : '' " href={{supplierProfileDetails.facebookUrl}} target="_blank">Facebook Url</a>
+                                <input type="text" class="form-control" id="Name" value="{{supplierProfileDetails.facebookUrl}}" disabled>
+                              </div>
+
+                              <div class="col-lg-6 form-group">
+                                <a [ngClass]="(supplierProfileDetails.instagramUrl==null || supplierProfileDetails.instagramUrl=='' ) ? 'disabledlink' : '' " href={{supplierProfileDetails.instagramUrl}} target="_blank">Instagram Url</a>
+
+                                <input class="form-control" id="Email" value="{{supplierProfileDetails.instagramUrl}}" disabled>
+                              </div>
+                              <div class="col-lg-6 form-group">
+                                <a [ngClass]="(supplierProfileDetails.linkedInUrl==null || supplierProfileDetails.linkedInUrl==''  ) ? 'disabledlink' : '' " href={{supplierProfileDetails.linkedInUrl}} target="_blank">LinkedIn Url</a>
+
+                                <input class="form-control" id="Contact" value="{{supplierProfileDetails.linkedInUrl}}" disabled>
+                              </div>
+
+                              <div class="col-lg-6 form-group">
+
+                                <a [ngClass]="(supplierProfileDetails.youtubeUrl==null || supplierProfileDetails.youtubeUrl=='' ) ? 'disabledlink' : '' " href={{supplierProfileDetails.youtubeUrl}} target="_blank">Youtube Url</a>
+                                <input type="text" class="form-control" id="country" value="{{supplierProfileDetails.youtubeUrl}}" disabled>
+                              </div>
+                              <div class="col-lg-3 form-group">
+                              </div>
+
+                              <div class="col-lg-6 form-group">
+
+                                <a [ngClass]="(supplierProfileDetails.twitterUrl==null || supplierProfileDetails.twitterUrl=='' ) ? 'disabledlink' : '' " href={{supplierProfileDetails.twitterUrl}} target="_blank">Twitter Url</a>
+                                <input class="form-control" id="state" value="{{supplierProfileDetails.twitterUrl}}" disabled>
+                              </div>
+                              <div class="col-lg-3 form-group">
+                              </div>
+
+                              <div class="col-lg-12 form-group">
+                                <label for="jobAddress">Status</label>
+                                <input class="form-control  " [ngClass]="(supplierProfileDetails.isActive ) ? 'text-primary' : 'text-danger' " id="Address" value="{{supplierProfileDetails.isActive  ? 'Active':'InActive'}}" disabled>
+                              </div>
+                              <div class="col-lg-12 form-group">
+                                <button type="button" class="btn btn-sm btn-primary  mx-2" (click)="updateLinkStatus(supplierIdForLinkUpdate)">Update Link Status</button>
+
+                              </div>
+                            </div>
+                          </div>
+                        </ng-template>
+                      </ngb-tab>
+
+                      <!--Supplier Payment History-->
+                      <ngb-tab title="Payment History">
+                        <ng-template ngbTabContent>
+                          <div class="tab-content">
+                            <div class="table-responsive">
+                              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                  <tr>
+                                    <th>Order Id</th>
+                                    <th>Order From</th>
+                                    <!--<th>Discount</th>-->
+                                    <th>Order Amount</th>
+                                    <th>HW Commission</th>
+                                    <th>Promotion Amount</th>
+                                    <th>Order Date</th>
+                                    <th>Payable To Supplier</th>
+                                    <th>Details</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let order of ordersList">
+                                    <td>{{order.orderId}}</td>
+                                    <td>{{order.orderFrom}}</td>
+                                    <!--<td>{{order.discount}}</td>-->
+                                    <td>{{(order?.actualAmount) ? (order.actualAmount | number:'1.0':'en-US') : '0.00'}}</td>
+                                    <td>{{order.commission}}</td>
+                                    <td>{{order.promotionAmount}}</td>
+                                    <td>{{order?.orderDate | date: 'dd MMM yyyy, h:mm a'}}</td>
+                                    <td>Rs. {{(order?.totalPayable)? (order.totalPayable | number:'1.0':'en-US') : '0.00'}}</td>
+                                    <td><button type="button" class="btn btn-secondary btn-xs" (click)="ShowDetails(order?.orderId,order?.supplierId,variantModalTemplate)">Details</button></td>
+                                  </tr>
+                                </tbody>
+                                <tfoot>
+                                  <tr *ngIf="ordersList">
+                                    <td></td>
+                                    <td></td>
+                                    <td>Rs:{{(totalOrderAmount)?(totalOrderAmount | number:'1.0':'en-US') : '0.00'}}</td>
+                                    <td>Rs: {{totalCommission}}</td>
+                                    <td>Rs : {{totalPromotion}}</td>
+                                    <td></td>
+                                    <td>Rs: {{(totalPayable)?(totalPayable | number:'1.0':'en-US') : '0.00'}}</td>
+                                    <td></td>
+                                  </tr>
+                                </tfoot>
+                              </table>
+                            </div>
+                          </div>
+                        </ng-template>
+                      </ngb-tab>
+                    </ngb-tabset>
+
+
+
+
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+          <div class="row" style="width:100%">
+            <div class="col-md-12">
+              <button type="button" class="btn btn-primary btn-sm fa-pull-right" (click)="closeModal()">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #variantModalTemplate let-modal>
+  <div class="modal-header">
+    <h4 class="card-table-heading defClr" id="modal-basic-title">Sales Details</h4>
+    <button type="button" class="btn btn-danger fs-4" style="background:red !important" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th scope="col">Product</th>
+            <th scope="col">Variant</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Product Amount</th>
+            <!--<th scope="col">Discounted Amount</th>-->
+            <th scope="col">Promotion </th>
+            <th scope="col">HW Commission</th>
+            <th scope="col">Payable To Supplier</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item  of ordersItems">
+            <td>{{item?.productTitle  ? item?.productTitle.length > 30 ? item?.productTitle.substring(0,30) : item?.productTitle : '-' }} <i *ngIf="item?.productTitle &&  item?.productTitle.length > 30 " class="fa fa-eye" placement="top" ngbPopover="{{item?.productTitle}}" popoverTitle="Product Name" [placement]="'auto'" [container]="'body'"></i></td>
+            <td>{{item.variant}}</td>
+            <td>{{item?.quantity}}</td>
+            <!--<td>Rs. {{(item?.actualAmount )? (item.actualAmount | number:'1.0':'en-US') : '0.00'}}</td>-->
+            <td>Rs. {{(item?.discountedAmount)? (item.discountedAmount | number:'1.0':'en-US') : '0.00'}}</td>
+            <td>Rs. {{(item?.promotionAmount)? (item.promotionAmount | number:'1.0':'en-US') : '0.00'}}</td>
+            <td>Rs. {{(item?.commission)? (item.commission | number:'1.0':'en-US') : '0.00'}}</td>
+            <td>Rs. {{(item?.totalPayable)? (item.totalPayable | number:'1.0':'en-US') : '0.00'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</ng-template>
+
+
+<!------------------------ Show Modal for Supplier Live Confirmation ----------------------------->
+<ng-template #supplierLiveModalConfirm let-d="dismiss">
+  <div class="modal-dialog modal-confirm">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h4 class="modal-title w-100">Do you want this supplier {{statusType}}?</h4>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-sm btn-success" (click)="updateAllGoodStatus()">Confirm</button>
+        <button type="button" class="btn btn-sm btn-primary" (click)="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

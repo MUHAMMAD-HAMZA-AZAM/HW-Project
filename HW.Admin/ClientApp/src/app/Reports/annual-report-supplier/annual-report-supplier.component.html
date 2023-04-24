@@ -1,0 +1,27 @@
+<h3 class="m-2"> Supplier Annual Report </h3>
+<button class="btn d-none" (click)="DownloadPdf()">Download Pdf</button>
+<label class="container text-secondary">Total No. {{completeList}}</label>
+<div class="card-body">
+  <div class="table-responsive">
+    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+      <thead>
+        <tr>
+          <th width="5%">Id</th>
+          <th width="15%">Supplier Name</th>
+          <th width="10%">Mobile</th>
+          <th width="40%">Address</th>
+          <th width="15%">CreatedOn</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let supplier of SupplierList">
+          <td>{{supplier.supplierId}}</td>
+          <td>{{supplier.firstName}} {{supplier.lastName}}</td>
+          <td>{{supplier.mobileNumber}}</td>
+          <td>{{supplier.businessAddress}}</td>
+          <td>{{supplier.createdOn | date: "dd MMM yyy hh : mm : a"}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

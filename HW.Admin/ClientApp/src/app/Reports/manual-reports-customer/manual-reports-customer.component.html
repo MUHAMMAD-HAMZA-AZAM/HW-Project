@@ -1,0 +1,253 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4">
+      <h6 class="mainTitle" data-toggle="collapse" href="#collapse1" aria-expanded="true">Customer Report</h6>
+    </div>
+  </div>
+  <!--<button style="font-size: .775rem !important;margin-bottom:5px" *ngIf="reportFilter" (click)="funReportFilter()" class="btn btn-sm btn-primary" data-toggle="collapse" href="#collapse1">Show Filter </button>-->
+  <!--<div class="search-critarea">
+    <h6>Search Critarea:</h6>
+    <div class="filter-text">
+      <label>Name: </label><span> {{customerName}}</span>
+      <label>Start Date: </label><span> {{startDate}}</span>
+      <label>End Date: </label><span> {{endDate}}</span>
+      <label>City: </label><span> {{startDate}}</span>
+      <label>Location: </label><span> {{location}}</span>
+    </div>
+  </div>-->
+  <div class="contentWrapper fs-12 show" id="collapse1">
+    <form #checkParent  #f="ngForm" novalidate >
+      <!--<div class="container">-->
+      <div class="row">
+        <div class="col-md-4">
+          <label for="customerName">Customer Name</label>
+          <div class="input-group">
+            <input type="text" autocomplete="off" maxlength="40" id="customerName" name="customerName" class="form-control" [(ngModel)]="customerName" placeholder="Customer Name" aria-label="Text input with radio button">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                <input type="radio" value="1" id="start" (click)="getRadioValue($event)" name="groupOfDefaultRadios" checked #restChecked>
+                <label class="" for="start">Start</label>
+                <input type="radio" class="" (click)="getRadioValue($event)" value="2" id="anyWhere" name="groupOfDefaultRadios">
+                <label class="" for="anyWhere">Anywhere</label>
+                <input type="radio" class="" value="3" id="end" (click)="getRadioValue($event)" name="groupOfDefaultRadios">
+                <label class="" for="end">End</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-2">
+        <div class="col-md-2">
+          <label class="">Mobile</label>
+          <input type="text" id="mobile" maxlength="11" autocomplete="off" placeholder="Mobile" pattern="^[0-9]{4}[0-9]{7}$" [(ngModel)]="mobile" #mobilee="ngModel" (keypress)="numberOnly($event)" name="mobile" class="form-control" />
+          <div *ngIf="mobilee?.errors" class="text-danger">
+            <div *ngIf="mobilee.invalid && (mobilee.dirty || mobilee.touched)" class="text-danger">
+              <label class="fs-12" style="margin-top:10px" *ngIf="mobilee.errors?.pattern">* Enter valid 11 digit mobile number.</label>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <label class="">CNIC</label>
+          <input type="text" id="cnic" autocomplete="off" maxlength="13" placeholder="CNIC" [(ngModel)]="cnic" pattern="^[0-9]{5}[0-9]{7}[0-9]$" #cnicc="ngModel" (keypress)="numberOnly($event)"  name="cnic" class="form-control" />
+          <div *ngIf="cnicc?.errors" class="text-danger">
+            <div *ngIf="cnicc.invalid && (cnicc.dirty || cnicc.touched)" class="text-danger">
+              <label class="fs-12" style="margin-top:10px" *ngIf="cnicc.errors?.pattern">* Enter valid 13 digit cnic number.</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-md-2">
+          <label class="">Start Date</label>
+          <input type="date" id="startDate" [(ngModel)]="startDate" name="startDate" class="form-control" />
+          <div *ngIf="submittedApplicationForm" class="invalid-feedback">
+            <div><p>{{startDateErrorMessage}}</p></div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <label class="">End Date</label>
+          <input type="date" id="endDate" [(ngModel)]="endDate" name="endDate" class="form-control" />
+          <div *ngIf="submittedApplicationForm" class="invalid-feedback">
+            <div><p>{{endDateErrorMessage}}</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <div class="col-md-2">
+          <label class="">City</label>
+          <ng-multiselect-dropdown placeholder="City" style="display:inline;"
+                                   [settings]="dropdownListForCity"
+                                   [(ngModel)]="selectedItems"
+                                   name="selectedItems"
+                                   [data]="cityList"
+                                   (onSelect)="onCitySelect($event)"
+                                   (onSelectAll)="onCitySelectAll($event)"
+                                   (onDeSelect)="onCityDeSelect($event)"
+                                   (onDeSelectAll)="onCityDeSelectALL($event)"
+                                   (OnDeSelect)="onCityDeSelect($event)">
+          </ng-multiselect-dropdown>
+        </div>
+        <div class="col-md-2 addressSearch">
+          <div class="form-group">
+            <label for="businessAddress">Location</label>
+            <input type="text" class="form-control desc" maxlength="50" placeholder="Location" [(ngModel)]="location" id="location" name="location" autocomplete="off" autocapitalize="off" spellcheck="off" #search />
+          </div>
+          <div class="addressSearchResult" *ngIf="isAddress">
+            <ul>
+              <li *ngFor="let address of searchedAddress">
+                <a (click)="setAddressValue($event)">{{address.customerAddress}}</a>
+              </li>
+              <li *ngIf="!locationSearchKeyMatch" class="text-danger text-center">No location Found</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-1">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Email Verification Type</label>
+            <div class="input-group-prepend">
+              <div class="input-group-text user-type">
+                <input type="radio" value="1" id="all1" (click)="getRadioValueemail($event)" name="groupOfDefaultRadios2" checked>
+                <label class="" for="all1">All User</label>
+                <input type="radio" value="2" id="real1" (click)="getRadioValueemail($event)" name="groupOfDefaultRadios2">
+                <label class="" for="real1">Email Verified</label>
+                <input type="radio" class="" (click)="getRadioValueemail($event)" value="3" id="test1" name="groupOfDefaultRadios2">
+                <label class="" for="test1">Email Unverified</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-1">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Mobile Verification Type</label>
+            <div class="input-group-prepend">
+              <div class="input-group-text user-type">
+                <input type="radio" value="1" id="all2" (click)="getRadioValuemobile($event)" name="groupOfDefaultRadios3" checked>
+                <label class="" for="all2">All User</label>
+                <input type="radio" value="2" id="real2" (click)="getRadioValuemobile($event)" name="groupOfDefaultRadios3">
+                <label class="" for="real2">Mobile Verified</label>
+                <input type="radio" class="" (click)="getRadioValuemobile($event)" value="3" id="test2" name="groupOfDefaultRadios3">
+                <label class="" for="test2">Mobile Unverified</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-1">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>User Type</label>
+            <div class="input-group-prepend">
+              <div class="input-group-text user-type">
+                <input type="radio" value="3" id="all" (click)="getRadioValueut($event)" name="groupOfDefaultRadios1" checked>
+                <label class="" for="all">All User</label>
+                <input type="radio" value="1" id="real" (click)="getRadioValueut($event)" name="groupOfDefaultRadios1">
+                <label class="" for="real">Real User</label>
+                <input type="radio" class="" (click)="getRadioValueut($event)" value="2" id="test" name="groupOfDefaultRadios1">
+                <label class="" for="test">Test User</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-1">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Customer Job Posted Vise</label>
+            <div class="input-group-prepend">
+              <div class="input-group-text user-type">
+                <input type="radio" value="1" id="allMobileUsers1" (click)="getRadioValuejobstype($event)" name="groupOfDefaultRadios4" checked>
+                <label class="" for="allMobileUsers1">All User</label>
+                <input type="radio" value="2" id="verifiedMobileUser1" (click)="getRadioValuejobstype($event)" name="groupOfDefaultRadios4">
+                <label class="" for="verifiedMobileUser1">Posted Jobs</label>
+                <input type="radio" class="" (click)="getRadioValuejobstype($event)" value="3" id="unVerifiedMobileUser2" name="groupOfDefaultRadios4">
+                <label class="" for="unVerifiedMobileUser2">Posted No Job</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-4 inline-downlod-btns">
+          <div class="form-group">
+            <input class=" btn btn-primary btn-sm" type="submit" value="Search" (click)="loadJobs();" [disabled]="!f.valid" />
+          </div>
+          <div class="form-group">
+            <input class="btn btn-primary btn-sm" type="submit" (click)="resetFrom()" value="Reset" />
+          </div>
+          <ng-container *ngIf="userRole.allowExport">
+            <div class="form-group">
+              <input *ngIf="jobcount>0" class="btn btn-primary btn-sm" type="button" value="Download pdf" (click)="DownloadPdf()" />
+              <!--<input class="btn btn-primary btn-sm" type="button" value="Download pdf" (click)="DownloadPdf()" />-->
+            </div>
+            <div class="form-group">
+              <input *ngIf="jobcount>0" class="btn btn-primary btn-sm" type="button" value="Download Excel" (click)="DownloadXlsx()" />
+            </div>
+            <div class="form-group">
+              <input *ngIf="jobcount>0" class="btn btn-primary btn-sm" type="submit" value="Download Csv" (click)="exportCSV()" />
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="card shadow mb-4"  [hidden]="showTable" >
+    <div class="card-header justify-header">
+      <h6 class="m-0 font-weight-bold">Customer List</h6>
+      <label class="fs-12 m-0 text-right" *ngIf="jobcount>0">Total: {{jobcount}} </label>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover" width="100%" cellspacing="0" #dataTable>
+          <thead>
+            <tr>
+              <th title="Customer Id" width="1%">CID</th>
+              <th width="30%">Name</th>
+              <th width="2%">Mobile</th>
+              <!--<th width="7%">Last Active</th>-->
+              <th width="2%">CNIC</th>
+              <th width="2%">City</th>
+              <th class="width-4">Created Date</th>
+              <th width="1%" title="User Type">UT</th>
+              <th width="2%" title="Email Verified">EV</th>
+              <th width="2%" title="Mobile Verified">MV</th>
+              <!--<th width="10%">Town</th>-->
+              <!--<th width="2%">Last Modified</th>-->
+            </tr>
+          </thead>
+          <tbody class="table-content-fs">
+            <tr *ngFor="let customer of CustomerList">
+              <td>{{customer.customerId}}</td>
+              <td>{{customer.firstName}} {{customer.lastName}}</td>
+              <td>{{customer.mobileNumber}}</td>
+              <!--<td>{{customer.lastActive | date: "dd MMM yyy "}}</td>-->
+             
+              <td>{{customer.cnic}}</td>
+              <td>{{customer.cityName}}</td>
+              <td>{{customer.createdOn | date: "dd MMM yyy "}}</td>
+              <td>{{customer.isTestUser ? 'Test' : 'Real'}}</td>
+              <td *ngIf="customer.emailConfirmed== true ">Yes</td>
+              <td *ngIf="customer.emailConfirmed!= true ">No</td>
+              <td *ngIf="customer.phoneNumberConfirmed== true ">Yes</td>
+              <td *ngIf="customer.phoneNumberConfirmed!= true ">No</td>
+              <!--<td>{{customer.streetAddress}}</td>-->
+              <!--<td>{{customer.modifiedOn | date: "dd MMM yyy"}}</td>-->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <p *ngIf="showNullMessage" class="text-danger">No result found.</p>
+    </div>
+  </div>
+</div>

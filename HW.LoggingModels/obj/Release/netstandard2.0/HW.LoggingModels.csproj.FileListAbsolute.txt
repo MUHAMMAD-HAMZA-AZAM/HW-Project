@@ -1,0 +1,9 @@
+D:\GitHub\Hoomwork\HW.LoggingModels\bin\Release\netstandard2.0\HW.LoggingModels.deps.json
+D:\GitHub\Hoomwork\HW.LoggingModels\bin\Release\netstandard2.0\HW.LoggingModels.dll
+D:\GitHub\Hoomwork\HW.LoggingModels\bin\Release\netstandard2.0\HW.LoggingModels.pdb
+D:\GitHub\Hoomwork\HW.LoggingModels\obj\Release\netstandard2.0\HW.LoggingModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.LoggingModels\obj\Release\netstandard2.0\HW.LoggingModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.LoggingModels\obj\Release\netstandard2.0\HW.LoggingModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.LoggingModels\obj\Release\netstandard2.0\HW.LoggingModels.dll
+D:\GitHub\Hoomwork\HW.LoggingModels\obj\Release\netstandard2.0\HW.LoggingModels.pdb
+D:\GitHub\Hoomwork\HW.LoggingModels\obj\Release\netstandard2.0\HW.LoggingModels.GeneratedMSBuildEditorConfig.editorconfig

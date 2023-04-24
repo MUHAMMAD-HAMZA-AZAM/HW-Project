@@ -1,0 +1,169 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-10">
+        <div class="card shadow mb-6">
+          <div class="card-header bg-primary">
+            <h6 class="mainTitle m-0 font-weight-bold border-0" data-toggle="collapse" href="#collapse6" aria-expanded="true">Journal Entry Screen</h6>
+          </div>
+          <div id="collapse6" class="contentWrapper fs-12 show">
+            <div class="card-body">
+              <form [formGroup]="appValForm">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="fs-12">Date </label>
+                      <input type="date" maxlength="20" formControlName="date" class="form-control" />
+                      <div *ngIf="f.date?.errors">
+                        <div *ngIf="f.date.invalid && (f.date.dirty || f.date.touched)">
+                          <small class="text-danger" *ngIf="f.date.errors?.required">Input is required</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="fs-12">Reference No </label>
+                      <input type="text" maxlength="20" formControlName="referenceNo" class="form-control" (keypress)="service.numberOnly($event)"/>
+                      <div *ngIf="f.referenceNo?.errors">
+                        <div *ngIf="f.referenceNo.invalid && (f.referenceNo.dirty || f.referenceNo.touched)">
+                          <small class="text-danger" *ngIf="f.referenceNo.errors?.required">Input is required</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Narration </label>
+                      <input type="text" maxlength="50" formControlName="narration" class="form-control" />
+                      <div *ngIf="f.narration?.errors">
+                        <div *ngIf="f.narration.invalid && (f.narration.dirty || f.narration.touched)">
+                          <small class="text-danger" *ngIf="f.narration.errors?.required">Input is required</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                  <div class="row">
+                    <div class="col-md-12" formArrayName="journalEntry" *ngFor="let jE of journalEntryControls.controls;let j = index">
+                      <div [formGroupName]="j">
+                        <div class="row">
+                          <div class="col-md-3">
+                            <div class="form-group mb-3">
+                              <label>Account Name</label>
+                              <ng-autocomplete [data]="accounts"
+                                               formControlName="accountName"
+                                               [searchKeyword]="keyword"
+                                               placeholder="Search"
+                                               [itemTemplate]="itemTemplate"
+                                               [notFoundTemplate]="notFoundTemplate">
+                              </ng-autocomplete>
+                              <ng-template #itemTemplate let-item>
+                                <a [innerHTML]="item.name"></a>
+                              </ng-template>
+
+                              <ng-template #notFoundTemplate let-notFound>
+                                <div [innerHTML]="notFound"></div>
+                              </ng-template>
+                              <div *ngIf="f.accountName?.errors">
+                                <div *ngIf="f.accountName.invalid">
+                                  <small *ngIf="f.accountName.errors?.required" class="text-danger">Input is requried</small>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-group mb-3">
+                              <label>Description</label>
+                              <input class="form-control" formControlName="description" type="text" maxlength="450">
+                              <ng-container *ngIf="jE.get('description')?.errors">
+                                <ng-container *ngIf="jE.get('description').invalid && jE.get('description').touched || jE.get('description').dirty">
+                                  <span class="text-danger" *ngIf="jE.get('description')?.errors.required">Input is required</span>
+                                </ng-container>
+                              </ng-container>
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <div class="form-group mb-3">
+                              <label>Debit</label>
+                              <input (keyup)="calculateDebit()" class="form-control" formControlName="debit" type="text" maxlength="10" (keypress)="service.numberOnly($event)">
+
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <div class="form-group mb-3">
+                              <label>Credit</label>
+                              <input (keyup)="calculateCredit()" class="form-control" formControlName="credit" type="text" maxlength="10" (keypress)="service.numberOnly($event)">
+                            </div>
+                          </div>
+                          <div class="col-md-1">
+                            <div class="form-group mb-3">
+                              <label>Tax</label>
+                              <input class="form-control" formControlName="tax" placeholder="%" type="text" maxlength="2" (keypress)="service.numberOnly($event)">
+                            </div>
+                          </div>
+                          <div class="col-md-1 d-flex align-items-center">
+                            <div class="form-group m-0">
+                              <i *ngIf="j > 0" (click)="removeJournalEntryFromGrop(j)" title="Remove JE" class="cursor-pointer fas fa-trash text-danger fa-2x"></i>
+                            </div>
+                          </div>
+                        </div>
+                          </div>
+                        </div>
+                  </div>
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-2">
+                      <div class="form-group mb-3">
+                        <input disabled class="form-control" type="text" value="{{totalDebit}}">
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="form-group mb-3">
+                        <input disabled class="form-control" type="text" value="{{totalCredit}}">
+                      </div>
+                    </div>
+                    <div class="col-md-2"></div>
+                  </div>
+                </div>
+
+                  <div class="form-group">
+                    <button type="button" (click)="addNewRow()" class="btn btn-secondary">Add New Entry <i class="fas fa-plus"></i></button>
+                  </div>
+                <div class="row">
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Notes </label>
+                      <textarea maxlength="450" rows="5" formControlName="notes" class="form-control"></textarea>
+                      <div *ngIf="f.notes?.errors">
+                        <div *ngIf="f.notes.invalid && (f.notes.dirty || f.notes.touched)">
+                          <small class="text-danger" *ngIf="f.notes.errors?.required">Input is required</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+                <div class="row">
+                  <div class="col-md-4 inline-downlod-btns">
+                    <button type="submit" class="btn btn-sm btn-primary mr-2" [disabled]="!appValForm.valid || disableBtn" (click)="Save()">Save</button>
+                    <button type="reset" class="btn btn-sm btn-primary" [disabled]="!disableBtn" (click)="Post()">Post</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>

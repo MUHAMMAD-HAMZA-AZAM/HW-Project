@@ -1,0 +1,352 @@
+<div class="container-fluid">
+  <div class="row">
+    <div id="{{pageWrapper}}">
+      <div class="col-lg-12 mb-3">
+        <div class="row">
+          <div class="col-lg-12 bg-white">
+            <div class="row page-header">
+              <div class="col-lg-12">
+                <div class="row">
+                  <!--<div class="col-lg-9 col-md-8">
+                    <div class="row">
+                      <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                          <li class="breadcrumb-item"><a href="default.html">Home</a></li>
+                          <li class="breadcrumb-item active" aria-current="page">Marketplace</li>
+                        </ol>
+                      </nav>
+                    </div>
+                  </div>-->
+                  <!--<div class="col-lg-3 col-md-4 search-container">
+                    <form class="row">
+                      <input class="form-control" type="text" placeholder="Search.."  [(ngModel)]="searchText" name="search">
+                      <button type="submit"><i class="fa fa-search"></i></button>
+                    </form>
+                  </div>-->
+                </div>
+              </div><!-- /.col-lg-12 -->
+            </div>
+            <!--breadcrumb no need to display-->
+
+            <div class="card-body">
+              <div id="product-carousel" class="carousel slide my-4" data-ride="carousel">
+                <ol class="carousel-indicators">
+                  <li data-target="#product-carousel" data-slide-to="0" class="active"></li>
+                  <li data-target="#product-carousel" data-slide-to="1"></li>
+                  <li data-target="#product-carousel" data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner" role="listbox">
+                  <div class="carousel-item active">
+                    <img class="d-block img-fluid" src="../../../assets/img/market_bnr1.jpg" alt="First slide">
+                  </div>
+                  <div class="carousel-item">
+                    <img class="d-block img-fluid" src="../../../assets/img/market_bnr2.jpg" alt="Second slide">
+                  </div>
+                  <div class="carousel-item">
+                    <img class="d-block img-fluid" src="../../../assets/img/market_bnr3.jpg" alt="Third slide">
+                  </div>
+                </div>
+                <a class="carousel-control-prev" href="#product-carousel" role="button" data-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#product-carousel" role="button" data-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Next</span>
+                </a>
+              </div><!--carousel-->
+
+              <div class="row marketplace text-center">
+                <div class="col-lg-4 col-sm-6 product-item my-4">
+                  <div class="card h-100" id="supplierCategory1">
+                    <a class="product-item-img" routerLink="/MarketPlace/MarketPlaceIndex/ProductCategoryHome/1"><img class="card-img-top" src="../../../assets/img/living.jpg" alt="living"></a>
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <a routerLink="/MarketPlace/MarketPlaceIndex/ProductCategoryHome/1">Living</a>
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 product-item  my-4">
+                  <div class="card h-100" id="supplierCategory2">
+                    <a class="product-item-img" routerLink="/MarketPlace/MarketPlaceIndex/ProductCategoryHome/2"><img class="card-img-top" src="../../../assets/img/homedecor.jpg" alt=""></a>
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <a routerLink="/MarketPlace/MarketPlaceIndex/ProductCategoryHome/2">Home Decor</a>
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 product-item  my-4">
+                  <div class="card h-100" id="supplierCategory3">
+                    <a class="product-item-img" routerLink="/MarketPlace/MarketPlaceIndex/ProductCategoryHome/3"><img class="card-img-top" src="../../../assets/img/bedroom.jpg" alt=""></a>
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <a routerLink="/MarketPlace/MarketPlaceIndex/ProductCategoryHome/3">Bedroom</a>
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 product-item  my-4">
+                  <div class="card h-100" id="supplierCategory4">
+                    <a class="product-item-img" routerLink="/MarketPlace/MarketPlaceIndex/ProductCategoryHome/4"><img class="card-img-top" src="../../../assets/img/lighting.jpg" alt=""></a>
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <a routerLink="/MarketPlace/MarketPlaceIndex/ProductCategoryHome/4">Lighting</a>
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 product-item  my-4">
+                  <div class="card h-100" id="supplierCategory5">
+                    <a class="product-item-img" routerLink="/MarketPlace/MarketPlaceIndex/ProductCategoryHome/5"><img class="card-img-top" src="../../../assets/img/kitchenanddining.jpg" alt=""></a>
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <a routerLink="/MarketPlace/MarketPlaceIndex/ProductCategoryHome/5">Kitchen & Dining</a>
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 product-item  my-4">
+                  <div class="card h-100" id="supplierCategory6">
+                    <a class="product-item-img" routerLink="/MarketPlace/MarketPlaceIndex/ProductCategoryHome/6"><img class="card-img-top" src="../../../assets/img/organization.jpg" alt=""></a>
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <a routerLink="/MarketPlace/MarketPlaceIndex/ProductCategoryHome/6">Storage & Organization</a>
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 product-item  my-4">
+                  <div class="card h-100" id="supplierCategory7">
+                    <a class="product-item-img" routerLink="/MarketPlace/MarketPlaceIndex/ProductCategoryHome/7"><img class="card-img-top" src="../../../assets/img/bathroom.jpg" alt=""></a>
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <a routerLink="/MarketPlace/MarketPlaceIndex/ProductCategoryHome/7">Bathroom</a>
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 product-item  my-4">
+                  <div class="card h-100" id="supplierCategory8">
+                    <a class="product-item-img" routerLink="/MarketPlace/MarketPlaceIndex/ProductCategoryHome/8"><img class="card-img-top" src="../../../assets/img/garden.jpg" alt=""></a>
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <a routerLink="/MarketPlace/MarketPlaceIndex/ProductCategoryHome/8">Garden</a>
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 product-item  my-4">
+                  <div class="card h-100" id="supplierCategory9">
+                    <a class="product-item-img" routerLink="/MarketPlace/MarketPlaceIndex/ProductCategoryHome/9" id="supplierCategory9"><img class="card-img-top" src="../../../assets/img/furniture.jpg" alt=""></a>
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <a routerLink="/MarketPlace/MarketPlaceIndex/ProductCategoryHome/9">Furniture</a>
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 product-item  my-4">
+                  <div class="card h-100" id="supplierCategory10">
+                    <a class="product-item-img" routerLink="/MarketPlace/MarketPlaceIndex/ProductCategoryHome/10"><img class="card-img-top" src="../../../assets/img/appliances.jpg" alt=""></a>
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <a routerLink="/User/MarketPlaceIndex/ProductCategoryHome/10">Appliances</a>
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 product-item my-4">
+                  <div class="card h-100" id="supplierCategory11">
+                    <a class="product-item-img" routerLink="/User/MarketPlaceIndex/ProductCategoryHome/11"><img class="card-img-top" src="../../../assets/img/hardware.jpg" alt=""></a>
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <a routerLink="/User/MarketPlaceIndex/ProductCategoryHome/11">Hardware</a>
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 product-item  my-4">
+                  <div class="card h-100" id="supplierCategory12">
+                    <a class="product-item-img" routerLink="/User/MarketPlaceIndex/ProductCategoryHome/12"><img class="card-img-top" src="../../../assets/img/paint.jpg" alt=""></a>
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <a routerLink="/User/MarketPlaceIndex/ProductCategoryHome/12">Paint</a>
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 product-item  my-4">
+                  <div class="card h-100" id="supplierCategory13">
+                    <a class="product-item-img" routerLink="/User/MarketPlaceIndex/ProductCategoryHome/13"><img class="card-img-top" src="../../../assets/img/plumbing.jpg" alt=""></a>
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <a routerLink="/User/MarketPlaceIndex/ProductCategoryHome/13">Plumbing</a>
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 product-item  my-4">
+                  <div class="card h-100" id="supplierCategory14">
+                    <a class="product-item-img" routerLink="/User/MarketPlaceIndex/ProductCategoryHome/14"><img class="card-img-top" src="../../../assets/img/buildingmaterials.jpg" alt=""></a>
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <a routerLink="/User/MarketPlaceIndex/ProductCategoryHome/14">Building Materials</a>
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 product-item  my-4">
+                  <div class="card h-100" id="supplierCategory15">
+                    <a class="product-item-img" routerLink="/User/MarketPlaceIndex/ProductCategoryHome/15"><img class="card-img-top" src="../../../assets/img/smallappliances.jpg" alt=""></a>
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <a routerLink="/User/MarketPlaceIndex/ProductCategoryHome/15">Small Appliances</a>
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 product-item  my-4">
+                  <div class="card h-100" id="supplierCategory16">
+                    <a class="product-item-img" routerLink="/User/MarketPlaceIndex/ProductCategoryHome/16"><img class="card-img-top" src="../../../assets/img/electricianWork.png" alt=""></a>
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <a routerLink="/User/MarketPlaceIndex/ProductCategoryHome/16">Electrical</a>
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 product-item  my-4">
+                  <div class="card h-100" id="supplierCategory17">
+                    <a class="product-item-img" routerLink="/User/MarketPlaceIndex/ProductCategoryHome/17"><img class="card-img-top" src="../../../assets/img/heatingventingcooling.jpg" alt=""></a>
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <a routerLink="/User/MarketPlaceIndex/ProductCategoryHome/17">Heating, Venting & Cooling</a>
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 product-item  my-4">
+                  <div class="card h-100" id="supplierCategory18">
+                    <a class="product-item-img" routerLink="/User/MarketPlaceIndex/ProductCategoryHome/18"><img class="card-img-top" src="../../../assets/img/more.jpg" alt=""></a>
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <a routerLink="/User/MarketPlaceIndex/ProductCategoryHome/18">More</a>
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="card-footer">
+              <div class="row mb-3 featuredbrand">
+                <div class="col-md-12">
+                  <div class="row bg-light heading"><div class="col-md-12"><h3>Popular Brands</h3></div></div>
+                  <div id="featuredbrandCarousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+                        <div class="row">
+                          <div class="col-md-2 w-50">
+                            <a href="/HWUser/MarketPlace/ProductCategoryHome?productCategoryId=1">
+                              <img src="../../../assets/img/brnad1.jpg" alt="Image" style="max-width:100%;">
+                            </a>
+                          </div>
+                          <div class="col-md-2">
+                            <a href="/HWUser/MarketPlace/ProductCategoryHome?productCategoryId=1">
+                              <img src="../../../assets/img/brnad2.jpg" alt="Image" style="max-width:100%;">
+                            </a>
+                          </div>
+                          <div class="col-md-2">
+                            <a href="/HWUser/MarketPlace/ProductCategoryHome?productCategoryId=1">
+                              <img src="../../../assets/img/brnad3.jpg" alt="Image" style="max-width:100%;">
+                            </a>
+                          </div>
+                          <div class="col-md-2">
+                            <a href="/HWUser/MarketPlace/ProductCategoryHome?productCategoryId=1">
+                              <img src="../../../assets/img/brnad4.jpg" alt="Image" style="max-width:100%;">
+                            </a>
+                          </div>
+                          <div class="col-md-2">
+                            <a href="/HWUser/MarketPlace/ProductCategoryHome?productCategoryId=1">
+                              <img src="../../../assets/img/brnad5.jpg" alt="Image" style="max-width:100%;">
+                            </a>
+                          </div>
+                          <div class="col-md-2">
+                            <a href="/HWUser/MarketPlace/ProductCategoryHome?productCategoryId=1">
+                              <img src="../../../assets/img/brnad6.jpg" alt="Image" style="max-width:100%;">
+                            </a>
+                          </div>
+                        </div>
+                        <!--.row-->
+                      </div>
+                      <!--.item-->
+                      <div class="carousel-item">
+                        <div class="row">
+                          <div class="col-md-2">
+                            <a href="/HWUser/MarketPlace/ProductCategoryHome?productCategoryId=1">
+                              <img src="../../../assets/img/brnad1.jpg" alt="Image" style="max-width:100%;">
+                            </a>
+                          </div>
+                          <div class="col-md-2">
+                            <a href="/HWUser/MarketPlace/ProductCategoryHome?productCategoryId=1">
+                              <img src="../../../assets/img/brnad2.jpg" alt="Image" style="max-width:100%;">
+                            </a>
+                          </div>
+                          <div class="col-md-2">
+                            <a href="/HWUser/MarketPlace/ProductCategoryHome?productCategoryId=1">
+                              <img src="../../../assets/img/brnad3.jpg" alt="Image" style="max-width:100%;">
+                            </a>
+                          </div>
+                          <div class="col-md-2">
+                            <a href="/HWUser/MarketPlace/ProductCategoryHome?productCategoryId=1">
+                              <img src="../../../assets/img/brnad4.jpg" alt="Image" style="max-width:100%;">
+                            </a>
+                          </div>
+                          <div class="col-md-2">
+                            <a href="/HWUser/MarketPlace/ProductCategoryHome?productCategoryId=1">
+                              <img src="../../../assets/img/brnad5.jpg" alt="Image" style="max-width:100%;">
+                            </a>
+                          </div>
+                          <div class="col-md-2">
+                            <a href="/HWUser/MarketPlace/ProductCategoryHome?productCategoryId=1">
+                              <img src="../../../assets/img/brnad6.jpg" alt="Image" style="max-width:100%;">
+                            </a>
+                          </div>
+                        </div>
+                        <!--.row-->
+                      </div>
+                      <!--.item-->
+                      <a class="carousel-control-prev" href="#featuredbrandCarousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                      </a>
+                      <a class="carousel-control-next" href="#featuredbrandCarousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                      </a>
+                    </div>
+                    <!--.carousel-inner-->
+                  </div>
+                  <!--.Carousel-->
+                </div>
+              </div><!--Featured Brands-->
+
+            </div>
+
+          </div>
+
+        </div>
+        <!--<section id="downloadAPP" class="row bg-primary text-white mt-3">
+          <div class="container text-center">
+            <h2 class="mb-4">Download our APP</h2>
+            <p class="mb-3">Managing your job is easier with the rated people homes app, downloade it today.</p>
+
+            <a href=""><img style="width:180px" src="../../../assets/img/andriodapp.png" alt="" /></a>
+          </div>
+        </section>-->
+      </div><!-- /.col-lg-12 -->
+    </div><!-- /.row -->
+  </div>
+</div>

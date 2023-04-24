@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.Web" ToolsVersion="15.0">
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
+		<FileUpgradeFlags>
+		</FileUpgradeFlags>
+		<UpgradeBackupLocation>
+		</UpgradeBackupLocation>
+		<OldToolsVersion>2.0</OldToolsVersion>
+		<UserSecretsId>2b9cf8bc-7a7e-4f11-b339-41dc575fd69b</UserSecretsId>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Remove="wwwroot\**" />
+		<Content Remove="wwwroot\**" />
+		<EmbeddedResource Remove="wwwroot\**" />
+		<None Remove="wwwroot\**" />
+	</ItemGroup>
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
+		<PackageReference Include="ElmahCore" Version="2.0.7" />
+		<PackageReference Include="ElmahCore.Sql" Version="2.0.7" />
+		<PackageReference Include="MassTransit" Version="7.2.2" />
+		<PackageReference Include="MassTransit.Autofac" Version="7.2.2" />
+		<PackageReference Include="MassTransit.RabbitMQ" Version="7.2.2" />
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+	</ItemGroup>
+	<ItemGroup>
+		<DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.4" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\HW.Events\HW.Events.csproj" />
+		<ProjectReference Include="..\HW.LoggingModels\HW.LoggingModels.csproj" />
+		<ProjectReference Include="..\HW.LoggingViewModels\HW.LoggingViewModels.csproj" />
+		<ProjectReference Include="..\HW.Utility\HW.Utility.csproj" />
+	</ItemGroup>
+</Project>

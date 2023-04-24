@@ -1,0 +1,125 @@
+<style>
+  .body-paging {
+    padding-top: 100px;
+    text-align: left;
+  }
+</style>
+
+<div class="container text-left" id="page-wrapper">
+  <div class="row">
+    <div class="col-md-8">
+
+      <agm-map style="height:300px;" (mapClick)="addMarker($event.coords.lat, $event.coords.lng)" [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+        <agm-marker [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" [label]="{color: 'black', text: 'HoomWork'}"></agm-marker>
+      </agm-map>
+      <!--<iframe width="100%" height="400" id="gmap_canvas" src="https://maps.google.com/maps?q=datamagnetics%20technologies&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>-->
+      <div class="form-group">
+        <h3>Send us a Message</h3>
+        <form [formGroup]="appValForm">
+          <div class="control-group form-group">
+            <div class="controls">
+              <label>Full Name:</label>
+              <input type="text" class="form-control" formControlName="name" [ngClass]="{ 'is-invalid': submittedForm && f.name.errors }">
+              <div *ngIf="submittedForm && f.name.errors" class="invalid-feedback">
+                <div *ngIf="f.name.errors.required">Please enter your name.</div>
+              </div>
+
+            </div>
+          </div>
+          <div class="control-group form-group">
+            <div class="controls">
+              <label>Phone Number:</label>
+              <input type="tel" class="form-control" formControlName="phone" [ngClass]="{ 'is-invalid': submittedForm && f.phone.errors }">
+              <div *ngIf="submittedForm && f.phone.errors" class="invalid-feedback">
+                <div *ngIf="f.phone.errors.required">Please enter your phone number.</div>
+              </div>
+            </div>
+          </div>
+          <div class="control-group form-group">
+            <div class="controls">
+              <label>Email Address:</label>
+              <input type="email" class="form-control" formControlName="email" [ngClass]="{ 'is-invalid': submittedForm && f.email.errors }">
+              <div *ngIf="submittedForm && f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors.required">Please enter your email address.</div>
+                <div *ngIf="f.email.errors.email">Invalid email.</div>
+              </div>
+            </div>
+          </div>
+          <div class="control-group form-group">
+            <div class="controls">
+              <label>Subject:</label>
+              <input type="text" class="form-control" formControlName="subject" [ngClass]="{ 'is-invalid': submittedForm && f.subject.errors }">
+              <div *ngIf="submittedForm && f.subject.errors" class="invalid-feedback">
+                <div *ngIf="f.subject.errors.required">Please enter Subject.</div>
+              </div>
+            </div>
+          </div>
+          <div class="control-group form-group">
+            <div class="controls">
+              <label>Message:</label>
+              <textarea rows="10" cols="100" class="form-control" formControlName="message" maxlength="999" style="resize:none" [ngClass]="{ 'is-invalid': submittedForm && f.message.errors }"></textarea>
+              <div *ngIf="submittedForm && f.message.errors" class="invalid-feedback">
+                <div *ngIf="f.message.errors.required">Message is required</div>
+              </div>
+            </div>
+          </div>
+          <div id="success"></div>
+          <button type="button" class="btn btn-primary" (click)="Save()">Send Message</button>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <h3>Contact Details</h3>
+      <p>
+        Address:441-Q, Iqra St, Model Town, Lahore 54700, Pakistan
+      </p>
+      <a href="tel:">
+        <p>
+          <abbr title="Phone">P</abbr>: 042-35916441
+        </p>
+      </a>
+
+      <p>
+        <abbr title="Email">E</abbr>:
+        <a href="mailto:info@hoomwork.com">
+          info@hoomwork.com
+        </a>
+      </p>
+      <p>
+        <abbr title="Hours">H</abbr>: Monday - Friday: 10:00 AM to 7:00 PM
+      </p>
+    </div>
+  </div>
+</div>
+
+
+
+<div bsModal #ContactSms="bs-modal" role="dialog" class="modal fade">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Thank You</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="Close()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        We will response your query soon.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="Close()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<
+<!--div bsModal #ImageModel="bs-modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content" *ngIf="imageContent!=null">
+      <div (click)="Close()" class="btn-close" data-dismiss="modal"><i class="fas fa-times-circle"></i></div>
+      <img [src]="imageContent" alt="" />
+    </div>
+  </div>
+</div>-->

@@ -1,0 +1,43 @@
+<div class="d-content-left-side">
+  <h2 class="heading-dashboad mb-3 mb-lg-4">Select Top Up Method</h2>
+  <div class="row" *ngIf="!isjazzCash">
+    <!--<div class="col-12 col-sm-6 col-lg-4">
+      <div class="form-group">
+        <button type="submit" style="background-color:lightgray" disabled class="form-control btn btn-light">Cash</button>
+      </div>
+    </div>-->
+    <div class="col-12 col-sm-6 col-lg-6">
+      <div class="form-group">
+        <button type="submit" class="form-control btn btn-danger" (click)="jazzCash('MWALLET')">Jazz Cash</button>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-lg-6">
+      <div class="form-group">
+        <button type="submit" class="form-control btn btn-success" (click)="jazzCash('MPAY')">Debit/Credit Card</button>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="isjazzCash">
+    <div class="col-12 col-sm-6 col-lg-4">
+      <div class="form-group">
+        <input type="text" inputmode="numeric" minlength="3" step="1.00" maxlength="10" (keypress)="AllowNonZeroIntegers($event)" class="form-control" placeholder="Enter Amount" [(ngModel)]="amount" pattern="^[0-9]{3,10}$" />
+        <label *ngIf="isEmptyAmount" class="text-danger">Enter Amount</label>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-lg-4">
+      <div class="form-group">
+        <button type="submit" class="form-control btn btn-danger" (click)="proceedPayment()">Top-Up</button>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="isPaymentStatus">
+    <div class="col-12 col-sm-6 col-md-6 mx-auto">
+      <label class="text-danger"><b>{{pp_ResponseMessage}}</b></label>
+    </div>
+  </div>
+  <div class="row" *ngIf="successMessage">
+    <div class="col-12 col-sm-6 col-md-6 mx-auto">
+      <label class="text-success"><b>{{pp_ResponseMessage}}</b></label>
+    </div>
+  </div>
+</div>

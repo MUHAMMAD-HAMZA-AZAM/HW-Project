@@ -1,0 +1,126 @@
+<section id="nd-right-content">
+  <h2 class="heading-dashboad mb-3 mb-lg-4">Inprogress tasks</h2>
+  <div *ngIf="notFound"  id="no-found" class="text-center d-flex justify-content-center align-items-center">
+    <div>
+      <h1 class="mb-3  text-uppercase"><i class="fas fa-exclamation-circle text-danger"></i> Oops!</h1>
+      <h5 class="text-danger text-capitalize">you don't have any task yet. </h5>
+    </div>
+  </div>
+  <div class="row">
+    <div *ngFor="let item of inProgressJobList;let index = index;" class="col-lg-6 pb-2 pb-lg-2">
+      <div class="mq-box p-3">
+        <div class="d-flex align-items-center flex-wrap flex-column flex-sm-row align-items-center">
+          <ng-container>
+            <div *ngIf="item.jobImage == null;else imgFound " class="mq-rounded-img mb-2 mb-sm-0">
+              <img src="/assets/img/imagenotfound.png" alt="user-img" />
+            </div>
+          </ng-container>
+          <ng-template #imgFound>
+            <div class="mq-rounded-img mb-2 mb-sm-0">
+              <img [src]="item.jobImage" alt="user-img" />
+            </div>
+          </ng-template>
+          <div class="mq-details ml-2">
+            <h6 class="mb-1 text-center text-sm-left">{{(item?.title.length > 20)?(item?.title | slice:0:20)+'...':(item?.title)}}</h6>
+            <div class="d-flex flex-column flex-sm-row text-center text-sm-left justify-content-sm-between flex-wrap">
+              <div class="d-flex flex-column">
+                <small>Bid by:<b>{{item?.tradesmanName}}</b></small>
+                <small>Task Ref:<b>{{item?.jobQuotationId}}</b></small>
+              </div>
+              <div class="d-flex flex-column">
+                <small class="ml-2 ml-sm-0">address:<b>{{(item?.address.length > 20)?(item?.address | slice:0:20)+'...':(item?.address)}}</b></small>
+                <small class="ml-2 ml-sm-0">posted date:<b>{{item?.createdOn | date : "dd MMM yyyy"}}</b></small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="hl">
+        <div class="mq-box-footer d-flex flex-column align-items-center flex-sm-row justify-content-sm-end justify-content-lg-center justify-content-xl-end flex-wrap">
+          <div>
+            <button (click)="open(content,item)" class="mp-outine-btn mr-2">Esclate Issue</button>
+            <button (click)="JobDetail(item.jobQuotationId)" class="mp-outine-btn" [class.mr-2]="item?.isFinished">details</button>
+          </div>
+          <div *ngIf="item?.isFinished" class="mt-2 mt-sm-0 mt-lg-2 mt-xl-0">
+            <button (click)="showModal(additionalCharges,item)" class="mp-outine-btn">Mark Finished</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+<!-----------------------------------------Confrim Modal------------------------------------>
+<ng-template #additionalCharges let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title " style="color: var(--headingClr)" id="modal-basic-title">Additional Charges</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('no')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h6 class="mb-3">Do you have any additional charges?</h6>
+    <h6 class="mb-3">Previous Budget: <span style="color: var(--headingClr)">{{previousBudget}}</span></h6>
+    <form [formGroup]="appFormVal1">
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label>Additional Charges</label>
+            <input type="text" class="form-control" formControlName="addtionalCharges" />
+            <ng-container *ngIf="g.addtionalCharges?.errors">
+              <ng-container *ngIf="g.addtionalCharges.invalid && formSubmit">
+                <small class="text-danger" *ngIf="g.addtionalCharges.errors?.required">Input is required</small>
+                <small class="text-danger" *ngIf="g.addtionalCharges.errors?.pattern">Invalid input</small>
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer justify-content-end">
+    <button type="button" class="btn mp-outine-btn" (click)="startJob()">yes</button>
+    <button type="button" class="btn mp-outine-btn" (click)="modal.close('no')">No</button>
+  </div>
+</ng-template>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title " style="color: var(--headingClr)" id="modal-basic-title">Resolution Center</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="appFormVal">
+      <div class="mb-2">
+        <h6>Can you give us more details on why?</h6>
+      </div>
+      <div class="checkbox mr-2" *ngFor="let item of esclateOption;let i=index">
+        <label class="fos-12 d-flex"><input type="radio" class="mr-2" value="{{item.id}}" id="{{item.id}}{{i}}" formControlName="esclateOption" [ngClass]="{'is-invalid' : f.esclateOption.invalid && f.esclateOption.errors}">{{item.name}}</label>
+      </div>
+      <div *ngIf="f.esclateOption?.errors">
+        <div *ngIf="f.esclateOption.invalid && (f.esclateOption.touched || f.esclateOption.dirty)">
+          <small class="text-danger" *ngIf="f.esclateOption.errors?.required">Input is required.</small>
+        </div>
+      </div>
+      <div class="mt-3">
+        <h6>Comments</h6>
+        <textarea placeholder="" class="form-control" formControlName="comment"></textarea>
+        <div *ngIf="f.comment?.errors">
+          <div *ngIf="f.comment.invalid && (f.comment.touched || f.comment.dirty)">
+            <small class="text-danger" *ngIf="f.comment.errors?.required">Input is required.</small>
+          </div>
+        </div>
+        <small class="text-success" *ngIf="responseMessage">Request Have Send Successfully</small>
+        <small class="text-danger" *ngIf="errorMessage">Your Request is Already In Pending.</small>
+      </div>
+
+    </form>
+  </div>
+  <div class="modal-footer justify-content-center">
+    <button type="button" class="btn mp-outine-btn" (click)="continueEsclateIssue()">Continue</button>
+  </div>
+</ng-template>
+
+
+
+

@@ -1,0 +1,33 @@
+<h3 class="m-2"> Customer Annual Report </h3>
+<button class="btn d-none" (click)="DownloadPdf()">Download Pdf</button>
+<div>
+  <label class="container text-secondary">Total No. {{completeList}}</label>
+  <p></p>
+</div>
+
+<div class="card-body my-5">
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+      <thead>
+        <tr>
+          <th width="5%">Id</th>
+          <th width="10%">Tradesman Name</th>
+          <th width="5%">Mobile</th>
+          <th width="7%">CreatedOn</th>
+          <th width="40%">Address</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let customer of CustomerList">
+          <td>{{customer.customerId}}</td>
+          <td>{{customer.firstName}} {{customer.lastName}}</td>
+          <td>{{customer.mobileNumber}}</td>
+          <td>{{customer.createdOn | date: "dd MMM yyy hh : mm : a"}}</td>
+          <td>{{customer.streetAddress}}</td>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

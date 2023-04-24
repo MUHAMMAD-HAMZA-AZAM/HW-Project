@@ -1,0 +1,230 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card shadow mb-4">
+          <div class="card-header bg-primary">
+            <h6 class="mainTitle m-0 font-weight-bold border-0" data-toggle="collapse" href="#collapse6" aria-expanded="true">Filter General Ledger Transaction</h6>
+          </div>
+          <div id="collapse6" class="contentWrapper fs-12 show">
+            <div class="card-body">
+              <form [formGroup]="appValForm">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="fs-12">Select Account Type </label>
+                      <select class="form-control" formControlName="accountId" (change)="onAccountTypeChange($event)">
+                        <option [ngValue]="null" disabled selected hidden>--- Select Account Type ---</option>
+                        <!--<option value="{{accountTypes.AccountReceiveables}}">Account Receiveables</option>-->
+                        <!--<option value="{{accountTypes.AccountPayable}}">Account Payables</option>-->
+                        <!--<option value="{{accountTypes.Assets}}">Assets</option>-->
+                      </select>
+                      <!--<div *ngIf="f.accountId?.errors">
+                        <div *ngIf="f.accountId.invalid && (f.accountId.dirty || f.accountId.touched)">
+                          <small class="text-danger" *ngIf="f.accountId.errors?.required">--- Select Account Type ---</small>
+                        </div>
+                      </div>-->
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div  [ngClass]="selectedAccountType == accountTypes.AccountReceiveables ? 'col-md-12':'col-md-6'" *ngIf="selectedAccountType == accountTypes.AccountReceiveables  || selectedAccountType == accountTypes.Assets">
+                    <div class="form-group">
+                      <label class="fs-12">Customer Id</label>
+                      <input type="text" maxlength="20" formControlName="refCustomerSubAccountId" class="form-control" (keypress)="common.numberOnly($event);" />
+                    </div>
+                  </div>
+                  <div  [ngClass]="selectedAccountType == accountTypes.AccountPayable ? 'col-md-12':'col-md-6'" *ngIf="selectedAccountType == accountTypes.AccountPayable || selectedAccountType == accountTypes.Assets ">
+                    <div class="form-group">
+                      <label class="fs-12">Tradesman Id</label>
+                      <input type="text" maxlength="20" formControlName="refTradesmanSubAccountId" class="form-control" (keypress)="common.numberOnly($event);" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4 inline-downlod-btns">
+                    <button type="submit" class="btn btn-sm btn-primary mr-2" [disabled]="!appValForm.valid" (click)="showGeneralLedgerTransectionScreen()">Search</button>
+                    <button type="reset" class="btn btn-sm btn-primary">Reset</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card shadow mb-4" >
+        <div class="card-header justify-header">
+          <h6 class="m-0 font-weight-bold">General Ledger Transection Screen</h6>
+          <div class="fa-pull-right d-flex ">
+            <button class="btn-sm btn btn-secondary btn-sm" *ngIf="userRole.allowAdd" (click)="showModal(content)"><i class="fa fa-plus"></i> Add New General Entry</button>
+          </div>
+        </div>
+        <div class="card-body" >
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th width="3%" title="Ledger Transaction Id">LTI</th>
+                  <th width="3%" title="Account Id">Account Id</th>
+                  <th width="3%" title="SubAccout Id">SubAccount Id</th>
+                  <th width="3%" title="Debit">Debit</th>
+                  <th width="2%" title="Credit">Credit</th>
+                  <th width="1%" title="Status">Status</th>
+                  <th width="3%" title="RefCustomerSubAccount Id">Customer Id</th>
+                  <th width="3%" title="RefTradesmanSubAccount Id">Tradesman Id</th>
+                  <!--<th width="3%" title="RefSuplierSubAccount Id">RTSA</th>-->
+                  <th width="3%" title="Reference Document No">RDN</th>
+                  <th width="3%" title="Reference Document Id">RDI</th>
+                  <th width="3%" title="reference Document Type">RDT</th>
+                  <th width="3%" title="Created On">Created On</th>
+                  <th width="3%" title="Created By">Created By</th>
+                  <th width="3%" title="Modified On">Modified On</th>
+                  <th width="3%" title="Modified By">Modified By</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of generalLedgerTransactionList">
+                  <td>{{item?.leadgerTransectionId}}</td>
+                  <td>{{item?.accountId}}</td>
+                  <td>{{item.subAccountId}}</td>
+                  <td>{{item.debit | number:'1.0':'en-US'}}</td>
+                  <td>{{item.credit | number:'1.0':'en-US'}}</td>
+                  <td>{{(item.active? 'Active':'InActive')}}</td>
+                  <td>{{item?.refCustomerSubAccountId}}</td>
+                  <td>{{item?.refTradesmanSubAccountId}}</td>
+
+                  <!--<td>{{item?.refSupplierSubAccountId}}</td>-->
+                  <td>{{item?.reffrenceDocumentNo}}</td>
+                  <td>{{item?.reffrenceDocumentId}}</td>
+                  <td>{{item?.reffrenceDocumentType}}</td>
+                  <td>{{item.createdOn | date: "dd MMM yyy "}}</td>
+                  <td>{{item.createdBy}}</td>
+                  <td>{{item.modifiedOn | date: "dd MMM yyy "}}</td>
+                  <td>{{item.mobifiedBy}}</td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Add New Ledger Transaction Entry </h5>
+  </div>
+  <form [formGroup]="ledgerTransectionForm">
+    <div class="modal-body">
+      <input type="hidden" formControlName="ledgerTransactionId" />
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12">Select Account Type </label>
+            <select class="form-control" formControlName="accountId">
+              <option [ngValue]="null" disabled selected hidden>--- Select Account Type ---</option>
+              <!--<option value="{{accountTypes.AccountReceiveables}}">Account Receiveables</option>-->
+              <!--<option value="{{accountTypes.AccountPayable}}">Account Payables</option>-->
+              <!--<option value="{{accountTypes.Assets}}">Assets</option>-->
+            </select>
+            <div *ngIf="g.accountId?.errors">
+              <div *ngIf="g.accountId.invalid && (g.accountId.dirty || g.accountId.touched)">
+                <small class="text-danger" *ngIf="g.accountId.errors?.required">--- Select Account Type ---</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="fs-12">Ref Document No</label>
+            <input type="text" formControlName="reffrenceDocumentNo" class="form-control" maxlength="10" (keypress)="common.numberOnly($event);" />
+            <div *ngIf="g.reffrenceDocumentNo?.errors">
+              <div *ngIf="g.reffrenceDocumentNo.invalid && (g.reffrenceDocumentNo.dirty || g.reffrenceDocumentNo.touched)">
+                <small class="text-danger" *ngIf="g.reffrenceDocumentNo.errors?.required">Enter Ref Document No</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="fs-12">Ref Document Id</label>
+            <input type="text" formControlName="reffrenceDocumentId" class="form-control" maxlength="10" (keypress)="common.numberOnly($event);" />
+            <div *ngIf="g.reffrenceDocumentId?.errors">
+              <div *ngIf="g.reffrenceDocumentId.invalid && (g.reffrenceDocumentId.dirty || g.reffrenceDocumentId.touched)">
+                <small class="text-danger" *ngIf="g.reffrenceDocumentId.errors?.required">Enter Ref Document Id</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="fs-12">Credit</label>
+            <input type="text" formControlName="credit" class="form-control" maxlength="10" (keypress)="common.numberOnly($event);" />
+            <!--<div *ngIf="g.credit?.errors">
+              <div *ngIf="g.credit.invalid && (g.credit.dirty || g.credit.touched)">
+                <small class="text-danger" *ngIf="g.credit.errors?.required">Enter Credit Amount</small>
+              </div>
+            </div>-->
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="fs-12">Debit</label>
+            <input type="text" formControlName="debit" class="form-control" maxlength="10" (keypress)="common.numberOnly($event);" />
+            <!--<div *ngIf="g.debit?.errors">
+              <div *ngIf="g.debit.invalid && (g.debit.dirty || g.debit.touched)">
+                <small class="text-danger" *ngIf="g.debit.errors?.required">Enter Debit Amount</small>
+              </div>
+            </div>-->
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-sm-6 col-lg-6">
+          <div class="form-group">
+            <label class="fs-12">Transaction Date</label>
+            <input type="date" formControlName="createdOn" class="form-control" />
+            <!--<div *ngIf="g.createdOn?.errors">
+              <div *ngIf="g.createdOn.invalid && (g.createdOn.dirty || g.createdOn.touched)">
+                <small class="text-danger" *ngIf="g.createdOn.errors?.required">Enter Transaction Date</small>
+              </div>
+            </div>-->
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-lg-6">
+          <div class="form-group">
+            <label class="fs-12">Transaction Modified Date</label>
+            <input type="date" formControlName="modifiedOn" class="form-control" />
+            <!--<div *ngIf="g.modifiedOn?.errors">
+              <div *ngIf="g.modifiedOn.invalid && (g.modifiedOn.dirty || g.modifiedOn.touched)">
+                <small class="text-danger" *ngIf="g.modifiedOn.errors?.required">Enter  Modification Date</small>
+              </div>
+            </div>-->
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="modal-footer">
+      <div class="row">
+        <div class="col-md-6 inline-downlod-btns">
+          <button type="submit" class="btn btn-sm btn-primary mr-6" style="margin:5px" [disabled]="!ledgerTransectionForm.valid" (click)="save()">Save</button>
+          <button type="reset" class="btn btn-sm btn-primary" (click)="resetLedgerForm()" style="margin:5px">Reset</button>
+          <button type="submit" class="btn btn-primary btn-sm" (click)="modal.close('Save click')" style="margin:5px">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>

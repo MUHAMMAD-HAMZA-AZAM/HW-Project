@@ -1,0 +1,15 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12 posted-job" *ngFor="let item of inProgressJobList;let index = index;">
+      <h5 class="post-title" (click)="JobDetail(item.jobQuotationId)">{{item.title}}<i class="ml-2 fa fa-angle-right"></i></h5>
+      <p class="tradesman-name">Bid By:-{{item.tradesmanName}}</p>
+      <p>{{item.address}}</p>
+      <div class="sec-footer">
+        <ul class="list-unstyled">
+          <li>Job Referance: {{item.jobQuotationId}}</li>
+          <li>{{item.createdOn | date : "dd/MM/yyyy"}}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+ </div>

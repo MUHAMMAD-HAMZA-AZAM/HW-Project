@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "jCa4vZmhaxTi9CrRG79mG+bJEiX9thaJZuGUrZSTKybk93mfE2gsDXjc7OU/799GL0AztFTCkcwsiBib1sstuw==",
+  "success": true,
+  "projectFilePath": "D:\\GitHub\\Hoomwork\\HW.CallRequestViewModels\\HW.CallRequestViewModels.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\mdha\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

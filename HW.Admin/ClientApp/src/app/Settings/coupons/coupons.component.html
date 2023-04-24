@@ -1,0 +1,346 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card shadow mb-4">
+          <div class="card-header bg-primary">
+            <h6 class="mainTitle m-0 font-weight-bold border-0" data-toggle="collapse" href="#collapse6" aria-expanded="true">Coupons</h6>
+          </div>
+          <div id="collapse6" class="contentWrapper fs-12 collapse">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="fs-12">Coupon Name</label>
+                    <input type="text" class="form-control" [(ngModel)]="CouponNamefilter" />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="fs-12">Coupn Code</label>
+                    <input type="text" class="form-control" [(ngModel)]="CouponCodefilter" />
+
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="fs-12">Coupon Type</label>
+                    <select [(ngModel)]="CouponTypeIdfilter" class="form-control">
+                      <option [ngValue]="0" disabled>Select Coupon Type</option>
+                      <option *ngFor="let promo of CoouponTypedd" [value]="promo.couponTypeId">{{promo.couponTypeName}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="fs-12">Entity Status</label>
+                    <select class="form-control" [(ngModel)]="Entity">
+                      <!-- <option [value]="0" disabled>Select Status</option>-->
+                      <option [value]="1">Active</option>
+                      <option [value]="2">InActive</option>
+                      <option [value]="3">Discontinue</option>
+
+                    </select>
+
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-4 inline-downlod-btns">
+                  <button class="btn btn-sm btn-primary mr-2" (click)="getCouponList()">Search</button>
+                  <button class="btn btn-sm btn-primary" (click)="resetform()">Reset</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card shadow mb-4">
+        <!--<div class="card-header justify-header">
+          <h6 class="m-0 font-weight-bold">Packages List</h6>
+          <button (click)="showModal(content)" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New Package</button>
+        </div>-->
+        <div class="card-header bg-primary">
+          <h6 class="text-white fa-pull-left m-0 font-weight-bold">Coupons List</h6>
+          <div class="fa-pull-right d-flex align-items-center">
+            <button (click)="showModal(content)" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New Coupon</button>
+            <div class="g-pagination">
+              <div class="data-count">
+                <span class="text-white">{{recoardNoFrom}}-{{recoardNoTo}} of {{totalRecoards}}</span>
+                <div class="newOrOld-Data">
+                  <ul>
+                    <li><a (click)="LoadNewestRecoards()"> Newest</a></li>
+                    <li><a (click)="LoadOldestRecoards()">Oldest</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="indicators text-white">
+                <i class="fa fa-angle-left" (click)="PriviousClick()"></i>
+                <i class="fa fa-angle-right" (click)="NextClick()"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="show_entries">
+            <div class="no-of-entries">
+              <label>No of Entries</label>
+              <select (change)="changePageSize()" [(ngModel)]="pageSize">
+                <option value="50" selected>50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+            <div class="n0-of-pages">
+              <label>No of Pages</label>
+              <select class="" [(ngModel)]="pageNumber" (change)="clickchange()">
+                <option *ngFor="let item of pageing1" value="{{item}}">{{item}} </option>
+              </select>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th width="8%">Coupon Name</th>
+                  <th width="4%">Coupon Code</th>
+                  <th width="4%">Entity Status</th>
+                  <th width="3%" title="Discount Amount">DA</th>
+                  <th width="3%" title="Discount Days">DD</th>
+                  <th width="3%" title="Discount Categories">DC</th>
+                  <th width="3%" title="Discount Jobs Applied">DJA</th>
+                  <th width="6%" title="Created Date">CD</th>
+                  <th width="6%" title="Created By">CB</th>
+                  <th width="6%" title="Modified Date">MD</th>
+                  <th width="6%" title="Modified By">MB</th>
+                  <th width="1%">Edit</th>
+                  <th title="Delete" width="1%">Del</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let list  of packagesList">
+
+                    <!--<td>{{list.packageId}}</td>-->
+                  <td>{{list.couponeName}}</td>
+                  <td>{{list.couponCode}}</td>
+                  <td *ngIf="list.entityStatus == '1' ">Active</td>
+                  <td *ngIf="list.entityStatus == '2'">InActive</td>
+                  <td *ngIf="list.entityStatus == '3'">Discontinue</td>
+
+                    <!--  <td>{{list.isActive}}</td>-->
+                  <td>{{list.discountAmount}}</td>
+                  <td>{{list.discountDays}}</td>
+                  <td>{{list.discountCategories}}</td>
+                  <td>{{list.discountJobsApplied}}</td>
+
+                  <td>{{list.createdDate | date: "dd MMM yyy "}}</td>
+                  <td>{{list.createdBy}}</td>
+                  <td>{{list.updatedDate | date: "dd MMM yyy "}}</td>
+                  <td>{{list.updatedBy}}</td>
+                  <td><i class="text-info fa fa-pencil-alt" (click)="updatePackages(list , content)"></i></td>
+                  <td><i class="text-danger fa fa-trash-alt" (click)="deletepackage(list , deleteContent)"></i></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card-body" style="padding:0px !important">
+            <div class="show_entries">
+              <div class="no-of-entries">
+                <label>No of Entries</label>
+                <select (change)="changePageSize()" [(ngModel)]="pageSize">
+                  <option value="50" selected>50</option>
+                  <option value="100">100</option>
+                </select>
+              </div>
+              <div class="n0-of-pages">
+                <label>No of Pages</label>
+                <select class="" [(ngModel)]="pageNumber" (change)="clickchange()">
+                  <option *ngFor="let item of pageing1" value="{{item}}">{{item}} </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Coupon List</h6>
+            <div class="g-pagination">
+              <div class="data-count">
+                <span>{{recoardNoFrom}}-{{recoardNoTo}} of {{totalRecoards}}</span>
+                <div class="newOrOld-Data">
+                  <ul>
+                    <li><a (click)="LoadNewestRecoards()"> Newest</a></li>
+                    <li><a (click)="LoadOldestRecoards()">Oldest</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="indicators">
+                <i class="fa fa-angle-left" (click)="PriviousClick()"></i>
+                <i class="fa fa-angle-right" (click)="NextClick()"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #deleteContent let-modal>
+    <!--  -->
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Delete Confirmation</h5>
+    </div>
+    <div class="modal-body">
+      <h5>Are you want to delete?</h5>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-sm btn-primary" (click)="confirmDeletePackage()">Ok</button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('cancel click')">Cancel</button>
+    </div>
+  </ng-template>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Add New Coupon</h5>
+    </div>
+    <div class="modal-body">
+
+      <!--<div class="card shadow mb-12">
+      <div class="card-header justify-header">
+        <h6 class="m-0 font-weight-bold">Package</h6>
+      </div>-->
+      <!--<div class="card-body">-->
+      <form [formGroup]="pkgForm" (submit)="save()">
+        <input type="hidden" formControlName="CouponId" />
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="fs-12">Coupon Name</label>
+              <input type="text" class="form-control" formControlName="CouponeName" maxlength="60" />
+              <div *ngIf="f.CouponeName?.errors">
+                <div *ngIf="f.CouponeName.invalid && submited">
+                  <small *ngIf="f.CouponeName.errors?.required" class="text-danger">Name is requried</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="fs-12">Coupon Code</label>
+              <input type="text" class="form-control" formControlName="CouponCode" maxlength="10" />
+              <div *ngIf="f.CouponCode?.errors">
+                <div *ngIf="f.CouponCode.invalid && submited ">
+                  <small *ngIf="f.CouponCode.errors?.required" class="text-danger">Code is requried</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="fs-12">Discount Amount</label>
+              <input type="text" class="form-control" formControlName="DiscountAmount" maxlength="5" (keypress)="service.numberOnly($event);" />
+              <!--<div *ngIf="f.TradePrice?.errors">
+                <div *ngIf="f.DiscountAmount.invalid && (f.DiscountAmount.touched || f.DiscountAmount.dirty)">
+                  <small *ngIf="f.DiscountAmount.errors?.required" class="text-danger">Input is requried</small>
+                </div>
+              </div>-->
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-4 col-lg-4">
+            <div class="form-group">
+              <label class="fs-12">Discount Days</label>
+              <input type="text" class="form-control" formControlName="DiscountDays" maxlength="5" (keypress)="service.numberOnly($event);" />
+              <!--<div *ngIf="f.DiscountDays?.errors">
+                <div *ngIf="f.DiscountDays.invalid && (f.DiscountDays.touched || f.DiscountDays.dirty)">
+                  <small *ngIf="f.DiscountDays.errors?.required" class="text-danger">Input is requried</small>
+                </div>
+              </div>-->
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 col-sm-4 col-lg-4">
+            <div class="form-group">
+              <label class="fs-12">Discount Categories</label>
+              <input type="text" class="form-control" formControlName="DiscountCategories" maxlength="5" (keypress)="service.numberOnly($event);" />
+              <!--<div *ngIf="f.DiscountCategories?.errors">
+                <div *ngIf="f.DiscountCategories.invalid && (f.DiscountCategories.touched || f.DiscountCategories.dirty)">
+                  <small *ngIf="f.DiscountCategories.errors?.required" class="text-danger">Input is requried</small>
+                </div>
+              </div>-->
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-4 col-lg-4">
+            <div class="form-group">
+              <label class="fs-12">Discount Jobs Applied</label>
+              <input type="text" class="form-control" formControlName="DiscountJobsApplied" maxlength="5" (keypress)="service.numberOnly($event);" />
+              <!--<div *ngIf="f.DiscountJobsApplied?.errors">
+                <div *ngIf="f.DiscountJobsApplied.invalid && (f.DiscountJobsApplied.touched || f.DiscountJobsApplied.dirty)">
+                  <small *ngIf="f.DiscountJobsApplied.errors?.required" class="text-danger">Input is requried</small>
+                </div>
+              </div>-->
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="fs-12">Coupon Type</label>
+              <select formControlName="CouponTypeId" class="form-control">
+                <option [ngValue]="null" disabled>Select Coupon Type</option>
+                <option *ngFor="let promo of CoouponTypedd" [value]="promo.couponTypeId">{{promo.couponTypeName}}</option>
+              </select>
+              <div *ngIf="f.CouponTypeId?.errors">
+                <div *ngIf="f.CouponTypeId.invalid && submited">
+                  <small *ngIf="f.CouponTypeId.errors?.required" class="text-danger">Coupon type is requried</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="fs-12">Entity Status</label>
+              <select class="form-control" formControlName="entityStatus">
+                <!-- <option [value]="0" disabled>Select Status</option>-->
+                <option [value]="1">Active</option>
+                <option [value]="2">InActive</option>
+                <option [value]="3">Discontinue</option>
+
+              </select>
+              <div *ngIf="f.entityStatus?.errors">
+                <div *ngIf="f.entityStatus.invalid && submited">
+                  <small *ngIf="f.entityStatus.errors?.required" class="text-danger">Entity status is requried</small>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!--<div class="row">
+          <div class="col-md-4 inline-downlod-btns">
+            <button class="btn btn-sm btn-primary mr-2" (click)="save()">Save</button>
+            <button class="btn btn-sm btn-primary" (click)="resetform()">Reset</button>
+          </div>
+        </div>-->
+        <!--</div>-->
+        <!--</div>-->
+
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-sm btn-primary mr-2">Save</button>
+          <button type="reset" class="btn btn-sm btn-primary" (click)="resetForm()">Reset</button>
+          <button type="submit" class="btn btn-primary btn-sm" (click)="modal.close('Save click')">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+</div>

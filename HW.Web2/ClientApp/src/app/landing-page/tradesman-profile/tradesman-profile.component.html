@@ -1,0 +1,191 @@
+<div class="ntp-bg">
+  <!--<nav>
+  </nav>-->
+  <main id="ntp-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-3 col-md-4 col-lg-3 p-sm-0 p-xl-2 d-none d-md-block">
+          <aside id="ntp-lm">
+            <div class="ntp-list-item row no-gutters align-items-center align-items-md-start justify-content-between flex-row-reverse">
+              <div class="col-12 col-md-4 col-lg-3 col-xl-3 d-flex justify-content-end">
+                <ng-container>
+                  <div class="tm-img" *ngIf="profile.tradesmanProfileImg != null else profileImgNotFound">
+                    <img class="img-fluid" [src]="profile.tradesmanProfileImg" />
+                  </div>
+                </ng-container>
+                <ng-template #profileImgNotFound>
+                  <div class="tm-img" >
+                    <img class="img-fluid" src="../../../../assets/img/imagenotfound.png" />
+                  </div>
+                </ng-template>
+              </div>
+              <div class="col-12 col-md-8 col-lg-9 col-xl-9 d-flex d-md-block justify-content-center">
+                <ul id="tm-info" class="d-flex flex-column align-items-center d-md-block mt-3 mt-md-0">
+                  <div>
+                    <li><i class="fas fa-user"></i>{{profile.tradesmanName != null ? profile.tradesmanName : '-'}}</li>
+                    <li>
+                      <i class="fas fa-map-marker"></i>
+                      <span>{{profile.tradesmanAddress != null ? profile.tradesmanAddress : '-'}}</span>
+                    </li>
+                  </div>
+                </ul>
+              </div>
+            </div>
+            <div class="row ntp-list-item">
+              <div class="col-12">
+                <ul id="tm-info" class="d-flex flex-column align-items-center d-md-block mt-3 mt-md-0">
+                  <div class="">
+                    <li class="d-flex align-items-center" >
+                      <i class="fas fa-comment"></i>
+                             <div class="tm-rating pr-lg-1 pr-xl-2" >
+                               <star-rating value="{{profile.rating}}" totalstars="5" checkedcolor="gold" uncheckedcolor="black" size="20px" readonly="true"></star-rating>
+                             </div>
+                      <small>(212 reviews)</small>
+                    </li>
+                    <!--<li class="td-phone d-flex align-items-center mt-1"><span><i class="fas fa-phone-volume"></i></span>{{profile.mobileNumber}}</li>-->
+                  </div>
+                </ul>
+              </div>
+            </div>
+            <div class="tp-service">
+              <h5>Skills & Expertise</h5>
+              <ul>
+                <li *ngFor="let skill of profile.skillsSet">
+                <a href="#">{{skill}}</a>
+                </li>
+                
+              </ul>
+            </div>
+          </aside>
+          <!--Aside end-->
+        </div>
+        <div class="col-12 col-md-8 col-lg-9">
+          <section id="ntp-content-wrapper" class="mt-5">
+            <!--This select list will visible on max-width 767px else this will be hidden -->
+            <div class="row d-block d-md-none">
+              <div class="col-12">
+                <div class="form-group">
+                  <select class="form-control">
+                    <option value="" selected disabled>Services</option>
+                    <option>Porpety Developer</option>
+                    <option>Porpety</option>
+                    <option>Developer</option>
+                    <option>Ironman</option>
+                    <option>Stoneworker</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <!--Service list end Here-->
+            <div class="ntp-details-wrapper">
+              <div class="row">
+                <div class="col-12">
+                  <h3 class="mb-2 mb-md-4">carpenter and joiner</h3>
+                </div>
+              </div>
+              <!--<div class="tp-banner" *ngIf="profile.tradesmanProfileImage != null">
+                <img class="img-fluid" [src]="service.transform(profile.tradesmanProfileImage)" />
+              </div>-->
+              <div class="tp-banner">
+                <img src="assets/img/tradesman_slide.jpg" />
+              </div>
+              <div class="u-summary">
+                <h5 class="mt-3 mt-md-4">{{profile.tradesmanName != null ? profile.tradesmanName : '-'}}</h5>
+                <p class="mt-2 mt-md-4 mb-4">
+                  Ut is a long established fact that a reader will be distracted by the readable content of a page whenUt is a long established fact that a reader will be distracted by the readable content of a page when looking at its
+                  layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters
+                </p>
+              </div>
+              <hr class="g-hl">
+            </div>
+            <div class="tp-cto row">
+              <div class="col-10 col-sm-12 mx-auto">
+                <div class="row justify-content-end mt-4 no-gutters">
+                  <!--<div class="col-sm-4 col-md-4 col-lg-3 col-xl-3 d-block d-md-flex pr-0 pr-sm-2 pr-md-0">
+                    <a href="">
+                      <small>
+                        <i class="fas fa-comment-alt"></i>
+                      </small>
+                      <span class="ml-1">message</span>
+                    </a>
+                  </div>-->
+                  <div class="col-sm-8 col-md-8 col-lg-7 col-xl-6">
+                    <div class="row no-gutters justify-content-end">
+                      <div class="col-sm-6 col-md-7 col-lg-5 mt-2 mb-2 mt-sm-0 mb-sm-0 ">
+                        <a [routerLink]="['/User/JobQuotes/step1']" class="mr-0 mr-sm-2">
+                          <small>
+                            <i class="fas fa-quote-left"></i>
+                          </small>
+
+                          <span class="pl-n1">get a quote</span>
+                        </a>
+
+                      </div>
+                      <!--<div class="col-sm-6 col-md-4 col-lg-3">
+                        <a href="">
+                          <small>
+                            <i class="fas fa-phone-volume"></i>
+                          </small>
+
+                          <span>call</span>
+                        </a>
+
+                      </div>-->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tp-rf mt-5 mb-1">
+              <div class="mb-3 d-flex justify-content-between align-items-center">
+                <h5>Feedback score and reviews</h5>
+                <!--<p>324 Reviews</p>-->
+              </div>
+              <div class="tp-ufeed-wrapper" *ngFor="let item of profile.feedbacks;let index = index;">
+                <div class="row">
+                  <div class="col-sm-6 col-lg-4">
+                    <div class="d-flex align-items-center align-items-md-start">
+                      <div class="fu-img mr-3">
+                        <img src="/assets/img/slicing_22.jpg" />
+                      </div>
+                      <div class="fu-rating">
+                        <p>{{item.customerName}}</p>
+                        <div class="d-flex">
+                          <div class="tm-rating pr-2">
+                            <star-rating value="{{item.rating}}" totalstars="5" checkedcolor="gold" uncheckedcolor="black" size="20px" readonly="true"></star-rating>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 offset-lg-4 col-lg-4 d-flex justify-content-end">
+                    <div>
+                      <span><i class="mr-1 mr-md-2 fas fa-calendar"></i>12/19/2021</span>
+                      <span><i class="mr-1 mr-md-2 fas fa-clock"></i>18:09 AM</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="rf-text">
+                  <p class="mt-1 mt-sm-3">
+                    It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters,
+                  </p>
+                </div>
+              </div>
+              
+              <form>
+                <div class="form-group">
+                  <textarea class="form-control" placeholder="Enter your review here" rows="5"></textarea>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <div class="form-group">
+                    <button type="button" class="btn btn-outline-dark">Leave your reivew</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

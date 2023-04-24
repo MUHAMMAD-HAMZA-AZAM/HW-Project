@@ -1,0 +1,10 @@
+D:\GitHub\Hoomwork\HW.PromotionsModels\bin\Debug\netstandard2.0\HW.PromotionsModels.deps.json
+D:\GitHub\Hoomwork\HW.PromotionsModels\bin\Debug\netstandard2.0\HW.PromotionsModels.dll
+D:\GitHub\Hoomwork\HW.PromotionsModels\bin\Debug\netstandard2.0\HW.PromotionsModels.pdb
+D:\GitHub\Hoomwork\HW.PromotionsModels\obj\Debug\netstandard2.0\HW.PromotionsModels.csproj.AssemblyReference.cache
+D:\GitHub\Hoomwork\HW.PromotionsModels\obj\Debug\netstandard2.0\HW.PromotionsModels.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Hoomwork\HW.PromotionsModels\obj\Debug\netstandard2.0\HW.PromotionsModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.PromotionsModels\obj\Debug\netstandard2.0\HW.PromotionsModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.PromotionsModels\obj\Debug\netstandard2.0\HW.PromotionsModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.PromotionsModels\obj\Debug\netstandard2.0\HW.PromotionsModels.dll
+D:\GitHub\Hoomwork\HW.PromotionsModels\obj\Debug\netstandard2.0\HW.PromotionsModels.pdb

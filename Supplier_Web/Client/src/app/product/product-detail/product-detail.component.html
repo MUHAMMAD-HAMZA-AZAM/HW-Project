@@ -1,0 +1,751 @@
+<!-- New section start -->
+<div class="container">
+  <div class="breadcrumb pt-3" style="margin-top: 134px;">
+    <div class="productDetailSkelton" *ngIf="!imageLoader">
+      <div class="proName image-loader mb-2"></div>
+    </div>
+    <ul *ngIf="imageLoader" class="d-flex">
+      <li><a [routerLink]="[_httpService.apiRoutes.Product.Category]" [queryParams]="{lvl:'one',categoryId:productDetail?.categoryId}">{{productDetail?.categoryName}}</a></li>
+      <li *ngIf="productDetail?.subCategoryId"><span>|</span><a [routerLink]="[_httpService.apiRoutes.Product.Category]" [queryParams]="{lvl:'two',categoryId:productDetail?.subCategoryId}"> {{productDetail?.subCategoryName}}</a></li>
+      <li *ngIf="productDetail?.categoryGroupId"><span>|</span><a [routerLink]="[_httpService.apiRoutes.Product.Category]" [queryParams]="{lvl:'three',categoryId:productDetail?.categoryGroupId}"> {{productDetail?.categoryGroupName}}</a></li>
+    </ul>
+  </div>
+  <div class="pro_details_wrapper mt-4">
+    <div class="row gx-xl-4 gx-xxl-5">
+      <div class="col-sm-12 col-md-6 col-lg-5 col-xl-5">
+        <div class="product_images-wrapper" *ngIf="imageLoader">
+          <div class="main_image position-relative">
+            <ng-container *ngFor='let item of productDetail?.images.slice(0,1)'>
+              <ng-container *ngIf="selectedFileName;else mainImg">
+                <lib-ngx-image-zoom [thumbImage]=selectedFileName
+                                    [fullImage]=selectedFileName
+                                    [magnification]="1"
+                                    [enableScrollZoom]="true"
+                                    [enableLens]="true"
+                                    [lensWidth]="300"
+                                    [lensHeight]="300">
+
+                </lib-ngx-image-zoom>
+              </ng-container>
+              <ng-template #mainImg>
+                <lib-ngx-image-zoom [thumbImage]=(_httpService.AWSPATH)+(item?.filePath)+(item?.fileName)
+                                    [fullImage]=(_httpService.AWSPATH)+(item?.filePath)+(item?.fileName)
+                                    [magnification]="1"
+                                    [enableScrollZoom]="true"
+                                    [enableLens]="true"
+                                    [lensWidth]="300"
+                                    [lensHeight]="300">
+
+                </lib-ngx-image-zoom>
+              </ng-template>
+            </ng-container>
+
+            <div class="discount-offer d-flex justify-content-center align-items-center" *ngIf="variantDetails?.discountInPercentage > 0">
+              <p class="mb-0 text-white text-center fs-14"><b class="d-block">off</b>{{variantDetails?.discountInPercentage}}%</p>
+            </div>
+            <ng-container *ngIf="productDetail?.images.length > 1">
+              <div class="slide_navigation prev-arrow d-flex align-items-center justify-content-center"
+                   (click)="previousImage()">
+                <i class="fa fa-angle-left"></i>
+              </div>
+              <div class="slide_navigation next-arrow d-flex align-items-center justify-content-center"
+                   (click)="nextImage()">
+                <i class="fa fa-angle-right"></i>
+              </div>
+            </ng-container>
+          </div>
+
+          <div class="d-flex my-3 justify-content-between" style="gap:5px;" *ngIf="productDetail?.images.length > 1">
+            <div class="thumb_image" *ngFor="let proImg of productDetail?.images">
+              <ng-container *ngIf="proImg?.fileName;else noImg">
+                <img class="fit_img" [src]="(_httpService.AWSPATH)+(proImg?.filePath)+(proImg?.fileName)" (click)="selectFile(proImg?.filePath,proImg?.fileName)" alt="">
+              </ng-container>
+              <ng-template #noImg>
+                <img class="fit_img" src="assets/images/pro1.jpg" alt="">
+              </ng-template>
+            </div>
+
+          </div>
+        </div>
+        <div class="seller_info d-flex align-items-center justify-content-center my-3">
+          <h5 class="m-0 d-flex align-items-center">
+            Sold By: 
+            <a href="#" class="d-flex align-items-center text-white text-capitalize ms-1" [routerLink]="[_httpService.apiRoutes.Product.VendorProfile,productDetail?.shopUrl]">
+              <span class="me-3">{{productDetail?.shopName}}</span>
+              <i class="fa fa-angle-right"></i>
+              <i class="fa fa-angle-right"></i>
+            </a>
+          </h5>
+        </div>
+
+        <div class="social_sharing">
+          <div class="d-flex flex-column flex-sm-row flex-md-column flex-xxl-row align-items-sm-center align-items-md-start  align-items-xxl-center">
+            <div class="d-flex align-items-center me-0 me-xl-3">
+              <label class="me-2">Share with a Friend</label>
+              <form [formGroup]="smsForm" class="d-flex align-items-center position-relative">
+                <input class="p-0 px-2 form-control" type="text" placeholder="0300XXXXXXX" maxlength="11" formControlName="mobile" />
+                <ng-container *ngIf="f.mobile?.errors">
+                  <ng-container *ngIf="f.mobile.invalid && (f.mobile.touched || f.mobile.dirty)">
+                    <small class="text-danger position-absolute" *ngIf="f.mobile.errors?.pattern">Invalid Input.</small>
+                  </ng-container>
+                </ng-container>
+                <button *ngIf="!result" class="ms-2 btn-outline-primary btn" (click)="Send()" type="submit" [disabled]="!smsForm.valid">SEND</button>
+                <!--<i *ngIf="result" class="fa fa-check green-clr ms-2"></i>-->
+              </form>
+            </div>
+            <div class="s_icons d-flex ms-0 ms-sm-2 ms-md-0 mt-4 mt-sm-0 mt-md-4 mt-xxl-0">
+              <a (click)="openLink(socialLinks?.facebookUrl)" *ngIf="socialLinks?.facebookUrl"><img src="/assets/img/facebook.svg"></a>
+              <a (click)="openLink(socialLinks?.instagramUrl)" *ngIf="socialLinks?.instagramUrl"><img src="/assets/img/instagram.svg" /></a>
+              <a (click)="openLink(socialLinks?.twitterUrl)" *ngIf="socialLinks?.twitterUrl"><img src="/assets/img/twitter.svg" /></a>
+              <a (click)="openLink(socialLinks?.linkedInUrl)" *ngIf="socialLinks?.linkedInUrl"><img src="/assets/img/linkedin.svg" /></a>
+              <a (click)="openLink(socialLinks?.youtubeUrl)" *ngIf="socialLinks?.youtubeUrl"><img src="/assets/img/youtube.svg" /></a>
+            </div>
+          </div>
+        </div>
+        <ng-container *ngIf="productDetail?.tags?.length > 0">
+          <h4 class="mt-5">Relevant Search</h4>
+          <div class="d-flex flex-wrap gap-2 mb-3">
+            <div class="search-tags" *ngFor="let tag of productDetail?.tags" (click)="navigateByTagName(tag.productTag)">
+              <span>{{tag.productTag}}</span>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div class="col-sm-12 col-md-6 col-lg-5 col-xl-5 pro_contents mt-4 mt-md-0">
+        <p>{{productDetail?.name}}</p>
+        <!--<div *ngIf="bulkInventorybyVarient?.length > 0">
+          <h6 class="product-title mt-3">Bulk Order</h6>
+          <ul class="">
+            <li *ngFor="let items of bulkInventorybyVarient" class="bulkContainer me-1">
+              <span>{{items.minQuantity}} - {{items.maxQuantity}} <b class="me-1">Rs: {{items.bulkPrice}}</b> <s class="bulkVarientPrice"> Rs: {{varientPrice}}</s></span>
+            </li>
+          </ul>
+          <hr>
+        </div>-->
+        <div class="stock_and_price">
+          
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <h4 class="m-0" *ngIf="variantDetails?.discountedPrice == 0 || variantDetails?.discountedPrice == null">Rs: {{(variantDetails?.price == null) ? (productDetail?.price | number:'1.0':'en-US') : (variantDetails?.price | number:'1.0':'en-US')}}</h4>
+            <h4 class="m-0" *ngIf="variantDetails?.discountedPrice != 0 && variantDetails?.discountedPrice != null">Rs: {{(variantDetails?.discountedPrice == null) ? (productDetail?.discountedPrice | number:'1.0':'en-US') : (variantDetails?.discountedPrice | number:'1.0':'en-US')}}</h4>
+            <s *ngIf="variantDetails?.discountedPrice != 0 && variantDetails?.discountedPrice != null">Rs: {{(variantDetails?.price == null) ? (productDetail?.price | number:'1.0':'en-US') : (variantDetails?.price | number:'1.0':'en-US')}}</s>
+            <small [ngClass]="(variantDetails?.availability == null ? productDetail?.availability : variantDetails?.availability ) ? 'text-success' : 'text-danger'">{{(variantDetails?.availability == null) ? (productDetail?.availability)? selectedVariantIdAvailableStock + ' In Stock' : 'No Stock' : (variantDetails?.availability) ? selectedVariantIdAvailableStock + ' In Stock' : 'No Stock' }}</small>
+          </div>
+        </div>
+        <div *ngIf="productDetail.isFreeShipping">
+              <h6>Free Shipping</h6>
+        </div>
+        
+        <div class="variant_details">
+          <span>color: <small>{{variantDetails?.varientName}}</small></span>
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <ul class="d-flex justify-content-between ">
+              <li class="d-flex" *ngFor="let variant of productDetail?.groupItem" [ngStyle]="{'border-color':(variant?.variantId == variantId) ? '#000000':''}" (click)="getVariantPrice(variant?.variantId)">
+                <div class="me-1 variant-circle" [style.backgroundColor]="variant?.hexCode"></div>
+              </li>
+            </ul>
+            <div class="qty_meter d-flex justify-content-between align-items-center px-2">
+              <span (click)="handleQuantityChange('-')">-</span>
+              <input type="text" [(ngModel)]="quantity" value="1" (keypress)="_httpService.numberOnly($event)" (ngModelChange)="onQuantityChange($event)" (focusout)="onFocusOutEvent($event)"/>
+              <span (click)="handleQuantityChange('+')">+</span>
+            </div>
+          </div>
+          <div class="bulk-items mt-3" *ngIf="bulkInventorybyVarient.length > 0">
+            <h5 class="fw-600 font-laila darkGrayClr">Order in Bulk</h5>
+            <ul class="d-flex gap-4 px-2 py-3 flex-wrap">
+              <li *ngFor="let items of bulkInventorybyVarient">
+                <div class="d-flex flex-column text-center">
+                  <span>{{items.minQuantity}} - {{items.maxQuantity}} Pieces</span>
+                  <div>
+                    <b class="me-1 font-poppins">Rs: {{items.bulkPrice}}</b> <s class="bulkVarientPrice"> Rs: {{varientPrice}}</s>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <hr>
+          </div>
+
+        </div>
+        <div class="cart_actions d-flex justify-content-between mt-3">
+          <button class="flex-grow-1 py-3 flex-shrink-1 btn custom_btn primaryBg" (click)="addToCart()" [disabled]="!((variantDetails == null) ? productDetail?.availability :variantDetails?.availability) || quantity == 0 || quantity > selectedVariantIdAvailableStock">Add To Cart</button>
+          <ng-container *ngIf="!isProductAddedInWishList; else savedProduct">
+            <button class="flex-grow-1 py-3 flex-shrink-1  btn custom_btn btn-lg secondaryBg" (click)="saveAndRemoveProductsInWishList(wishListItem.addProduct,loginStatus)">
+              Add To WishList
+            </button>
+          </ng-container>
+          <ng-template #savedProduct>
+            <button class="flex-grow-1 py-3 flex-shrink-1  btn custom_btn btn-lg secondaryBg" (click)="saveAndRemoveProductsInWishList(wishListItem.removeProduct,loginStatus)">
+              Saved To WishList
+            </button>
+          </ng-template>
+        </div>
+        <div class="return_policy_options d-flex mt-3">
+          <div class="rp_box d-flex justify-content-center align-items-center  flex-column text-center">
+            <img src="assets/img/arrow-return.svg" alt="arrowback" />
+            <small class="mt-2 d-block">7 Days Return Under Conditions</small>
+          </div>
+          <div class="rp_box d-flex justify-content-center align-items-center  flex-column text-center">
+            <img src="assets/img/moneyback.svg" alt="arrowback" />
+            <small class="mt-2 d-block">
+              Easy and Secure
+              Payments
+            </small>
+          </div>
+          <div class="rp_box d-flex justify-content-center align-items-center  flex-column text-center">
+            <img src="assets/img/guarantee.svg" alt="arrowback" />
+            <small class="mt-2 d-block">
+              Genuine<br>
+              Product
+            </small>
+          </div>
+        </div>
+        <div class="d-flex book_install_services py-4 d-none">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+            <label class="form-check-label" for="flexCheckChecked">
+              Book Installation Service<br>
+              By Our Certified Tradesman
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="related_products col-lg-2 col-xl-2 d-none d-lg-block" *ngIf="relatedProductList?.length > 0">
+        <h5 class="d-block text-center mb-2 darkGrayClr">Related Products</h5>
+        <div class="product-card mb-3" *ngFor="let items of relatedProductList">
+          <div class="parent-over">
+            <div class="product-overlay d-flex flex-column align-items-center justify-content-center">
+              <!--<button class="mb-3 btn custom_btn btn-lg primaryBg" (click)="getProductDetailsWeb(items.productId,buyNowModelPopUp)">Buy Now</button>-->
+              <a [routerLink]="[_httpService.apiRoutes.Product.ProductDetail]" [queryParams]="{ 'va': '', 'prdt': items?.slug+'-'+items?.productId}" class="btn custom_btn btn-lg secondaryBg">Details</a>
+            </div>
+          </div>
+          <div class="discount-offer d-flex justify-content-center align-items-center text-center" *ngIf="items.discountInPercentage > 0">
+            <p class="mb-0 text-white"><b class="d-block">off</b>{{items.discountInPercentage}}%</p>
+          </div>
+          <div class="card-image">
+            <img [src]="(_httpService.AWSPATH)+(items?.filePath)+(items?.fileName)" alt="" />
+          </div>
+          <div class="p-2">
+            <p class="mt-2 text-center text-capitalize">{{items.title}}</p>
+            <p class="text-center" *ngIf="items.discountInPercentage > 0"><s class="me-1">Rs:{{items.price}}</s> <span class="fw-bold">Rs.{{items.discountedPrice}}</span></p>
+            <p class="text-center" *ngIf="items.discountInPercentage == 0"> <span class="fw-bold">Rs.{{items.price}}</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="content-bg mt-5 py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-lg-5 pro_detail_tabs">
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
+                    data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home"
+                    aria-selected="true">
+              Specifications
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
+                    data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile"
+                    aria-selected="false">
+              Details
+            </button>
+          </li>
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+          <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
+               aria-labelledby="pills-home-tab">
+            <div class="d-flex flex-wrap gap-4" *ngIf="!isSpecification">
+              <div class="d-flex flex-column" *ngFor="let item of productDetail?.attributes">
+                <label>{{item?.attributeName}}</label>
+                <span>{{item?.attributeValue}}</span>
+              </div>
+            </div>
+            <div *ngIf="isSpecification" class="text-center">
+              <h3 class="text-danger">Not Available.</h3>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="pills-profile" role="tabpanel"
+               aria-labelledby="pills-profile-tab">
+            <p class="mb-4">
+              {{productDetail?.description}}
+            </p>
+          </div>
+          <div class="tab-pane fade" id="pills-contact" role="tabpanel"
+               aria-labelledby="pills-contact-tab">
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-7 mt-3 mt-sm-4 mt-lg-0">
+        <div class="yt_videos overflow-hidden" *ngIf="youtubeurl">
+          <iframe class="cor fit_img" [src]="transform()" title="YouTube video player" frameborder="0" allow="accelerometer;  clipboard-write; encrypted-media; gyroscope;" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container mt-3">
+  <div class="related_products col-lg-2 col-xl-2 d-block d-lg-none" *ngIf="relatedProductList?.length > 0">
+    <h5 class="d-block text-center mb-2 darkGrayClr">Related Products</h5>
+    <div class="flex-shrink-1 flex-grow-1 d-flex flex-wrap pc6" id="prodcards_wrapper" style="gap:5px">
+      <div class="product-card mb-3" *ngFor="let items of relatedProductList">
+        <div class="parent-over">
+          <div class="product-overlay d-flex flex-column align-items-center justify-content-center">
+            <!--<button class="mb-3 btn custom_btn btn-lg primaryBg" (click)="getProductDetailsWeb(items.productId,buyNowModelPopUp)">Buy Now</button>-->
+            <a [routerLink]="[_httpService.apiRoutes.Product.ProductDetail]" [queryParams]="{ 'va': '', 'prdt': items?.slug+'-'+items?.productId}" class="btn custom_btn btn-lg secondaryBg">Details</a>
+          </div>
+        </div>
+        <div class="discount-offer d-flex justify-content-center align-items-center text-center" *ngIf="items.discountInPercentage > 0">
+          <p class="mb-0 text-white"><b class="d-block">off</b>{{items.discountInPercentage}}%</p>
+        </div>
+        <div class="card-image">
+          <img [src]="(_httpService.AWSPATH)+(items?.filePath)+(items?.fileName)" alt="" />
+        </div>
+        <div class="p-2">
+          <p class="mt-2 text-center text-capitalize">{{items.title}}</p>
+          <p class="text-center" *ngIf="items.discountInPercentage > 0"><s class="me-1">Rs:{{items.price}}</s> <span class="fw-bold">Rs.{{items.discountedPrice}}</span></p>
+          <p class="text-center" *ngIf="items.discountInPercentage == 0"> <span class="fw-bold">Rs.{{items.price}}</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container" *ngIf="this.productFeedback?.length > 0">
+  <div class="row rating_nd_review mt-5">
+    <div class="col-8">
+      <div class="d-flex mb-5">
+        <div class="rating_header d-flex flex-column me-5">
+          <h5>Rating & Reviews ({{productFeedback[0]?.totalReviews}})</h5>
+          <p>{{productFeedback[0]?.averageRating}}/5</p>
+        </div>
+        <div class="d-flex flex-column">
+          <div class="d-flex align-items-center star_rating">
+            <!--<i *ngFor="let _ of [].constructor(productFeedback[0]?.fiveStars)" class="fa fa-star"></i>-->
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <small class="ms-4">{{productFeedback[0]?.fiveStars}}</small>
+          </div>
+          <div class="d-flex align-items-center star_rating">
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star-o"></i>
+            <small class="ms-4">{{productFeedback[0]?.foureStars}}</small>
+          </div>
+          <div class="d-flex align-items-center star_rating">
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+            <small class="ms-4">{{productFeedback[0]?.threeStars}}</small>
+          </div>
+          <div class="d-flex align-items-center star_rating">
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+            <small class="ms-4">{{productFeedback[0]?.twoStars}}</small>
+          </div>
+          <div class="d-flex align-items-center star_rating">
+            <i class="fa fa-star"></i>
+            <i class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+            <i class="fa fa-star-o"></i>
+            <small class="ms-4">{{productFeedback[0]?.oneStars}}</small>
+          </div>
+        </div>
+      </div>
+      <div class="feedback_details" *ngFor="let item of productFeedback">
+        <div class="d-flex justify-content-between align-items-center py-2">
+          <div class="d-flex">
+            <i class="fa fa-star" *ngFor="let _ of [].constructor(item?.rating); let i = index"></i>
+          </div>
+          <small>{{datepipe.transform(item?.createdOn, 'MMMM d, y')}}</small>
+        </div>
+        <h6><span>By:</span> {{item?.createdBy}}</h6>
+        <p>
+          {{item?.description}}
+        </p>
+      </div>
+      <div class="mt-4 d-flex justify-content-end">
+        <ngb-pagination (pageChange)="getfeedbackList($event)" [collectionSize]="noOfRecordsFeedback" [(page)]="pageNumberFeedback" [pageSize]="sizeFeedback"></ngb-pagination>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<ng-template #buyNowModelPopUp let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Choose Options</h5>
+      <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+      <i class="fa fa-times" data-bs-dismiss="modal" (click)="modal.dismiss('Cross click')" aria-label="Close"></i>
+    </div>
+    <div class="modal-body">
+      <div class="row gx-3 mt-3">
+        <div class="col-5">
+          <div class="product_images-wrapper">
+            <div class="main_image" *ngFor='let item of productDetail?.images.slice(0,1)'>
+              <img [src]="(_httpService.AWSPATH)+(item?.filePath)+(item?.fileName)" class="fit_img">
+              <div class="discount-offer d-flex justify-content-center align-items-center" *ngIf="variantDetails.discountInPercentage > 0">
+                <p class="mb-0 text-white text-center fs-14"><b class="d-block">off</b>{{(variantDetails?.discountInPercentage > 0 ? + (variantDetails?.discountInPercentage) + '%' : '' )}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="social_sharing my-3">
+            <div class="d-flex flex-column">
+              <!--<div class="d-flex align-items-center justify-content-between">
+                <label>Share with a friend</label>
+                <div class="d-flex">
+                  <input class="p-0 px-2 form-control" type="text"
+                         placeholder="0300XXXXXXX" />
+                  <button class="ms-2 btn-outline-primary btn">SEND</button>
+                </div>
+              </div>-->
+              <div class="s_icons d-flex">
+                <a (click)="openLink(socialLinks?.facebookUrl)" *ngIf="socialLinks?.facebookUrl"><img src="/assets/img/facebook.svg"></a>
+                <a (click)="openLink(socialLinks?.instagramUrl)" *ngIf="socialLinks?.instagramUrl"><img src="/assets/img/instagram.svg" /></a>
+                <a (click)="openLink(socialLinks?.twitterUrl)" *ngIf="socialLinks?.twitterUrl"><img src="/assets/img/twitter.svg" /></a>
+                <a (click)="openLink(socialLinks?.linkedinUrl)" *ngIf="socialLinks?.linkedinUrl"><img src="/assets/img/linkedin.svg" /></a>
+                <a (click)="openLink(socialLinks?.youtubeUrl)" *ngIf="socialLinks?.youtubeUrl"><img src="/assets/img/youtube.svg" /></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-7 pro_contents">
+          <p>
+            {{productDetail?.name}}
+          </p>
+          <div class="stock_and_price">
+            
+            <div class="d-flex justify-content-between align-items-center mt-2">
+              <h4 class="m-0">
+                Rs.{{(variantDetails?.price == null) ? (productDetail?.discountedPrice > 0 ? productDetail?.discountedPrice : productDetail?.price | number:'1.0':'en-US') : (variantDetails?.discountedPrice > 0 ? variantDetails?.discountedPrice :variantDetails?.price | number:'1.0':'en-US')}}
+              </h4>
+              <s *ngIf="variantDetails?.discountedPrice>0">
+                Rs.{{(variantDetails?.discountedPrice == null) ? (productDetail?.discountedPrice > 0 ? productDetail?.price : 0 | number:'1.0':'en-US') : (variantDetails?.discountedPrice > 0 ? variantDetails?.price :0| number:'1.0':'en-US')}}
+              </s>
+              <small>{{selectedVariantIdAvailableStock}} in Stock </small>
+            </div>
+          </div>
+          <hr />
+          <div class="variant_details">
+            <span>color: <small>{{(variantDetails?.variantName == null) ? (productDetail?.variantName):(variantDetails?.variantName) }}</small></span>
+            <div class="d-flex justify-content-between align-items-center mt-2">
+              <div class="d-flex">
+                <div class="variant-circle me-1" *ngFor="let variant of productDetail?.groupItem" [style.backgroundColor]="variant?.hexCode" (click)="getVariantPrice(variant?.variantId)">
+                </div>
+              </div>
+              <div class="qty_meter d-flex justify-content-between align-items-center px-2">
+                <span (click)="handleQuantityChange('-')">-</span>
+                <input type="text" disabled [(ngModel)]="quantity" />
+                <span (click)="handleQuantityChange('+')">+</span>
+              </div>
+            </div>
+            <div class="cart_actions d-flex justify-content-between mt-3">
+              <button (click)="addToCart()" class="flex-grow-1 py-2 flex-shrink-1 btn custom_btn primaryBg">
+                Add To
+                Cart
+              </button>
+              <button (click)="checkOut()" class="flex-grow-1 py-2 flex-shrink-1 btn custom_btn primaryBg">
+                Check Out
+              </button>
+              <button (click)="continueShopping()" class="flex-grow-1 py-2 flex-shrink-1  btn custom_btn btn-lg secondaryBg">
+                Continue
+                Shopping
+              </button>
+            </div>
+            <div class="return_policy_options d-flex mt-3">
+              <div class="rp_box d-flex justify-content-center align-items-center  flex-column text-center">
+                <img src="/assets/img/arrow-return.svg" alt="arrowback" />
+                <small class="mt-2 d-block">7 Days Return Under Conditions</small>
+              </div>
+              <div class="rp_box d-flex justify-content-center align-items-center  flex-column text-center">
+                <img src="/assets/img/moneyback.svg" alt="arrowback" />
+                <small class="mt-2 d-block">
+                  Easy and Secure
+                  Payments
+                </small>
+              </div>
+              <div class="rp_box d-flex justify-content-center align-items-center  flex-column text-center">
+                <img src="/assets/img/guarantee.svg" alt="arrowback" />
+                <small class="mt-2 d-block">
+                  Genuine<br>
+                  Product
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+      </div> -->
+    </div>
+  </div>
+</ng-template>
+
+
+
+<!-- New section End -->
+<!-- section start -->
+<!--<section class="d-none">
+  <div class="collection-wrapper">
+    <div class="container" id="product-detail">
+      <div class="row">
+        <div class="productDetailSkelton" *ngIf="!imageLoader">
+          <div class="proName image-loader mb-2"></div>
+        </div>
+        <ul *ngIf="imageLoader" class="fs-6 mb-2">
+          <li class="me-1"><a [routerLink]="[_httpService.apiRoutes.Product.Category]" [queryParams]="{lvl:'one',categoryId:productDetail?.categoryId}">{{productDetail?.categoryName}}</a></li>
+          <li class="me-1" *ngIf="productDetail?.subCategoryId"><a [routerLink]="[_httpService.apiRoutes.Product.Category]" [queryParams]="{lvl:'two',categoryId:productDetail?.subCategoryId}">/ {{productDetail?.subCategoryName}}</a></li>
+          <li class="me-1" *ngIf="productDetail?.categoryGroupId"><a [routerLink]="[_httpService.apiRoutes.Product.Category]" [queryParams]="{lvl:'three',categoryId:productDetail?.categoryGroupId}">/ {{productDetail?.categoryGroupName}}</a></li>
+          <li>/ {{productDetail?.name}}</li>
+        </ul>
+        <div class="col-lg-6" *ngIf="!imageLoader">
+          <div class="imgDetail-box-main image-loader "></div>
+          <div class="row ">
+            <div class="col-md-3" *ngFor="let item of skeltonArr.productLength">
+              <div class="imgDetail-box image-loader mt-3"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-7 col-xl-6" *ngIf="imageLoader" id="slider-img-wrapper">
+          <div class="main-img" [class.mb-5]="productDetail?.images.length == 1" *ngFor='let item of productDetail?.images.slice(0,1)'>
+            <ng-container *ngIf="selectedFileName;else mainImg">
+              <img [src]='selectedFileName'>
+            </ng-container>
+            <ng-template #mainImg>
+              <img [src]="(_httpService.AWSPATH)+(item?.filePath)+(item?.fileName)">
+            </ng-template>
+          </div>
+          <div class="row mt-2 g-1" [class.mb-5]="productDetail?.images.length > 1" *ngIf="productDetail?.images.length > 1">
+            <div class="col-3" *ngFor="let proImg of productDetail?.images">
+              <div class="thumb-img">
+                <ng-container *ngIf="proImg?.fileName;else noImg">
+                  <img [src]="(_httpService.AWSPATH)+(proImg?.filePath)+(proImg?.fileName)" (click)="selectFile(proImg?.filePath,proImg?.fileName)" alt="">
+                </ng-container>
+                <ng-template #noImg>
+                  <img src="assets/images/pro1.jpg" class="img-fluid bg-img" alt="">
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!imageLoader" class="productDetailSkelton col-lg-6">
+          <div class="proName image-loader mt-2"></div>
+          <div class="proPrice image-loader mt-3"></div>
+          <div class="proAvail image-loader mt-3"></div>
+          <div class="proPrice image-loader mt-3"></div>
+          <div class="d-flex">
+            <div class="proPrice image-loader mt-3"></div>
+            <div class="proPrice image-loader mt-3 ms-2"></div>
+          </div>
+          <div class="seeMore image-loader mt-3"></div>
+          <div class="proDescription image-loader mt-3"></div>
+
+        </div>
+
+        <div *ngIf="imageLoader" class="col-lg-5 col-xl-6 rtl-text">
+          <div class="product-right">
+            <h2>{{productDetail?.name}}</h2>-->
+<!--<div class="rating-section">
+  <div class="rating">
+    <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+  </div>
+</div>-->
+<!--<div class="d-flex align-items-center mb-3">
+  <h3 *ngIf="variantDetails?.discountedPrice == 0 || variantDetails?.discountedPrice == null" class="price-detail mb-0">Rs.{{(variantDetails?.price == null) ? (productDetail?.price | number:'1.0':'en-US') : (variantDetails?.price | number:'1.0':'en-US')}}</h3>
+  <h3 *ngIf="variantDetails?.discountedPrice != 0 && variantDetails?.discountedPrice != null" class="price-detail mb-0">Rs.{{(variantDetails?.discountedPrice == null) ? (productDetail?.discountedPrice | number:'1.0':'en-US') : (variantDetails?.discountedPrice | number:'1.0':'en-US')}}</h3>
+  <h5 *ngIf="variantDetails?.discountedPrice != 0 && variantDetails?.discountedPrice != null" class="price-detail mb-0 ms-2"><s>Rs.{{(variantDetails?.price == null) ? (productDetail?.price | number:'1.0':'en-US') : (variantDetails?.price | number:'1.0':'en-US')}}</s><small class="px-2" [ngClass]="variantDetails.discountInPercentage > 0 ? 'text-danger':''">{{(variantDetails?.discountInPercentage > 0 ? '-' + (variantDetails?.discountInPercentage) + '%' : '' )}}</small></h5>
+</div>
+<hr>
+<div *ngIf="bulkInventory.length > 0">
+  <h6 class="product-title mt-3">Bulk Order</h6>
+  <ul class="">
+    <li *ngFor="let items of bulkInventory" class="bulkContainer me-1">
+      <span>{{items.minQuantity}} - {{items.maxQuantity}} <b class="me-1">Rs: {{items.bulkPrice}}</b> <s class="bulkVarientPrice"> Rs: {{varientPrice}}</s></span>
+    </li>
+  </ul>
+  <hr>
+</div>
+
+<div class="d-flex align-items-center mb-3">
+  <ul class="color-variant mb-0">
+    <li class="me-1" *ngFor="let variant of productDetail?.groupItem" [ngStyle]="{'border-color':(variant?.variantId == variantId) ? '#000000':''}" (click)="getVariantPrice(variant?.variantId)">
+      <div [style.backgroundColor]="variant?.hexCode"></div>
+    </li>
+  </ul>
+  <span class="fw-bold" [ngClass]="(variantDetails?.availability == null ? productDetail?.availability : variantDetails?.availability ) ? 'text-success' : 'text-danger'">
+    {{(variantDetails?.availability == null) ? (productDetail?.availability)? 'In Stock' : 'No Stock' : (variantDetails?.availability) ? 'In Stock' : 'No Stock' }}
+  </span>
+</div>
+<div class="col-5 col-md-3 col-lg-4 col-xl-3">
+  <div class="input-group mb-3" id="quantity-meter">
+    <div class="input-group-append" (click)="handleQuantityChange('-')">
+      <button type="button" class="px-3 fs-6 input-group-text">-</button>
+    </div>
+    <input type="number" disabled [(ngModel)]="quantity" class="form-control text-center" aria-label="Amount (to the nearest dollar)">
+    <div class="input-group-prepend" (click)="handleQuantityChange('+')">
+      <button type="button" class="px-3 fs-6 input-group-text">+</button>
+    </div>
+  </div>-->
+<!--<span *ngIf="!productAvailabeInStock" class="text-danger">Only {{selectedVariantIdAvailableStock}} available in stock.</span>-->
+<!--</div>
+<div class="product-buttons">
+  <button id="cartEffect" type="button" (click)="addToCart()" [disabled]="!((variantDetails == null) ? productDetail?.availability :variantDetails?.availability) || quantity == 0"
+          class="btn btn-solid hover-solid btn-animation me-2">
+    <i class="fa fa-shopping-cart me-1"
+       aria-hidden="true"></i> add to cart
+  </button>
+  <ng-container *ngIf="!isProductAddedInWishList; else savedProduct">
+    <button type="button" (click)="saveAndRemoveProductsInWishList(wishListItem.addProduct,loginStatus)" class="btn btn-solid hover-solid btn-animation">
+      <i class="fa fa-bookmark me-2" aria-hidden="true"></i>Add in wishlist
+    </button>
+  </ng-container>
+  <ng-template #savedProduct>
+    <button type="button" (click)="saveAndRemoveProductsInWishList(wishListItem.removeProduct,loginStatus)" class="btn btn-solid hover-solid btn-animation">
+      <i class="fa fa-bookmark fz-16 me-2" aria-hidden="true"></i>saved In Wishlist
+    </button>
+  </ng-template>
+</div>
+<div class="mb-3 mb-lg-0">
+  <h5><strong>See More By: </strong><a class="green-clr" [routerLink]="[_httpService.apiRoutes.Product.VendorProfile,productDetail?.shopUrl]">{{productDetail?.shopName}}</a></h5>
+</div>
+
+<div class="product-buttons row">
+  <h6 class="col-sm-3 col-lg-3"><strong>Share with a Friend: </strong></h6>
+  <form [formGroup]="smsForm" class="col-sm-9 col-lg-7 ">
+    <input class="col-sm-3 col-lg-4 inputSMS" maxlength="11" placeholder="0333xxxxxxx" type="text" formControlName="mobile">
+
+    <button *ngIf="!result" class="col-sm-3 col-lg-2 btnSMS" (click)="Send()" type="submit">Send</button>
+    <i *ngIf="result" class="fa fa-check green-clr ms-2"></i>
+    <div class="col-sm-9 col-lg-7" *ngIf="f.mobile?.errors">
+      <div *ngIf="f.mobile.invalid && (f.mobile.touched || f.mobile.dirty)">
+        <small class="text-danger" *ngIf="f.mobile.errors">Invalid input</small>
+      </div>
+    </div>
+  </form>
+
+</div>
+<section class="tab-product m-0">
+  <div class="col-sm-12 col-lg-12">
+    <ul class="nav nav-tabs nav-material" id="top-tab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="top-home-tab" data-bs-toggle="tab"
+           href="#top-home" role="tab" aria-selected="true">
+          <i class="icofont icofont-ui-home"></i>Details
+        </a>
+        <div class="material-border"></div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="profile-top-tab" data-bs-toggle="tab"
+           href="#top-profile" role="tab" aria-selected="false">
+          <i class="icofont icofont-man-in-glasses"></i>Specification
+        </a>
+        <div class="material-border"></div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="feedback-top-tab" data-bs-toggle="tab"
+           href="#top-feedback" role="tab" aria-selected="false">
+          <i class="icofont icofont-man-in-glasses"></i>Product FeedBack
+        </a>
+        <div class="material-border"></div>
+      </li>
+    </ul>
+    <div class="tab-content nav-material" id="top-tabContent">
+      <div class="tab-pane fade show active" id="top-home" role="tabpanel"
+           aria-labelledby="top-home-tab">
+        <div class="product-tab-discription">
+          <div class="part">
+            <p>{{productDetail?.description}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="top-profile" role="tabpanel" aria-labelledby="profile-top-tab">
+        <h5 *ngIf="!isSpecification" class="inner-title fw-bold">Product Specifications</h5>
+        <div class="single-product-tables">
+          <table>
+            <tbody>
+              <tr *ngFor="let item of productDetail?.attributes">
+                <td>{{item?.attributeName}}</td>
+                <td>{{item?.attributeValue}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div *ngIf="isSpecification">
+            <h3 class="text-danger">Not Available.</h3>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="top-feedback" role="tabpanel" aria-labelledby="feedback-top-tab">
+        <h5 *ngIf="!isPrdocutfeedBack" class="inner-title fw-bold">Product FeedBack</h5>
+        <div>
+          <table class="table">
+            <tbody>
+              <tr *ngFor="let item of productFeedback">
+                <td>{{item?.description}}</td>
+                <td class="fw-bold">{{item?.createdBy}}</td>
+                <td>
+                  <div class="d-flex">
+                    <div class="rating pr-2">
+                      <ng-container *ngFor="let items of [0,1,2,3,4]; let i = index">
+                        <i [ngClass]="(i < item.rating)?'fa fa-star' : '' "></i>
+                      </ng-container>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div *ngIf="isPrdocutfeedBack">
+            <h3 class="text-danger">Not Available.</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>-->
+<!-- product-tab ends -->
+<!--</div>
+        </div>
+      </div>
+    </div>
+    <div class="container" *ngIf="youtubeurl != null">
+      <div class="row col-lg-12">
+        <div class="col-lg-7">
+        </div>
+        <div class="col-lg-5">
+          <div class="product-right">
+            <iframe width="600" height="500" src="transform()" title="YouTube video player" frameborder="0" allow="accelerometer;  clipboard-write; encrypted-media; gyroscope;" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>-->
+<!-- Section ends -->
+<!----------------------------  Check User Login Status ------------------------->
+
+<ng-template #loginStatus let-modal>
+  <div class="modal-header">
+    <h3 class="modal-title fw-bold">Welcome!</h3>
+  </div>
+  <div class="modal-body">
+    <h4>Please login to continue.&hellip;</h4>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn  btn-success" (click)="loginAccount()">Login</button>
+    <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>

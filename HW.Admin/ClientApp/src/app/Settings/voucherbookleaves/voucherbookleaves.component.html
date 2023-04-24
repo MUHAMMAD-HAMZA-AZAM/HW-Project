@@ -1,0 +1,55 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Voucher Book Leaves List</h6>
+            <!--<button (click)="showModal(content)" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New Voucher Book Leaves</button>-->
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th width="5%">Id</th>
+                    <th width="8%">Voucher Book</th>
+                    <th width="8%">Voucher Type</th>
+                    <th width="5%">Page No</th>
+                    <th width="5%">Voucher No</th>
+                    <th width="8%">Valid From</th>
+                    <th width="8%">Valid To</th>
+                    <th width="5%">Is Used</th>
+                    <th width="7%">Discount Amount</th>
+                    <th width="8%">Persentage Discount</th>
+                    <th width="5%">Status</th>
+                    <!--<th width="1%">Edit</th>
+                    <th title="Delete" width="1%">Del</th>-->
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of voucherBookLeavesList;let i=index">
+                    <td>{{i+1}}</td>
+                    <td>{{item?.voucherBookName}}</td>
+                    <td>{{item?.voucherTypeName}}</td>
+                    <td>{{item?.pageNumber}}</td>
+                    <td>{{item?.voucherNo}}</td>
+                    <td>{{item?.validFrom | date: "dd MMM yyyy"}}</td>
+                    <td>{{item?.validTo | date: "dd MMM yyyy"}}</td>
+                    <td>{{item?.isUsed}}</td>
+                    <td>{{item?.discountedAmount}}</td>
+                    <td>{{item?.persentageDiscount}}</td>
+                    <td *ngIf="item?.active==1">Active</td>
+                    <td *ngIf="item?.active==0">InActive</td>
+                    <!--<td><i class="text-info fa fa-pencil-alt" (click)="updatePromo(promo,content)"></i></td>
+                    <td><i class="text-danger fa fa-trash-alt" (click)="deletePromo(promo.promotionId)"></i></td>-->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

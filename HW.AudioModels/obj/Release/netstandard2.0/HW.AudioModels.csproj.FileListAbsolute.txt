@@ -1,0 +1,10 @@
+D:\GitHub\Hoomwork\HW.AudioModels\bin\Release\netstandard2.0\HW.AudioModels.deps.json
+D:\GitHub\Hoomwork\HW.AudioModels\bin\Release\netstandard2.0\HW.AudioModels.dll
+D:\GitHub\Hoomwork\HW.AudioModels\bin\Release\netstandard2.0\HW.AudioModels.pdb
+D:\GitHub\Hoomwork\HW.AudioModels\obj\Release\netstandard2.0\HW.AudioModels.csproj.AssemblyReference.cache
+D:\GitHub\Hoomwork\HW.AudioModels\obj\Release\netstandard2.0\HW.AudioModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.AudioModels\obj\Release\netstandard2.0\HW.AudioModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.AudioModels\obj\Release\netstandard2.0\HW.AudioModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.AudioModels\obj\Release\netstandard2.0\HW.AudioModels.dll
+D:\GitHub\Hoomwork\HW.AudioModels\obj\Release\netstandard2.0\HW.AudioModels.pdb
+D:\GitHub\Hoomwork\HW.AudioModels\obj\Release\netstandard2.0\HW.AudioModels.GeneratedMSBuildEditorConfig.editorconfig

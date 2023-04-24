@@ -1,0 +1,69 @@
+<section id="nd-right-content">
+  <h2 class="heading-dashboad mb-3 mb-lg-4">Review Bids</h2>
+  <div *ngIf="notFound" id="no-found" class="text-center d-flex justify-content-center align-items-center">
+    <div>
+      <h1 class="mb-3  text-uppercase"><i class="fas fa-exclamation-circle text-danger"></i> Oops!</h1>
+      <h5 class="text-danger text-capitalize">you don't have any bid for review. </h5>
+    </div>
+  </div>
+  <h5 class="mb-3 mb-lg-4 text-capitalize" style="color:var(--greenClr)">{{(jobTitle?.length > 20)? (jobTitle | slice:0:20)+'...' : (jobTitle)}}</h5>
+  <div class="row">
+    <div class="col-lg-6 pb-2 pb-lg-2" *ngFor="let item of receivedBids;let index = index;">
+      <div class="mq-box p-3">
+        <div class="d-flex align-items-center flex-wrap flex-column flex-sm-row align-items-center">
+          <ng-container *ngIf="showJobImage; else noImg">
+            <div class="mq-rounded-img mb-2 mb-sm-0">
+              <img [src]="jobImage" alt="user-img" />
+            </div>
+          </ng-container>
+          <ng-template #noImg>
+            <div class="mq-rounded-img mb-2 mb-sm-0">
+              <img src="/assets/img/imagenotfound.png" alt="user-img" />
+            </div>
+          </ng-template>
+          <div class="mq-details ml-2">
+            <h6 class="mb-1 text-center text-sm-left"><span style="color:var(--textClr)">bid by: </span>{{item?.bidBy}}</h6>
+            <div class="d-flex justify-content-between flex-wrap text-center">
+              <small>Task Ref:<b>{{quotationId}}</b></small>
+              <small class="ml-2 ml-sm-0">bid amount :<b>{{item?.bidAmount}}</b></small>
+            </div>
+            <div class="d-flex justify-content-between flex-wrap text-center">
+              <small class="ml-2 ml-sm-0">bid on :<b>{{item?.bidOn | date : 'dd/MMM/yyyy'}}</b></small>
+            </div>
+          </div>
+        </div>
+        <hr class="hl">
+        <div class="mq-box-footer d-flex flex-column-reverse flex-sm-row flex-lg-column-reverse flex-xl-row justify-content-between align-items-center">
+          <div>
+            <button (click)="BidDetail(item.bidId)" href="#" class="mp-outine-btn mt-sm-0 mt-2 mt-lg-2 mt-xl-0">View Details</button>
+          </div>
+          <div class="d-flex">
+            <button (click)="QuoteConfirmation(item.bidId,item?.jobQuotationTitle,item?.tradesmanId)" class="btn solid-btn px-3 mr-2" style="background: var(--greenClr);">accept</button>
+            <button (click)="DeclineBid(item.bidId,item?.jobQuotationTitle,item?.tradesmanId)" class="btn solid-btn px-3" style="background: var(--redClr);">decline</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--------------------------------------------- Block Account Message Modal --------------------------------------->
+
+<div bsModal #blockAccountMessageModal="bs-modal" class="modal fade custom-model-style nd-verifyAccount" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content px-4 py-4">
+      <div class="modal-header p-0">
+        <h6 class="modal-title" id="exampleModalLongTitle" style="color: var(--redClr);"> ACCOUNT BLOCKED </h6>
+        <hr class="hl mt-0">
+      </div>
+      <div class="modal-body p-0 mt-3">
+        <p class="fos-14 mb-1" style="color:var(--headingClr)">Your Account has been blocked.</p>
+        <p style="color:var(--headingClr)" class="fos-14 mb-1">Please contact with customer support.<b style="color:var(--greenClr)">PH:0309-9994534</b></p>
+      </div>
+      <div class="modal-footer p-0">
+        <button type="button" class="mp-outine-btn" (click)="hideBlockModal()">CLOSE</button>
+      </div>
+    </div>
+  </div>
+</div>
+

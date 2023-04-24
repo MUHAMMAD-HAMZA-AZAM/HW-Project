@@ -1,0 +1,65 @@
+
+<style>
+  #email:before, #mobile:before {
+    content: '.';
+    font-weight: bold;
+    margin-right: 10px;
+    font-size: 16px;
+  }
+
+  .index-heder .form-signup .note p {
+    font-size: 14px;
+  }
+</style>
+<div class="index-heder register-bg page-section">
+  <div class="caption">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-7 caption-container">
+          <h1>The Trusted Way to Find a Rated Professional</h1>
+          <p class="mb-4">From electric & plumbing work to new home construction, house decoration, material  & homeware shopping</p>
+          <div class="actions">
+            <a class="btn btn-primary btn-lg" hidden>Get Free Quotes</a>
+            <a data-toggle="modal" data-target="#myModal" class="btn btn-outline-dark btn-lg" hidden>Marketplace</a>
+          </div>
+          <div class="actions">
+            <a href="https://play.google.com/store/apps/details?id=com.User.HW"><img style="width:180px" src="../../../../Assets/img/andriodapp.png" alt="" /></a>
+            <a data-toggle="modal" data-target="#comingsoon"><img style="width:180px" src="assets/img/iosapp.png" alt="" /></a>
+          </div>
+        </div>
+        <div class="col-lg-5 form-signup">
+          <form [formGroup]="appValForm">
+            <div class="form-group col-md-12 text-left btn-block btn-register">
+              <p>Enter the 6-digit code sent to you at</p>
+              <ul class="list-unstyled">
+                <li *ngIf="basicRegistrationVm.emailAddress!=null" id="email" >{{basicRegistrationVm.emailAddress}}</li>
+                <li class="ml-3"><small><b>OR</b></small></li>
+                <li id="mobile">{{basicRegistrationVm.phoneNumber}}</li>
+              </ul>
+              <div class="note"><p>(Please go back to change your Email/Mobile number in case of any mistake)</p></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label for="inputmobile" class="sr-only">Code</label>
+                <input type="number" id="inputmobile" autocomplete="false" maxlength="6" formControlName="verificationCode" (keypress)="numberOnly($event)" [ngClass]="{ 'is-invalid': f.verificationCode.errors }" class="form-control" placeholder="xxxxxx" required>
+                <span class="text-danger" *ngIf="f.verificationCode.errors?.required">{{verficationCodeErrorMessage}}</span>
+              </div>
+              <div class="form-group col-md-12 mt-1 text-right">
+                <a class="text-right mr-0 text-dark" data-toggle="modal" id="btn-resend" data-target="#didntgetcode1" (click)="ResendCode()">Resend Code</a>
+              </div>
+              <div class="form-group">
+                <p  *ngIf="responseErrorMessageCheck" class="text-danger"><small>{{responseErrorMessage}}</small></p>
+              </div>
+              <div class="form-group col-md-12 text-right">
+                <a id="btn-verify-save" class="btn btn-primary text-center" (click)=" VerifyOtpAndRegisterUser()">Verify</a>
+                <!--<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>-->
+              </div>
+              <span class="text-success" *ngIf="status==true">New 6 digit code has been send</span>
+               
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,34 @@
+<body class="text-center signin-body">
+  <form class="form-signin card pt-0" [formGroup]="appValForm">
+    <div class="row mb-2"><div class="form-header col-md-12"><img src="/assets/img/signin-logo.png" alt="" width="50"></div></div>
+    <div class="form-body p-3">
+      <h2 class="mb-1">Welcome</h2>
+      <p class="text-muted small">Please signin to your account</p>
+
+      <label for="inputEmail" class="sr-only">Email address/phone Number</label>
+      <input type="email" id="inputuserID" class="form-control" [ngClass]="{'is-invalid' : submittedApplicationForm && f.emailOrPhoneNumber.errors}" formControlName="emailOrPhoneNumber" placeholder="Enter email or mobile number">
+      <div  *ngIf="submittedApplicationForm && f.emailOrPhoneNumber.errors" class="invalid-feedback">
+        <div *ngIf="f.emailOrPhoneNumber.errors.required">{{emailErrorMessage}}</div>
+      </div>
+      <br />
+      <div class="password-wrapper">
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input #inputPassword type="password" id="inputPassword" style="margin-bottom:0px" class="form-control" formControlName="password" [ngClass]="{'is-invalid' : submittedApplicationForm && f.password.errors}" placeholder="Password" required>
+        <i class="fa fa-eye" (click)="changePasswordType()"></i>
+        <div  *ngIf="submittedApplicationForm && f.password.errors" class="invalid-feedback">
+          <div *ngIf="f.emailOrPhoneNumber.errors.required">{{passwordErrorMessage}}</div>
+        </div>
+      </div>
+      <br />
+      <re-captcha (resolved)="resolved($event)"
+                  siteKey="6LfYtrsZAAAAADUwEkbZG41epGFHkZzfxgV6f0fu">
+      </re-captcha>
+      <div style="text-align:left; " *ngIf="submittedApplicationForm && unauthorizeduser" class="text-danger small">
+        <div><p>{{unauthorizedErrorMessage}}<p></div>
+      </div>
+      <label for="inputPassword" class="sr-only d-none">Password</label>
+      <button *ngIf="requestno < 3" class="btn btn-lg btn-primary btn-block" (click)="login()" type="submit" style="margin-top:2%">Sign in</button>
+      <!--<p class="mt-2 mb-0 text-right small forgot-password" (click)="forgotPassword()">Forgot password?</p>-->
+    </div>
+  </form>
+</body>

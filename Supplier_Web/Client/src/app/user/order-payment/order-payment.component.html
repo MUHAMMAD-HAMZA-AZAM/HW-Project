@@ -1,0 +1,123 @@
+<div class="container">
+  <div class="breadcrumb pt-3" style="margin-top: 134px;">
+    <ul class="d-flex">
+      <li><a href="#">Home</a><span>|</span></li>
+      <li><a>Select Payment Method</a></li>
+    </ul>
+  </div>
+  <h4 class="primaryClr mb-5">Select Payment Method</h4>
+  <div class="row payment_methods">
+    <div class="col-6 d-flex gap-4">
+      <div (click)="proceedJazzCash()" class="cursor-pointer viewCart_cart p-3 d-flex justify-content-center cursor-pointer">
+        <img src="./assets/img/jazzcash.svg" />
+      </div>
+      <div (click)="payNow(confirmOrderContent)" class="cursor-pointer viewCart_cart p-3 d-flex justify-content-center">
+        <div class="d-flex align-items-center">
+          <img src="./assets/img/cash.svg" />
+          <h5 class="primaryClr m-0">Cash On Delivery</h5>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="isPaymentStatus">
+      <div class="col-12 col-sm-6 col-md-6 mx-auto">
+        <label class="text-danger"><b>{{pp_ResponseMessage}}</b></label>
+      </div>
+    </div>
+    <div class="col-12">
+      <h4 class="darkGrayClr my-5">Shipping Details</h4>
+      <div class="viewCart_cart p-3 d-flex justify-content-between font-poppins fs-13 flex-wrap">
+        <div class="d-flex flex-column">
+          <p class="fw-bold darkGrayClr">Name</p>
+          <p class="m-0 darkGrayClr">{{orderDetail?.customerName}}</p>
+        </div>
+        <div class="d-flex flex-column">
+          <p class="fw-bold darkGrayClr">Address</p>
+          <p class="m-0 darkGrayClr">{{orderDetail?.address}}</p>
+        </div>
+        <div class="d-flex flex-column">
+          <p class="fw-bold darkGrayClr">City</p>
+          <p class="m-0 darkGrayClr">{{orderDetail?.cityName}}</p>
+        </div>
+        <div class="d-flex flex-column">
+          <p class="fw-bold darkGrayClr">Phone</p>
+          <p class="m-0 darkGrayClr">{{orderDetail?.phoneNumber}}</p>
+        </div>
+        <div class="d-flex flex-column">
+          <p class="fw-bold darkGrayClr">Total</p>
+          <p class="m-0 primaryClr">PKR {{orderDetail?.totalAmount | number:'1.0':'en-US'}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- breadcrumb start -->
+<div class="breadcrumb-section d-none">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="page-title">
+          <h2>Payment</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- breadcrumb End -->
+<div class="container d-none" id="order-payment">
+  <h4 class="my-4 fw-bold">Select Payment Method</h4>
+  <div class="row">
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3" (click)="payNow(confirmOrderContent)">
+      <div class="payment-method">
+        <i class="fa fa-money"></i>
+        <h5>Cash On Delivery</h5>
+      </div>
+    </div>
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3 mt-3 mt-sm-0" title="Coming Soon" (click)="proceedJazzCash()">
+      <div class="payment-method">
+        <i class="fa fa-credit-card"></i>
+        <h5>Jazz Cash</h5>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="isPaymentStatus">
+    <div class="col-12 col-sm-6 col-md-6 mx-auto">
+      <label class="text-danger"><b>{{pp_ResponseMessage}}</b></label>
+    </div>
+  </div>
+  <h4 class="my-4 fw-bold">Shipping Details</h4>
+  <div class="mt-4 d-flex shipping-details flex-wrap">
+    <div>
+      <label>Name</label>
+      <p class="text-capitalize">{{orderDetail?.customerName}}</p>
+    </div>
+    <div>
+      <label>Address</label>
+      <p>{{orderDetail?.address}}</p>
+    </div>
+    <div>
+      <label>City</label>
+      <p>{{orderDetail?.cityName}}</p>
+    </div>
+    <div>
+      <label>Phone</label>
+      <p>{{orderDetail?.phoneNumber}}</p>
+    </div>
+    <div>
+      <label>Total Payable</label>
+      <p>PKR {{orderDetail?.totalAmount | number:'1.0':'en-US'}}</p>
+    </div>
+  </div>
+  <ng-template #confirmOrderContent let-modal>
+    <div class="modal-header">
+      <h5 ngbAutoFocus class="modal-title fw-bold" id="modal-basic-title">Payment Confirmation</h5>
+    </div>
+    <div class="modal-body">
+      <h5>Do you want to confirm your order payment?</h5>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="font-laila fw-bold btn primaryBg text-white px-3 d-flex align-items-center justify-content-center rounded-pill" (click)="confirmPaymnet()">Ok</button>
+      <button type="button" class="font-laila fw-bold btn c-red text-white px-3 d-flex align-items-center justify-content-center rounded-pill" (click)="modal.close('Save click')">Cancel</button>
+    </div>
+  </ng-template>
+</div>

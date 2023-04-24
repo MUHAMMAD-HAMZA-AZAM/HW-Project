@@ -1,0 +1,51 @@
+<section id="nd-right-content">
+  <h2 class="heading-dashboad mb-3 mb-lg-4">Finished jobs</h2>
+  <div *ngIf="notFound"  id="no-found" class="text-center d-flex justify-content-center align-items-center">
+    <div>
+      <h1 class="mb-3  text-uppercase"><i class="fas fa-exclamation-circle text-danger"></i> Oops!</h1>
+      <h5 class="text-danger text-capitalize">you don't have any finsished task yet. </h5>
+    </div>
+  </div>
+  <div class="row">
+    <div *ngFor="let item of jobList;let index = index;" class="col-lg-6 pb-2 pb-lg-2">
+      <div class="mq-box p-3 fi-jobs">
+        <div class="d-flex align-items-center flex-wrap flex-column flex-sm-row align-items-center">
+          <div *ngIf="item.jobImage == null;else imgFound " class="mq-rounded-img mb-2 mb-sm-0">
+            <img src="/assets/img/imagenotfound.png" alt="user-img" />
+          </div>
+          <ng-template #imgFound>
+            <div class="mq-rounded-img mb-2 mb-sm-0">
+              <img [src]="item.jobImage" alt="user-img" />
+            </div>
+          </ng-template>
+          <div class="mq-details ml-2">
+            <h6 class="mb-0 text-center text-sm-left">{{(item?.jobTitle.length > 20)?(item?.jobTitle | slice:0:20)+'...':(item?.jobTitle)}}</h6>
+            <div class="d-flex align-items-center justify-content-center justify-content-sm-start">
+              <h6 style="color: var(--greenClr);" class="mr-2">{{item.rating}}</h6>
+              <div class="tm-rating">
+                <ng-container *ngFor="let items of [0,1,2,3,4]; let i = index">
+                  <i class="fa-star" [ngClass]="(i < item.rating)?'fas' : 'far' "></i>
+                </ng-container>
+              </div>
+            </div>
+            <div class="d-flex flex-column flex-wrap align-items-center align-items-sm-start">
+              <small>Bid By:<b>{{item.tradesmanName}}</b></small>
+              <small>address:<b>{{(item?.streetAddress.length > 20)?(item?.streetAddress | slice:0:20)+'...':(item?.streetAddress)}}</b></small>
+            </div>
+          </div>
+        </div>
+        <hr class="hl">
+        <div class="mq-box-footer fi-jobs-f d-flex flex-xl-row flex-lg-column align-items-center align-items-lg-start align-items-xl-center justify-content-between">
+          <div class="d-flex flex-column">
+            <small>task reference:<b>{{item.jobQuotationId}}</b></small>
+            <small class="">posted date:<b>{{item.jobEndTime | date : "dd MMM yyyy"}}</b></small>
+          </div>
+          <div class="mt-lg-2 mt-xl-0">
+            <button (click)="JobDetail(item.jobDetailId,$event)" class="mp-outine-btn">View details</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+

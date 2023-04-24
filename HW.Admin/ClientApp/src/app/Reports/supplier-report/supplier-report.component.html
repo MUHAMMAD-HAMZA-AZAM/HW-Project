@@ -1,0 +1,47 @@
+<div class="container-fluid">
+  <h5 class="m-2">{{reportTitle}}</h5>
+  <button class="btn d-none" (click)=" DownloadPdf()">Download Pdf</button>
+  <!--<label class="container text-secondary">From : {{startDate | date: "dd MMM yyy hh : mm : a"}}    <br /> To : {{endDate | date: "dd MMM yyy hh : mm : a"}}</label>-->
+  <div class="card shadow my-3">
+    <div class="card-header justify-header">
+      <h6 class="m-0 font-weight-bold">Supplier List</h6>
+      <label class=" m-0 fs-12">Total No. {{completeList}}</label>
+    </div>
+    <div class="card-body ">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th title="Supplier Id" width="16%">SID</th>
+              <th width="16%">Name</th>
+              <th width="16%">Mobile</th>
+              <th width="16%">Date</th>
+              <!--<th width="15%">Last Active</th>-->
+              <th width="16%">CNIC</th>
+              <th width="16%">City</th>
+              <!--<th width="10%">Town</th>-->
+              <!--<th class="width-4">Last Modified</th>-->
+            </tr>
+          </thead>
+          <tbody class="table-content-fs">
+            <tr *ngFor="let supplier of SupplierList">
+              <td>{{supplier.supplierId}}</td>
+              <td>{{supplier.firstName}} {{supplier.lastName}}</td>
+              <td>{{supplier.mobileNumber}}</td>
+              <td>{{supplier.createdOn | date: "dd MMM yyy "}}</td>
+              <!--<td>{{supplier.lastActive | date: "dd MMM yyy "}}</td>-->
+              <td>{{supplier.cnic}}</td>
+              <td>{{supplier.cityName}}</td>
+
+              <!--<td>{{supplier.businessAddress}}</td>-->
+              <!--<td>{{supplier.modifiedOn | date: "dd MMM yyy "}}</td>-->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <label class="text-danger">{{DataNotFound}}</label>
+
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,151 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-4">
+        <h6 class="mainTitle" data-toggle="collapse" href="#collapse2" aria-expanded="true">Search Active User</h6>
+      </div>
+    </div>
+    <div id="collapse2" class="contentWrapper fs-12 show">
+      <form name="form"  #f="ngForm" novalidate >
+        <div class="row">
+          <div class="col-md-2">
+            <label class=""><small class="text-danger" style="font-size:12px">* </small>Start Date</label>
+            <input type="date" id="startDate" [(ngModel)]="startDate" name="startDate" class="form-control" required />
+          </div>
+          <div class="col-md-2">
+            <label class=""><small class="text-danger" style="font-size:12px">* </small>End Date</label>
+            <input type="date" id="endDate" [(ngModel)]="endDate" name="endDate" class="form-control" required />
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col-md-2 form-group">
+            <label class="">City</label>
+            <ng-multiselect-dropdown placeholder="City" style="display:inline;" #selectedCities
+                                     [settings]="dropdownListForCity"
+                                     [data]="cityList"
+                                     [(ngModel)]="inactiveUserModel.selectedCities"
+                                     name="selectedCities"
+                                     (onSelect)="onCitySelect($event)"
+                                     (onSelectAll)="onCitySelectAll($event)"
+                                     (onDeSelect)="onCityDeSelect($event)"
+                                     (onDeSelectAll)="onCityDeSelectALL($event)"
+                                     (OnDeSelect)="onCityDeSelect($event)">
+            </ng-multiselect-dropdown>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="userType"><small class="text-danger" style="font-size:12px">* </small>User Type:</label>
+            <select class="form-control" id="selectedUser" name="selectedUser" required (change)="selectChangeHandlerForUser($event)"
+            [(ngModel)]="inactiveUserModel.selectedUser" #selectedUser="ngModel" style="padding-top:2px;">
+              <option [ngValue]="null" [disabled]="true">Select User</option>
+              <option value="Customer">Customer</option>
+              <option value="Tradesman">Tradesman</option>
+              <option value="Supplier">Supplier</option>
+            </select>
+            <div *ngIf="selectedUser.invalid && (selectedUser.dirty || selectedUser.touched)" class="text-danger">
+              <label *ngIf="selectedUser.errors.required">Input is required. </label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4 inline-downlod-btns">
+            <div class="form-group">
+              <!--<input type="button" value="Search" class="btn btn-primary btn-sm" (click)="InActiveUserReport()" />-->
+              <input type="button" value="Search" [disabled]="!f.valid" class="btn btn-primary btn-sm" (click)="InActiveUserReport()" />
+            </div>
+            <div class="form-group">
+              <input class="btn btn-primary btn-sm" type="submit" (click)="resetForm()" value="Reset" />
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div *ngIf="userRole.allowExport" class="inline-downlod-btns justify-content-end">
+      <div class="form-group">
+        <input *ngIf="InActiveUserList.length>0" class="fs-12 ml-3 btn-sm btn btn-primary" type="button" value="Download pdf" (click)="DownloadPdf()" />
+      </div>
+      <div class="form-group ml-2">
+        <input *ngIf="InActiveUserList.length>0" class="btn btn-primary btn-sm" type="button" value="Download Excel" (click)="DownloadXlsx()" />
+      </div>
+      <div class="form-group ml-2">
+        <input *ngIf="InActiveUserList.length>0" class="btn btn-primary btn-sm" type="submit" value="Download csv" (click)="exportCSV()" />
+      </div>
+
+    </div>
+  </div>
+    <!--<input type="button" (click)="InActiveUserReport()" value="Search" class="fs-12 btn btn-primary btn-sm" />-->
+  
+
+    <!--<p *ngIf="!isDataFound" class="text-danger">No record found</p>-->
+  <div class="card shadow my-3" [hidden]="!dataNotFound">
+    <div class="card-header justify-header">
+      <h6 class="m-0 font-weight-bold">Active Users List</h6>
+      <div class="g-pagination">
+        <div class="data-count">
+          <span>{{recoardNoFrom}}-{{recoardNoTo}} of {{totalRecoards}}</span>
+          <div class="newOrOld-Data">
+            <ul>
+              <li><a (click)="LoadNewestRecoards()"> Newest</a></li>
+              <li><a (click)="LoadOldestRecoards()">Oldest</a></li>
+            </ul>
+          </div>
+          <!--<span>1-46 of 46</span>-->
+        </div>
+        <div class="indicators">
+          <i class="fa fa-angle-left" (click)="PriviousClick()"></i>
+          <i class="fa fa-angle-right" (click)="NextClick()"></i>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="show_entries">
+        <div class="no-of-entries">
+          <label>No of Entries</label>
+          <select class="" [(ngModel)]="data.pageSize" (change)="PageSizeChange()">
+            <option value="50" selected>50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+        <div class="n0-of-pages">
+          <label>No of Pages</label>
+          <select class="" [(ngModel)]="pageNumber" (change)="clickchange()">
+            <option *ngFor="let item of pageing1" value="{{item}}">{{item}} </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0" #dataTable>
+          <thead>
+            <tr>
+              <th width="1%" *ngIf="showTradeMan" title="Tradesman Id">TMID</th>
+              <th width="1%" *ngIf="showSupplier" title="Supplier Id">SID</th>
+              <th width="1%" *ngIf="showCustomer" title="Customer Id">CID</th>
+              <th width="25%" *ngIf="showTradeMan">Tradesman Name</th>
+              <th width="25%" *ngIf="showSupplier">Supplier Name</th>
+              <th width="25%" *ngIf="showCustomer">Customer Name</th>
+              <th width="3%">Mobile</th>
+              <th width="3%">CNIC</th>
+              <th width="6%" title="Last Active">LA</th>
+              <th width="15%">Address</th>
+              <th class="width-5" title="Created Date">CD</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!--*ngFor="let customer of CustomerList"-->
+            <tr *ngFor="let user of InActiveUserList">
+              <td>{{user.userIds}}</td>
+              <td>{{user.firstName}} {{user.lastName}}</td>
+              <td>{{user.mobileNumber}}</td>
+              <td>{{user.cnic}}</td>
+              <td>{{user.lastActive | date: "dd MMM yyy"}}</td>
+              <td>{{user.city}} {{user.area}} {{user.businessAddress}}</td>
+              <td>{{user.createdOn | date: "dd MMM yyy"}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  </div>
+
+

@@ -1,0 +1,161 @@
+<div class="d-content-left-side">
+  <h2 class="heading-dashboad mb-3 mb-lg-4">Profile</h2>
+  <div class="quote-details-wrapper mb40">
+    <div class="row mb-5">
+      <div class="col-12">
+        <div id="common-profile">
+          <div class="d-flex align-items-center flex-column flex-md-row">
+            <div *ngIf="profileImageCheck==false;else imgFound " class="profile-img mr-0 mr-md-3">
+              <img src="/assets/img/imagenotfound.png" alt="profile image" />
+            </div>
+            <ng-template #imgFound>
+              <div class="profile-img mr-0 mr-sm-3">
+                <img [src]="ImageVm?.imageBase64" alt="profile image" />
+              </div>
+            </ng-template>
+            <div class="profile-details d-flex flex-column mt-2 mt-md-0 ">
+              <h5>{{profile?.firstName}} {{profile?.lastName}}</h5>
+              <div>
+                <a routerLink="/User/Profile/PersonalProfileEdit" class="btn mp-outine-btn mt-2">edit profile</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quotes-details">
+      <fieldset disabled>
+        <div class="row">
+          <div class="col-xl-6 col-lg-6">
+            <div class="form-group">
+              <label>First name</label>
+              <input placeholder="first name" type="text" class="form-control" value="{{profile?.firstName}}" />
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6">
+            <div class="form-group">
+              <label>last name</label>
+              <input placeholder="last name" type="text" class="form-control" value="{{profile?.lastName}}" />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-6 col-lg-6">
+            <div class="form-group">
+              <label>cnic</label>
+              <input placeholder="cnic" type="text" class="form-control" value='{{profile?.cnic}}' />
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6">
+            <div class="form-group">
+              <label>email</label>
+              <input placeholder="email" type="text" class="form-control" value='{{profile?.email}}' />
+              <span *ngIf="!verifyEmail && !!profile?.email" (click)="VerifyEmailAddress()" class="verifyAccount fa fas fa-exclamation-triangle"> Verify Email</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-6 col-lg-6">
+            <div class="form-group">
+              <label>phone</label>
+              <input type="text" class="form-control" value='{{profile?.mobileNumber}}' />
+              <span *ngIf="!verifyPhone && profile?.mobileNumber!=''" (click)="VerifyPhoneNumber()" class="verifyAccount fa fas fa-exclamation-triangle"> Verify PhoneNumber</span>
+              <span *ngIf="profile?.mobileNumber==''" (click)="VerifyPhoneNumber()" class="verifyAccount fa fas fa-exclamation-triangle"> Please click on EDIT PROFILE & add phone number</span>
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6">
+            <div class="form-group">
+              <label for="gender">Gender</label>
+              <select class="form-control">
+                <option selected disabled *ngIf="profile.gender==0" >Gender</option>
+                <option *ngIf="profile.gender== 1">Male</option>
+                <option *ngIf="profile.gender== 2">Female</option>
+                <option *ngIf="profile.gender== 3">Other</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-6 col-lg-6">
+            <div class="form-group">
+              <label>Date of Birth</label>
+              <input placeholder="date of birth" type="text" class="form-control" value='{{profile?.dob}}' />
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6">
+            <div class="form-group">
+              <label>City</label>
+              <input placeholder="city" type="text" class="form-control" value='{{profile?.city}}' />
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+</div>
+<!-----------------------------------------------------  Verify Account Modal ------------------------------------------------------------>
+
+<div bsModal #varifyAcountModel="bs-modal" class="modal fade custom-model-style nd-verifyAccount" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content px-4 py-4">
+      <div class="modal-header p-0">
+        <h6 class="modal-title" id="exampleModalLongTitle" style="color: var(--redClr);">VERIFY ACCOUNT</h6>
+        <hr class="hl mt-0">
+      </div>
+      <div class="modal-body p-0 mt-3">
+        <p style="color:var(--headingClr)" class="fos-14 mb-1">Enter the 6-digit code sent to you at: <b class="text-info">{{statusMessage}}</b></p>
+        <form [formGroup]="appVal">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <input inputmode="numeric" pattern="[0-9]*" class="form-control" maxlength="6" max="6" (keypress)="numberOnly($event)"
+                       placeholder="Enter Code" required autocomplete="false" [(ngModel)]="verificationCode" formControlName="verificationCode"
+                       [ngClass]="{ 'is-invalid':submitt && g.verificationCode.errors }" />
+                <span class="text-danger fos-12" *ngIf="g.verificationCode.errors?.required">{{verficationCodeErrorMessage}}</span>
+                <span class="text-danger fos-12 d-block" *ngIf="statusCode">Invalid Code</span>
+                <span class="text-danger fos-12 d-block mt-1" *ngIf="otpCodeExpire">You entered expired otp code.Request again for new otp.</span>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-group">
+                <small class="d-block text-right underline text-warning cursor-pointer mb-2"  (click)="ResendCode()">Resend Code</small>
+                <button type="button" class="btn mp-outine-btn btn-block py-3" (click)="VarifyAccount()">VERIFY</button>
+                <span class="text-success fos-12 d-block mt-1" *ngIf="status">{{responseMessage}}</span>      
+                <span ng-if="IsPhoneNumberTimerRunning" class="text-danger float-md-left d-content-left-side fos-12 d-block mt-1">{{phoneNumberdisplay}}</span><br />
+                <span ng-if="IsEmailTimerRunning" class="text-danger float-md-left d-content-left-side fos-12 d-block mt-1">{{emaildisplay}}</span>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer p-0">
+        <button type="button" class="mp-outine-btn" (click)="hideModal()">CLOSE</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--------------------------------------------- Block Account Message Modal --------------------------------------->
+
+<div bsModal #blockAccountMessageModal="bs-modal" class="modal fade custom-model-style nd-verifyAccount" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content px-4 py-4">
+      <div class="modal-header p-0">
+        <h6 class="modal-title" id="exampleModalLongTitle" style="color: var(--redClr);"> ACCOUNT BLOCKED </h6>
+        <hr class="hl mt-0">
+      </div>
+      <div class="modal-body p-0 mt-3">
+        <p class="fos-14 mb-1" style="color:var(--headingClr)">Your Account has been blocked.</p>
+        <p style="color:var(--headingClr)" class="fos-14 mb-1">Please contact with customer support.<b style="color:var(--greenClr)">PH:0309-9994534</b></p>
+      </div>
+      <div class="modal-footer p-0">
+        <button type="button" class="mp-outine-btn" (click)="hideBlockModal()">CLOSE</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

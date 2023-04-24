@@ -1,0 +1,35 @@
+<!--------------------------------------------------- New Theme Notifications Design  ------------------------------------------------------------>
+<section id="nd-right-content">
+  <h2 class="heading-dashboad mb-3 mb-lg-4">notification</h2>
+  <div *ngIf="notFound" id="no-found" class="text-center d-flex justify-content-center align-items-center">
+    <div>
+      <h1 class="mb-3  text-uppercase"><i class="fas fa-exclamation-circle text-danger"></i> Oops!</h1>
+      <h5 class="text-danger text-capitalize">you don't have any notification yet. </h5>
+    </div>
+  </div>
+  <div class="row">
+    <div *ngFor="let item of notifications;let index = index;" class="col-lg-6 col-12 u-notification-wrapper mb-2 mb-lg-4">
+      <div class="notif-box border-left-red p-3">
+        <div class="d-flex align-items-center">
+          <div class="bell-icon mr-2">
+            <i class="fas fa-bell redbell"></i>
+          </div>
+          <div class="name-date-notif d-flex justify-content-between">
+                  <!--<ng-container [ngSwitch]="item.targetActivity">
+          <a *ngSwitchCase="'TradesmanProfile'" (click)="NotificationDetail(item.senderEntityId,'TradesmanProfile')"><h6 style="color: var(--headingClr);">{{item.title}}</h6></a>
+          <a *ngSwitchCase="'BidDetails'" (click)="NotificationDetail(item.senderEntityId,'BidDetails')"><h6 style="color: var(--headingClr);">{{item.title}}</h6></a>
+          <a *ngSwitchCase="'PostedJobs'" (click)="NotificationDetail(item.senderEntityId,'PostedJobs')"><h6 style="color: var(--headingClr);">{{item.title}}</h6></a>
+          <a *ngSwitchCase="'InProgressJobDetail'" (click)="NotificationDetail(item.senderEntityId,'InProgressJobDetail')"><h6 style="color: var(--headingClr);">{{item.title}}</h6></a>
+          <a *ngSwitchDefault (click)="NotificationDetail(item.senderEntityId,'RateTradesman')"><h6 style="color: var(--headingClr);">{{item.title}}</h6></a>
+        </ng-container>-->
+            <a><h6 style="color: var(--headingClr); cursor:auto;">{{item.title}}</h6></a>
+            <small style="color: var(--headingClr);">{{item.createdOn |date: "dd/MM/yyyy"}}</small>
+          </div>
+        </div>
+        <div class="notif-details mt-3">
+          <p>{{item.body}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

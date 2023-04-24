@@ -1,0 +1,226 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Voucher Book Allocation List</h6>
+            <button *ngIf="userRole.allowAdd" (click)="showModal(content)" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add Voucher Book Allocation</button>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th width="3%">Id</th>
+                    <th width="7%">Assignee Name</th>
+                    <th width="7%">Contact No</th>
+                    <th width="4%" title="Is Internal Person">IIP</th>
+                    <th width="7%" title="Employ Designation">ED</th>
+                    <th width="7%" title="External Person Occupation">EPO</th>
+                    <th width="7%" title="External Designation">ED</th>
+                    <th width="7%">Company</th>
+                    <th width="4%" title="No Of Pages Assigned">NOPA</th>
+                    <th width="4%" title="No Of LeavesAssigned">NOLA</th>
+                    <th width="5%">Status</th>
+                    <th width="7%" title="Craeted On">CO</th>
+                    <th width="7%" title="Created By">CB</th>
+                    <th width="7%" title="Modified On">MO</th>
+                    <th width="7%" title="Modified By">MB</th>
+                    <th *ngIf="userRole.allowAdd" width="1%">Edit</th>
+                    <th *ngIf="userRole.allowDelete" title="Delete" width="1%">Del</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of voucherBookAllocationList; let i=index">
+                    <td>{{i+1}}</td>
+                    <td>{{item?.assigneeName}}</td>
+                    <td>{{item?.contactNo}}</td>
+                    <td>{{item?.isInternalPerson}}</td>
+                    <td>{{item?.employDesignation}}</td>
+                    <td>{{item?.externalPersonOccupation}}</td>
+                    <td>{{item?.externalDesignation}}</td>
+                    <td>{{item?.company}}</td>
+                    <td>{{item?.nopagesAssigned}}</td>
+                    <td>{{item?.noOfLeavesAssigned}}</td>
+                    <td *ngIf="item.active==1">Active</td>
+                    <td *ngIf="item.active==0">InActive</td>
+                    <td>{{item?.createdOn | date: "dd MMM yyy"}}</td>
+                    <td>{{item?.createdBy}}</td>
+                    <td>{{item?.modifiedOn | date: "dd MMM yyy"}}</td>
+                    <td>{{item?.modifiedBy}}</td>
+                    <td *ngIf="userRole.allowAdd"><i class="text-info fa fa-pencil-alt" (click)="updateVoucherBookAllocation(item,content)"></i></td>
+                    <td *ngIf="userRole.allowDelete"><i class="text-danger fa fa-trash-alt" (click)="deleteVoucherBooKAllocation(item.voucherBookAllocationId)"></i></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">{{modelText}}</h5>
+  </div>
+  <form [formGroup]="appValueForm" (submit)="saveAndUpdate()">
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Assignee First Name" formControlName="assigneeFirstName" />
+            <div *ngIf="f.assigneeFirstName?.errors">
+              <div *ngIf="f.assigneeFirstName.invalid && submited">
+                <small *ngIf="f.assigneeFirstName.errors?.required" class="text-danger">Enter First Name</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Assignee Last Name" formControlName="assigneeLastName"/>
+            <div *ngIf="f.assigneeLastName?.errors">
+              <div *ngIf="f.assigneeLastName.invalid && submited">
+                <small *ngIf="f.assigneeLastName.errors?.required" class="text-danger">Enter Last Name</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Contact No" formControlName="contactNo"/>
+            <div *ngIf="f.contactNo?.errors">
+              <div *ngIf="f.contactNo.invalid && submited">
+                <small *ngIf="f.contactNo.errors?.required" class="text-danger">Enter Contect No</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <select formControlName="voucherBookId" required class="form-control">
+              <option [ngValue]="null" disabled>Select Voucher Book</option>
+              <option *ngFor="let item of voucherBookList" value="{{item.voucherBookId}}">{{item.voucherBookName}}</option>
+            </select>
+            <div *ngIf="f.voucherBookId?.errors">
+              <div *ngIf="f.voucherBookId.invalid && submited">
+                <small *ngIf="f.voucherBookId.errors?.required" class="text-danger">Select Voucher Book</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <select formControlName="isInternalPerson" required class="form-control">
+              <option [ngValue]="null" disabled>Select Is Person</option>
+              <option [value]="1">Internal Person</option>
+              <option [value]="2">External Person</option>
+            </select>
+            <div *ngIf="f.isInternalPerson?.errors">
+              <div *ngIf="f.isInternalPerson.invalid && submited">
+                <small *ngIf="f.isInternalPerson.errors?.required" class="text-danger">Select Is Person</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+
+            <input type="text" class="form-control" placeholder="Employ Designation" formControlName="employDesignation"/>
+            <!--<div *ngIf="f.employDesignation?.errors">
+              <div *ngIf="f.employDesignation.invalid && submited">
+                <small *ngIf="f.employDesignation.errors?.required" class="text-danger">Enter Employ Designation</small>
+              </div>
+            </div>-->
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="External Person Occupation" formControlName="externalPersonOccupation"/>
+            <!--<div *ngIf="f.externalPersonOccupation?.errors">
+              <div *ngIf="f.externalPersonOccupation.invalid && submited">
+                <small *ngIf="f.externalPersonOccupation.errors?.required" class="text-danger">Enter External Person Occupation</small>
+              </div>
+            </div>-->
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="External Designation" formControlName="externalDesignation"/>
+            <!--<div *ngIf="f.externalDesignation?.errors">
+              <div *ngIf="f.externalDesignation.invalid && submited">
+                <small *ngIf="f.externalDesignation.errors?.required" class="text-danger">Enter External Designation</small>
+              </div>
+            </div>-->
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Company" formControlName="company"/>
+            <div *ngIf="f.company?.errors">
+              <div *ngIf="f.company.invalid && submited">
+                <small *ngIf="f.company.errors?.required" class="text-danger">Enter company</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="No pages Assigned" formControlName="nopagesAssigned"/>
+            <div *ngIf="f.nopagesAssigned?.errors">
+              <div *ngIf="f.nopagesAssigned.invalid && submited">
+                <small *ngIf="f.nopagesAssigned.errors?.required" class="text-danger">Enter No pages Assigned</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="No Leaves Assigned" formControlName="noOfLeavesAssigned" />
+            <div *ngIf="f.noOfLeavesAssigned?.errors">
+              <div *ngIf="f.noOfLeavesAssigned.invalid && submited">
+                <small *ngIf="f.noOfLeavesAssigned.errors?.required" class="text-danger">Enter No Of Leaves Assigned</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="fs-12">Entity Status</label>
+            <select formControlName="active" required class="form-control">
+              <option [ngValue]="null" disabled>Select Entity Status</option>
+              <option [value]="1">Active</option>
+              <option [value]="0">InActive</option>
+            </select>
+            <div *ngIf="f.active?.errors">
+              <div *ngIf="f.active.invalid && submited">
+                <small *ngIf="f.active.errors?.required" class="text-danger">Select Entity Status</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">  
+      <div class="row">
+        <div class="col-md-6 inline-downlod-btns">
+          <button type="submit" class="btn btn-sm btn-primary mr-6" style="margin:5px">Save</button>
+          <button type="reset" class="btn btn-sm btn-primary" (click)="resetForm()" style="margin:5px">Reset</button>
+          <button type="submit" class="btn btn-primary btn-sm" (click)="modal.close('Save click')" style="margin:5px">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>

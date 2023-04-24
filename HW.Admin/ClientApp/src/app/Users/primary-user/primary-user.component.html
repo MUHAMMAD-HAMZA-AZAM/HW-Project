@@ -1,0 +1,835 @@
+
+<div class="container-fluid">
+  <div class="container-fluid">
+    <div class="aj-heading-wrapper">
+      <div style="min-width:10%">
+        <h5>Customer</h5>
+      </div>
+      <div class="active-job-details" style="min-width:90%;justify-content:flex-start !important">
+        <div class="active-job-box" style="margin-right:.33%">
+          <h6 class="text-success">Jobs Created: {{getAllaJobsCount.jobsCreated}}</h6>
+        </div>
+        <div class="active-job-box">
+          <h6 class="text-danger">Jobs In-Progress: {{getAllaJobsCount.jobsInProgress}}</h6>
+        </div>
+      </div>
+    </div>
+    <div class="contentWrapper">
+      <div class="row">
+        <div class="col-md-4">
+          <h6 class="mainTitle" data-toggle="collapse" href="#collapse2" aria-expanded="true">Search Customer</h6>
+        </div>
+      </div>
+      <div id="collapse2" class="contentWrapper fs-12 collapse">
+        <form class="" #checkParent>
+          <div class="row ">
+            <div class="col-md-4">
+              <label for="customerName">Customer Name</label>
+              <div class="input-group">
+                <input type="text" autocomplete="off" id="customerName" maxlength="30" name="customerName" class="form-control" [(ngModel)]="customerName" placeholder="Customer Name" (keypress)="service.omit_special_char($event)" />
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                    <input type="radio" value="1" id="start" (click)="getRadioValue($event)" name="groupOfDefaultRadios" checked>
+                    <label class="" for="start">Start</label>
+                    <input type="radio" class="" (click)="getRadioValue($event)" value="2" id="anyWhere" name="groupOfDefaultRadios">
+                    <label class="" for="anyWhere">Anywhere</label>
+                    <input type="radio" class="" value="3" id="end" (click)="getRadioValue($event)" name="groupOfDefaultRadios">
+                    <label class="" for="end">End</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-1">
+            <div class="col-md-4">
+              <label for="customerName">Customer Id</label>
+              <div class="input-group">
+                <input type="text" autocomplete="off" id="customerIdFilter" maxlength="10" name="customerIdFilter" class="form-control" [(ngModel)]="customerIdFilter" placeholder="Customer Id" />
+              </div>
+            </div>
+          </div>
+          <div class="row mt-1">
+            <div class="col-md-2">
+              <label class="">Start Date</label>
+              <input type="date" id="startDate" [(ngModel)]="startDate" name="startDate" class="form-control" />
+              <!--<div *ngIf="submittedApplicationForm" class="invalid-feedback">
+                <div><p>{{startDateErrorMessage}}</p></div>
+              </div>-->
+            </div>
+            <div class="col-md-2">
+              <label class="">End Date</label>
+              <input type="date" id="endDate" [(ngModel)]="endDate" name="endDate" class="form-control" />
+              <!--<div *ngIf="submittedApplicationForm" class="invalid-feedback">
+                <div><p>{{endDateErrorMessage}}</p></div>
+              </div>-->
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-md-2 ">
+              <div class="form-group">
+                <label for="cnic">CNIC</label>
+                <input type="text" class="form-control" [(ngModel)]="cnic" maxlength="13" id="cnic" name="cnic" placeholder="CNIC" (keypress)="service.numberOnly($event)" />
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="cnic">Mobile </label>
+                <input type="text" class="form-control" [(ngModel)]="mobile" maxlength="11" id="Mobile" name="Mobile" placeholder="Mobile Number" (keypress)="service.numberOnly($event)" />
+              </div>
+            </div>
+          </div>
+          <div class="row mt-1">
+            <div class="col-md-2">
+              <label class="">Tradesman Type</label>
+              <ng-multiselect-dropdown placeholder="Tradesman Type" style="display:inline; vertical-align:top"
+                                       [settings]="skillsdropdownSettings"
+                                       [data]="skillList"
+                                       [(ngModel)]="selectedSkills"
+                                       name="selectedSkills"
+                                       (onSelect)="onItemSelect($event)"
+                                       (onSelectAll)="onItemSelectAll($event)"
+                                       (onDeSelect)="OnItemDeSelect($event)"
+                                       (onDeSelectAll)="OnItemDeSelectALL($event)"
+                                       (OnDeSelect)="OnItemDeSelect($event)">
+              </ng-multiselect-dropdown>
+            </div>
+            <div class="col-md-2">
+              <label class="">City</label>
+              <ng-multiselect-dropdown placeholder="City" style="display:inline;"
+                                       [settings]="dropdownListForCity"
+                                       [data]="cityList"
+                                       [(ngModel)]="selectedCities"
+                                       name="selectedCities"
+                                       (onSelect)="onCitySelect($event)"
+                                       (onSelectAll)="onCitySelectAll($event)"
+                                       (onDeSelect)="onCityDeSelect($event)"
+                                       (onDeSelectAll)="onCityDeSelectALL($event)"
+                                       (OnDeSelect)="onCityDeSelect($event)">
+              </ng-multiselect-dropdown>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-md-2">
+              <label class="">Salesman</label>
+              <ng-multiselect-dropdown placeholder="Salesman" style="display:inline;"
+                                       [settings]="salesmandropdownSettings"
+                                       [data]="salesmanList1"
+                                       [(ngModel)]="selectedsalesman"
+                                       name="selectedsalesman">
+                <!--(onSelect)="onCitySelect($event)"
+                (onSelectAll)="onCitySelectAll($event)"
+                (onDeSelect)="onCityDeSelect($event)"
+                (onDeSelectAll)="onCityDeSelectALL($event)"
+                (OnDeSelect)="onCityDeSelect($event)"-->
+              </ng-multiselect-dropdown>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group ">
+                <label for="cnic">Customer Id</label>
+                <input type="text" class="form-control" [(ngModel)]="id" maxlength="40" id="id" name="id" placeholder="Customer Id" />
+              </div>
+            </div>
+          </div>
+          <div class="row mt-1">
+            <div class="col-md-4">
+              <div class="form-group  ">
+                <label for="cnic">Email</label>
+                <input type="text" class="form-control" [(ngModel)]="email" maxlength="40" id="email" name="email" placeholder="Email" />
+              </div>
+            </div>
+            <!--<div class="col-md-2 addressSearch">
+              <div class="form-group  ">
+                <label for="businessAddress">Location</label>
+                <input type="text" class="form-control desc" [(ngModel)]="location" maxlength="50" id="location" name="location" placeholder="Location" autocomplete="off" autocapitalize="off" #search />
+              </div>
+              <div class="addressSearchResult" *ngIf="isAddress">
+                <ul>
+                  <li *ngFor="let address of searchedAddress">
+                    <a (click)="setAddressValue($event)">{{address.customerAddress}}</a>
+                  </li>
+                </ul>
+              </div>
+            </div>-->
+          </div>
+          <div class="row mt-1">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>User Type</label>
+                <div class="input-group-prepend">
+                  <div class="input-group-text user-type">
+                    <input type="radio" value="3" id="all" (click)="getRadioValueut($event)" name="groupOfDefaultRadios1" checked>
+                    <label class="" for="all">All User</label>
+                    <input type="radio" value="1" id="real" (click)="getRadioValueut($event)" name="groupOfDefaultRadios1">
+                    <label class="" for="real">Real User</label>
+                    <input type="radio" class="" (click)="getRadioValueut($event)" value="2" id="test" name="groupOfDefaultRadios1">
+                    <label class="" for="test">Test User</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-1">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Email Verification Type</label>
+                <div class="input-group-prepend">
+                  <div class="input-group-text user-type">
+                    <input type="radio" value="1" id="all1" (click)="getRadioValueemail($event)" name="groupOfDefaultRadios2" checked #restChecked>
+                    <label class="" for="all1">All User</label>
+                    <input type="radio" value="2" id="real3" (click)="getRadioValueemail($event)" name="groupOfDefaultRadios2">
+                    <label class="" for="real3">Email Verified</label>
+                    <input type="radio" class="" (click)="getRadioValueemail($event)" value="3" id="test3" name="groupOfDefaultRadios2">
+                    <label class="" for="test3">Email Unverified</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-1">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Mobile Verification Type</label>
+                <div class="input-group-prepend">
+                  <div class="input-group-text user-type">
+                    <input type="radio" value="1" id="allMobileUsers" (click)="getRadioValueMobileNo($event)" name="groupOfDefaultRadios3" checked>
+                    <label class="" for="allMobileUsers">All User</label>
+                    <input type="radio" value="2" id="verifiedMobileUser" (click)="getRadioValueMobileNo($event)" name="groupOfDefaultRadios3">
+                    <label class="" for="verifiedMobileUser">Mobile Verified</label>
+                    <input type="radio" class="" (click)="getRadioValueMobileNo($event)" value="3" id="unVerifiedMobileUser1" name="groupOfDefaultRadios3">
+                    <label class="" for="unVerifiedMobileUser1">Mobile Unverified</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-1">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Customer Job Posted Vise</label>
+                <div class="input-group-prepend">
+                  <div class="input-group-text user-type">
+                    <input type="radio" value="1" id="allMobileUsers1" (click)="getRadioValuejobstype($event)" name="groupOfDefaultRadios4" checked>
+                    <label class="" for="allMobileUsers1">All User</label>
+                    <input type="radio" value="2" id="verifiedMobileUser1" (click)="getRadioValuejobstype($event)" name="groupOfDefaultRadios4">
+                    <label class="" for="verifiedMobileUser1">Posted Jobs</label>
+                    <input type="radio" class="" (click)="getRadioValuejobstype($event)" value="3" id="unVerifiedMobileUser2" name="groupOfDefaultRadios4">
+                    <label class="" for="unVerifiedMobileUser2">Posted No Job</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-1">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Source Of Reg</label>
+                <div class="input-group-prepend">
+                  <div class="input-group-text user-type">
+                    <input type="radio" value="0" id="allMobileUsers11" (click)="getRadioValuesource($event)" name="groupOfDefaultRadios41" checked>
+                    <label class="" for="allMobileUsers11">All User</label>
+                    <input type="radio" value="1" id="verifiedMobileUser1" (click)="getRadioValuesource($event)" name="groupOfDefaultRadios41">
+                    <label class="" for="verifiedMobileUser1">Custom</label>
+                    <input type="radio" class="" (click)="getRadioValuesource($event)" value="2" id="unVerifiedMobileUser21" name="groupOfDefaultRadios41">
+                    <label class="" for="unVerifiedMobileUser21">Facebook</label>
+                    <input type="radio" class="" (click)="getRadioValuesource($event)" value="3" id="unVerifiedMobileUser21" name="groupOfDefaultRadios41">
+                    <label class="" for="unVerifiedMobileUser21">Google</label>
+                    <input type="radio" class="" (click)="getRadioValuesource($event)" value="4" id="unVerifiedMobileUser21" name="groupOfDefaultRadios41">
+                    <label class="" for="unVerifiedMobileUser21">Apple</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4 inline-downlod-btns">
+              <div class="form-group">
+                <input class=" btn btn-primary btn-sm" type="button" value="Search" (click)="populateListData()" />
+              </div>
+              <div class="form-group">
+                <input class="btn btn-primary btn-sm" type="reset" (click)="resetForm()" value="Reset" />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="inline-downlod-btns justify-content-end" *ngIf="primaryUserList.length > 0">
+      <div class="form-group ml-2" *ngIf="selecteddatasingle.length> 0 && customerRole.allowDelete">
+        <input class="btn btn-primary btn-sm" type="button" value="Delete Customer" (click)="DeleteSelectedUser(contentdeleteuser)" />
+      </div>
+      <div class="form-group ml-2" *ngIf="selecteddatasingle.length > 0 && customerRole.allowAdd">
+        <input class="btn btn-primary btn-sm" type="button" value="Link With Salesman" (click)="SalesmanConfirm(contentsales)" />
+      </div>
+      <ng-container *ngIf="customerRole.allowExport">
+        <div class="form-group ml-2">
+          <input class="btn btn-primary btn-sm" type="button" value="Download pdf" (click)="DownloadPdf()" />
+        </div>
+        <div class="form-group ml-2">
+          <input class="btn btn-primary btn-sm" type="button" value="Download Excel" (click)="DownloadXlsx()" />
+        </div>
+        <div class="form-group ml-2">
+          <input class="btn btn-primary btn-sm" type="button" value="Download Csv" (click)="exportCSV()" />
+        </div>
+      </ng-container>
+    </div>
+    <div class="card shadow mb-4" [hidden]="!dataNotFound">
+      <div class="card-header justify-header">
+        <h6 class="m-0 font-weight-bold">Customer List</h6>
+        <div class="fa-pull-right d-flex ">
+          <button *ngIf="customerRole.allowAdd" class="btn-sm btn btn-secondary btn-sm" (click)="showAddCustomerModal(addNewCustomer)"><i class="fa fa-plus"></i> Add New Customer</button>
+          <div class="g-pagination">
+            <div class="data-count">
+              <span>{{recoardNoFrom}}-{{recoardNoTo}} of {{totalRecoards}}</span>
+              <div class="newOrOld-Data">
+                <ul>
+                  <li><a (click)="LoadNewestRecoards()"> Newest</a></li>
+                  <li><a (click)="LoadOldestRecoards()">Oldest</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="indicators">
+              <i class="fa fa-angle-left" (click)="PriviousClick()"></i>
+              <i class="fa fa-angle-right" (click)="NextClick()"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="show_entries">
+          <div class="no-of-entries">
+            <label>No of Entries</label>
+            <select (change)="changePageSize()" [(ngModel)]="getAllaJobsCount.pageSize">
+              <option value="50" selected>50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+          <div class="n0-of-pages">
+            <label>No of Pages</label>
+            <select class="" [(ngModel)]="pageNumber" (change)="clickchange()">
+              <option *ngFor="let item of pageing1" value="{{item}}">{{item}} </option>
+            </select>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0" #dataTable>
+            <thead>
+              <tr>
+                <th width="3%">Select</th>
+                <th title="Customer Id" width="3%">CID</th>
+                <th width="8%">Customer Name</th>
+                <th width="5%">Email</th>
+                <th width="6%">Mobile</th>
+                <th width="6%">CNIC</th>
+                <th width="3%">RegisterBy</th>
+                <!--<th *ngIf="selectedSkills != null && selectedSkills.length > 0 && formSubmiited==true" width="6%" title="Tradesman Type">TT</th>-->
+                <th width="8%" title="Created Date">CD</th>
+                <th width="8%" title="Last Active">LA</th>
+                <th width="3%" title="Email Verified">EV</th>
+                <th width="3%" title="Mobile No Verified">MV</th>
+                <th width="3%" title="Source Of Reg">SOR</th>
+                <th title="Posted Jobs" width="1%">PJ </th>
+                <!--<th width="1%" title="User Type">UT</th>-->
+                <th title="Details" width="1%" *ngIf="pdfrequest">Det</th>
+                <th width="1%" title="Change User Type" *ngIf="customerRole.allowEdit">CUT</th>
+                <th title="Block Customer User" *ngIf="customerRole.allowEdit" width="1%">BCU</th>
+                <th width="1%" *ngIf="customerRole.allowEdit">Edit</th>
+                <!--<th title="Statistical Analysis" width="1%">SA</th>-->
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of cloneList">
+
+                <!--<td> <input type="checkbox" #checkboxes ng-checked="true" checked class="custom-checkbox checked" (change)="onCheckboxChange($event,item)" value={{item.customerId}} /></td>-->
+                <td>
+                  <input type="checkbox" #checkboxes ng-checked="true" class="custom-checkbox checked" (change)="onCheckboxChange($event,item)" value={{item.customerId}} />
+                </td>
+                <td>{{item.customerId}}</td>
+                <td>{{(item.customerName != null && item.customerName.length > 30) ? (item.customerName | slice:0:30 )+'...':(item.customerName)}}</td>
+                <td>{{item.email}}</td>
+                <td>{{item.customerMobile}}</td>
+                <td>{{item.customerCNIC}}</td>
+                <td>{{item.salesmanName}}</td>
+                <!--<td>{{item.skillName}}</td>-->
+                <!--<td *ngIf="selectedSkills != null && selectedSkills.length > 0 && formSubmiited == true">{{item.skillName}}</td>-->
+                <td>{{item.createdOn | date: 'dd MMM yyyy, h:mm a'}}</td>
+                <td>{{item.lastActive | date: 'dd MMM yyyy, h:mm a'}}</td>
+                <td *ngIf="item.emailConfirmed== true ">Yes</td>
+                <td *ngIf="item.emailConfirmed!= true ">No</td>
+                <td *ngIf="item.phoneNumberConfirmed">Yes</td>
+                <td *ngIf="!item.phoneNumberConfirmed">No</td>
+                <td>{{item.sourceOfReg}}</td>
+                <td>{{item.jobsPosted}}</td>
+                <td *ngIf="pdfrequest">
+                  <i class="fas fa-eye" data-keyboard="false" (click)="GetBussinessProfile(item.customerId,profileModal)"></i>
+                </td>
+                <td *ngIf="customerRole.allowEdit"><button (click)="showModel1(item.userId,content1)" class="border-primary fa fa-user-edit primary-color" [class.text-danger]="item.isTestUser" aria-hidden="true"></button></td>
+                <td *ngIf="customerRole.allowEdit">
+                  <label class="switch block-user-switch">
+                    <input type="checkbox" (change)="handleChange($event,item.userId)" [checked]="item.isActive" id="{{item.customerId}}">
+                    <span class="slider"></span>
+                  </label>
+                </td>
+                <td *ngIf="customerRole.allowEdit"><button (click)="showModalAdd(item.customerId , item.userId,item.email,item.customerMobile,addNewCustomer )" class="border-primary fa fa-edit primary-color" aria-hidden="true"></button></td>
+                <!--<td><i class="fas fa-eye" (click)="showAnalyticsModal(item.customerId,analyticsModal)"></i></td>-->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-body" style="padding:0px !important">
+          <div class="show_entries">
+            <div class="no-of-entries">
+              <label>No of Entries</label>
+              <select (change)="changePageSize()" [(ngModel)]="getAllaJobsCount.pageSize">
+                <option value="50" selected>50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+            <div class="n0-of-pages">
+              <label>No of Pages</label>
+              <select class="" [(ngModel)]="pageNumber" (change)="clickchange()">
+                <option *ngFor="let item of pageing1" value="{{item}}">{{item}} </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="card-header justify-header">
+          <h6 class="m-0 font-weight-bold">Customer List</h6>
+          <div class="g-pagination">
+            <div class="data-count">
+              <span>{{recoardNoFrom}}-{{recoardNoTo}} of {{totalRecoards}}</span>
+              <div class="newOrOld-Data">
+                <ul>
+                  <li><a (click)="LoadNewestRecoards()"> Newest</a></li>
+                  <li><a (click)="LoadOldestRecoards()">Oldest</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="indicators">
+              <i class="fa fa-angle-left" (click)="PriviousClick()"></i>
+              <i class="fa fa-angle-right" (click)="NextClick()"></i>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <ng-template #contentsales let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Select Salesman</h4>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="pkgForm">
+        <input type="hidden" formControlName="salesmanId" />
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="fs-12">Salesman Name</label>
+              <select class="form-control" formControlName="salesmanId">
+                <option [value]="null" disabled selected>--- Select Salesman---</option>
+                <option *ngFor="let item of salesmanList;" [value]="item.salesmanId">{{item.name}}</option>
+              </select>
+              <div *ngIf="f1.salesmanId?.errors">
+                <div *ngIf="f1.salesmanId.invalid && submited">
+                  <small *ngIf="f1.salesmanId.errors?.required" class="text-danger">Salseman name is requried</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="fs-12">Salesman Name</label>
+              <select class="form-control" formControlName="campaignId">
+                <option [value]="null" disabled selected>---Select Campaign Name---</option>
+                <option *ngFor="let item of compaignsList;" [value]="item.campaignId">{{item.fullName}}</option>
+              </select>
+              <div *ngIf="f1.campaignId?.errors">
+                <div *ngIf="f1.campaignId.invalid && submited">
+                  <small *ngIf="f1.campaignId.errors?.required" class="text-danger">Campaign name is requried</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-sm btn-primary" value="true" (click)="SavelinkedSaleman();">Ok</button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('Save click')">Cancel</button>
+    </div>
+  </ng-template>
+  <ng-template #contentdeleteuser let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Confirmation Required</h4>
+      <!--<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>-->
+    </div>
+    <div class="modal-body">
+      <blockquote>Before delete please make sure selected customers are test customers</blockquote>
+      <h6>Are you want to delete customer ?</h6>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-sm btn-primary" value="true" (click)="DeleteUsersConfirm();modal.close()">Ok</button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('Save click')">Cancel</button>
+    </div>
+  </ng-template>
+  
+  <ng-template #profileModal let-modal>
+    <div class="job-details-model">
+      <div class="modal-content">
+        <div class="modal-header flex-column">
+          <div class="modal-body" style="width:100%;">
+            <section class="section-inner">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-lg-12 user-header" style="min-height:150px;">
+                    <div class="col-lg-11 user-header">
+                      <div class="user-image">
+                        <ng-container *ngIf="businessProfile.profileImage !=null; else noThumbnail">
+                          <img [src]="service.transform(businessProfile.profileImage)" alt="...">
+                        </ng-container>
+                        <ng-template #noThumbnail>
+                          <img height="280" width="280" class="figure-img rounded" src="../../../assets/img/user-placeholder.png" alt="">
+                        </ng-template>
+                      </div>
+                      <div>
+                        <h4 class="d-block">{{businessProfile.firstName}} {{businessProfile.lastName}}</h4>
+                        <h4>Credit : Rs.{{tielsList[0]?.customerWalletAmount}}</h4>
+                        <!--<h4>Credit : Rs.50</h4>-->
+                      </div>
+                    </div>                    
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 sidebar-list pl-0">
+                    <ul class="list-group">
+                      <li class="list-group-item">
+                        <i class="fas fa-phone-alt mr-2"></i> <span style="font-size:1.25rem;font-weight:500">{{businessProfile.mobile !=null ? businessProfile.mobile : '-'}}</span>
+                        <p><i class="fas fa-envelope mr-2"></i>{{businessProfile.email !=null && businessProfile.email !='' ? businessProfile.email : '-' }}</p>
+                      </li>
+                      <li class="list-group-item">
+                        <h5>Customer CNIC</h5>
+                        <p>{{businessProfile.cnic !=null && businessProfile.cnic !='' ? businessProfile.cnic : '-' }}</p>
+                      </li>
+                      <li class="list-group-item">
+                        <h5>Gender</h5>
+                        <p *ngIf="businessProfile.gender == 1">Male</p>
+                        <p *ngIf="businessProfile.gender == 2">Female</p>
+                        <p *ngIf="businessProfile.gender ==3">Other</p>
+                        <p *ngIf="!businessProfile.gender">-</p>
+                      </li>
+                      <li class="list-group-item">
+                        <h5>DOB</h5>
+                        <p>{{businessProfile?.dob ? (businessProfile.dob | date:'dd MMM yyyy')  : '-'}}</p>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="col-lg-9 col-md-8 user-penal">
+                    <ngb-tabset [destroyOnHide]="false">
+                      <ngb-tab title="Customer Job List">
+                        <ng-template ngbTabContent>
+                          <div class="tab-content">
+                            <div class="row">
+                              <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                                  <thead>
+                                    <tr>
+                                      <th width="1%" title="JobQuotation ID">JQID</th>
+                                      <th width="1%" title="Job Title">JT</th>
+                                      <th width="1%" title="Job Category">JC</th>
+                                      <th width="1%" title="Job Address">JA</th>
+                                      <th width="1%" title="Post Date">PD</th>
+                                      <th width="1%" title="">Job Status</th>
+                                      <th width="1%" title="Bid Received">BR</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let item of customerJobsList">
+                                      <td>{{item?.jobQuotationId}}</td>
+                                      <td>{{item?.workTitle}}</td>
+                                      <td>{{item?.skillName}}</td>
+                                      <td>{{item?.workingAddress}}</td>
+                                      <td>{{item?.postedDate| date: 'dd MMM yyyy'}}</td>
+                                      <td>{{item?.jobStatus}}</td>
+                                      <td>{{item?.bidCount}}</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+
+                            </div>
+                          </div>
+                        </ng-template>
+                      </ngb-tab>
+                      <!--Supplier Payment History-->
+                      <ngb-tab title="Payment History">
+                        <ng-template ngbTabContent>
+                          <div class="tab-content">
+                            <div class="table-responsive">
+                              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0" #dataTable>
+                                <thead>
+                                  <tr>
+                                    <th width="1%">SR</th>
+                                    <th width="3%">Ref:</th>
+                                    <th title="Date" width="3%">Date</th>
+                                    <th width="4%" title="Method">Method</th>
+                                    <th width="4%" title="Discount">Discount</th>
+                                    <th width="4%">Paid Amount</th>
+                                    <!--<th width="4%">Paid Via Wallet</th>-->
+                                    <th width="4%">Total Amount</th>
+                                  </tr>
+                                </thead>
+                                <tbody class="table-content-fs">
+                                  <tr *ngFor="let item of getLeadgerList; let i=index">
+                                    <td>{{i+1}}</td>
+                                    <td>{{item.jobQuotationId}}</td>
+                                    <td>{{item.paymentDate | date:"dd MMM yyy"}}</td>
+                                    <td>{{item.paymentMethod}}</td>
+                                    <td>{{item.discountedAmount}}</td>
+                                    <td>{{item.customerPayable}}</td>
+                                    <!--<td>{{item.customerPayable}}</td>-->
+                                    <td>{{item.agreedAmount}}</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </ng-template>
+                      </ngb-tab>
+                    </ngb-tabset>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+          <div class="row" style="width:100%">
+            <div class="col-md-12">
+              <button type="button" class="btn btn-primary btn-sm fa-pull-right" (click)="closeProfileModal()">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+
+
+
+
+  -----------------------------------------------
+  -----------------------------------------------
+
+  <ng-template #content1 let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Confirmation Required</h4>
+    </div>
+    <div class="modal-body">
+      <h6>Are you want to change user type ?</h6>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-sm btn-primary" value="true" (click)="confrimCreateTest();modal.close()">Ok</button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('Save click')">Cancel</button>
+    </div>
+  </ng-template>
+  <ng-template #addNewCustomer let-modal>
+
+    <div class="modal-content">
+      <!-- Modal Header
+                        <div class="modal-header" style="outline:none;">
+                          <h6 class="modal-title">Add Customer</h6>
+                          <button type="button" class="close" (click)="closeModal()" style="outline:none;">&times;</button>
+                        </div>
+
+                        <!-- Modal body -->
+      <div class="modal-body">
+        <div class="card-body">
+          <form [formGroup]="appValForm" class="row emp-profile" novalidate>
+            <input type="text" class="form-control " hidden formControlName="customerId">
+            <input type="text" class="form-control" hidden formControlName="userId">
+            <div class="col-md-12 profile">
+              <fieldset>
+                <div class="form-row mt-3">
+                  <div class="form-group col-md-6">
+                    <label for="firstName">First Name</label>
+                    <input type="text" class="form-control" minlength="1" maxlength="18" formControlName="firstName" placeholder="First Name" (keypress)="service.omit_special_char($event)">
+                    <div *ngIf="f.firstName?.errors">
+                      <div *ngIf="f.firstName.invalid  && (f.firstName.touched || f.firstName.dirty)">
+                        <small class="text-danger" *ngIf="f.firstName.errors?.required"> * Please enter first name.</small>
+                        <small class="text-danger" *ngIf="f.firstName.errors?.minlength">* first name allows minimum 1 characters</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" class="form-control" minlength="1" maxlength="18" formControlName="lastName" placeholder="Last Name" (keypress)="service.omit_special_char($event)">
+                    <div *ngIf="f.lastName?.errors">
+                      <div *ngIf="f.lastName.invalid  && (f.lastName.touched || f.lastName.dirty)">
+                        <small class="text-danger" *ngIf="f.lastName.errors?.required"> * Please enter last name.</small>
+                        <small class="text-danger" *ngIf="f.lastName.errors?.minlength"> * last name allows minimum 1 characters</small>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group col-md-6">
+                    <label for="email">Email</label>
+                    <input type="text" class="form-control" maxlength="40" formControlName="email" placeholder="Email">
+                    <div *ngIf="f.email?.errors">
+                      <div *ngIf="f.email.invalid  && (f.email.touched || f.email.dirty)">
+                        <!--<small class="text-danger" *ngIf="f.email.errors?.required"> * Please enter email.</small>-->
+                        <small class="text-danger" *ngIf="f.email.errors?.pattern"> * Please provide a valid email address</small>
+                        <!--<small class="text-danger" *ngIf="f.email.errors?.maxlength"> * emails allows maximum 40 characters</small>-->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="phone">Phone</label>
+                    <input type="text" class="form-control" maxlength="11" formControlName="mobileNumber" placeholder="Phone" (keypress)="service.numberOnly($event)" />
+                    <div *ngIf="f.mobileNumber?.errors">
+                      <div *ngIf="f.mobileNumber.invalid && (f.mobileNumber.touched || f.mobileNumber.dirty)">
+                        <small class="text-danger" *ngIf="f.mobileNumber.errors?.required"> * Please enter your phone number.</small>
+                        <small class="text-danger" *ngIf="f.mobileNumber.errors?.pattern"> * Please provide a valid 11 digit phone number</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="cnic">CNIC</label>
+                    <input type="text" class="form-control" maxlength="13" formControlName="cnic" placeholder="CNIC" (keypress)="service.numberOnly($event)">
+                    <div *ngIf="f.cnic?.errors">
+                      <div *ngIf="f.cnic.invalid && (f.cnic.touched || f.cnic.dirty)">
+                        <small class="text-danger" *ngIf="f.cnic.errors?.required">* Please enter your cnic number.</small>
+                        <small class="text-danger" *ngIf="f.cnic.errors?.pattern">* Please provide a valid 13 digit cnic number</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="gender">Gender</label>
+                    <select formControlName="gender" class="form-control">
+                      <option value="null" disabled selected>--- Select Gender ---</option>
+                      <option value="1">Male</option>
+                      <option value="2">Female</option>
+                      <option value="3">Other</option>
+                    </select>
+                    <div *ngIf="f.gender?.errors">
+                      <div *ngIf="f.gender.invalid && (f.gender.touched || f.gender.dirty )">
+                        <small class="text-danger" *ngIf="f.gender.errors?.required"> * Please select your gender</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="City">City</label>
+                    <select formControlName="cityId" class="form-control">
+                      <option value="null" selected disabled>---Select City ---</option>
+                      <option *ngFor="let item of idValueVm" [value]="item.id">{{item.value}}</option>
+                    </select>
+                    <div *ngIf="f.cityId?.errors">
+                      <div *ngIf="f.cityId?.invalid && (f.cityId.touched || f.cityId.dirty)">
+                        <small class="text-danger" *ngIf="f.cityId?.errors.required">* Please select your city.</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="dob">Date Of Birth</label>
+                    <input class="form-control" formControlName="dateOfBirth" type="date" max="2010-01-01" [ngModel]="BirthDate | date:'yyyy-MM-dd'" />
+                    <div *ngIf="f.dateOfBirth?.errors">
+                      <div *ngIf="f.dateOfBirth.invalid && (f.dateOfBirth.touched || f.dateOfBirth.dirty)">
+                        <small class="text-danger" *ngIf="f.dateOfBirth.errors?.required"> * Please select date of birth.</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+          </form>
+        </div>
+
+
+
+        <!--</div>-->
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success" (click)="submitDetails();">Save</button>
+          <button type="button" class="btn btn-danger" (click)="closeModal()">Close</button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+<ng-template #analyticsModal let-modal>
+  <div class="">
+    <div class="modal-xl">
+      <div class="modal-header flex-column">
+        <h5 class="text-primary">Statistical Analysis</h5>
+      </div>
+      <div class="modal-body" style="width:100%;">
+        <h6 class="btn-primary py-1 pl-2">User Information</h6>
+        <div class="row modal-primary-user-info">
+          <div class="col-6 col-xl-6 puser-info">
+            <div class="row">
+              <div class="col-md-6 font-weight-bold">
+                <label>Customer ID</label>
+                <label>Customer Name</label>
+                <label>IP Address</label>
+                <label>Device</label>
+                <label>IP Location</label>
+                <label>Application Type</label>
+                <label>Application Version</label>
+                <label>Platfrom</label>
+                <label>OS</label>
+                <label>OS Version</label>
+                <label>Browser</label>
+
+              </div>
+              <div class=" offset-md-2 col-md-4 ">
+                <label>{{analytic?.id ? analytic.ip: '-'}}</label>
+                <label>{{analytic?.name ? analytic.ip: '-'}}</label>
+                <label>{{analytic?.ip ? analytic.ip: '-'}}</label>
+                <label>{{analytic?.device ? analytic.device : '-'}}</label>
+                <label>{{(analytic?.ipLocation) ? (analytic?.ipLocation | slice:0:25)+'...' : '-'}}</label>
+                <label>{{analytic?.applicationType ? analytic.applicationType : '-'}}</label>
+                <label>{{analytic?.applicaitonVersion ? analytic.applicaitonVersion : '-'}}</label>
+                <label>{{analytic?.platform  ? analytic.platform : '-'}}</label>
+                <label>{{analytic?.os  ? analytic.os : '-' }}</label>
+                <label>{{analytic?.osVersion ? analytic.osVersion: '-'}}</label>
+                <label>{{analytic?.browser ? analytic.browser: '-' }}</label>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-xl-6 puser-info">
+            <div class="row">
+              <div class="col-md-6 font-weight-bold">
+                <label>Browser Version</label>
+                <label>Desktop Device</label>
+                <label>Tablet Device</label>
+                <label>Mobile Device</label>
+                <label>Country</label>
+                <label>Country Capital</label>
+                <label>City</label>
+                <label>District</label>
+              </div>
+              <div class="offset-md-3 col-md-3 ">
+                <label>{{analytic?.browserVersion ? analytic.browserVersion : '-'}}</label>
+                <label>{{analytic?.desktopDevice == true ? 'Yes' : 'No'}}</label>
+                <label>{{analytic?.tabletDevice == true ? 'Yes' : 'No'}}</label>
+                <label>{{analytic?.mobileDevice == true ? 'Yes' : 'No' }}</label>
+                <label>{{analytic?.country? analytic.country : '-'}}</label>
+                <label>{{analytic?.countryCapital ? analytic.countryCapital : '-' }}</label>
+                <label>{{analytic?.city ? analytic.city : '-' }}</label>
+                <label>{{analytic?.district ? analytic.district : '-'}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('close');">Close</button>
+    </div>
+  </div>
+</ng-template>
+
+
+

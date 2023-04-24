@@ -1,0 +1,134 @@
+<!-- breadcrumb start -->
+<!--<div class="breadcrumb-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="page-title">
+          <h2>Customer orderlist</h2>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <nav aria-label="breadcrumb" class="theme-breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a [routerLink]="'/'">Home</a></li>
+            <li class="breadcrumb-item"><a [routerLink]="[_httpService.apiRoutes.User.Orders]">My Orders</a></li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>-->
+<!-- breadcrumb End -->
+<!-- tracking page start -->
+<!--<section class="tracking-page section-b-space">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">-->
+        <!--<h3 class="mb-4 font-weight-bold">Orders Items</h3>-->
+        <!--<div class="order-table table-responsive-sm">
+          <table class="table mb-0 table-striped table-borderless">
+            <thead class="">
+              <tr>
+                <th scope="col">Track</th>
+                <th scope="col">Product</th>
+                <th scope="col">Variant</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Supplier Name</th>
+                <th scope="col">Status</th>
+                <th scope="col">Order Date</th>
+                <th scope="col">Shipping Cost</th>
+                <th scope="col">Actual Price</th>
+                <th scope="col">Discount</th>
+                <th scope="col">Promotion </th>
+                <th scope="col">Total Amount</th>
+                <th scope="col">Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of customerOrderedProductsList">
+                <td>{{item?.trackingNumber ? '#' + item.trackingNumber : '-'}}</td>
+                <td>{{item?.productName  ? item?.productName.length > 10 ? item?.productName.substring(0,10) : item?.productName : '-' }} <i *ngIf="item?.productName &&  item?.productName.length > 10 " class="fa fa-eye" placement="top" ngbPopover="{{item?.productName}}" popoverTitle="Product Name" [placement]="'auto'" [container]="'body'"></i></td>
+                <td>{{(item?.varientColour ?item?.varientColour:'-')}}</td>
+                <td>{{item?.quantity}}</td>
+                <td>{{item?.supplierName  ? item?.supplierName.length > 10 ? item?.supplierName.substring(0,10) : item?.supplierName : '-' }} <i *ngIf="item?.supplierName &&  item?.supplierName.length > 10 " class="fa fa-eye" placement="top" ngbPopover="{{item?.supplierName}}" popoverTitle="Supplier Name" [placement]="'auto'" [container]="'body'"></i></td>-->
+                <!--<td>{{item.supplierName}}</td>-->
+                <!--<td [ngClass]="{'text-primary':item.orderStatusName == 'Inprogress','text-info': (item.orderStatusName == 'Received' || item.orderStatusName == 'Delivered'),'text-danger':(item.orderStatusName == 'Declined' || item.orderStatusName == 'Cancelled') ,'text-success':( item.orderStatusName == 'Packed&Shipped' || item.orderStatusName == 'Completed')}">{{(item?.orderStatusName == 'Inprogress' ? 'In-Progress' : item?.orderStatusName)}}</td>-->
+                <!--<td>{{(item.orderStatus == Orders.Received ? 'Received' : (item.orderStatus == Orders.Inprogress ? 'InProgress' : (item.orderStatus == Orders.Delievred ? 'delivered' : 'Completed')))}}</td>-->
+                <!--<td>{{item.orderDate | date: "dd MMM yyy h:mm a"}}</td>
+                <td>Rs. {{(item?.shippingCost)? (item.shippingCost | number:'1.0':'en-US') : '0.00'}}</td>
+                <td>Rs. {{(item?.actualPrice )? (item.actualPrice | number:'1.0':'en-US') : '0.00'}}</td>
+                <td>Rs. {{(item?.discountedAmount)? (item.discountedAmount | number:'1.0':'en-US') : '0.00'}}</td>
+                <td>Rs. {{(item?.promotionAmount)? (item.promotionAmount | number:'1.0':'en-US') : '0.00'}}</td>
+                <td>Rs. {{(item?.payableAmount)? (item.payableAmount | number:'1.0':'en-US') : '0.00'}}</td>-->
+                <!--<td><button type="button" class="btn btn-xs btn-solid" [routerLink]="[_httpService.apiRoutes.Product.ProductDetail,item?.slug+'-'+item?.productId,'']">Details</button></td>-->
+                <!--<td><button type="button" class="btn btn-xs btn-solid" [routerLink]="[_httpService.apiRoutes.Product.ProductDetail]" [queryParams]="{ 'va': '', 'prdt': item?.slug+'-'+item?.productId }">Details</button></td>
+                <td><button type="button" [ngClass]="!item.trackingNumber ? 'btn btn-secondary' : 'btn btn-info'" [disabled]="!item.trackingNumber" (click)="showModal(item.trackingNumber,orderTrackingModal)">Track</button></td>
+                <td><button type="button" [ngClass]="!item.trackingNumber ? 'btn btn-secondary' : 'btn btn-danger'" [disabled]="!item.trackingNumber" (click)="showModal(item.trackingNumber,orderTrackingModal)">Cancel</button></td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>-->
+
+<!-- tracking page end -->
+
+
+<!--New Section Starts-->
+<div class="container-fluid px-5">
+  <div class="breadcrumb pt-3" style="margin-top: 134px;">
+    <ul class="d-flex">
+      <li><a [routerLink]="'/'">Home</a><span>|</span></li>
+      <li><a [routerLink]="[_httpService.apiRoutes.User.Orders]">My Order</a></li>
+    </ul>
+  </div>
+  <h4 class="primaryClr mb-5">
+    Order Details</h4>
+    <table class="table table-borderless">
+      <thead>
+        <tr>
+          <th>Track</th>
+          <th>Product</th>
+          <th>Variant</th>
+          <th>Quantity</th>
+          <th>Supplier Name</th>
+          <th>Order Status</th>
+          <th>Order Data</th>
+          <th>Shipping Cost</th>
+          <th>Product Price</th>
+          <th>Promotion</th>
+          <th>Total Amount</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of customerOrderedProductsList">
+          <td>{{item?.trackingNumber ? '#' + item.trackingNumber : '-'}}</td>
+          <td>{{item?.productName  ? item?.productName.length > 10 ? item?.productName.substring(0,10) : item?.productName : '-' }}<i *ngIf="item?.productName &&  item?.productName.length > 10 " class="fa fa-eye" placement="top" ngbPopover="{{item?.productName}}" popoverTitle="Product Name" [placement]="'auto'" [container]="'body'"></i></td>
+          <td>
+            <div class="variant_details">
+              <div class="variant-circle" [style.backgroundColor]="item.varientColour"></div>
+            </div>
+          </td>
+          <td>{{item?.quantity}}</td>
+          <td>{{item?.supplierName  ? item?.supplierName.length > 10 ? item?.supplierName.substring(0,10) : item?.supplierName : '-' }} <i *ngIf="item?.supplierName &&  item?.supplierName.length > 10 " class="fa fa-eye" placement="top" ngbPopover="{{item?.supplierName}}" popoverTitle="Supplier Name" [placement]="'auto'" [container]="'body'"></i></td>
+          <td [ngClass]="{'text-primary':item.orderStatusName == 'Inprogress','text-info': (item.orderStatusName == 'Received' || item.orderStatusName == 'Delivered'),'text-danger':(item.orderStatusName == 'Declined' || item.orderStatusName == 'Cancelled') ,'text-success':( item.orderStatusName == 'Packed&Shipped' || item.orderStatusName == 'Completed')}">{{(item?.orderStatusName == 'Inprogress' ? 'In-Progress' : item?.orderStatusName)}}</td>
+          <td>{{item.orderDate | date: "dd MMM yyy h:mm a"}}</td>
+          <td>Rs: {{(item?.shippingCost)? (item.shippingCost | number:'1.0':'en-US') : '0.00'}}</td>
+          <td>Rs: {{(item?.price )? (item.price | number:'1.0':'en-US') : '0.00'}}</td>
+          <td>Rs: {{(item?.promotionAmount)? (item.promotionAmount | number:'1.0':'en-US') : '0.00'}}</td>
+          <td class="fw-bold primaryClr">Rs. {{(item?.payableAmount)? (item.payableAmount | number:'1.0':'en-US') : '0.00'}}</td>
+          <td class="d-flex flex-column gap-1">
+            <button class="btn primaryBg text-white p-1 font-laila fw-bold" [ngClass]="!item.trackingNumber ? 'btn btn-secondary' : 'btn btn-info'" [disabled]="!item.trackingNumber" (click)="orderItemTrack(item.trackingNumber)">Track</button>
+            <button class="btn primaryBg text-white p-1 font-laila fw-bold" [routerLink]="[_httpService.apiRoutes.Product.ProductDetail]" [queryParams]="{ 'va': '', 'prdt': item?.slug+'-'+item?.productId }">Details</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</div>
+
+
+<!--New Section End-->

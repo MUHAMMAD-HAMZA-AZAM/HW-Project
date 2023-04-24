@@ -1,0 +1,314 @@
+<div class="container-fluid">
+  <div class="row" id="pending-jobs">
+    <div class="col-xl-12">
+      <div class="row job-tiles">
+        <div class="col-xl-1 col-lg-1 pr-0">
+          <div class="job-header-title">
+            <h5>Deleted Jobs </h5>
+          </div>
+        </div>
+        <div class="col-xl-2 col-lg-2 pl-0">
+          <div class="active-job-box">
+            <h6 class="text-success">Jobs Created: {{data.jobsCreated}}</h6>
+          </div>
+
+        </div>
+        <div class="col-xl-2 col-lg-2">
+          <div class="active-job-box">
+            <h6 class="text-danger">Jobs In-Progress: {{data.jobsInProgress}}</h6>
+          </div>
+
+        </div>
+        <div class="col-xl-2 col-lg-2">
+          <div class="active-job-box">
+            <h6 class="text-warning">Jobs Completed: {{data.jobsCompleted}}</h6>
+          </div>
+        </div>
+        <div class="col-xl-2 col-lg-2">
+          <div class="active-job-box">
+            <h6 class="text-danger">To Authorize: <b>{{data.jobsApprove}}</b></h6>
+          </div>
+        </div>
+
+        <div class="col-xl-2 col-lg-2 pl-0">
+          <div class="active-job-box">
+            <h6 class="text-success">Jobs Deleted: {{data.deletedJobs}}</h6>
+          </div>
+
+        </div>
+      </div>
+      </div>
+    </div>
+    <div class="active-job-details job-header-boxes">
+    </div>
+
+
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-4">
+        <h6 class="mainTitle" data-toggle="collapse" href="#collapse2" aria-expanded="true">Search Jobs Status</h6>
+      </div>
+    </div>
+    <div id="collapse2" class="contentWrapper fs-12 collapse">
+      <form class="">
+        <div class="row ">
+          <div class="col-md-4">
+            <label for="customerName">Customer Name</label>
+            <div class="input-group">
+              <input type="text" autocomplete="off" id="customerName" maxlength="30" name="customerName" class="form-control" [(ngModel)]="customerName" placeholder="Customer Name" (keypress)="httpService.omit_special_char($event)" />
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  <input type="radio" value="1" id="start" (click)="getRadioValue($event)" name="groupOfDefaultRadios" checked #restChecked>
+                  <label class="" for="start">Start</label>
+                  <input type="radio" class="" (click)="getRadioValue($event)" value="2" id="anyWhere" name="groupOfDefaultRadios">
+                  <label class="" for="anyWhere">Anywhere</label>
+                  <input type="radio" class="" value="3" id="end" (click)="getRadioValue($event)" name="groupOfDefaultRadios">
+                  <label class="" for="end">End</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row  mt-3">
+          <div class="col-md-2">
+            <label for="tradesmanName">Job Quotation Id</label>
+            <input type="text" autocomplete="off" maxlength="10" id="jobId" name="jobId" class="form-control" [(ngModel)]="jobId" placeholder="Job Quotation Id " (keypress)="httpService.numberOnly($event)" />
+          </div>
+          <div class="col-md-2">
+            <label for="tradesmanName">Job Detail Id</label>
+            <input type="text" autocomplete="off" maxlength="10" id="jobdetailid" name="jobdetailid" class="form-control" [(ngModel)]="jobdetailid" placeholder="Job Detail Id " (keypress)="httpService.numberOnly($event)" />
+          </div>
+
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-2">
+            <label class="">Job Posted From Date</label>
+            <input type="date" id="startDate" [(ngModel)]="startDate" name="startDate" class="form-control" />
+          </div>
+          <div class="col-md-2">
+            <label class="">Job Posted To Date</label>
+            <input type="date" id="endDate" [(ngModel)]="endDate" name="endDate" class="form-control" />
+          </div>
+
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-2">
+            <label class="">Job End From Date</label>
+            <input type="date" id="fromDate" [(ngModel)]="fromDate" name="fromDate" class="form-control" />
+          </div>
+          <div class="col-md-2">
+            <label class="">Job End To Date</label>
+            <input type="date" id="toDate" [(ngModel)]="toDate" name="toDate" class="form-control" />
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-4">
+            <label class="">City</label>
+            <ng-multiselect-dropdown placeholder="City" style="display:inline;"
+                                     [settings]="dropdownListForCity"
+                                     [data]="cityList"
+                                     [(ngModel)]="selectedCities"
+                                     name="selectedCities"
+                                     (onSelect)="onCitySelect($event)"
+                                     (onSelectAll)="onCitySelectAll($event)"
+                                     (onDeSelect)="onCityDeSelect($event)"
+                                     (onDeSelectAll)="onCityDeSelectALL($event)"
+                                     (OnDeSelect)="onCityDeSelect($event)">
+            </ng-multiselect-dropdown>
+          </div>
+  
+        </div>
+        <div class="row mt-1">
+          <div class="col-md-4 addressSearch">
+            <div class="form-group  ">
+              <label for="businessAddress">Location</label>
+              <input type="text" class="form-control desc" maxlength="50" [(ngModel)]="location" id="location" placeholder="Location" name="location" autocomplete="off" autocapitalize="off" spellcheck="off" #search />
+            </div>
+            <div class="addressSearchResult" *ngIf="isAddress">
+              <ul>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>User Type</label>
+              <div class="input-group-prepend">
+                <div class="input-group-text user-type">
+                  <input type="radio" value="3" id="all" (click)="getRadioValueut($event)" name="groupOfDefaultRadios3" checked #restUserType>
+                  <label class="" for="all">All User</label>
+                  <input type="radio" value="1" id="real" (click)="getRadioValueut($event)" name="groupOfDefaultRadios3">
+                  <label class="" for="real">Real User</label>
+                  <input type="radio" class="" (click)="getRadioValueut($event)" value="2" id="test" name="groupOfDefaultRadios3">
+                  <label class="" for="test">Test User</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-sm-4 inline-downlod-btns">
+            <div class="form-group">
+              <input class=" btn btn-primary btn-sm" type="submit" value="Search" (click)="GetDeletedJobList()" />
+            </div>
+            <div class="form-group">
+              <input class="btn btn-primary btn-sm" type="submit" (click)="resetForm()" value="Reset" />
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="inline-downlod-btns justify-content-end" *ngIf="cloneList.length > 0">
+    <ng-container *ngIf="userRole.allowExport">
+      <div class="form-group">
+        <input class="btn btn-primary btn-sm" type="button" value="Download pdf" (click)="DownloadPdf()" />
+      </div>
+      <div class="form-group ml-2">
+        <input class="btn btn-primary btn-sm" type="button" value="Download Excel" (click)="DownloadXlsx()" />
+      </div>
+      <div class="form-group ml-2">
+        <input class="btn btn-primary btn-sm" type="submit" value="Download Csv" (click)="exportCSV()" />
+      </div>
+    </ng-container>
+
+  </div>
+  <div class="card shadow mb-4">
+    <div class="card-header justify-header">
+      <h6 class="m-0 font-weight-bold">Deleted Jobs List</h6>
+      <div class="g-pagination">
+        <div class="data-count">
+          <span>{{recoardNoFrom}}-{{recoardNoTo}} of {{totalRecoards}}</span>
+          <div class="newOrOld-Data">
+            <ul>
+              <li><a (click)="LoadNewestRecoards()"> Newest</a></li>
+              <li><a (click)="LoadOldestRecoards()">Oldest</a></li>
+            </ul>
+          </div>
+          <!--<span>1-46 of 46</span>-->
+        </div>
+        <div class="indicators">
+          <i class="fa fa-angle-left" (click)="PriviousClick()"></i>
+          <i class="fa fa-angle-right" (click)="NextClick()"></i>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="show_entries">
+        <div class="no-of-entries">
+          <label>No of Entries</label>
+          <select class="" [(ngModel)]="data.pageSize" (change)="PageSizeChange()">
+            <option value="50" selected>50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+        <div class="n0-of-pages">
+          <label>No of Pages</label>
+          <select class="" [(ngModel)]="pageNumber" (change)="clickchange()">
+            <option *ngFor="let item of pageing1" value="{{item}}">{{item}} </option>
+          </select>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" #dataTable>
+          <thead>
+            <tr>
+              <th width="7%" id="customerId" title="CustomerId">CID<span class="up " (click)="sorting('customerId','asc')">&nbsp;</span><span class="down " (click)="sorting('customerId','desc')">&nbsp;</span></th>
+              <th width="7%" id="customer">Customer Name<span class="up" (click)="sorting('customer','asc')">&nbsp;</span><span class="down" (click)="sorting('customer','desc')">&nbsp;</span></th>
+              <th width="7%" id="mobileNumber">Mobile <span class="up" (click)="sorting('mobileNumber','asc')">&nbsp;</span><span class="down" (click)="sorting('mobileNumber','desc')">&nbsp;</span></th>
+              <th width="4%" id="city">City<span class="up" (click)="sorting('town','asc')">&nbsp;</span><span class="down" (click)="sorting('town','desc')">&nbsp;</span></th>
+              <th width="4%" id="town">Town<span class="up" (click)="sorting('town','asc')">&nbsp;</span><span class="down" (click)="sorting('town','desc')">&nbsp;</span></th>
+              <th width="7%" id="jobId" title="Job QuotationId">JQID<span class="up " (click)="sorting('customerId','asc')">&nbsp;</span><span class="down " (click)="sorting('customerId','desc')">&nbsp;</span></th>
+              <th width="15%" id="job">Job Title<span class="up" (click)="sorting('customer','asc')">&nbsp;</span><span class="down" (click)="sorting('customer','desc')">&nbsp;</span></th>
+              <th width="7%">Budget</th>
+              <th width="7%" title="Visit Charges">VC</th>
+              <th width="7%" title="Service Charges">SC</th>
+              <th width="7%" title="Other Charges">OC</th>
+              <th width="6%" title="User Type">UT</th>
+              <th width="5%" title="Authorize">Authorize</th>
+              <th width="5%" title="Job Status">Status</th>
+              <th id="createdOn" width="8%" title="Created Date">CD<span class="up" (click)="sorting('createdOn','asc')">&nbsp;</span><span class="down" (click)="sorting('createdOn','desc')">&nbsp;</span></th>
+  
+              <th *ngIf="userRole.allowDelete" width="5%" title="Delete">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of cloneList">
+              <td>{{item.jobId}}</td>
+              <td>{{(item.customerName.length > 15) ? (item.customerName | slice:0:15)+'...':(item.customerName)}}</td>
+              <td>{{item.mobileNumber}}</td>
+              <td>{{item?.city}}</td>
+              <td>{{item?.town}}</td>
+              <td>{{item.customerId}}</td>
+              <td>{{(item?.jobTitle && item.jobTitle.length > 20) ? (item.jobTitle | slice:0:20)+'...':(item.jobTitle)}}</td>
+              <td>{{item.workBudget}}</td>
+              <td>{{item.visitCharges}}</td>
+              <td>{{item.serviceCharges}}</td>
+              <td>{{item.otherCharges}}</td>
+              <td>{{item.isTestUser ? 'Test' : 'Real'}}</td>
+              <td>{{item.isAuthorize ? 'Yes' : 'No'}}</td>
+              <td>{{item.statusId}}</td>
+              <td>{{item.createdOn | date: 'dd MMM yyyy'}}</td>
+              <td *ngIf="userRole.allowDelete">
+                <a class="fas fa-trash" (click)="DeleteJobByJobQuotationId(item.customerId,deleteJob )"></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div *ngIf="dataNotFound" class="text-danger mb-2">No record found</div>
+      </div>
+      <div class="card-body" style="padding:0px !important">
+        <div class="show_entries">
+          <div class="no-of-entries">
+            <label>No of Entries</label>
+            <select class="" [(ngModel)]="data.pageSize" (change)="PageSizeChange()">
+              <option value="50" selected>50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+          <div class="n0-of-pages">
+            <label>No of Pages</label>
+            <select class="" [(ngModel)]="pageNumber" (change)="clickchange()">
+              <option *ngFor="let item of pageing1" value="{{item}}">{{item}} </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="card-header justify-header">
+        <h6 class="m-0 font-weight-bold">Jobs List</h6>
+        <div class="g-pagination">
+          <div class="data-count">
+            <span>{{recoardNoFrom}}-{{recoardNoTo}} of {{totalRecoards}}</span>
+            <div class="newOrOld-Data">
+              <ul>
+                <li><a (click)="LoadNewestRecoards()"> Newest</a></li>
+                <li><a (click)="LoadOldestRecoards()">Oldest</a></li>
+              </ul>
+            </div>
+            <!--<span>1-46 of 46</span>-->
+          </div>
+          <div class="indicators">
+            <i class="fa fa-angle-left" (click)="PriviousClick()"></i>
+            <i class="fa fa-angle-right" (click)="NextClick()"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Job Delete Modal -->
+<ng-template #deleteJob let-modal>
+  <div class="modal-content">
+    <div class="modal-body">
+      <h5 style="color:#636363; font-size:24px;">Are you sure you want to Delete job ?</h5>
+    </div>
+    <div class="modal-footer justify-content-center">
+      <button type="button" class="btn btn-sm btn-primary" (click)="deletejobconfirm()">DELETE</button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('cancel click')">CANCEL</button>
+    </div>
+  </div>
+</ng-template>
+

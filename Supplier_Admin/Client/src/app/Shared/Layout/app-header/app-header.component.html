@@ -1,0 +1,111 @@
+    <!-- Page Header Start-->
+<div class="page-main-header">
+  <div class="main-header-right row">
+    <div class="main-header-left d-lg-none w-auto">
+      <div class="logo-wrapper">
+        <a [routerLink]="common.apiRoutes.Home.Dashboard">
+          <img class="blur-up lazyloaded" src="../../../../assets/images/hw_logo.png" alt="">
+          </a>
+      </div>
+    </div>
+    <div class="mobile-sidebar w-auto">
+      <div class="media-body text-end switch-sm">
+        <label class="switch"><i id="sidebar-toggle" class="fa fa-bars"></i></label>
+      </div>
+    </div>
+    <div class="nav-right col">
+      <ul class="nav-menus">
+        <li class="d-none">
+          <form class="form-inline search-form">
+            <div class="form-group">
+              <input class="form-control-plaintext" type="search" placeholder="Search.."><span class="d-sm-none mobile-search"><i class="fa fa-search"></i></span>
+            </div>
+          </form>
+        </li>
+        <li>
+          <a routerLink="/Tradesman/Invoice/trsdesmanwithdrawal">
+            <label class="mb-0 fos-14">Credits: <b class=text-primary>Rs.{{walletAmount}}</b></label>
+            </a>
+        </li>
+        <!--<li><a class="text-dark" href="#!" onclick="javascript:toggleFullScreen()"><i data-feather="maximize-2"></i></a></li>-->
+        <li class="onhover-dropdown" id="custom_notification_dropdown">
+          <i class="fa fa-bell-o f-20"></i><span class="badge badge-pill badge-primary pull-right notification-badge">{{unreadNotificationCount}}</span><span class="dot"></span>
+          <ul class="notification-dropdown onhover-show-div p-0" [style.height]="notificationList.length <= 0 ? 'auto' : ''">
+            <li><b>Notifications</b><span class="badge badge-pill badge-primary pull-right">{{unreadNotificationCount}} Unread Notification(s)</span></li>
+            <ng-container *ngIf="notificationList.length > 0;else elseBlock">
+              <li *ngFor="let notification of notificationList;let i = index;trackBy:identify"
+                  [style.backgroundColor]="(!notification.isRead && elementIndex != i) ? '#f9ffeb' : (notification.isRead && elementIndex == i) ? '#fff' : ''"
+                  (click)="markNotificationAsRead(notification.notificationId,notification.targetActivity,i)">
+                  <div class="media">
+                    <div class="media-body">
+                      <div class="d-flex justify-content-between">
+                        <h6 class="mt-0">{{notification.title}}</h6>  
+                        <p class="mt-0">{{notification.createdOn | date:'medium'}}</p>
+                      </div>
+                      <p class="mb-0">{{notification.content}}</p>
+                    </div>
+                  </div>
+              </li>
+              <li class="bg-light txt-dark"><a routerLink="/home/notifications">All</a> notification</li>
+            </ng-container>
+            <ng-template #elseBlock>
+              <li class="text-danger">You don't have any notification yet</li>
+            </ng-template>
+          </ul>
+        </li>
+
+        <li class="onhover-dropdown d-none">
+          <i class="fa fa-bell-o f-18"></i>
+          <!--<span class="badge badge-pill badge-primary pull-right notification-badge">3</span>-->
+          <span class="dot"></span>
+          <ul class="notification-dropdown onhover-show-div p-0">
+            <!--<li>Notification <span class="badge badge-pill badge-primary pull-right">3</span></li>-->
+            <li>
+              <h6 class="dropdown-header">
+                Notifications
+              </h6>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" *ngFor="let notification of notificationList">
+                <div class="dropdown-list-image">
+                  <i class="fas fa-bell fa-fw me-2"></i>
+                </div>
+                <div class="fw-bold" (click)="redirectToPage(notification.targetActivity)">
+                  <div class="text-truncate">{{notification.body}}</div>
+                  <div class="small text-gray-500">{{notification.createdOn | date: 'dd/M/yyyy, h:mm a'}}</div>
+                </div>
+              </a>
+            </li>
+
+            <li class="bg-light txt-dark"><a routerLink="/home/notifications">View All</a> notification</li>
+          </ul>
+        </li>
+
+        <li>
+          <h6>{{fullName}}</h6>
+        </li>
+        <!--<li><a href="#"><i class="right_side_toggle" class="message-square"></i><span class="dot"></span></a></li>-->
+        <li class="onhover-dropdown">
+          <div class="media align-items-center">
+            <ng-container *ngIf="logoImage;else noImg">
+              <img class="align-self-center pull-right header-image-size rounded-circle blur-up lazyloaded" [src]="common.transform(logoImage)">
+            </ng-container>
+            <ng-template #noImg>
+              <img class="align-self-center pull-right header-image-size rounded-circle blur-up lazyloaded" src="/assets/images/1.jpg" alt="header-user">
+            </ng-template>
+            <div class="dotted-animation"><span class="animate-circle"></span><span class="main-circle"></span></div>
+          </div>
+          <ul class="profile-dropdown onhover-show-div p-20">
+            <!--<li><a routerLink="/profile/management"><i class="fa fa-user"></i>Edit Profile</a></li>
+      <li><a href="#"><i class="fa fa-envelope"></i>Inbox</a></li>
+      <li><a href="#"><i class="fa fa-lock"></i>Lock Screen</a></li>-->
+            <li><a (click)="ShowCard('seller-account')"><i class="fa fa-cog"></i>Settings</a></li>
+            <li><a href="javascript:void(0);" (click)="logOut()"><i class="fa fa-sign-in"></i>Logout</a></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="d-lg-none mobile-toggle pull-right" id="mobileToggleHeaderMenu"><i class="fa fa-ellipsis-h f-18 defClr"></i></div>
+    </div>
+  </div>
+</div>
+<!-- Page Header Ends -->

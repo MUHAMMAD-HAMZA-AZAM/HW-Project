@@ -1,0 +1,122 @@
+<section id="nd-right-content">
+  <h2 class="heading-dashboad mb-3 mb-lg-4">About your business</h2>
+  <div class="row">
+    <div class="col-12">
+      <div class="d-content-left-side">
+        <div class="quote-details-wrapper mb40">
+          <div class="quotes-details">
+            <form [formGroup]="appValForm">
+              <!--<div class="row">
+                <div class="col-12">
+                  <div class="form-group">
+                    <label>what describe you best</label>
+                    <input disabled type="text" class="form-control" placeholder="Enter Job Tilte" value="{{isOrganization==true ? 'Organization':'Sole trader' }} " />
+                  </div>
+                </div>
+              </div>-->
+              <div class="row">
+                <div class="col-xl-6 col-lg-6">
+                  <div class="form-group">
+                    <label for="tradeName">Trade Name</label>
+                    <input type="text" autocomplete="false" class="form-control" id="tradeName" maxlength="30" formControlName="CompanyName" placeholder="Trade Name">
+                    <span class="text-danger" *ngIf=" submitted && f.CompanyName.errors?.required">{{tradeNameErrorMessage}}</span>
+                  </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                  <div class="form-group">
+                    <label for="companyRegistration">Company Registration Number</label>
+                    <input type="text" autocomplete="false" maxlength="10" class="form-control" id="CompanyRegistrationNo" formControlName="CompanyRegistrationNo" placeholder="Company Registration No">
+                    <!--<span class="text-danger" *ngIf=" submitted && f.CompanyRegistrationNo.errors?.required">Please enter registration number</span>-->
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-6 col-lg-6">
+                  <div class="form-group">
+                    <label>Select category</label>
+                    <ng-multiselect-dropdown class="ng-auto-dropdown" [placeholder]="'Select Category'"
+                                             [data]="dropdownListCategory"
+                                             formControlName="PrimaryTrade"
+                                             [settings]="dropdownListCategorySettings"
+                                             (onSelect)="onCategorySelect($event)"
+                                             (onDeSelect)="resetSelection($event)">
+                    </ng-multiselect-dropdown>
+                    <span class="text-danger" *ngIf=" submitted && f.PrimaryTrade.errors?.required">{{primaryTradeErrorMessage}}</span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Sub category</label>
+                    <ng-multiselect-dropdown class="ng-auto-dropdown" [placeholder]="'Select Subcategory'"
+                                             [data]="SubCategories"
+                                             formControlName="ProductIds"
+                                             [settings]="SubCategorySettings"
+                                             [(ngModel)]="selectedItemsSubCategory">
+                    </ng-multiselect-dropdown>
+                    <span class="text-danger" *ngIf=" submitted && f.ProductIds.errors?.required">{{subCategoryErrorMessage}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>City</label>
+                    <select class="form-control" formControlName="CityId">
+                      <option value="" selected disabled>City</option>
+                      <option *ngFor="let option of cityList" [value]="option.id">
+                        {{option.value}}
+                      </option>
+                    </select>
+                    <span class="text-danger" *ngIf="submitted && f.CityId.errors?.required">Please select at lease one</span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Delivery radius</label>
+                    <select class="form-control" formControlName="DeliveryRadius" required>
+                      <option value="" selected disabled>Delivery radius</option>
+                      <option *ngFor="let option of distanceList" [value]="option.id">
+                        {{option.id}} {{option.value}}
+                      </option>
+                    </select>
+                    <span class="text-danger" *ngIf=" submitted && f.DeliveryRadius.errors?.required">Please select at lease one</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group">
+                    <label>Business Address</label>
+                    <input type="text" class="form-control desc" maxlength="250" formControlName="BusinessAddress"
+                           (keydown.enter)="$event.preventDefault()" autocapitalize="off" spellcheck="off" #search>
+                    <span class="text-danger" *ngIf=" submitted && f.BusinessAddress.errors?.required">Please enter your business address</span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group">
+                    <div class="g-map-outline">
+                      <agm-map class="profile-map" (mapClick)="addMarker($event.coords.lat, $event.coords.lng)" [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+                        <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+                      </agm-map>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-6">
+                  <div class="form-group">
+                    <button (click)="SendVerificationLink()" class="btn mp-outine-btn px-4">save</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+

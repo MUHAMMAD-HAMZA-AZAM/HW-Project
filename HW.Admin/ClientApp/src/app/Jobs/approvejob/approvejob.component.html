@@ -1,0 +1,761 @@
+
+<div class="container-fluid">
+  <div class="row" id="pending-jobs">
+    <div class="col-xl-12">
+      <div class="row job-tiles">
+        <div class="col-xl-1 col-lg-1 pr-0">
+          <div class="job-header-title">
+            <h5>Approve Jobs </h5>
+          </div>
+        </div>
+        <div class="col-xl-2 col-lg-2 pl-0">
+          <div class="active-job-box">
+            <h6 class="text-success">Jobs Created: {{data.jobsCreated}}</h6>
+          </div>
+
+        </div>
+        <div class="col-xl-2 col-lg-2">
+          <div class="active-job-box">
+            <h6 class="text-danger">Jobs In-Progress: {{data.jobsInProgress}}</h6>
+          </div>
+
+        </div>
+        <div class="col-xl-2 col-lg-2">
+          <div class="active-job-box">
+            <h6 class="text-warning">Jobs Completed: {{data.jobsCompleted}}</h6>
+          </div>
+        </div>
+        <div class="col-xl-2 col-lg-2">
+          <div class="active-job-box">
+            <h6 class="text-danger">To Authorize: <b>{{data.jobsApprove}}</b></h6>
+          </div>
+        </div>
+        <!--<div class="offset-xl-2 offset-lg-1">
+        </div>-->
+      </div>
+    </div>
+    <div class="active-job-details job-header-boxes">
+    </div>
+  </div>
+
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-4">
+        <h6 class="mainTitle" data-toggle="collapse" href="#collapse2" aria-expanded="true">Search Jobs Status</h6>
+      </div>
+    </div>
+    <div id="collapse2" class="contentWrapper fs-12 collapse">
+      <form class="">
+        <div class="row ">
+          <div class="col-md-4">
+            <label for="customerName">Customer Name</label>
+            <div class="input-group">
+              <input type="text" autocomplete="off" id="customerName" maxlength="30" name="customerName" class="form-control" [(ngModel)]="customerName" placeholder="Customer Name" (keypress)="httpService.omit_special_char($event)" />
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  <input type="radio" value="1" id="start" (click)="getRadioValue($event)" name="groupOfDefaultRadios" checked #restChecked>
+                  <label class="" for="start">Start</label>
+                  <input type="radio" class="" (click)="getRadioValue($event)" value="2" id="anyWhere" name="groupOfDefaultRadios">
+                  <label class="" for="anyWhere">Anywhere</label>
+                  <input type="radio" class="" value="3" id="end" (click)="getRadioValue($event)" name="groupOfDefaultRadios">
+                  <label class="" for="end">End</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row  mt-3">
+          <div class="col-md-2">
+            <label for="tradesmanName">Job Quotation Id</label>
+            <input type="text" autocomplete="off" maxlength="10" id="jobId" name="jobId" class="form-control" [(ngModel)]="jobId" placeholder="Job Quotation Id " (keypress)="httpService.numberOnly($event)" />
+          </div>
+          <div class="col-md-2">
+            <label class="">City</label>
+            <ng-multiselect-dropdown placeholder="City" style="display:inline;"
+                                     [settings]="dropdownListForCity"
+                                     [data]="cityList"
+                                     [(ngModel)]="selectedCities"
+                                     name="selectedCities"
+                                     (onSelect)="onCitySelect($event)"
+                                     (onSelectAll)="onCitySelectAll($event)"
+                                     (onDeSelect)="onCityDeSelect($event)"
+                                     (onDeSelectAll)="onCityDeSelectALL($event)"
+                                     (OnDeSelect)="onCityDeSelect($event)">
+            </ng-multiselect-dropdown>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-2">
+            <label class="">Job Posted From Date</label>
+            <input type="date" id="startDate" [(ngModel)]="startDate" name="startDate" class="form-control" />
+          </div>
+          <div class="col-md-2">
+            <label class="">Job Posted To Date</label>
+            <input type="date" id="endDate" [(ngModel)]="endDate" name="endDate" class="form-control" />
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>User Type</label>
+              <div class="input-group-prepend">
+                <div class="input-group-text user-type">
+                  <input type="radio" value="3" id="all" (click)="getRadioValueut($event)" name="groupOfDefaultRadios3" checked #restUserType>
+                  <label class="" for="all">All User</label>
+                  <input type="radio" value="1" id="real" (click)="getRadioValueut($event)" name="groupOfDefaultRadios3">
+                  <label class="" for="real">Real User</label>
+                  <input type="radio" class="" (click)="getRadioValueut($event)" value="2" id="test" name="groupOfDefaultRadios3">
+                  <label class="" for="test">Test User</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4 inline-downlod-btns">
+            <div class="form-group">
+              <input class=" btn btn-primary btn-sm" type="submit" value="Search" (click)="GetActiveJobList()" />
+            </div>
+            <div class="form-group">
+              <input class="btn btn-primary btn-sm" type="submit" (click)="resetForm()" value="Reset" />
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="inline-downlod-btns justify-content-end" *ngIf="cloneList.length > 0 && userRole.allowExport">
+    <div class="form-group">
+      <input class="btn btn-primary btn-sm" type="button" value="Download pdf" (click)="DownloadPdf()" />
+    </div>
+    <div class="form-group ml-2">
+      <input class="btn btn-primary btn-sm" type="button" value="Download Excel" (click)="DownloadXlsx()" />
+    </div>
+    <div class="form-group ml-2">
+      <input class="btn btn-primary btn-sm" type="submit" value="Download Csv" (click)="exportCSV()" />
+    </div>
+  </div>
+  <div class="card shadow mb-4">
+    <div class="card-header justify-header">
+      <h6 class="m-0 font-weight-bold">Jobs List</h6>
+      <div class="g-pagination">
+        <div class="data-count">
+          <span>{{recoardNoFrom}}-{{recoardNoTo}} of {{totalRecoards}}</span>
+          <div class="newOrOld-Data">
+            <ul>
+              <li><a (click)="LoadNewestRecoards()"> Newest</a></li>
+              <li><a (click)="LoadOldestRecoards()">Oldest</a></li>
+            </ul>
+          </div>
+          <!--<span>1-46 of 46</span>-->
+        </div>
+        <div class="indicators">
+          <i class="fa fa-angle-left" (click)="PriviousClick()"></i>
+          <i class="fa fa-angle-right" (click)="NextClick()"></i>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="show_entries">
+        <div class="no-of-entries">
+          <label>No of Entries</label>
+          <select class="" [(ngModel)]="data.pageSize" (change)="PageSizeChange()">
+            <option value="50" selected>50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+        <div class="n0-of-pages">
+          <label>No of Pages</label>
+          <select class="" [(ngModel)]="pageNumber" (change)="clickchange()">
+            <option *ngFor="let item of pageing1" value="{{item}}">{{item}} </option>
+          </select>
+        </div>
+      </div>
+      <div class="table-responsive" #pdfTable1>
+        <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" #dataTable *ngIf="cloneList.length > 0">
+          <thead>
+            <tr>
+
+              <!--<th class="sorting" id="recordNo">Record No<span class="up " (click)="sorting('recordNo','asc')">&nbsp;</span><span class="down " (click)="sorting('recordNo','desc')">&nbsp;</span></th>-->
+              <th width="2%" id="customerId" title="CustomerId">CID<span class="up " (click)="sorting('customerId','asc')">&nbsp;</span><span class="down " (click)="sorting('customerId','desc')">&nbsp;</span></th>
+              <th width="7%" id="customer" title="Customer Name">CN<span class="up" (click)="sorting('customer','asc')">&nbsp;</span><span class="down" (click)="sorting('customer','desc')">&nbsp;</span></th>
+              <th width="7%" id="mobileNumber">Mobile <span class="up" (click)="sorting('mobileNumber','asc')">&nbsp;</span><span class="down" (click)="sorting('mobileNumber','desc')">&nbsp;</span></th>
+              <th width="4%" id="city">City<span class="up" (click)="sorting('town','asc')">&nbsp;</span><span class="down" (click)="sorting('town','desc')">&nbsp;</span></th>
+              <th width="4%" id="town">Town<span class="up" (click)="sorting('town','asc')">&nbsp;</span><span class="down" (click)="sorting('town','desc')">&nbsp;</span></th>
+              <th width="4%" title="Street Address" id="Street Address">SA<span class="up" (click)="sorting('town','asc')">&nbsp;</span><span class="down" (click)="sorting('town','desc')">&nbsp;</span></th>
+              <th width="4%" id="jobId" title="Job QuotationId">JQID<span class="up " (click)="sorting('customerId','asc')">&nbsp;</span><span class=" " (click)="sorting('customerId','desc')">&nbsp;</span></th>
+              <th width="6%" id="job">Job Title<span class="up" (click)="sorting('customer','asc')">&nbsp;</span><span class="down" (click)="sorting('customer','desc')">&nbsp;</span></th>
+
+
+              <th width="3%">Budget</th>
+              <th width="3%" title="Visit Charges">VC</th>
+              <th width="3%" title="Service Charges">SC</th>
+              <th width="3%" title="Other Charges">OC</th>
+
+              <th width="3%" title="User Type">UT</th>
+              <th width="7%" title="Customer Support Job status">CSJS</th>
+              <th width="3%" title="Posted Jobs">PJ</th>
+              <th width="5%" title="Job Start Date">JSD</th>
+              <th title="Job Creation Date" width="8%">CD</th>
+              <th width="2%" title="Details">Det</th>
+              <th *ngIf="userRole.allowEdit" width="5%" title="Authorize">Authorize</th>
+              <th *ngIf="userRole.allowDelete" width="3%" title="Delete">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of cloneList;trackBy:trackById">
+
+              <td>{{item.jobId}}</td>
+              <td>{{(item.customerName.length > 15) ? (item.customerName | slice:0:15)+'...':(item.customerName)}} </td>
+              <td>{{item.mobileNumber}}</td>
+              <td>{{item.city}}</td>
+              <td>{{item.town}}</td>
+              <td>{{(item?.streetAddress?.length > 15) ? (item?.streetAddress | slice:0:15) +'...':(item?.streetAddress)}}</td>
+              <td>{{item.customerId}}</td>
+              <!--<td>{{item.jobTitle}}</td>-->
+              <td>{{(item?.jobTitle && item.jobTitle.length > 20) ? (item.jobTitle | slice:0:20)+'...':(item.jobTitle)}}</td>
+              <td>{{item?.workBudget}}</td>
+              <td>{{item?.visitCharges}}</td>
+              <td>{{item?.serviceCharges}}</td>
+              <td>{{item?.otherCharges}}</td>
+              <td>{{item?.isTestUser ? 'Test' : 'Real'}}</td>
+              <td>{{item?.csJobStatusName}}</td>
+              <td>{{item?.customerJobs}}<i *ngIf="item.customerName != null && item.customerName != ' ' " class=" mx-1 fas fa-eye" (click)="GetCustomerJobs(item.jobId , contentCustomerJobs)"></i></td>
+              <td>{{item?.workStartDate | date: 'dd MMM yyyy'}}</td>
+              <td>{{item.createdOn | date: 'dd MMM yyyy, h:mm a'}}</td>
+              <!--<td *ngIf="item.recivedBids != 0"><a routerLink="/Jobmodule/app-recive-bids" (click)="GetJobQoutation(item.customerId)">{{item.recivedBids}}</a></td>-->
+              <td>
+                <!--<i class="fas fa-eye" data-target="#JobsDetailsmdl" data-toggle="modal" data-backdrop="static" data-keyboard="false" (click)="JobDetailsFunction(item.customerId,'activeJob')"></i>-->
+                <i class="fas fa-eye" (click)="GetBussinessProfile(item.jobId,item.customerId,contentCustomer)"></i>
+              </td>
+              <td *ngIf="userRole.allowEdit">
+                <!--<i class="fas fa-eye" data-target="#JobsDetailsmdl" data-toggle="modal" data-backdrop="static" data-keyboard="false" (click)="JobDetailsFunction(item.customerId,'activeJob')"></i>-->
+                <i class="fas fa-check-circle" (click)="ApproveJob(item.customerId ,postJobModalConfirm)"></i>
+
+              </td>
+              <td *ngIf="userRole.allowDelete">
+                <a class="fas fa-trash" (click)="DeleteJobByJobQuotationId(item.customerId,deleteJob)"></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div *ngIf="dataNotFound" class="text-danger mb-2">No record found</div>
+      </div>
+      <div class="card-body" style="padding:0px !important">
+        <div class="show_entries">
+          <div class="no-of-entries">
+            <label>No of Entries</label>
+            <select class="" [(ngModel)]="data.pageSize" (change)="PageSizeChange()">
+              <option value="50" selected>50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+          <div class="n0-of-pages">
+            <label>No of Pages</label>
+            <select class="" [(ngModel)]="pageNumber" (change)="clickchange()">
+              <option *ngFor="let item of pageing1" value="{{item}}">{{item}} </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="card-header justify-header">
+        <h6 class="m-0 font-weight-bold">Jobs List</h6>
+        <div class="g-pagination">
+          <div class="data-count">
+            <span>{{recoardNoFrom}}-{{recoardNoTo}} of {{totalRecoards}}</span>
+            <div class="newOrOld-Data">
+              <ul>
+                <li><a (click)="LoadNewestRecoards()"> Newest</a></li>
+                <li><a (click)="LoadOldestRecoards()">Oldest</a></li>
+              </ul>
+            </div>
+            <!--<span>1-46 of 46</span>-->
+          </div>
+          <div class="indicators">
+            <i class="fa fa-angle-left" (click)="PriviousClick()"></i>
+            <i class="fa fa-angle-right" (click)="NextClick()"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Customer Jobs Modal-->
+<ng-template #contentCustomerJobs let-c="close" let-d="dismiss">
+  <div class="row" [hidden]="!CustomerJobsShow">
+    <div class="col-12">
+      <div class="modal-body" style="width:100%;">
+          <div class="row" *ngIf="customerJobsList.length > 0">
+            <div class="col-md-12">
+              <div class="card shadow">
+                <div class="card-header justify-header">
+                  <h6 class="m-0 font-weight-bold">Customer Jobs List</h6>
+                  <div class="g-pagination">
+                    <div class="data-count">
+                      <span>{{customerrecoardNoFrom}}-{{customerrecoardNoTo}} of {{customertotalRecoards}}</span>
+                      <div class="newOrOld-Data">
+                        <ul>
+                          <li><a (click)="CustomerJobsLoadNewestRecoards()"> Newest</a></li>
+                          <li><a (click)="CustomerJobsLoadOldestRecoards()">Oldest</a></li>
+                        </ul>
+                      </div>
+                      <!--<span>1-46 of 46</span>-->
+                    </div>
+                    <div class="indicators">
+                      <i class="fa fa-angle-left" (click)="customerPriviousClick()"></i>
+                      <i class="fa fa-angle-right" (click)="customerNextClick()"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="show_entries">
+                    <div class="no-of-entries">
+                      <label>No of Entries</label>
+                      <select class="" [(ngModel)]="customerjobsdata.pageSize" (change)="customerjobsPageSizeChange()">
+                        <option value="10" selected>10</option>
+                        <option value="20">20</option>
+                      </select>
+                    </div>
+                    <div class="n0-of-pages">
+                      <label>No of Pages</label>
+                      <select class="" [(ngModel)]="customerjobspageNumber" (change)="customerjobsclickchange()">
+                        <option *ngFor="let item of customerjobspageing" value="{{item}}">{{item}} </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                      <thead>
+                        <tr>
+                          <th width="2%" title="JobQuotation ID">JQID</th>
+                          <th width="2%" title="Job Title">JT</th>
+                          <th width="2%" title="Job Category">JC</th>
+                          <th width="2%" title="Job Address">JA</th>
+                          <th width="2%" title="Post Date">PD</th>
+                          <th width="2%" title="Job Status">JS</th>
+                          <th width="2%" title="Bid Received">BR</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of customerJobsList">
+                          <td>{{item?.jobQuotationId}}</td>
+                          <td>{{item?.workTitle}}</td>
+                          <td>{{item?.skillName}}</td>
+                          <td>{{item?.workingAddress}}</td>
+                          <td>{{item?.postedDate| date: 'dd MMM yyyy'}}</td>
+                          <td>{{item?.jobStatus}}</td>
+                          <td>{{item?.bidCount}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="row col-12 modal-footer">
+      <button type="button" class="btn btn-primary btn-sm float-md-right" (click)="c('close')">Close</button>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Job Delete Modal -->
+<ng-template #deleteJob let-modal>
+  <div class="modal-content">
+    <div class="modal-body">
+      <h5 style="color:#636363; font-size:24px;">Are you sure you want to Delete job ?</h5>
+    </div>
+    <div class="modal-footer justify-content-center">
+      <button type="button" class="btn btn-sm btn-primary" (click)="deletejobconfirm()">DELETE</button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('cancel click')">CANCEL</button>
+    </div>
+  </div>
+</ng-template>
+<!-- Job Athorize Modal -->
+<ng-template #postJobModalConfirm let-d="dismiss">
+  <div class="modal-dialog modal-confirm">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h4 class="modal-title w-100">Are you sure you want to authorize job?</h4>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-sm btn-success" (click)="ConfirmJob()">Authorize </button>
+        <button type="button" class="btn btn-sm btn-primary" (click)="hidemodal1()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- Job Details Modal -->
+<ng-template #contentCustomer let-c="close" let-d="dismiss">
+  <div class="job-details-model">
+    <!--modal-dialog-->
+    <div class="modal-content">
+      <div class="modal-header flex-column">
+        <div class="modal-body" style="width:100%;">
+          <section class="section-inner">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-lg-12 user-header" style="min-height:150px;">
+                  <div class="user-image">
+                    <ng-container *ngIf="businessProfile?.profileImage !=null; else noThumbnail">
+                      <img [src]="httpService.transform(businessProfile.profileImage)" alt="...">
+                    </ng-container>
+                    <ng-template #noThumbnail>
+                      <img src="../../../assets/img/user-icon.png" alt="">
+                    </ng-template>
+                  </div>
+                  <h4>
+                    {{businessProfile?.firstName}} {{businessProfile?.lastName}}
+                  </h4>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-3 col-md-4 sidebar-list pl-0">
+                  <ul class="list-group">
+                    <li class="list-group-item">
+                      <i class="fas fa-phone-alt mr-2"></i> <span style="font-size:1.25rem;font-weight:500">{{businessProfile?.mobile }}</span>
+                      <p><i class="fas fa-envelope mr-2"></i>{{businessProfile?.email}}</p>
+                    </li>
+                    <li class="list-group-item">
+                      <h5>Signup Date</h5>
+                      <p>{{businessProfile?.createdOn | date: "dd MMM yyy"}}</p>
+                      <!--| date: "dd MMM yyy hh : mm : a"-->
+                    </li>
+                    <li class="list-group-item">
+                      <h5>Address</h5>
+                      <p><i class="fas fa-map-marker-alt mr-2"></i> {{(jobDetails?.jobAddress.length > 40) ? (jobDetails?.jobAddress | slice :0:40 ) + '...': (jobDetails?.jobAddress)}} {{businessProfile?.city}}</p>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-lg-9 col-md-8 user-penal">
+                  <ul class="nav nav-tabs">
+                    <li><a data-toggle="tab" [ngClass]="{'active': activitytab == '1'}" (click)="currenttab1()" href="#jobInfo">Job Information</a></li>
+                    <li><a data-toggle="tab" [ngClass]="{'active': activitytab == '2'}" (click)="PopulateDataImage(jobDetails.jobQuotationId)" href="#jobImages">Job Images</a></li>
+                    <li><a data-toggle="tab" [ngClass]="{'active': activitytab == '3'}" (click)="bidNow(jobDetails.jobQuotationId)" href="#bidNow">Bid Now</a></li>
+                    <li><a data-toggle="tab" [ngClass]="{'active': activitytab == '4'}" (click)="currenttab4()" href="#receiveBid">Receive Bid</a></li>
+                  </ul>
+                  <div class="tab-content">
+                    <div id="jobInfo" *ngIf="activitytab == '1'" class="tab-pane fade in active show">
+                      <div class="row">
+                        <div class="col-lg-12 form-group">
+                          <label for="tital">Title</label>
+                          <input type="text" class="form-control" value="{{jobDetails?.workTitle}}" disabled id="tital" placeholder="Enter Title">
+                        </div>
+                        <div class="col-lg-4 form-group">
+                          <label for="category">Category</label>
+                          <input type="text" class="form-control" value="{{jobDetails?.skillName}}" disabled id="category" placeholder="Enter Category">
+                        </div>
+                        <div class="col-lg-4 form-group">
+                          <label for="sebcategory">Sub Category</label>
+                          <input type="text" class="form-control" id="sebcategory" value="{{jobDetails?.subSkillName}}" disabled placeholder="Enter Sub Category">
+                        </div>
+                        <div class="col-lg-4 form-group">
+                          <label>Job Start Date</label>?
+                          <label class="form-control" style="background-color: #e9ecef;">{{jobDetails?.workStartDate | date: "dd MMM yyy"}}</label>
+                        </div>
+                        <div class="col-lg-12 form-group">
+                          <label for="jobDescription">Job Description</label>
+                          <textarea class="form-control" id="jobDescription" value="{{jobDetails?.workDescription}}" disabled rows="3"></textarea>
+                        </div>
+                        <div class="col-lg-12">
+                          <label for="jobAddress">Job Address</label>
+                          <textarea class="form-control" id="jobAddress" value="{{jobDetails?.jobAddress}}" disabled rows="3"></textarea>
+                        </div>
+                        <div class="col-lg-12">
+                          <form [formGroup]="appValForm">
+                            <div class="budget-content">
+                              <div class="row">
+                                <div class="col-lg-3 form-group">
+                                  <label for="exampleInputEmail1">Budget</label>
+                                  <input type="text" inputmode="numeric" class="form-control" formControlName="workBudget" (keypress)="numberOnly($event)" maxlength="8" minlength="3" [ngClass]="{'is-invalid' : submittedApplicationForm && f.workBudget.errors}" placeholder="Enter Budget">
+                                  <div *ngIf="submittedApplicationForm && f.workBudget.errors" class="invalid-feedback">
+                                    <div *ngIf="f.workBudget.errors.required">Please Enter Your Valid Work Budget</div>
+                                  </div>
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                  <label for="exampleInputEmail1">Visit Charges</label>
+                                  <input type="text" inputmode="numeric" class="form-control" formControlName="visitCharges" (keypress)="numberOnly($event)" maxlength="8" placeholder="Enter Visit Charges">
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                  <label for="exampleInputEmail1">Service Charges</label>
+                                  <input type="text" inputmode="numeric" class="form-control" formControlName="serviceCharges" (keypress)="numberOnly($event)" maxlength="8" placeholder="Enter Service Charges">
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                  <label for="exampleInputEmail1">Quantity</label>
+                                  <select class="form-control" formControlName="quantity" (change)="calculateTotalServiceCharges('',$event.target.value)">
+                                    <option [value]="1">1</option>
+                                    <option [value]="2">2</option>
+                                    <option [value]="3">3</option>
+                                    <option [value]="4">4</option>
+                                    <option [value]="5">5</option>
+                                    <option [value]="6">6</option>
+                                    <option [value]="7">7</option>
+                                    <option [value]="8">8</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-lg-6">
+                                  <div class="form-group">
+                                    <label>Estimated Commission</label>
+                                    <input type="text" inputmode="numeric" class="form-control" formControlName="estimatedCommission" />
+                                  </div>
+                                </div>
+                                <div class="col-lg-6">
+                                  <div class="form-group">
+                                    <label>Total Service Charges</label>
+                                    <input type="text" inputmode="numeric" class="form-control" formControlName="otherCharges" (keypress)="numberOnly($event)" maxlength="8" placeholder="Enter total Charges">
+                                  </div>
+                                </div>
+                                <div class="col-12">
+                                  <div class="form-group">
+                                    <label>Remarks</label>
+                                    <textarea formControlName="remarksDescription" maxlength="250" class="form-control" rows="3"></textarea>
+                                    <ng-container *ngIf="f.remarksDescription?.errors">
+                                      <ng-container *ngIf="f.remarksDescription.invalid && submittedApplicationForm">
+                                        <small class="fos-12 text-danger">Input is required!</small>
+                                      </ng-container>
+                                    </ng-container>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row ml-2">
+                                <ng-container *ngFor="let item of csJobStatusList">
+                                  <div class="col-lg-4 form-check">
+                                    <input type="radio" class="form-check-input" id="{{item.statusId}}csjqJobStatusid" formControlName="csJobStatus" [value]="item.statusId" />
+                                    <label class="form-check-label" for="{{item.statusId}}csjqJobStatusid">{{item.name}}</label>
+                                  </div>
+                                </ng-container>
+                              </div>
+                              <div class="row mt-3" *ngIf="jobDetails?.cSJobRemarksVM !=null">
+                                <div class="col-12">
+                                  <div class="card shadow mb-4">
+                                    <div class="card-header justify-header">
+                                      <h6 class="m-0 font-weight-bold">Remarks History</h6>
+                                    </div>
+                                    <div class="card-body">
+                                      <div class="table-responsive">
+                                        <table class="table table-bordered table-striped table-hover">
+                                          <thead>
+                                            <tr>
+                                              <th width="60%">Remarks Description</th>
+                                              <th width="15%">Created By</th>
+                                              <th width="20%">Created On</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr *ngFor="let item of jobDetails.cSJobRemarksVM">
+                                              <td>{{item?.remarksDescription}}</td>
+                                              <td>{{item?.createdBy}}</td>
+                                              <td>{{item?.createdOn | date:'medium'}}</td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <ng-container *ngIf="(jobDetails.cSJobRemarksVM.length >= 3 && csjqJobStatusId == csJobSatusEnum.Callnotpicked) || (jobDetails.cSJobRemarksVM.length >= 1 && csjqJobStatusId == csJobSatusEnum.Notinterested) || (jobDetails.cSJobRemarksVM.length >= 1 && csjqJobStatusId == csJobSatusEnum.Outofstation)">
+                                  <div class="col-5">
+                                    <label>Do you want to change job status to decline?</label>
+                                  </div>
+                                  <div class="col-7 d-flex">
+                                    <div class="form-check">
+                                      <input type="radio" id="decyes" formControlName="changeStatus" [value]="1" />
+                                      <label class="form-check-label ml-1" for="decyes">Yes</label>
+                                    </div>
+                                    <div class="form-check">
+                                      <input type="radio" id="decno" formControlName="changeStatus" [value]="0" />
+                                      <label class="form-check-label ml-1" for="decno">No</label>
+                                    </div>
+                                  </div>
+                                </ng-container>
+                              </div>
+                              <div class="row">
+                                <div *ngIf="userRole.allowEdit" class="col-lg-12 form-group">
+                                  <button type="submit" class="btn btn-success mt-2" (click)="saveBudget(jobDetails.jobQuotationId)">Save</button>
+                                  <button type="submit" class="btn btn-success mt-2 ml-2" (click)="uncheckAll()">Reset</button>
+                                  <label *ngIf="isBidCount" class="text-danger ml-5">Tradesman Already Assign</label>
+                                  <!--<label *ngIf="isBidCount" class="text-danger ml-5">Job have Pending</label>-->
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="jobImages" *ngIf="activitytab == '2'" class="tab-pane fade in active show">
+                      <ng-container *ngIf="!hasNoImage">
+                        <div class="row">
+                          <img height="180" width="180" class="figure-img rounded mx-1" *ngFor="let x of jobdetail" [src]="httpService.transform(x.bidImage)" alt="...">
+                        </div>
+                      </ng-container>
+                      <label *ngIf="hasNoImage" class="text-danger">No Image Found!</label>
+                    </div>
+                    <div id="bdiNow" *ngIf="activitytab == '3'" class="tab-pane fade in active show">
+                      <h6>Search Tradesman Filter</h6>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <input type="text" class="form-control" [(ngModel)]="serachTradesId" placeholder="Tradesman ID" />
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <input type="text" class="form-control" [(ngModel)]="serachTradesmanName" placeholder="Tradesman Name" />
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <input type="text" class="form-control" [(ngModel)]="serachTradesmanMobileNo" placeholder="Tradesman Phone Mo" />
+                          </div>
+                        </div>
+
+                      </div>
+
+                      <div class="form-group">
+                        <button class="btn btn-sm btn-primary" (click)="searchTrdesmanByName()">Search</button>
+                      </div>
+                      <div class="row" *ngIf="tradesmanNameList.length > 0">
+                        <div class="col-md-12">
+                          <div class="card shadow mb-4">
+                            <div class="card-header justify-header">
+                              <h6 class="m-0 font-weight-bold">Tradesman List</h6>
+                            </div>
+                            <div class="card-body">
+                              <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover">
+                                  <thead>
+                                    <tr>
+                                      <th width="1%" title="">ID</th>
+                                      <th width="1%" title="">Frist Name</th>
+                                      <th width="1%" title="">Last Name</th>
+                                      <th width="1%" title="">Phone</th>
+                                      <th width="1%" title="">Email</th>
+                                      <th width="1%" title="">Cnic</th>
+                                      <th width="1%" title="">Company Name</th>
+                                      <th *ngIf="userRole.allowAdd" title="Assign Job" width="1%">Assign Job</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr *ngFor="let item of tradesmanNameList">
+                                      <td>{{item?.tradesmanId}}</td>
+                                      <td>{{item?.firstName}}</td>
+                                      <td>{{item?.lastName}}</td>
+                                      <td>{{item?.mobileNumber}}</td>
+                                      <td>{{item?.email}}</td>
+                                      <td>{{item?.cnic}}</td>
+                                      <td>{{item?.companyName}}</td>
+                                      <td *ngIf="userRole.allowAdd"><button class="fos-11 btn btn-sm btn-primary p-1" (click)="assignJobToTradesman(item?.tradesmanId , jobDetails?.jobQuotationId , assignJobContent)">Assign</button></td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <ng-container *ngIf="isbidCount">
+                        <div class="form-group">
+                          <small class="text-danger">Tradesman Already Asssign On This Job</small>
+                        </div>
+                      </ng-container>
+                      <ng-container *ngIf="isCSJobStatus">
+                        <div class="form-group">
+                          <small class="text-danger">Job Have Pending</small>
+                        </div>
+                      </ng-container>
+                      <ng-container *ngIf="tradesmanNameList.length <= 0 && searchBtnClicked">
+                        <div class="form-group">
+                          <small class="text-danger">Did not find any Tradesman</small>
+                        </div>
+                      </ng-container>
+                    </div>
+                    <div id="receiveBid" *ngIf="activitytab == '4'" class="tab-pane fade in active show">
+                      <div class="table-responsive">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th width="10%" title="Job Title">JT</th>
+                              <th width="3%" title="Job Budget">JB</th>
+                              <th width="5%" title="Tradesman Name">TN</th>
+                              <th width="3%" title="Tradesman Budget">TB</th>
+                              <th width="10%">Skill</th>
+                              <th width="3%" title="Bid Status">BS</th>
+                              <th width="13%" title="Bid Date & Time">BDT</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let bids of jobDetails.bidsList">
+                              <td>{{bids.workTitle.length > 25 ? (bids.workTitle | slice:0:30)+'...' : bids.workTitle  }}</td>
+                              <td>{{bids.workBudget}}</td>
+                              <td (click)="showModel('',bids.tradesmanId)" style="text-decoration: underline;cursor:pointer;">{{bids.tradesmanName}}</td>
+                              <td>{{bids.amount}}</td>
+                              <td>{{bids.skill}}</td>
+                              <td *ngIf="bids.status == 'Accepted'" style="color:#05dd05; text-decoration: underline;">{{bids.status}}</td>
+                              <td *ngIf="bids.status == 'Declined'" style="color:red; text-decoration: underline;">{{bids.status}}</td>
+                              <td *ngIf="bids.status == 'Active'" style="color:#23bff1; text-decoration: underline;">{{bids.status}}</td>
+                              <td>{{bids.createdOn | date: "dd MMM yyy"}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="row" style="width:100%">
+          <div class="col-md-12">
+            <button type="button" class="mt-3 btn btn-primary btn-sm fa-pull-right" (click)="c('close click')">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!--Assign job to trademan modal-->
+<ng-template #assignJobContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Assign Job</h4>
+  </div>
+  <form [formGroup]="assignJobForm">
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <label>Amount</label>
+            <input type="text" class="form-control" maxlength="10" minlength="3" formControlName="amount" />
+            <div *ngIf="g.amount?.errors">
+              <div *ngIf="g.amount.invalid && (g.amount.touched || g.amount.dirty )">
+                <small class="text-danger" *ngIf="g.amount.errors?.required">Input is required</small>
+                <small class="text-danger" *ngIf="g.amount.errors?.minlength">Input required minimum 3 characters</small>
+                <small class="text-danger" *ngIf="g.amount.errors?.maxlength">Input allows maximum 10 characters</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group">
+            <label>Comments</label>
+            <textarea class="form-control" formControlName="comments" rows="2"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-primary btn-sm" (click)="assignJob()">Save</button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('Close click')">Close</button>
+    </div>
+  </form>
+
+</ng-template>
+
+

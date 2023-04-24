@@ -1,0 +1,1143 @@
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+  <div class="page-header">
+    <div class="row">
+      <div class="col-12 col-lg-6 offset-xxl-1">
+        <div class="page-header-left">
+          <h3>
+            Profile Details
+          </h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Container-fluid Ends-->
+<!-- Container-fluid starts-->
+
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-12 col-xxl-10">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="defClr">Profile</h5>
+        </div>
+        <div class="card-body">
+          <div class="product-adding" id="profile-details">
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+              <li (click)="changeTab()" class="nav-item" role="presentation">
+                <button [class.active]="tabId != 'seller-logo'" class="nav-link " id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">General</button>
+              </li>
+              <li (click)="changeTabsaller()" class="nav-item" role="presentation">
+                <button [class.active]="tabId == 'seller-logo'" class="nav-link" id="pills-logo-tab" data-bs-toggle="pill" data-bs-target="#pills-logo" type="button" role="tab" aria-controls="pills-logo" aria-selected="false">Seller Logo</button>
+              </li>
+              <!--<li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Commissions</button>
+              </li>-->
+            </ul>
+            <hr />
+            <div class="tab-content mt-3" id="pills-tabContent">
+              <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                <!--Inner Tabs Start-->
+                <ul *ngIf="!isParrentTab" class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" [class.active]="tabId == 'seller-account'" id="seller-account-tab" data-bs-toggle="pill" data-bs-target="#seller-account" type="button" role="tab" aria-controls="seller-account" aria-selected="true">Seller Account</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button (click)="populateBussnessSallerData()" class="nav-link" [class.active]="tabId == 'business-information'" id="business-information-tab" data-bs-toggle="pill" data-bs-target="#business-information" type="button" role="tab" aria-controls="business-information" aria-selected="false">Business Information</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" [class.active]="tabId == 'bank-account'" id="seller-account-tab" data-bs-toggle="pill" data-bs-target="#bank-account" type="button" role="tab" aria-controls="bank-account" aria-selected="false">Bank Account</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button (click)="populateWherehouseAddressData()" class="nav-link" [class.active]="tabId == 'wherehouse-address'" id="business-information-tab" data-bs-toggle="pill" data-bs-target="#wherehouse-address" type="button" role="tab" aria-controls="wherehouse-address" aria-selected="false">Warehouse Address</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button (click)="populateReturnAddressData()" class="nav-link" [class.active]="tabId == 'return-address'" id="business-information-tab" data-bs-toggle="pill" data-bs-target="#return-address" type="button" role="tab" aria-controls="return-address" aria-selected="false">Return Address</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" [class.active]="tabId == 'social-link'" id="social-link-tab" data-bs-toggle="pill" data-bs-target="#social-link" type="button" role="tab" aria-controls="social-link" aria-selected="false">Social Links</button>
+                  </li>
+                </ul>
+                <div *ngIf="!isParrentTab" class="tab-content" id="pills-tabContent">
+                  <!----------------------------- Seller Account ---------------------------------->
+                  <div class="tab-pane fade active show" [ngClass]="{'active show' : tabId == 'seller-account'}" id="seller-account" role="tabpanel" aria-labelledby="seller-account-tab">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="card">
+                          <div class="card-body">
+                            <div class="row product-adding">
+                              <div class="col-xl-12">
+                                <form [formGroup]="sellerAccountForm" class="add-product-form">
+                                  <div class="form">
+                                    <input type="hidden" formControlName="supplierId" />
+                                    <div class="form-group mb-3 row">
+                                      <label for="SellerId" class="col-xl-3 col-sm-4 mb-0"> Seller ID<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input class="form-control" id="name" formControlName="publicId" type="text" readonly>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="name" class="col-xl-3 col-sm-4 mb-0">Full Name<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input class="form-control" id="name" formControlName="firstAndLastName" placeholder="Full Name" pattern="^[^-\s][a-zA-Z0-9_\s-]+$"
+                                               type="text" maxlength="40" (keypress)="common.charOnly($event)">
+                                        <div *ngIf="f1.firstAndLastName.invalid && (f1.firstAndLastName.touched || f1.firstAndLastName.dirty)">
+                                          <small class="text-danger" *ngIf="f1.firstAndLastName.errors?.required">Input is Required</small>
+                                          <small class="text-danger" *ngIf="f1.firstAndLastName.errors?.pattern">Invalid  Name</small>
+
+
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="email" class="col-xl-3 col-sm-4 mb-0">Contact Email address<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input class="form-control" id="email" formControlName="emailAddress" placeholder="Email"
+                                               pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$"
+                                               type="text" maxlength="40">
+                                        <div *ngIf="f1.emailAddress?.errors">
+                                          <div *ngIf="f1.emailAddress.invalid && (f1.emailAddress.touched || f1.emailAddress.dirty)">
+                                            <small class="text-danger" *ngIf="f1.emailAddress.errors?.required">Input is Required</small>
+                                            <small class="text-danger" *ngIf="f1.emailAddress.errors?.pattern">Invalid Input</small>
+                                          </div>
+                                        </div>
+                                        <!--<div *ngIf="f1.emailAddress.invalid && (f1.emailAddress.touched || f1.emailAddress.dirty)">
+                                          <span class="text-danger" *ngIf="f1.emailAddress.errors?.required">Please Enter your Email</span>
+                                          <span class="text-danger" *ngIf="f1.email.errors?.pattern">Invalid Email</span>
+                                        </div>-->
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="form">
+                                    <div class="form-group mb-3 row">
+                                      <label for="mobileNo" class="col-xl-3 col-sm-4 mb-0">Contact Mobile Number<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input class="form-control" id="mobileNo" readonly type="text" formControlName="mobileNumber"
+                                               (keypress)="common.numberOnly($event)" minlength="11" maxlength="11">
+                                        <div *ngIf="f1.mobileNumber?.errors">
+                                          <div *ngIf="f1.mobileNumber.invalid && (f1.mobileNumber.touched || f1.mobileNumber.dirty)">
+                                            <small class="text-danger" *ngIf="f1.mobileNumber.errors?.required">Input is Required</small>
+                                            <small class="text-danger" *ngIf="f1.mobileNumber.errors?.minlength">Invalid Input</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="form-group mb-3 row">
+                                      <label for="displayShop" class="col-xl-3 col-sm-4 mb-0">Display Name / Shop Name<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input class="form-control" id="displayShop" formControlName="shopName" placeholder="e.g. Foo Trades"
+                                               maxlength="40" type="text" pattern="^[^-\s][a-zA-Z0-9_\s-]+$">
+                                        <div *ngIf="f1.shopName?.errors">
+                                          <div *ngIf="f1.shopName.invalid && (f1.shopName.touched || f1.shopName.dirty)">
+                                            <small class="text-danger" *ngIf="f1.shopName.errors?.required">Input is Required</small>
+                                            <!--<small class="text-danger" *ngIf="f1.shopName.errors?.minlength">Invalid Input</small>-->
+                                            <small class="text-danger" *ngIf="f1.shopName.errors?.pattern">Invalid Input</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="shopUrl" class="col-xl-3 col-sm-4 mb-0">Shop Url<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input class="form-control" id="shopUrl" formControlName="shopUrl" placeholder="e.g. footrades123"
+                                               maxlength="70" type="text">
+                                        <div *ngIf="f1.shopUrl?.errors">
+                                          <div *ngIf="f1.shopUrl.invalid && (f1.shopUrl.touched || f1.shopUrl.dirty)">
+                                            <small class="text-danger" *ngIf="f1.shopUrl.errors?.required">Input is Required</small>
+                                            <small class="text-danger" *ngIf="f1.shopUrl.errors?.pattern">Input allows only alphabets and numeric</small>
+                                            <small class="text-danger" *ngIf="f1.shopUrl.errors?.shopUrlExist">Shop url already exists!</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <!--<div class="form-group mb-3 row">
+                                      <label for="holidayMode" class="col-xl-3 col-sm-4 mb-0">Holiday Mode<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input type="radio" class="radio-icon" id="holidayMode" value='1' formControlName="holidayMode">
+                                        <label>Yes</label>
+                                        <input type="radio" class="ms-2 radio-icon" id="holidayMode" value='0' formControlName="holidayMode">
+                                        <label>No</label>
+                                        <div *ngIf="f1.holidayMode?.errors">
+                                          <div *ngIf="f1.holidayMode.invalid && (f1.holidayMode.touched || f1.holidayMode.dirty)">
+                                            <small class="text-danger" *ngIf="f1.holidayMode.errors?.required">Input is Required</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>-->
+                                  </div>
+                                  <!--<div class="form-group mb-3 row">
+                                  <label for="holidayPeriod" class="col-xl-3 col-sm-4 mb-0">Holiday Mode Period<span class="txtclr-red">*</span></label>
+                                  <div class="col-xl-8 col-sm-7">-->
+                                  <!--<input class="form-control" id="shopUrl" formControlName="shopUrl" placeholder="e.g. footrades123"
+                                  maxlength="70" type="text">-->
+                                  <!--<date-range-picker
+                                                                     [controlName]="'holidayModePeriod'">
+                                  </date-range-picker>-->
+                                  <!--<ngb-datepicker [displayMonths]="2" (dateSelect)="onDateSelection($event)" [dayTemplate]="t" outsideDays="hidden">
+                                  </ngb-datepicker>
+                                  <ng-template #t let-date let-focused="focused">
+                                    <span class="custom-day"
+                                          [class.focused]="focused"
+                                          [class.range]="isRange(date)"
+                                          [class.faded]="isHovered(date) || isInside(date)"
+                                          (mouseenter)="hoveredDate = date"
+                                          (mouseleave)="hoveredDate = null">
+                                      {{ date.day }}
+                                    </span>
+                                  </ng-template>-->
+                                  <!--<div *ngIf="f1.shopUrl?.errors">
+                                    <div *ngIf="f1.shopUrl.invalid && (f1.shopUrl.touched || f1.shopUrl.dirty)">
+                                      <small class="text-danger" *ngIf="f1.shopUrl.errors?.shopUrlExist">Shop url already exists!</small>
+                                    </div>
+                                  </div>-->
+                                  <!--</div>
+                                  </div>-->
+
+                                  <div class="offset-xl-3 offset-sm-4">
+                                    <button type="submit" class="btn btn-primary" [disabled]="!sellerAccountForm.valid" (click)="saveAndUpdateSellerAccount()">Save</button>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!---------------------- Business Information ----------------------------------->
+                  <div class="tab-pane fade" [ngClass]="{'active show' : tabId == 'business-information'}" id="business-information" role="tabpanel" aria-labelledby="business-information-tab">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="card">
+                          <div class="card-body">
+                            <div class="row product-adding">
+                              <div class="col-xl-12">
+                                <form [formGroup]="businessInformationForm" class="add-product-form">
+                                  <div class="form">
+                                    <input type="hidden" formControlName="supplierId" />
+                                    <div class="form-group mb-3 row">
+                                      <label for="companyName" class="col-xl-3 col-sm-4 mb-0">Legal Company Name<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input type="text" for="companyName" formControlName="companyName" placeholder="Company Name" pattern="^[^-\s][a-zA-Z0-9_\s-]+$"
+                                               class="form-control col-xl-3 col-sm-4 mb-0" (keypress)="common.charOnly($event)"
+                                               maxlength="50" />
+                                        <div *ngIf="f2.companyName?.errors">
+                                          <div *ngIf="f2.companyName.invalid && (f2.companyName.touched || f2.companyName.dirty)">
+                                            <small class="text-danger" *ngIf="f2.companyName.errors?.required">Input is Required</small>
+                                            <small class="text-danger" *ngIf="f2.companyName.errors?.pattern">Invalid  Input</small>
+
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="address" class="col-xl-3 col-sm-4 mb-0">Business Address<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input class="form-control" id="address" formControlName="businessAddress" placeholder="Address"
+                                               type="text"
+                                               minlength="3" maxlength="240">
+                                        <div *ngIf="f2.businessAddress?.errors">
+                                          <div *ngIf="f2.businessAddress.invalid && (f2.businessAddress.touched || f2.businessAddress.dirty)">
+                                            <small class="text-danger" *ngIf="f2.businessAddress.errors?.required">Input is Required</small>
+                                            <small class="text-danger" *ngIf="f2.businessAddress.errors?.minlength">Invalid Input</small>
+
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row" *ngIf="profileData.supplierRole == 2">
+                                      <label for="address" class="col-xl-3 col-sm-4 mb-0">NTN Number<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input class="form-control" id="address" formControlName="ntnnumber" placeholder="NTN Number" pattern="^[^-\s][a-zA-Z0-9_\s-]+$"
+                                               type="text"
+                                               maxlength="9" minlength="9">
+                                        <div *ngIf="f2.ntnnumber?.errors">
+                                          <div *ngIf="f2.ntnnumber.invalid && (f2.ntnnumber.touched || f2.ntnnumber.dirty)">
+                                            <small class="text-danger" *ngIf="f2.ntnnumber.errors?.required">Input is Required</small>
+                                            <small class="text-danger" *ngIf="f2.ntnnumber.errors?.minlength">Invalid Input minimum 9 digits required</small>
+
+
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="country" class="col-xl-3 col-sm-4 mb-0">Country/Region<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <select class="form-control" id="country" formControlName="countryId" (change)="checkingStateCategory($any($event).target.value)">
+                                          <option [value]="null" selected disabled> Select Country </option>
+                                          <option *ngFor="let item of countryList" [value]="item.countryId">{{item.countryName}} </option>
+                                        </select>
+                                        <div *ngIf="f2.countryId?.errors">
+                                          <div *ngIf="f2.countryId.invalid && (f2.countryId.touched || f2.countryId.dirty)">
+                                            <small class="text-danger" *ngIf="f2.countryId.errors?.required">Input is Required</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="inChargePerson" class="col-xl-3 col-sm-4 mb-0">Person InCharge<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input class="form-control" id="inChargePerson" formControlName="inChargePerson" placeholder="Full Name" pattern="^[^-\s][a-zA-Z0-9_\s-]+$"
+                                               type="text" (keypress)="common.charOnly($event)"
+                                               maxlength="50">
+                                        <div *ngIf="f2.inChargePerson?.errors">
+                                          <div *ngIf="f2.inChargePerson.invalid && (f2.inChargePerson.touched || f2.inChargePerson.dirty)">
+                                            <small class="text-danger" *ngIf="f2.inChargePerson.errors?.required">Input is Required</small>
+
+                                            <small class="text-danger" *ngIf="f2.inChargePerson.errors?.pattern">Invalid  Input</small>
+
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="inChargeMobileNo" class="col-xl-3 col-sm-4 mb-0">Person InCharge Mobile Number<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input type="text" class="form-control" id="inChargeMobileNo" formControlName="inchargePersonMobileNo" placeholder="Mobile Number"
+                                               (keypress)="common.numberOnly($event)" maxlength="11" minlength="11" />
+                                        <div *ngIf="f2.inchargePersonMobileNo?.errors">
+                                          <div *ngIf="f2.inchargePersonMobileNo.invalid && (f2.inchargePersonMobileNo.touched || f2.inchargePersonMobileNo.dirty)">
+                                            <small class="text-danger" *ngIf="f2.inchargePersonMobileNo.errors?.required">Input is Required</small>
+                                            <small class="text-danger" *ngIf="f2.inchargePersonMobileNo.errors?.minlength">Invalid Input</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="inChargeEmail" class="col-xl-3 col-sm-4 mb-0">Person InCharge Email<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input type="text" class="form-control" id="inChargeEmail"
+                                               pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$" placeholder="Email"
+                                               formControlName="inchargePersonEmail" maxlength="40" />
+                                        <div *ngIf="f2.inchargePersonEmail?.errors">
+                                          <div *ngIf="f2.inchargePersonEmail.invalid && (f2.inchargePersonEmail.touched || f2.inchargePersonEmail.dirty)">
+                                            <small class="text-danger" *ngIf="f2.inchargePersonEmail.errors?.required">Input is Required</small>
+                                            <small class="text-danger" *ngIf="f2.inchargePersonEmail.errors?.pattern">Invalid Input</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div class="form-group mb-3 row">
+                                      <label for="registrationNo" class="col-xl-3 col-sm-4 mb-0">Business Registration Number<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input class="form-control" id="registrationNo" formControlName="registrationNumber" placeholder="Registration Number" pattern="^[^-\s][a-zA-Z0-9_\s-]+$"
+                                               type="text"
+                                               maxlength="25">
+                                        <div *ngIf="f2.registrationNumber?.errors">
+                                          <div *ngIf="f2.registrationNumber.invalid && (f2.registrationNumber.touched || f2.registrationNumber.dirty)">
+                                            <small class="text-danger" *ngIf="f2.registrationNumber.errors?.required">Input is Required</small>
+                                            <small class="text-danger" *ngIf="f2.registrationNumber.errors?.pattern">Invalid Input  </small>
+
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="registrationNo" class="col-xl-3 col-sm-4 mb-0">Business Description<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <textarea class="form-control" id="businessDescription" rows="5" formControlName="businessDescription"
+                                                  placeholder="Write Business Description" type="text" (keypress)="common.charOnly($event)"
+                                                  minlength="3" maxlength="600"></textarea>
+                                        <div *ngIf="f2.businessDescription?.errors">
+                                          <div *ngIf="f2.businessDescription.invalid && (f2.businessDescription.touched || f2.businessDescription.dirty)">
+                                            <small class="text-danger" *ngIf="f2.businessDescription.errors.required">Input is Required</small>
+                                            <small class="text-danger" *ngIf="f2.businessDescription.errors.minlength">Invalid Input</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="frontSide" class="col-xl-3 col-sm-4 mb-0">Upload Shop Cover Image<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7 d-flex align-items-center gap-60">
+                                        <input #inputFile type="file"
+                                               class="form-control" formControlName="shopCoverImage" accept="image/*" (change)="fileChangeEvent($event)" />
+
+                                        <div class="mt-2" *ngIf="shopCoverImageProp && !croppedImage">
+                                          <img class="id-card_image-size" [src]="common.transform(shopCoverImageProp)" />
+                                        </div>
+                                        <div class="mt-2" *ngIf="croppedImage">
+                                          <img class="id-card_image-size" [src]="croppedImage" />
+                                        </div>
+                                        <div *ngIf="f2.shopCoverImage.invalid && (f2.shopCoverImage.touched || f2.shopCoverImage.dirty)">
+                                          <small class="text-danger" *ngIf="f2.shopCoverImage.errors.required">Please Attach Shop Cover Image</small>
+                                        </div>
+                                      </div>
+
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="frontSide" class="col-xl-3 col-sm-4 mb-0">Upload ID - Front Side<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7 d-flex align-items-center gap-60">
+                                        <input type="file"
+                                               class="form-control" formControlName="idFrontImage" accept="image/*" (change)="fileChangeFrontImage($event)" />
+                                        <div *ngIf="f2.idFrontImage.invalid && (f2.idFrontImage.touched || f2.idFrontImage.dirty)">
+                                          <small class="text-danger" *ngIf="f2.idFrontImage.errors?.required">Please Attach CNIC front image</small>
+                                        </div>
+                                        <div class="mt-2" *ngIf="frontImage">
+                                          <img class="id-card_image-size" [src]="common.transform(frontImage)" />
+                                        </div>
+                                      </div>
+
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="backSide" class="col-xl-3 col-sm-4 mb-0">Upload ID - Back Side<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7 d-flex align-items-center gap-60">
+                                        <input type="file" formControlName="idBackSideImage" class="form-control" id="backSide" accept="image/*" (change)="fileChangeBackImage($event)" />
+                                        <div *ngIf="f2.idBackSideImage.invalid && (f2.idBackSideImage.touched || f2.idBackSideImage.dirty)">
+                                          <small class="text-danger" *ngIf="f2.idBackSideImage.errors?.required">Please Attach CNIC back image.</small>
+                                        </div>
+                                        <div class="mt-2" *ngIf="backImage">
+                                          <img class="id-card_image-size" [src]="common.transform(backImage)" />
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="cnicNumber" class="col-xl-3 col-sm-4 mb-0">CNIC Number Or NTN<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input class="form-control" id="cnicNumber" type="text" formControlName="cnic"
+                                               placeholder="3520212345678" (keypress)="common.numberOnly($event)"
+                                               minlength="13" maxlength="13">
+                                        <div *ngIf="f2.cnic?.errors">
+                                          <div *ngIf="f2.cnic.invalid && (f2.cnic.touched || f2.cnic.dirty)">
+                                            <small class="text-danger" *ngIf="f2.cnic.errors?.required">Input is Required</small>
+                                            <small class="text-danger" *ngIf="f2.cnic.errors?.minlength">Invalid Input </small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="state" class="col-xl-3 col-sm-4 mb-0">State<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <select class="form-control" id="stateId" formControlName="stateId" (change)="checkingCitycategory($any($event).target.value)">
+                                          <option [value]="null" selected disabled>Select State</option>
+                                          <option *ngFor="let item of stateList" [value]="item.stateId">{{item.name}} </option>
+                                        </select>
+                                        <div *ngIf="f2.stateId?.errors">
+                                          <div *ngIf="f2.stateId.invalid && (f2.stateId.touched || f2.stateId.dirty)">
+                                            <small class="text-danger" *ngIf="f2.stateId.errors?.required">Input is Required</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="state" class="col-xl-3 col-sm-4 mb-0">City<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <select class="form-control" id="cityId" formControlName="cityId" (change)="checkingAreaCategory($any($event).target.value)">
+                                          <option [value]="null" selected disabled>Select City</option>
+                                          <option *ngFor="let item of GetCityListByReleventState" [value]="item.cityId">{{item.name}} </option>
+                                        </select>
+                                        <div *ngIf="f2.cityId?.errors">
+                                          <div *ngIf="f2.cityId.invalid && (f2.cityId.touched || f2.cityId.dirty)">
+                                            <small class="text-danger" *ngIf="f2.cityId.errors?.required">Input is Required</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+
+                                    <div class="form-group mb-3 row">
+
+
+                                      <label for="area" class="col-xl-3 col-sm-4 mb-0">Area/Town<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <ng-autocomplete [data]="areaList"
+                                                         [searchKeyword]="businessArea"
+                                                         (selected)='selectTownEvent($event)'
+                                                         (inputCleared)='unselectTownEvent($event)'
+                                                         placeholder="Select Area / Town "
+                                                         (inputChanged)='onChangetownSearch($event)'
+                                                         [itemTemplate]="itemTemplate"
+                                                         [notFoundTemplate]="notFoundTemplate"
+                                                         formControlName="areaId">
+                                        </ng-autocomplete>
+
+                                        <ng-template #itemTemplate let-item>
+                                          <a [innerHTML]="item.areaName"></a>
+                                        </ng-template>
+
+                                        <ng-template #notFoundTemplate let-notFound>
+                                          <div [innerHTML]="notFound"></div>
+                                        </ng-template>
+                                        <ng-container *ngIf="f2.areaId?.errors">
+                                          <ng-container *ngIf="f2.areaId.invalid && (f2.areaId.touched || f2.areaId.dirty)">
+                                            <small class="text-danger" *ngIf="f2.areaId.errors?.required">Input is Required</small>
+                                            <small class="text-danger" *ngIf="f2.areaId.errors?.areaInvalidInput">Please select area /town</small>
+                                          </ng-container>
+                                        </ng-container>
+                                      </div>
+
+
+                                    </div>
+
+
+                                    <div class="form-group mb-3 row">
+                                      <label for="address" class="col-xl-3 col-sm-4 mb-0">Location</label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input class="form-control" id="address" formControlName="location" placeholder="Location"
+                                               type="text"
+                                               maxlength="240">
+
+                                      </div>
+                                    </div>
+
+
+                                    <div class="offset-xl-3 offset-sm-4">
+                                      <button type="submit" class="btn btn-primary" (click)="SaveAndUpdateBusinessInformation()">Save</button>
+                                    </div>
+                                  </div>
+
+                                </form>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Bank Account -->
+                  <div class="tab-pane fade" [ngClass]="{'active show' : tabId == 'bank-account'}" id="bank-account" role="tabpanel" aria-labelledby="bank-account-tab">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="card">
+                          <div class="card-body">
+                            <div class="row product-adding">
+                              <div class="col-xl-12">
+                                <form [formGroup]="bankAccountForm" class="add-product-form">
+                                  <div class="form">
+                                    <input type="hidden" formControlName="id" />
+                                    <div class="form-group mb-3 row">
+                                      <label for="accountTitle" class="col-xl-3 col-sm-4 mb-0">Account Title<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input type="text" for="accountTitle" formControlName="accountTitle" placeholder="Account Title" pattern="^[^-\s][a-zA-Z0-9_\s-]+$"
+                                               class="form-control col-xl-3 col-sm-4 mb-0" (keypress)="common.charOnly($event)"
+                                               maxlength="40" />
+                                        <div *ngIf="f3.accountTitle?.errors">
+                                          <div *ngIf="f3.accountTitle.invalid && (f3.accountTitle.touched || f3.accountTitle.dirty)">
+                                            <small class="text-danger" *ngIf="f3.accountTitle.errors?.required">Input is Required</small>
+                                            <small class="text-danger" *ngIf="f3.accountTitle.errors?.pattern">Invalid Input </small>
+
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="accountNumber" class="col-xl-3 col-sm-4 mb-0">Account Number<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input class="form-control" id="accountNumber" formControlName="accountNumber" placeholder="Account Number"
+                                               type="text" (keypress)="common.numberOnly($event)"
+                                               minlength="10" maxlength="17">
+                                        <div *ngIf="f3.accountNumber?.errors">
+                                          <div *ngIf="f3.accountNumber.invalid && (f3.accountNumber.touched || f3.accountNumber.dirty)">
+                                            <small class="text-danger" *ngIf="f3.accountNumber.errors?.required">Input is Required</small>
+                                            <small class="text-danger" *ngIf="f3.accountNumber.errors?.minlength">Invalid Input</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="bankName" class="col-xl-3 col-sm-4 mb-0">Bank Name<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <select class="form-control" id="country" formControlName="bankId">
+                                          <option [value]="null" selected disabled>------------ Select your Bank ------------</option>
+                                          <option *ngFor="let item of listOfBanks" [value]="item.bankId">{{item.bankName}} </option>
+                                        </select>
+                                        <div *ngIf="f3.bankId?.errors">
+                                          <div *ngIf="f3.bankId.invalid && (f3.bankId.touched || f3.bankId.dirty)">
+                                            <small class="text-danger" *ngIf="f3.bankId.errors?.required">Input is Required</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="form">
+                                    <div class="form-group mb-3 row">
+                                      <label for="branchCode" class="col-xl-3 col-sm-4 mb-0">Branch Code<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input class="form-control" id="branchCode" formControlName="branchCode" placeholder="Branch Code" pattern="^[^-\s][a-zA-Z0-9_\s-]+$"
+                                               type="text" maxlength="10">
+                                        <div *ngIf="f3.branchCode?.errors">
+                                          <div *ngIf="f3.branchCode.invalid && (f3.branchCode.touched || f3.branchCode.dirty)">
+                                            <small class="text-danger" *ngIf="f3.branchCode.errors?.required">Input is Required</small>
+                                            <small class="text-danger" *ngIf="f3.branchCode.errors?.pattern">Invalid Input </small>
+
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="ibanNo" class="col-xl-3 col-sm-4 mb-0">IBAN(e.g PK00AAA000000000000)<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input class="form-control" id="ibanNo" placeholder="PK00AAA000000000000" formControlName="iban" pattern="^([A-Z]{2}[ '+'\\'+'-]?[0-9]{2})(?=(?:[ '+'\\'+'-]?[A-Z0-9]){9,30}$)((?:[ '+'\\'+'-]?[A-Z0-9]{3,5}){2,7})([ '+'\\'+'-]?[A-Z0-9]{1,3})?$"
+                                               type="text" maxlength="40">
+                                        <div *ngIf="f3.iban?.errors">
+                                          <div *ngIf="f3.iban.invalid && (f3.iban.touched || f3.iban.dirty)">
+                                            <small class="text-danger" *ngIf="f3.iban.errors?.required">Input is Required</small>
+                                            <small class="text-danger" *ngIf="f3.iban.errors?.pattern">Invalid Input </small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="checkCopy" class="col-xl-3 col-sm-4 mb-0">Upload Cheque Copy<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input type="file" class="form-control" formControlName="bankchequeImage" (change)="fileChangeEventCheck($event)" />
+                                        <div *ngIf="f3.bankchequeImage.invalid && (f3.bankchequeImage.touched || f3.bankchequeImage.dirty)">
+                                          <small class="text-danger" *ngIf="f3.bankchequeImage.errors?.required">Please Attach Cheque Copy Image.</small>
+                                        </div>
+                                        <div class="mt-2" *ngIf="checkImage">
+                                          <img class="id-card_image-size" [src]="common.transform(checkImage)" />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="offset-xl-3 offset-sm-4">
+                                    <button type="submit" class="btn btn-primary" (click)="saveAndUpdateBankAccountData()">Save</button>
+                                  </div>
+                                </form>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Warehouse Address -->
+                  <div class="tab-pane fade" [ngClass]="{'active show' : tabId == 'wherehouse-address'}" id="wherehouse-address" role="tabpanel" aria-labelledby="wherehouse-address-tab">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="card">
+                          <div class="card-body">
+                            <div class="row product-adding">
+                              <div class="col-xl-12">
+                                <form [formGroup]="wareHouseAddressForm" class="add-product-form">
+                                  <div class="form">
+                                    <input type="hidden" formControlName="id" />
+                                    <div class="form-group mb-3 row">
+                                      <label for="name" class="col-xl-3 col-sm-4 mb-0">Full Name<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input type="text" for="name" formControlName="firstAndLastName" class="form-control col-xl-3 col-sm-4 mb-0" placeholder="Full Name" pattern="^[^-\s][a-zA-Z0-9_\s-]+$"
+                                               (keypress)="common.charOnly($event)" maxlength="40" />
+                                        <div *ngIf="f4.firstAndLastName?.errors">
+                                          <div *ngIf="f4.firstAndLastName.invalid && (f4.firstAndLastName.touched || f4.firstAndLastName.dirty)">
+                                            <small class="text-danger" *ngIf="f4.firstAndLastName.errors?.required">Input is Required</small>
+                                            <small class="text-danger" *ngIf="f4.firstAndLastName.errors?.pattern">Invalid Input</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="addess" class="col-xl-3 col-sm-4 mb-0">Address<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input class="form-control" id="address" formControlName="address" type="text" placeholder="Address"
+                                               minlength="3" maxlength="250">
+                                        <div *ngIf="f4.address?.errors">
+                                          <div *ngIf="f4.address.invalid && (f4.address.touched || f4.address.dirty)">
+                                            <small class="text-danger" *ngIf="f4.address.errors?.required">Input is Required</small>
+                                            <small class="text-danger" *ngIf="f4.address.errors?.minlength">Invalid Input</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="mobileNo" class="col-xl-3 col-sm-4 mb-0">Contact Mobile Number<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input type="text" class="form-control" id="mobileNo" formControlName="mobileNumber" placeholder="Mobile Number"
+                                               (keypress)="common.numberOnly($event)" minlength="11" maxlength="11" />
+                                        <div *ngIf="f4.mobileNumber?.errors">
+                                          <div *ngIf="f4.mobileNumber.invalid && (f4.mobileNumber.touched || f4.mobileNumber.dirty)">
+                                            <small class="text-danger" *ngIf="f4.mobileNumber.errors?.required">Input is Required</small>
+                                            <small class="text-danger" *ngIf="f4.mobileNumber.errors?.minlength">Invalid Input</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="form">
+                                    <div class="form-group mb-3 row">
+                                      <label for="email" class="col-xl-3 col-sm-4 mb-0">Email<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input class="form-control" id="email" type="email" formControlName="email" placeholder="Email"
+                                               pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$" maxlength="40">
+                                        <div *ngIf="f4.email?.errors">
+                                          <div *ngIf="f4.email.invalid && (f4.email.touched || f4.email.dirty)">
+                                            <small class="text-danger" *ngIf="f4.email.errors?.required">Input is Required</small>
+                                            <small class="text-danger" *ngIf="f4.email.errors?.pattern">Invalid Input</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="country" class="col-xl-3 col-sm-4 mb-0">Country/Region<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <select class="form-control" id="country" formControlName="countryId" (change)="checkingStateCategory($any($event).target.value)">
+                                          <option [value]="null" selected disabled>Select Country</option>
+                                          <option *ngFor="let item of countryList" [value]="item.countryId">{{item.countryName}} </option>
+                                        </select>
+                                        <div *ngIf="f4.countryId?.errors">
+                                          <div *ngIf="f4.countryId.invalid && (f4.countryId.touched || f4.countryId.dirty)">
+                                            <small class="text-danger" *ngIf="f4.countryId.errors?.required">Input is Required</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="state" class="col-xl-3 col-sm-4 mb-0">State<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <select class="form-control" id="state" formControlName="stateId" (change)="checkingCitycategory($any($event).target.value)">
+                                          <option [value]="null" selected disabled>Select State </option>
+                                          <option *ngFor="let item of stateList" [value]="item.stateId">{{item.name}} </option>
+                                        </select>
+                                        <div *ngIf="f4.stateId?.errors">
+                                          <div *ngIf="f4.stateId.invalid && (f4.stateId.touched || f4.stateId.dirty)">
+                                            <small class="text-danger" *ngIf="f4.stateId.errors?.required">Input is Required</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="state" class="col-xl-3 col-sm-4 mb-0">City<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <select class="form-control" id="cityId" formControlName="cityId" (change)="checkingAreaCategory($any($event).target.value)">
+                                          <option [value]="null" selected disabled>Select City</option>
+                                          <option *ngFor="let item of GetCityListByReleventState" [value]="item.cityId">{{item.name}} </option>
+                                        </select>
+                                        <div *ngIf="f4.cityId?.errors">
+                                          <div *ngIf="f2.cityId.invalid && (f2.cityId.touched || f2.cityId.dirty)">
+                                            <small class="text-danger" *ngIf="f2.cityId.errors?.required">Input is Required</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="form">
+
+                                    <div class="form-group mb-3 row">
+
+
+                                      <label for="area" class="col-xl-3 col-sm-4 mb-0">Area/Town<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <ng-autocomplete [data]="areaList"
+                                                         [searchKeyword]="businessArea"
+                                                         (selected)='selectTownEvent($event)'
+                                                         (inputCleared)='unselectTownEvent($event)'
+                                                         placeholder="Select Area / Town "
+                                                         (inputChanged)='onChangetownSearch($event)'
+                                                         [itemTemplate]="itemTemplate"
+                                                         [notFoundTemplate]="notFoundTemplate"
+                                                         formControlName="areaId">
+                                        </ng-autocomplete>
+
+
+                                        <ng-template #itemTemplate let-item>
+                                          <a [innerHTML]="item.areaName"></a>
+                                        </ng-template>
+
+                                        <ng-template #notFoundTemplate let-notFound>
+                                          <div [innerHTML]="notFound"></div>
+                                        </ng-template>
+                                        <ng-container *ngIf="f4.areaId?.errors">
+                                          <ng-container *ngIf="f4.areaId.invalid && (f4.areaId.touched || f4.areaId.dirty)">
+                                            <small class="text-danger" *ngIf="f4.areaId.errors?.required">Input is Required</small>
+                                            <small class="text-danger" *ngIf="f2.areaId.errors?.areaInvalidInput">Please select area /town</small>
+                                          </ng-container>
+                                        </ng-container>
+                                      </div>
+
+
+
+                                    </div>
+
+                                    <div class="form-group mb-3 row">
+                                      <label for="address" class="col-xl-3 col-sm-4 mb-0">Location</label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input class="form-control" id="address" formControlName="location" placeholder="Location"
+                                               type="text"
+                                               maxlength="240">
+
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="offset-xl-3 offset-sm-4">
+                                    <button type="submit" class="btn btn-primary" (click)="addAndUpdateWhareHouseAddress()">Save</button>
+                                  </div>
+                                </form>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Return Address -->
+                  <div class="tab-pane fade" [ngClass]="{'active show' : tabId == 'return-address'}" id="return-address" role="tabpanel" aria-labelledby="return-address-tab">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="card">
+                          <div class="card-body">
+                            <div class="row product-adding">
+                              <div class="col-xl-12">
+                                <form [formGroup]="returnAddressForm" class="add-product-form">
+                                  <div class="form">
+                                    <input type="hidden" formControlName="id" />
+                                    <div class="form-group mb-3 row" *ngIf="!returnAddress">
+                                      <label for="copyAddress" class="col-xl-3 col-sm-4 mb-0">Copy from Warehouse Address</label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input type="radio" id="isWhareHouseAddress" value='1' formControlName="isWhareHouseAddress" (change)="clickRadioBtn($any($event).target.value)">
+                                        <label>Yes</label>
+                                        <!--<input type="radio" class="ms-2" id="isWhareHouseAddress" value='0' formControlName="isWhareHouseAddress" (change)="clickRadioBtn($event)">
+                                        <label>No</label>-->
+                                        <!--<div *ngIf="f5.isWhareHouseAddress?.errors">
+                                          <div *ngIf="f5.isWhareHouseAddress.invalid && (f5.isWhareHouseAddress.touched || f5.isWhareHouseAddress.dirty)">
+                                            <small class="text-danger" *ngIf="f5.isWhareHouseAddress.errors.required">Select warehouse Mode.</small>
+                                          </div>
+                                        </div>-->
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="form">
+                                    <div class="form-group mb-3 row">
+                                      <label for="name" class="col-xl-3 col-sm-4 mb-0">Full Name<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input type="text" for="name" class="form-control col-xl-3 col-sm-4 mb-0" placeholder="Full Name" pattern="^[^-\s][a-zA-Z0-9_\s-]+$"
+                                               formControlName="name" (keypress)="common.charOnly($event)" maxlength="40" />
+                                        <div *ngIf="f5.name?.errors">
+                                          <div *ngIf="f5.name.invalid && (f5.name.touched || f5.name.dirty)">
+                                            <small class="text-danger" *ngIf="f5.name.errors?.required">Input is Required</small>
+                                            <small class="text-danger" *ngIf="f5.name.errors?.pattern">Invalid Input </small>
+
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="addess" class="col-xl-3 col-sm-4 mb-0">Address<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input class="form-control" id="address" type="text" formControlName="address" placeholder="Address"
+                                               minlength="3" maxlength="250">
+                                        <div *ngIf="f5.address?.errors">
+                                          <div *ngIf="f5.address.invalid && (f5.address.touched || f5.address.dirty)">
+                                            <small class="text-danger" *ngIf="f5.address.errors?.required">Input is Required</small>
+                                            <small class="text-danger" *ngIf="f5.address.errors?.minlength">Invalid Input</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="mobileNo" class="col-xl-3 col-sm-4 mb-0">Mobile Number<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input type="text" class="form-control" id="mobileNo" formControlName="mobileNumber" placeholder="Mobile Number"
+                                               (keypress)="common.numberOnly($event)" minlength="11" maxlength="11" />
+                                        <div *ngIf="f5.mobileNumber?.errors">
+                                          <div *ngIf="f5.mobileNumber.invalid && (f5.mobileNumber.touched || f5.mobileNumber.dirty)">
+                                            <small class="text-danger" *ngIf="f5.mobileNumber.errors?.required">Input is Required</small>
+                                            <small class="text-danger" *ngIf="f5.mobileNumber.errors?.minlength">Invalid Input</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="form">
+                                    <div class="form-group mb-3 row">
+                                      <label for="email" class="col-xl-3 col-sm-4 mb-0">Email<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input class="form-control" id="email" type="email" formControlName="email" maxlength="40" placeholder="Email"
+                                               pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$">
+                                        <div *ngIf="f5.email?.errors">
+                                          <div *ngIf="f5.email.invalid && (f5.email.touched || f5.email.dirty)">
+                                            <small class="text-danger" *ngIf="f5.email.errors?.required">Input is Required</small>
+                                            <small class="text-danger" *ngIf="f5.email.errors?.pattern">Invalid Input</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="country" class="col-xl-3 col-sm-4 mb-0">Country/Region<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <select class="form-control" id="country" formControlName="countryId" (change)="checkingStateCategory($any($event).target.value)">
+                                          <option [value]="null" selected disabled>Select Country</option>
+                                          <option *ngFor="let item of countryList" [value]="item.countryId">{{item.countryName}} </option>
+                                        </select>
+                                        <div *ngIf="f5.countryId?.errors">
+                                          <div *ngIf="f5.countryId.invalid && (f5.countryId.touched || f5.countryId.dirty)">
+                                            <small class="text-danger" *ngIf="f5.countryId.errors?.required">Input is Required</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="state" class="col-xl-3 col-sm-4 mb-0">State<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <select class="form-control" id="state" formControlName="stateId" (change)="checkingCitycategory($any($event).target.value)">
+                                          <option [value]="null" selected disabled>Select State</option>
+                                          <option *ngFor="let item of stateList" [value]="item.stateId">{{item.name}} </option>
+                                        </select>
+                                        <div *ngIf="f5.stateId?.errors">
+                                          <div *ngIf="f5.stateId.invalid && (f5.stateId.touched || f5.stateId.dirty)">
+                                            <small class="text-danger" *ngIf="f5.stateId.errors?.required">Input is Required</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="state" class="col-xl-3 col-sm-4 mb-0">City<span class="txtclr-red">*</span></label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <select class="form-control" id="cityId" formControlName="cityId" (change)="checkingAreaCategory($any($event).target.value)">
+                                          <option [value]="null" selected disabled>Select City</option>
+                                          <option *ngFor="let item of GetCityListByReleventState" [value]="item.cityId">{{item.name}} </option>
+                                        </select>
+                                        <div *ngIf="f5.cityId?.errors">
+                                          <div *ngIf="f2.cityId.invalid && (f2.cityId.touched || f2.cityId.dirty)">
+                                            <small class="text-danger" *ngIf="f2.cityId.errors?.required">Input is Required</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+
+                                  <div class="form-group mb-3 row">
+
+
+                                    <label for="area" class="col-xl-3 col-sm-4 mb-0">Area/Town<span class="txtclr-red">*</span></label>
+                                    <div class="col-xl-8 col-sm-7">
+                                      <ng-autocomplete [data]="areaList"
+                                                       [searchKeyword]="businessArea"
+                                                       (selected)='selectTownEvent($event)'
+                                                       (inputCleared)='unselectTownEvent($event)'
+                                                       placeholder="Select Area / Town "
+                                                       (inputChanged)='onChangetownSearch($event)'
+                                                       [itemTemplate]="itemTemplate"
+                                                       [notFoundTemplate]="notFoundTemplate"
+                                                       formControlName="areaId">
+                                      </ng-autocomplete>
+
+                                      <ng-template #itemTemplate let-item>
+                                        <a [innerHTML]="item.areaName"></a>
+                                      </ng-template>
+
+                                      <ng-template #notFoundTemplate let-notFound>
+                                        <div [innerHTML]="notFound"></div>
+                                      </ng-template>
+                                      <ng-container *ngIf="f5.areaId?.errors">
+                                        <ng-container *ngIf="f5.areaId.invalid && (f5.areaId.touched || f5.areaId.dirty)">
+                                          <small class="text-danger" *ngIf="f5.areaId.errors?.required">Input is Required</small>
+                                          <small class="text-danger" *ngIf="f2.areaId.errors?.areaInvalidInput">Please select area /town</small>
+                                        </ng-container>
+                                      </ng-container>
+
+                                    </div>
+
+
+                                  </div>
+
+
+                                  <div class="form-group mb-3 row">
+                                    <label for="address" class="col-xl-3 col-sm-4 mb-0">Location</label>
+                                    <div class="col-xl-8 col-sm-7">
+                                      <input class="form-control" id="address" formControlName="location" placeholder="Location"
+                                             type="text"
+                                             maxlength="240">
+
+                                    </div>
+                                  </div>
+
+                                  <div class="offset-xl-3 offset-sm-4">
+                                    <button type="submit" class="btn btn-primary" [disabled]="!returnAddressForm.valid" (click)="addAndUpdateReturnAddress()">Save</button>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Social Links -->
+                  <div class="tab-pane fade" [ngClass]="{'active show' : tabId == 'social-link'}" id="social-link" role="tabpanel" aria-labelledby="social-link-tab">
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="card">
+                          <div class="card-body">
+                            <div class="row product-adding">
+                              <div class="col-xl-12">
+                                <form [formGroup]="sociallinkForm" class="add-product-form">
+                                  <div class="form">
+                                    <input type="hidden" formControlName="id" />
+                                  </div>
+                                  <div class="form">
+                                    <div class="form-group mb-3 row">
+                                      <label for="youtubeUrl" class="col-xl-3 col-sm-4 mb-0">Youtube Url</label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input type="text" for="youtubeUrl" class="form-control col-xl-3 col-sm-4 mb-0" placeholder="Youtube Url"
+                                               formControlName="youtubeUrl" />
+                                        <div *ngIf="fsocial.youtubeUrl?.errors">
+                                          <div *ngIf="fsocial.youtubeUrl.invalid && (fsocial.youtubeUrl.touched || fsocial.youtubeUrl.dirty)">
+                                            <small class="text-danger" *ngIf="fsocial.youtubeUrl.errors">Invalid Url</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="facebookUrl" class="col-xl-3 col-sm-4 mb-0">Facebook Url</label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input type="text" for="facebookUrl" class="form-control col-xl-3 col-sm-4 mb-0" placeholder="Facebook Url"
+                                               formControlName="facebookUrl" />
+                                        <div *ngIf="fsocial.facebookUrl?.errors">
+                                          <div *ngIf="fsocial.facebookUrl.invalid && (fsocial.facebookUrl.touched || fsocial.facebookUrl.dirty)">
+                                            <small class="text-danger" *ngIf="fsocial.facebookUrl.errors">Invalid Url</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="instagramUrl" class="col-xl-3 col-sm-4 mb-0">Instagram Url</label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input type="text" for="instagramUrl" class="form-control col-xl-3 col-sm-4 mb-0" placeholder="Instagram Url"
+                                               formControlName="instagramUrl" />
+                                        <div *ngIf="fsocial.instagramUrl?.errors">
+                                          <div *ngIf="fsocial.instagramUrl.invalid && (fsocial.instagramUrl.touched || fsocial.instagramUrl.dirty)">
+                                            <small class="text-danger" *ngIf="fsocial.instagramUrl.errors">Invalid Url</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="twitterUrl" class="col-xl-3 col-sm-4 mb-0">Twitter Url</label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input type="text" for="twitterUrl" class="form-control col-xl-3 col-sm-4 mb-0" placeholder="Twitter Url"
+                                               formControlName="twitterUrl" />
+                                        <div *ngIf="fsocial.twitterUrl?.errors">
+                                          <div *ngIf="fsocial.twitterUrl.invalid && (fsocial.twitterUrl.touched || fsocial.twitterUrl.dirty)">
+                                            <small class="text-danger" *ngIf="fsocial.twitterUrl.errors">Invalid Url</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="form-group mb-3 row">
+                                      <label for="linkedInUrl" class="col-xl-3 col-sm-4 mb-0">LinkedIn Url</label>
+                                      <div class="col-xl-8 col-sm-7">
+                                        <input type="text" for="linkedInUrl" class="form-control col-xl-3 col-sm-4 mb-0" placeholder="LinkedIn Url"
+                                               formControlName="linkedInUrl" />
+                                        <div *ngIf="fsocial.linkedInUrl?.errors">
+                                          <div *ngIf="fsocial.linkedInUrl.invalid && (fsocial.linkedInUrl.touched || fsocial.linkedInUrl.dirty)">
+                                            <small class="text-danger" *ngIf="fsocial.linkedInUrl.errors">Invalid Url</small>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="offset-xl-3 offset-sm-4">
+                                    <button type="submit" class="btn btn-primary" (click)="addAndUpdateSocialLinks()">Save</button>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--Inner Tabs End-->
+              </div>
+
+              <div [ngClass]="{'active show' : tabId == 'seller-logo'}" class="tab-pane fade add-product-form" id="pills-logo" role="tabpanel" aria-labelledby="pills-logo-tab">
+
+                <form [formGroup]="logoForm">
+                  <div class="form">
+                    <input type="hidden" formControlName="supplierId" />
+                    <input type="hidden" formControlName="profileImageId" />
+                    <div class="row">
+                      <div class="col-xl-3 col-sm-4">
+                        <div class="form-group">
+                          <label for="companyLogo">Upload Logo*</label>
+                        </div>
+                      </div>
+                      <div class="col-xl-9 col-sm-8">
+                        <div class="form-group">
+                          <input type="file" class="form-control" formControlName="companyLogo" accept="image/*" (change)="fileChangeEventLogo($event)" />
+                          <div *ngIf="f6.companyLogo.invalid && (f6.companyLogo.touched || f6.companyLogo.dirty)">
+                            <small class="text-danger" *ngIf="f6.companyLogo.errors?.required">Attach Logo image.</small>
+                          </div>
+                          <div class="mt-2" *ngIf="logoImage">
+                            <img class="id-card_image-size" [src]="common.transform(logoImage)" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">Parent Tab2</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Container-fluid Ends-->
+
+<div bsModal #cropModal="bs-modal" class="modal fade custom-model-style" id="myModal" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content px-4 py-4">
+
+      <!-- Modal Header -->
+      <div class="modal-header p-0">
+        <h6 class="modal-title" id="exampleModalLongTitle" style="color: var(--headingClr);">Change Shop Cover Image</h6>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body profilechange p-0 mt-3">
+        <image-cropper [imageChangedEvent]="imageChangedEvent"
+                       [maintainAspectRatio]="true"
+                       format="png"
+                       [cropperStaticWidth]="1290"
+                       [cropperStaticHeight]="320"
+                       (imageCropped)="imageCropped($event)"></image-cropper>
+      </div>
+      <!-- Modal footer -->
+      <div class="modal-footer p-0 mt-2">
+        <!--<button type="button" class="btn solid-btn" style="background: var(--greenClr);" (click)="SaveImage()">Save</button>-->
+        <button type="button" class="btn solid-btn" style="background: var(--greenClr);" (click)="hideModal()">Save</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- logo upload popup -->
+<div bsModal #cropLogoModal="bs-modal" class="modal fade custom-model-style" id="myModal" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content px-4 py-4">
+
+      <!-- Modal Header -->
+      <div class="modal-header p-0">
+        <h6 class="modal-title" id="exampleModalLongTitle" style="color: var(--headingClr);">Change Logo Image</h6>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body profilechange p-0 mt-3">
+        <image-cropper [imageChangedEvent]="imageLogoChangedEvent"
+                       [maintainAspectRatio]="true"
+                       format="png"
+                       [cropperStaticWidth]="381"
+                       [cropperStaticHeight]="250"
+                       (imageCropped)="logoImageCropped($event)"></image-cropper>
+      </div>
+      <!-- Modal footer -->
+      <div class="modal-footer p-0 mt-2">
+        <button type="button" class="btn solid-btn" style="background: var(--greenClr);" (click)="addAndUpdateLogo()">Save</button>
+        <button type="button" class="btn solid-btn" style="background: var(--redClr);" (click)="hideLogoModal()">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+

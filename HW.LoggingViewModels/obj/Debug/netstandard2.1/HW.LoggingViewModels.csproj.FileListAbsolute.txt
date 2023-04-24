@@ -1,0 +1,17 @@
+D:\GitHub\Hoomwork\HW.LoggingViewModels\bin\Debug\netstandard2.1\HW.LoggingViewModels.deps.json
+D:\GitHub\Hoomwork\HW.LoggingViewModels\bin\Debug\netstandard2.1\HW.LoggingViewModels.dll
+D:\GitHub\Hoomwork\HW.LoggingViewModels\bin\Debug\netstandard2.1\HW.LoggingViewModels.pdb
+D:\GitHub\Hoomwork\HW.LoggingViewModels\bin\Debug\netstandard2.1\HW.ElmahModels.dll
+D:\GitHub\Hoomwork\HW.LoggingViewModels\bin\Debug\netstandard2.1\HW.Http.dll
+D:\GitHub\Hoomwork\HW.LoggingViewModels\bin\Debug\netstandard2.1\HW.Utility.dll
+D:\GitHub\Hoomwork\HW.LoggingViewModels\bin\Debug\netstandard2.1\HW.ElmahModels.pdb
+D:\GitHub\Hoomwork\HW.LoggingViewModels\bin\Debug\netstandard2.1\HW.Utility.pdb
+D:\GitHub\Hoomwork\HW.LoggingViewModels\bin\Debug\netstandard2.1\HW.Http.pdb
+D:\GitHub\Hoomwork\HW.LoggingViewModels\obj\Debug\netstandard2.1\HW.LoggingViewModels.csproj.AssemblyReference.cache
+D:\GitHub\Hoomwork\HW.LoggingViewModels\obj\Debug\netstandard2.1\HW.LoggingViewModels.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Hoomwork\HW.LoggingViewModels\obj\Debug\netstandard2.1\HW.LoggingViewModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.LoggingViewModels\obj\Debug\netstandard2.1\HW.LoggingViewModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.LoggingViewModels\obj\Debug\netstandard2.1\HW.LoggingViewModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.LoggingViewModels\obj\Debug\netstandard2.1\HW.LoggingViewModels.csproj.CopyComplete
+D:\GitHub\Hoomwork\HW.LoggingViewModels\obj\Debug\netstandard2.1\HW.LoggingViewModels.dll
+D:\GitHub\Hoomwork\HW.LoggingViewModels\obj\Debug\netstandard2.1\HW.LoggingViewModels.pdb

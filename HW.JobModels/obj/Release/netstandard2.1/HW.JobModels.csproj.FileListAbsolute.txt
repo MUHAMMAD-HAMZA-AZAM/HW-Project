@@ -1,0 +1,10 @@
+D:\GitHub\Hoomwork\HW.JobModels\bin\Release\netstandard2.1\HW.JobModels.deps.json
+D:\GitHub\Hoomwork\HW.JobModels\bin\Release\netstandard2.1\HW.JobModels.dll
+D:\GitHub\Hoomwork\HW.JobModels\bin\Release\netstandard2.1\HW.JobModels.pdb
+D:\GitHub\Hoomwork\HW.JobModels\obj\Release\netstandard2.1\HW.JobModels.csproj.AssemblyReference.cache
+D:\GitHub\Hoomwork\HW.JobModels\obj\Release\netstandard2.1\HW.JobModels.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Hoomwork\HW.JobModels\obj\Release\netstandard2.1\HW.JobModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.JobModels\obj\Release\netstandard2.1\HW.JobModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.JobModels\obj\Release\netstandard2.1\HW.JobModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.JobModels\obj\Release\netstandard2.1\HW.JobModels.dll
+D:\GitHub\Hoomwork\HW.JobModels\obj\Release\netstandard2.1\HW.JobModels.pdb

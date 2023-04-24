@@ -1,0 +1,422 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4">
+      <h6 class="mainTitle" data-toggle="collapse" href="#collapse2" aria-expanded="true">Posted Ads</h6>
+    </div>
+  </div>
+
+  <div id="collapse2" class="contentWrapper fs-12 collapse">
+    <form>
+      <div class="row">
+        <div class="col-md-4">
+          <label for="customerName">Supplier Name</label>
+          <div class="input-group">
+            <input type="text" autocomplete="off" id="supplierName" maxlength="40" name="supplierName" class="form-control" [(ngModel)]="supplierName" placeholder="Supplier Name" (keypress)="service.omit_special_char($event)"/>
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                <input type="radio" value="1" id="start" (click)="getRadioValue($event)" name="groupOfDefaultRadios" checked #restChecked>
+                <label class="" for="start">Start</label>
+                <input type="radio" class="" (click)="getRadioValue($event)" value="2" id="anyWhere" name="groupOfDefaultRadios">
+                <label class="" for="anyWhere">Anywhere</label>
+                <input type="radio" class="" value="3" id="end" (click)="getRadioValue($event)" name="groupOfDefaultRadios">
+                <label class="" for="end">End</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-2">
+          <label class="">From Date</label>
+          <input type="date" id="startDate" [(ngModel)]="startDate" name="startDate" class="form-control" />
+          <div *ngIf="submittedApplicationForm" class="invalid-feedback">
+            <div><p>{{startDateErrorMessage}}</p></div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <label class="">To Date</label>
+          <input type="date" id="endDate" [(ngModel)]="endDate" name="endDate" class="form-control" />
+          <div *ngIf="submittedApplicationForm" class="invalid-feedback">
+            <div><p>{{endDateErrorMessage}}</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-2">
+          <label for="tradesmanName">Ad Id</label>
+          <input type="text" autocomplete="off" maxlength="10" id="adId" name="adId" class="form-control" [(ngModel)]="adId" placeholder="Ad Id " (keypress)="service.numberOnly($event)"/>
+        </div>
+        <div class="col-md-2">
+          <label class="">City</label>
+          <ng-multiselect-dropdown placeholder="City" style="display:inline;"
+                                   [settings]="dropdownListForCity"
+                                   [data]="cityList"
+                                   [(ngModel)]="selectedCities"
+                                   name="selectedCities"
+                                   (onSelect)="onCitySelect($event)"
+                                   (onSelectAll)="onCitySelectAll($event)"
+                                   (onDeSelect)="onCityDeSelect($event)"
+                                   (onDeSelectAll)="onCityDeSelectALL($event)"
+                                   (OnDeSelect)="onCityDeSelect($event)">
+          </ng-multiselect-dropdown>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-2 addressSearch">
+          <div class="form-group  ">
+            <label for="businessAddress">Location</label>
+            <input type="text" class="form-control desc" maxlength="50" placeholder="Location" autocomplete="off" [(ngModel)]="location" id="location" name="location" (keyup)="serachAddress(location)" autocapitalize="off" spellcheck="off" #search />
+          </div>
+          <div class="addressSearchResult" *ngIf="isAddress">
+            <ul>
+              <li *ngFor="let address of searchedAddress">
+                <a (click)="setAddressValue($event)">{{address.customerAddress}}</a>
+              </li>
+              <li *ngIf="!locationSearchKeyMatch" class="text-danger text-center">No location Found</li>
+
+            </ul>
+          </div>
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4 inline-downlod-btns">
+          <div class="form-group">
+            <input class=" btn btn-primary btn-sm" type="submit" value="Search" (click)="loadJobs()" />
+          </div>
+          <div class="form-group">
+            <input class="btn btn-primary btn-sm" type="submit" (click)="resetForm()" value="Reset" />
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div *ngIf="userRole.allowExport" class="row inline-downlod-btns justify-content-end mr-1">
+    <div class="form-group ">
+      <input *ngIf="jobcount>0" class="btn btn-primary btn-sm" type="button" value="Download pdf" (click)="DownloadPdf()" />
+    </div>
+    <div class="form-group ml-2">
+      <input *ngIf="jobcount>0" class="btn btn-primary btn-sm" type="button" value="Download Excel" (click)="DownloadXlsx()" />
+    </div>
+    <div class="form-group ml-2">
+      <input *ngIf="jobcount>0" class="btn btn-primary btn-sm" type="submit" value="Download Csv" (click)="exportCSV()" />
+    </div>
+  </div>
+  <div class="card shadow mb-4" [hidden]="!showTable">
+    <div class="card-header justify-header">
+      <h6 class="m-0 font-weight-bold">Posted Ads</h6>
+      <div class="fa-pull-right d-flex align-items-center">
+        <button *ngIf="userRole.allowAdd" (click)="showModalAdd1(content)" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i>Post Ad</button>
+        <div class="g-pagination">
+
+          <div class="data-count">
+            <span>{{recoardNoFrom}}-{{recoardNoTo}} of {{totalRecoards}}</span>
+            <div class="newOrOld-Data">
+              <ul>
+                <li><a (click)="LoadNewestRecoards()"> Newest</a></li>
+                <li><a (click)="LoadOldestRecoards()">Oldest</a></li>
+              </ul>
+            </div>
+            <!--<span>1-46 of 46</span>-->
+          </div>
+          <div class="indicators">
+            <i class="fa fa-angle-left" (click)="PriviousClick()"></i>
+            <i class="fa fa-angle-right" (click)="NextClick()"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="card-body">
+      <div class="show_entries">
+        <div class="no-of-entries">
+          <label>No of Enteries</label>
+          <select (change)="changePageSize()" [(ngModel)]="pageSize">
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+        <div class="n0-of-pages">
+          <label class="">No of Pages</label>
+          <select class="" [(ngModel)]="pageNumber" (change)="clickchange()">
+            <option *ngFor="let item of pageing1" value="{{item}}">{{item}} </option>
+          </select>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0" #dataTable>
+          <thead>
+            <tr>
+              <th width="1%">Ad Id</th>
+              <th width="7%">Supplier Name</th>
+              <th width="8%">Product Name</th>
+              <th width="8%">Sub Product Name</th>
+              <th width="7%">Ad Title</th>
+              <!--<th width="7%">Add Status</th>-->
+              <th width="21%">Address</th>
+              <th width="1%">Price</th>
+              <th width="2%">City</th>
+              <!--<th width="10%">Town</th>-->
+              <th width="5%" class="dc-width-6">Date</th>
+              <th width="1%">Det</th>
+              <th *ngIf="allowDelete" width="1%">Del</th>
+            </tr>
+          </thead>
+          <tbody class="table-content-fs">
+            <tr *ngFor="let ads of adsList">
+              <td>{{ads.supplierAdsId}}</td>
+              <td>{{ads.supplierName}}</td>
+              <td>{{ads.productName}}</td>
+              <td>{{ads.subCategoryName}}</td>
+              <td>{{ads.adTitle}}</td>
+
+              <!--<td>{{ads.addStatus}}</td>-->
+              <td>{{ads.address}}</td>
+              <td>{{ads.price}}</td>
+              <td>{{ads.cityName}}</td>
+
+              <!--<td>{{ads.town}}</td>-->
+              <td>{{ads.createdOn | date: "dd MMM yyy"}}</td>
+              <td>
+                <i class="fas fa-eye" (click)="showModal(contentAdDetails , ads.supplierAdsId)"></i>
+              </td>
+              <td  *ngIf="allowDelete" >
+                <i class="fas fa-trash" (click)="DeleteAdByAdId(ads.supplierAdsId,deleteContent)" ></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <p *ngIf="showNullMessage" class="text-danger">No result found.</p>
+    </div>
+  </div>
+</div>
+
+<ng-template #deleteContent let-modal>
+  <div class="modal-content">
+    <div class="modal-body">
+      <h5 style="color:#636363; font-size:24px;">Are you sure ?</h5>
+    </div>
+    <div class="modal-footer justify-content-center">
+      <button type="button" class="btn btn-sm btn-primary" (click)="confirmDeleteAd()">DELETE</button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('cancel click')">CANCEL</button>
+    </div>
+  </div>
+</ng-template>
+
+<div id="supplierAdDetails">
+  <ng-template #contentAdDetails let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Ad Details</h5>
+    </div>
+    <div class="modal-body">
+      <div class="product-detail-wrapper">
+        <div class="row">
+          <div class="col-xl-3">
+            <label><b>Ad Title</b></label>
+          </div>
+          <div class="col-xl-9">
+            <label>{{adDetails?.productName ? adDetails.productName : '-'}}</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-3">
+            <label><b>Ad Description</b></label>
+          </div>
+          <div class="col-xl-9">
+            <label>{{adDetails?.productDescription ? adDetails.productDescription : '-'}}</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-3">
+            <label><b>Active From</b></label>
+          </div>
+          <div class="col-xl-9">
+            <label class="text-success">{{adDetails?.activeFrom ? (adDetails.activeFrom | date:'MM/dd/yyyy') : '-'}}</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-3">
+            <label><b>Active To</b></label>
+          </div>
+          <div class="col-xl-9">
+            <label class="text-success">{{adDetails?.activeTo ? (adDetails.activeTo| date:'MM/dd/yyyy') : '-'}}</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-3">
+            <label><b>Price</b></label>
+          </div>
+          <div class="col-xl-9">
+            <label>{{adDetails?.productPrice ? adDetails.productPrice : '-' }}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('Save click')">Cancel</button>
+    </div>
+  </ng-template>
+</div>
+<ng-template #content let-modal style="width:700px;">
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Ad Post</h5>
+  </div>
+  <form [formGroup]="promoForm" novalidate>
+    <div class="modal-body">
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="jobTitle">Category</label>
+          <select type="text" class="form-control" (change)="SelectCategroy($event.target.value)" formControlName="productCategoryId" [ngClass]="{ 'is-invalid': submitted &&  f1.productCategoryId.errors }" [value]="0">
+            <option [attr.selected]="categoryId==0 ? true : null" [attr.disabled]="categoryId==0 ? true : null">Selcet category</option>
+            <option *ngFor="let item of productCategoryList; let i= index" [attr.value]="item.id" [attr.selected]="item.id ==categoryId ? true : null">{{item.value}}</option>
+          </select>
+          <div *ngIf="submitted && f1.productCategoryId.errors" class="invalid-feedback">
+            <div *ngIf="f1.productCategoryId.errors.required"> * Select Category </div>
+          </div>
+        </div>
+        <div *ngIf="productSubCategoryList.length > 0 || postAdVm.productSubcategoryId != null" class="form-group col-md-6">
+          <label for="message">Sub Category</label>
+          <select type="text" id="jobTitle" class="form-control" (change)="SelectSubCategory($event.target.value)" formControlName="productSubCategoryId" [ngClass]="{ 'is-invalid': submitted &&  f1.productSubCategoryId.errors }" [value]="0">
+            <option value="" selected hidden>Select Subcategory</option>
+            <option *ngFor="let item of productSubCategoryList" value="{{item.id}}">{{item.value}}</option>
+          </select>
+          <div *ngIf="submitted && f1.productSubCategoryId.errors" class="invalid-feedback">
+            <div *ngIf="f1.productSubCategoryId.errors.required"> * Select Sub Category</div>
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="postTitle">Give a Title to Your Post</label>
+          <input type="text" maxlength="30" id="postTitle" class="form-control" formControlName="postTitle" [ngClass]="{ 'is-invalid': submitted &&  f1.postTitle.errors }" >
+          <div *ngIf="submitted && f1.postTitle.errors" class="invalid-feedback">
+            <div *ngIf="f1.postTitle.errors.required"> * Please enter Ad Title.</div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="fs-12">User Name</label>
+            <select class="form-control" formControlName="supplierId" [ngClass]="{ 'is-invalid': submitted &&  f1.supplierId.errors }">
+              <option [ngValue]="0" disabled> * Select UserName</option>
+              <option *ngFor="let promo1 of userdatafiltred" [value]="promo1.userTypeId">{{promo1.firstName}} &nbsp; &nbsp; {{promo1.userTypeId}}</option>
+            </select>
+            <div *ngIf="submitted && f1.supplierId.errors" class="invalid-feedback">
+              <div *ngIf="f1.supplierId.errors.required"> * Select your username. </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-12">
+          <label for="product">About Product</label>
+          <textarea type="text" id="product" maxlength="50" class="form-control desc" formControlName="postDiscription" [ngClass]="{ 'is-invalid': submitted &&  f1.postDiscription.errors }" ></textarea>
+          <div *ngIf="submitted && f1.postDiscription.errors" class="invalid-feedback">
+            <div *ngIf="f1.postDiscription.errors.required"> * Please enter information about your Product.</div>
+          </div>
+        </div>
+        <div class="form-group col-md-12" style="margin:20px">
+          <label>Add Images <small>(max 10)</small></label>
+          <div class="upload-img">
+            <div class="file btn btn-lg btn-light">
+              <i class="far fa-image"></i>
+              <input type="file" name="file" id="name" accept="image/*" multiple (change)="OnSelectFile($event)">
+            </div>
+            <div class="imgRow row">
+              <div *ngFor="let i of listOfImages;let index = index;" id="addImgFile">
+                <i class="fas fa-times cross-icon" (click)="CancelImage(index+1)">
+                </i>
+                <img class=".modallist" width="100" id="PostImage" height="100" (click)="ImagePopUp(i.imageBase64)" [src]="i.imageBase64" alt="" data-toggle="modal" data-target="#postad-img-modal">
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="form-group col-md-6 d-none" style="margin-top:30px;">
+          <label>Add Video <small>(only 1)</small></label>
+          <div class="form-control upload-img">
+            <div class="file btn btn-lg btn-light">
+              <i class="fas fa-video"></i>
+              <input type="file" name="file" id="name">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-4">
+            <label for="price">Price <small>(Rs.)</small></label>
+            <input inputmode="numeric" id="price" maxlength="10" pattern="^[0-9]*$" class="form-control" formControlName="price" [ngClass]="{ 'is-invalid': submitted &&  f1.price.errors }" required>
+            <div *ngIf="submitted && f1.price.errors" class="invalid-feedback">
+              <div *ngIf="f1.price.errors.required"> * Please enter Product Price.</div>
+            </div>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="city">City</label>
+            <select id="city" class="form-control" (change)="SelectCity($event.target.value)" formControlName="cityId" [ngClass]="{ 'is-invalid': submitted &&  f1.cityId.errors }" [value]="0">
+              <option value="" selected hidden>Select City</option>
+              <option *ngFor="let item of cityList" value="{{item.id}}">{{item.value}}</option>
+            </select>
+            <div *ngIf="submitted && f1.cityId.errors" class="invalid-feedback">
+              <div *ngIf="f1.cityId.errors.required"> *Select your City</div>
+            </div>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="town">Town</label>
+            <input type="text" maxlength="30" id="town" formControlName="town" class="form-control" [ngClass]="{ 'is-invalid': submitted &&  f1.town.errors }" required>
+            <div *ngIf="submitted && f1.town.errors" class="invalid-feedback">
+              <div *ngIf="f1.town.errors.required"> * Please enter  town.</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-12">
+          <label for="address">Address</label>
+          <textarea type="text" maxlength="250" id="address" formControlName="address" [ngClass]="{ 'is-invalid': submitted &&  f1.address.errors }" class="form-control desc" required></textarea>
+          <div *ngIf="submitted && f1.address.errors" class="invalid-feedback">
+            <div *ngIf="f1.address.errors.required"> * Please enter  Address.</div>
+          </div>
+        </div>
+        <div class="form-group col-md-12 shipmentMethods">
+          <h4>Shipment Methods</h4>
+          <div class="row">
+            <div class="form-group col-lg-4 col-md-6">
+              <div class="form-check">
+                <div class="material-switch">
+                  <input id="delivery" name="delivery" type="checkbox" checked formControlName="deliveryAvailable" />
+                  <label for="delivery" class="label-success"></label>
+                </div>
+                <label class="form-check-label text-dark" for="gridCheck">
+                  Delivery Available
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group col-lg-4 col-md-6">
+              <div class="form-check">
+                <div class="material-switch">
+                  <input id="collection" name="collection" type="checkbox" formControlName="collectionAvailable" [ngClass]="{ 'is-invalid': submitted &&  f1.collectionAvailable.errors }" />
+                  <label for="collection" class="label-success"></label>
+                </div>
+                <label class="form-check-label text-dark" for="gridCheck">
+                  Collection Available
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <div class="row">
+        <div class="col-md-6 inline-downlod-btns">
+          <button type="submit" class="btn btn-sm btn-primary mr-6" (click)="postAd()" style="margin:5px">Save</button>
+          <button type="reset" class="btn btn-sm btn-primary" (click)="resetForm()" style="margin:5px">Reset</button>
+          <button type="submit" class="btn btn-primary btn-sm" (click)="modal.close('Save click')" style="margin:5px">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>

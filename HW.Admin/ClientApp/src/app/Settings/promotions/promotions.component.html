@@ -1,0 +1,283 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card shadow mb-4">
+          <div class="card-header bg-primary">
+            <h6 class="mainTitle m-0 font-weight-bold border-0" data-toggle="collapse" href="#collapse6" aria-expanded="true">Filter Promotion</h6>
+          </div>
+          <div id="collapse6" class="contentWrapper fs-12 collapse">
+            <div class="card-body">
+              <form [formGroup]="filterPromoForm">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label class="fs-12">Promotion Name</label>
+                      <input type="text" formControlName="fpromotionName" required class="form-control" />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Promotion Type</label>
+                      <select formControlName="fpromotionIdTypeId" class="form-control">
+                            <option [value]="null" disabled selected>Select Promotion Type</option>
+                            <option *ngFor="let promo of promoTypeList" [value]="promo.promotionTypeId">{{promo.promotionTypeName}}</option>
+                          </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Promotion Code</label>
+                      <input type="text" formControlName="fpromotionCode" class="form-control" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Entity Status</label>
+                      <select class="form-control" formControlName="entity">
+                        <option [value]="1">Active</option>
+                        <option [value]="2">InActive</option>
+                        <option [value]="3">Discontinue</option>
+                      </select>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4 inline-downlod-btns">
+                    <button type="submit" class="btn btn-sm btn-primary mr-2" (click)="getPromotionsList()">Search</button>
+                    <button type="reset" class="btn btn-sm btn-primary" (click)="resetFForm()">Reset</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          </div>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Promotions List</h6>
+            <button *ngIf="userRole.allowAdd" (click)="showModal(content)" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New Promotion</button>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th width="10%">Promotion Name</th>
+                    <th width="4%" title="Promotion Code">PC</th>
+                    <th width="10%">Promotion Type</th>
+                    <th width="8%">Promotion Category</th>
+                    <th width="5%">Entity Status</th>
+                    <!--<th width="2%" title="Discount Percent Price">DPP</th>
+                    <th width="2%" title="Discount Days">DD</th>
+                    <th width="2%" title="Discount Jobs Applied">DJA</th>
+                    <th width="2%" title="Discount Categories">DC</th>-->
+                    <th width="6%" title="Promotion Start Date">PSD</th>
+                    <th width="6%" title="Promotion Expire Date">PED</th>
+                    <th width="6%" title="Promotion Amount">Amount</th>
+                    <th width="6%" title="Created Date">CD</th>
+                    <th width="6%" title="Created By">CB</th>
+                    <th width="6%" title="Modified Date">MD</th>
+                    <th width="6%" title="Modified By">MB</th>
+                    <th *ngIf="userRole.allowAdd" width="1%">Edit</th>
+                    <th  *ngIf="userRole.allowDelete" title="Delete" width="1%">Del</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let promo of promotionList">
+                    <td>{{promo?.promotionName}}</td>
+                    <td>{{promo?.promotionCode}}</td>
+                    <td>{{promo?.promotionTypeName}}</td>
+                    <td>{{promo?.categoryName}}</td>
+                    <!--<td >{{promo?.isActive}}</td>-->
+                     <td *ngIf="promo.entityStatus == '1' || promo.entityStatus == '' || promo.entityStatus == null" >Active</td>
+                  <td *ngIf="promo.entityStatus == '2'">InActive</td>
+                  <td *ngIf="promo.entityStatus == '3'">Discontinue</td>
+                    <!--<td>{{promo?.discountPercentPrice}}</td>
+                    <td>{{promo?.discountDays}}</td>
+                    <td>{{promo?.discountJobsApplied}}</td>
+                    <td>{{promo?.discountCategories}}</td>-->
+                    <td>{{promo?.promoStartDate | date: "dd MMM yyy"}}</td>
+                    <!--<td>{{promo?.promoStartDate |  date :'dd-MMM-yy h:mm:ss a '}}</td>-->
+                    <td>{{promo?.promotionEndDate | date: "dd MMM yyy"}}</td>
+                    <td>{{promo?.amount}}</td>
+                    <!--<td>{{promo?.promotionEndDate | date :'dd-MMM-yy h:mm:ss a '}}</td>
+                    <td>{{promo?.createdDate | date :'dd-MMM-yy h:mm:ss a '}}</td>-->
+                    <td>{{promo?.createdDate | date: "dd MMM yyy"}}</td>
+                    <td>{{promo?.createdBy}}</td>
+                    <td>{{promo?.updatedDate | date: "dd MMM yyy"}}</td>
+                    <!--<td>{{promo?.updatedDate | date :'dd-MMM-yy h:mm:ss a '}}</td>-->
+                    <td>{{promo?.updatedBy}}</td>
+                    <td *ngIf="userRole.allowAdd"><i class="text-info fa fa-pencil-alt" (click)="updatePromo(promo,content)"></i></td>
+                    <td *ngIf="userRole.allowDelete"><i class="text-danger fa fa-trash-alt" (click)="deletePromo(promo.promotionId)"></i></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">{{modelText}}</h5>
+  </div>
+  <form [formGroup]="promoForm" (submit)="saveAndUpdate()">
+    <div class="modal-body">
+      <input type="hidden" formControlName="promotionId" />
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12">Promotion Type</label>
+            <select formControlName="promotionIdTypeId" required class="form-control" (change)="promotionType($event)">
+              <option [ngValue]="null" disabled>Select Promotion Type</option>
+              <option *ngFor="let promo of promoTypeList" [value]="promo.promotionTypeId">{{promo.promotionTypeName}}</option>
+            </select>
+            <div *ngIf="f.promotionIdTypeId?.errors">
+              <div *ngIf="f.promotionIdTypeId.invalid && submited">
+                <small *ngIf="f.promotionIdTypeId.errors?.required" class="text-danger">Promotion Type is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="isCategory">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12">Category</label>
+            <select formControlName="categoryId" required class="form-control">
+              <option [ngValue]="null" disabled>Select Category</option>
+              <option *ngFor="let item of categoryList" [value]="item.id">{{item.value}}</option>
+            </select>
+            <div *ngIf="f.categoryId?.errors">
+              <div *ngIf="f.categoryId.invalid && submited">
+                <small *ngIf="f.categoryId.errors?.required" class="text-danger">Category is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12">Promotion Name</label>
+            <input type="text" formControlName="promotionName" maxlength="50" required class="form-control" />
+            <div *ngIf="f.promotionName?.errors">
+              <div *ngIf="f.promotionName.invalid && submited">
+                <small *ngIf="f.promotionName.errors?.required" class="text-danger">Promotion Name is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="!isPromotionCode">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12">Promotion Code</label>
+            <input type="text" formControlName="promotionCode" maxlength="10" class="form-control" />
+            <div *ngIf="f.promotionCode?.errors">
+              <div *ngIf="f.promotionCode.invalid && submited">
+                <small *ngIf="f.promotionCode.errors?.required" class="text-danger">Promotion Code is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-sm-6 col-lg-6">
+          <div class="form-group">
+            <label class="fs-12">Start Date</label>
+            <input type="date" formControlName="promoStartDate" class="form-control" />
+            <div *ngIf="f.promoStartDate?.errors">
+              <div *ngIf="f.promoStartDate.invalid && submited">
+                <small *ngIf="f.promoStartDate.errors?.required" class="text-danger">Start Date is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-lg-6">
+          <div class="form-group">
+            <label class="fs-12">End Date</label>
+            <input type="date" formControlName="promotionEndDate" class="form-control" />
+            <div *ngIf="f.promotionEndDate?.errors">
+              <div *ngIf="f.promotionEndDate.invalid && submited">
+                <small *ngIf="f.promotionEndDate.errors?.required" class="text-danger">End Date is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="fs-12">Promotion Amount</label>
+            <input type="text" formControlName="amount" class="form-control" maxlength="5" (keypress)="service.numberOnly($event);" />
+            <div *ngIf="f.amount?.errors">
+              <div *ngIf="f.amount.invalid && submited">
+                <small *ngIf="f.amount.errors?.required" class="text-danger">Enter The Amount</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="fs-12">Entity Status</label>
+            <select class="form-control" formControlName="entityStatus">
+              <option [value]="1">Active</option>
+              <option [value]="2">InActive</option>
+              <option [value]="3">Discontinue</option>
+
+            </select>
+            <div *ngIf="f.entityStatus?.errors">
+              <div *ngIf="f.entityStatus.invalid && submited">
+                <small *ngIf="f.entityStatus.errors?.required" class="text-danger">Entity status is requried</small>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!--<div class="col-md-4">
+          <div class="form-group">
+            <label class="fs-12">PermotionsForAll</label>
+            <input type="checkbox" class="form-control" formControlName="PermotionsForAll" />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label class="fs-12">PermotionsForOld</label>
+            <input type="checkbox" class="form-control" formControlName="PermotionsForOld" />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label class="fs-12">PermotionsForNew</label>
+            <input type="checkbox" class="form-control" formControlName="PermotionsForNew" />
+          </div>
+        </div>-->
+
+      </div>
+
+    </div>
+      <div class="modal-footer">
+        <div class="row">
+          <div class="col-md-6 inline-downlod-btns">
+            <button type="submit" class="btn btn-sm btn-primary mr-6" style="margin:5px">Save</button>
+            <button type="reset" class="btn btn-sm btn-primary" (click)="resetForm()" style="margin:5px">Reset</button>
+            <button type="submit" class="btn btn-primary btn-sm" (click)="modal.close('Save click')" style="margin:5px">Cancel</button>
+          </div>
+        </div>
+      </div>
+</form>
+</ng-template>

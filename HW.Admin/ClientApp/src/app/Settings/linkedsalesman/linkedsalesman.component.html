@@ -1,0 +1,147 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card shadow mb-4">
+          <div class="card-header bg-primary">
+            <h6 class="mainTitle m-0 font-weight-bold border-0" data-toggle="collapse" href="#collapse6" aria-expanded="true">Filter Campaign</h6>
+          </div>
+          <div id="collapse6" class="contentWrapper fs-12 collapse">
+            <div class="card-body">
+              <form [formGroup]="salesmanFilter">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Salesman Name</label>
+                      <input type="text" maxlength="50" formControlName="name" required class="form-control" />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Salesman ID</label>
+                      <input type="number" maxlength="10" formControlName="salesmanId" required class="form-control" />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Salesman Phonenumber</label>
+                      <input type="text" maxlength="11" formControlName="mobileNumber" required class="form-control" />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Customer Id</label>
+                      <input type="text" maxlength="10" formControlName="customerId" required class="form-control" />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Customer Phonenumber</label>
+                      <input type="text" maxlength="11" formControlName="customerPhoneNumber" required class="form-control" />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Campaign Name</label>
+                      <input type="text" maxlength="50" formControlName="campaignName" required class="form-control" />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4 inline-downlod-btns">
+                    <button type="submit" class="btn btn-sm btn-primary mr-2" (click)="getLinkedSalesManList()">Search</button>
+                    <button type="reset" class="btn btn-sm btn-primary" (click)="resetFrom()">Reset</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card shadow mb-4">
+        <div class="card-header justify-header">
+          <h6 class="m-0 font-weight-bold">Linked Salesman List</h6>
+          <div class="g-pagination">
+            <div class="data-count">
+              <span>{{recoardNoFrom}}-{{recoardNoTo}} of {{totalRecoards}}</span>
+              <!--<div class="newOrOld-Data">
+                <ul>
+                  <li><a (click)="LoadNewestRecoards()"> Newest</a></li>
+                  <li><a (click)="LoadOldestRecoards()">Oldest</a></li>
+                </ul>
+              </div>-->
+            </div>
+            <div class="indicators">
+              <i class="fa fa-angle-left" (click)="PriviousClick()"></i>
+              <i class="fa fa-angle-right" (click)="NextClick()"></i>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="show_entries">
+            <div class="no-of-entries">
+              <label>No of Enteries</label>
+              <select (change)="changePageSize()" [(ngModel)]="pageSize">
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+            <div class="n0-of-pages">
+              <label class="">No of Pages</label>
+              <select class="" [(ngModel)]="pageNumber" (change)="clickchange()">
+                <option *ngFor="let item of pageing1" value="{{item}}">{{item}} </option>
+              </select>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th width="1%" title="Salesman ID">SID</th>
+                  <th width="3%" title="Salesman Name">SMN</th>
+                  <th width="2%" title="Salesman Mobile Number">SMMN</th>
+                  <th width="3%" title="Campaign Name">CN</th>
+                  <th width="2%" title="Campaign Short Name">CSN</th>
+                  <th width="1%" title="Customer Id">CID</th>
+                  <th width="3%" title="Customer Full Name">CFN</th>
+                  <th width="3%" title="Customer Mobile Number">CMN</th>
+                  <th width="3%" title="Created Date">CD</th>
+                  <th width="3%" title="Created By">CB</th>
+                  <th width="3%" title="Modified Date">MD</th>
+                  <th width="3%" title="Modified By">MB</th>
+                  <th *ngIf="userRole.allowDelete" width="1%" title="Unlink salesman">US</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of linkedSalesmanList">
+                  <td>{{item?.salesmanId}}</td>
+                  <td>{{item?.name}}</td>
+                  <td>{{item.mobileNumber}}</td>
+                  <td>{{item.campaignName}}</td>
+                  <td>{{item.shortName}}</td>
+                  <td>{{item.customerId}}</td>
+                  <td>{{item.fullName}}</td>
+                  <td>{{item.customerPhoneNumber}}</td>
+                  <td>{{item.createdOn | date: "dd MMM yyy "}}</td>
+                  <td>{{item.createdBy}}</td>
+                  <td>{{item.modifiedOn | date: "dd MMM yyy "}}</td>
+                  <td>{{item.mobifiedBy}}</td>
+                  <td *ngIf="userRole.allowDelete"><button class="btn btn-sm btn-danger" (click)="unlinkSalesman(item?.salesmanId,item?.customerId)">Unlink</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

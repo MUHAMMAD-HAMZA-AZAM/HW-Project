@@ -1,0 +1,222 @@
+
+<section id="nd-right-content">
+  <div class="row">
+    <div class="col-12">
+      <div class="d-content-left-side">
+        <div class="quote-details-wrapper mb40">
+          <div class="quotes-details">
+            <div class="row pb-3 pb-md-4">
+              <div class="col-12">
+                <h5 class="text-uppercase" style="color:var(--headingClr)">Your contact details</h5>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xl-6">
+                <div class="form-group">
+                  <button class="mp-outine-btn px-4" (click)="JobDetail()">Back</button>
+                </div>
+              </div>
+            </div>
+            <form [formGroup]="appValForm">
+              <div class="row">
+                <div class="col-xl-6 col-lg-6">
+                  <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" class="form-control" placeholder="Enter full name" maxlength="50" pattern="^[A-Za-z ]+$" (keypress)="common.charOnly($event)" disabled formControlName="firstName" [ngClass]="{ 'is-invalid': f.firstName.invalid && (f.firstName.touched || f.firstName.dirty )}" />
+                    <div *ngIf="f.firstName?.errors">
+                      <div *ngIf="f.firstName.invalid && (f.firstName.touched || f.firstName.dirty)">
+                        <small class="text-danger" *ngIf="f.firstName.errors.required">enter your name.</small>
+                        <small class="text-danger" *ngIf="f.firstName.errors.pattern">invalid  name.</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-6 col-lg-6" *ngIf="isEmail">
+                  <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" placeholder="Enter email" [readOnly]="isEmail" formControlName="emailAddress" [ngClass]="{ 'is-invalid': f.emailAddress.invalid && (f.emailAddress.touched || f.emailAddress.dirty )}" />
+                    <div *ngIf="f.emailAddress?.errors">
+                      <div *ngIf="f.emailAddress.invalid && (f.emailAddress.touched || f.emailAddress.dirty)">
+                        <small class="text-danger" *ngIf="f.emailAddress.errors.pattern">invalid  email.</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 col-lg-6">
+                  <div class="form-group">
+                    <label>Phone</label>
+                    <input type="text" class="form-control" maxlength="11" placeholder="Enter phone number" disabled inputmode="numeric" (keypress)="numberOnly($event)" formControlName="phoneNumber" [ngClass]="{'is-invalid':f.phoneNumber.invalid && (f.phoneNumber.touched || f.phoneNumber.dirty)}" />
+                    <div *ngIf="f.phoneNumber?.errors">
+                      <div *ngIf="f.phoneNumber.invalid && (f.phoneNumber.touched || f.phoneNumber.dirty)">
+                        <small class="text-danger" *ngIf="f.phoneNumber.errors?.required"> * Please enter your phone number.</small>
+                        <small class="text-danger" *ngIf="f.phoneNumber.errors?.pattern"> * Please provide a valid 11 digit phone number.</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-6 col-lg-6">
+                  <div class="form-group">
+                    <label>City</label>
+                    <select class="form-control" (change)="selectedCity(($any($event).target.value))" formControlName="cityId" [ngClass]="{ 'is-invalid': f.cityId.invalid && (f.cityId.touched || f.cityId.dirty )}">
+                      <option [value]="null" selected disabled>--- Select City ---</option>
+                      <option *ngFor="let listOfCity of cityList" value="{{listOfCity.id}}">{{listOfCity.value}}</option>
+                    </select>
+                    <div *ngIf="f.cityId?.errors">
+                      <div *ngIf="f.cityId.invalid && (f.cityId.touched || f.cityId.dirty)">
+                        <small class="text-danger" *ngIf="f.cityId.errors?.required">Please select city.</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                  <div class="form-group">
+                    <label>Town</label>
+                    <ng-autocomplete [data]="searchtownList"
+                                     [searchKeyword]="townkeyword"
+                                     (selected)='selectTownEvent($event)'
+                                     (inputCleared)='unselectTownEvent($event)'
+                                     placeHolder="Select Town ..."
+                                     (inputChanged)='onChangetownSearch($event)'
+                                     [itemTemplate]="itemTemplate"
+                                     [notFoundTemplate]="notFoundTemplate"
+                                     formControlName="town">
+                    </ng-autocomplete>
+
+                    <ng-template #itemTemplate let-item>
+                      <a [innerHTML]="item.value"></a>
+                    </ng-template>
+
+                    <ng-template #notFoundTemplate let-notFound>
+                      <div [innerHTML]="notFound"></div>
+                    </ng-template>
+
+                    <div *ngIf="f.town?.errors">
+                      <div *ngIf="f.town.invalid && (f.town.touched || f.town.dirty)">
+                        <small class="text-danger" *ngIf="f.town.errors.required">{{errorsList.townError}}</small>
+                      </div>
+                      <span class="text-danger" *ngIf="townInvalidInput">Invalid town name.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group">
+                    <label>Address</label>
+                    <textarea rows="6" type="text" class="form-control" placeholder="Enter Complete Address" maxlength="250" formControlName="area" pattern="^[^-\s][a-zA-Z0-9_\s-]+$" [ngClass]="{ 'is-invalid': f.area.invalid && (f.area.touched || f.area.dirty )}"></textarea>
+                    <div *ngIf="f.area?.errors">
+                      <div *ngIf="f.area.invalid && (f.area.touched || f.area.dirty)">
+                        <small class="text-danger" *ngIf="f.area?.errors.required">{{errorsList.areaError}}</small>
+                        <small class="text-danger" *ngIf="f.area?.errors.pattern">Invalid Address.</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group">
+                    <label>Your relationship to property</label>
+                    <select class="form-control" formControlName="relationship" [ngClass]="{'is-invalid':f.relationship.errors && (f.relationship.touched || f.relationship.dirty ) }">
+                      <option [ngValue]="null" disabled selected>Your relationship to property</option>
+                      <option>I own and live in this property</option>
+                      <option>Rental Property</option>
+                    </select>
+                    <div *ngIf="f.relationship.invalid && (f.relationship.touched || f.relationship.dirty)">
+                      <span class="text-danger" *ngIf="f.relationship.errors?.required">Input is required</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12 col-lg-12">
+                  <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" class="form-control" placeholder="Search Nearest Location" pattern="^[^-\s][a-zA-Z0-9','_\s-]+$" (keydown.enter)="$event.preventDefault()" formControlName="streetAddress" #search />
+                    <div *ngIf="f.streetAddress?.errors">
+                      <div *ngIf="f.streetAddress.invalid && (f.streetAddress.touched || f.streetAddress.dirty)">
+                        <small class="text-danger" *ngIf="f.streetAddress?.errors.required">* Please enter your location.</small>
+                        <small class="text-danger" *ngIf="f.streetAddress?.errors.pattern">Invalid Location.</small>
+                      </div>
+                    </div>
+                    <!--<agm-map class="border" style="width:100%; height:300px;" (mapClick)="addMarker($event.coords.lat, $event.coords.lng)" [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+                      <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+                    </agm-map>-->
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-6">
+                  <div class="form-group">
+                    <button type="button" class="mp-outine-btn px-4" data-target="#confirmQuotes1" (click)="Save()" [disabled]="btnQuote">Post A Task</button>
+                    <!--<button type="button" class="mp-outine-btn px-4" data-target="#confirmQuotes1" (click)="Save()" [disabled]="btnQuote">Get Quotes</button>-->
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!---------------------------------------------- Cancel Job Model Start ----------------------------------------------------->
+<div class="modal fade custom-model-style" bsModal #postJobModalConfirm="bs-modal" id="confirmQuotes" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content px-4 py-4">
+      <div class="modal-body p-0 mt-2">
+        <h2 class="c-green font-weight-bold mb-3">THANK YOU</h2>
+        <small class="d-block">We may contact you to verify your information. </small>
+      </div>
+      <div class="modal-footer mt-2 p-0">
+        <button type="button" class="mp-outine-btn" data-dismiss="modal" (click)="PostJob()">Confirm & Get Free Quotes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--------------------------------------------- Verify Account Message Modal --------------------------------------->
+
+<div class="modal fade custom-model-style" bsModal #verifyAccountMessageModal="bs-modal" id="verifyAccountMessageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content px-4 py-4">
+      <div class="modal-header p-0">
+        <h6 class="modal-title" id="exampleModalLongTitle" style="color: var(--headingClr);"><i class="fas fa-lock mr-1"></i>Verify Account</h6>
+      </div>
+      <div class="modal-body p-0 mt-2">
+        <small class="d-block mt-2">Please Verify Account Before Post Your Job</small>
+      </div>
+      <div class="modal-footer mt-2 p-0">
+        <button type="button" class="btn mp-outine-btn" (click)="verifyAccount()">Verify Account</button>
+        <button type="button" class="btn mp-outine-btn" (click)="closeVerifyAccountMessageModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--------------------------------------------- Block Account Message Modal --------------------------------------->
+
+<div bsModal #blockAccountMessageModal="bs-modal" class="modal fade custom-model-style nd-verifyAccount" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content px-4 py-4">
+      <div class="modal-header p-0">
+        <h6 class="modal-title" id="exampleModalLongTitle" style="color: var(--redClr);"> ACCOUNT BLOCKED </h6>
+        <hr class="hl mt-0">
+      </div>
+      <div class="modal-body p-0 mt-3">
+        <p  class="fos-14 mb-1" style="color:var(--headingClr)">Your Account has been blocked.</p>
+        <p style="color:var(--headingClr)" class="fos-14 mb-1">Please contact with customer support.<b style="color:var(--greenClr)">PH:0309-9994534</b></p>
+      </div>
+      <div class="modal-footer p-0">
+        <button type="button" class="mp-outine-btn" (click)="hideBlockModal()">CLOSE</button>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,200 @@
+<div class="container-fluid">
+  <div class="settings-wrapper" [hidden]="!toggle">
+    <div class="row">
+      <div class="col-xl-12 col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Skill List</h6>
+            <button *ngIf="userRole.allowAdd" (click)="handleToggle()" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New Skill</button>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <!--<th width="1%" title="Skill Id">SID</th>-->
+                    <th class="width2">Image</th>
+                    <th class="width3">Skill Name</th>
+                    <th class="width6">Skill Title Name</th>
+                    <th class="width3"> Skill Icon </th>
+                    <th class="width5">SEO Description</th>
+                    <!--<th>Description</th>-->
+                    <th class="width1">Status</th>
+                    <th class="width1">SEO Title</th>
+                    <th class="width1">Og Title</th>
+                    <th class="width1">Og Description</th>
+                    <!--<th width="1%" title="Order By">OB</th>-->
+                    <th class="width4" title="Created Date">CD</th>
+                    <th class="width2" title="Created By">CB</th>
+                    <th class="width4" title="Modified Date">MD</th>
+                    <th class="width2" title="Modified By">MB</th>
+                    <th *ngIf="userRole.allowAdd" class="width1">Edit</th>
+                    <th *ngIf="userRole.allowDelete" class="width1" title="Delete">Del</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let skill of skillList">
+                    <!--<td>{{skill.skillId}}</td>-->
+                    <td *ngIf="skill.skillImage !=null;else elseBlock"><img [src]="service.transform(skill.skillImage)" height="100" width="100" /></td>
+                    <ng-template #elseBlock>
+                      <td>
+                        <img src="../../../assets/img/no_thumbnail.jpg" height="100" width="100" />
+                      </td>
+                    </ng-template>
+                    <td>{{skill?.skillName}}</td>
+                    <td>{{skill?.skillTitle}}</td>
+                    <td>{{skill?.skillIconPath}}</td>
+                    <td>{{skill?.metaTags}}</td>
+                    <!--<td [innerHTML]="skill?.description"></td>-->
+                    <!--[popoverImage]="myPopover"-->
+                    <td [ngClass]="(skill.isActive) ? 'text-primary' : 'text-danger' ">{{skill.isActive ? 'Active' : 'InActive'}}</td>
+                    <td>{{skill?.seoPageTitle}}</td>
+                    <td>{{skill?.ogTitle}}</td>
+                    <td>{{skill?.ogDescription}}</td>
+                    <!--<td>{{skill.orderByColumn}}</td>-->
+                    <td>{{skill.createdOn | date: "dd MMM yyy "}}</td>
+                    <td>{{skill.createdBy}}</td>
+                    <td>{{skill.modifiedOn | date: "dd MMM yyy "}}</td>
+                    <td>{{skill.modifiedBy}}</td>
+                    <td *ngIf="userRole.allowAdd"><i class="text-info fa fa-pencil-alt" (click)="updateSkill(skill)"></i></td>
+                    <td *ngIf="userRole.allowDelete"><i class="text-danger fa fa-trash-alt" (click)="deleteSkill(skill.skillId,deleteContent)"></i></td>
+                    <!--<div>
+    <ngx-popover-content #myPopover
+                         placement="right"
+                         [animation]="true"
+                         [closeOnClickOutside]="true">
+      <img [src]="service.transform(skill.skillImage)"/>
+    </ngx-popover-content>
+  </div> -->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="skillForm row" [hidden]="toggle">
+    <div class="col-xl-8 mx-auto">
+      <div class="card shadow mb-4">
+        <div class="card-header justify-header">
+          <h6 class="m-0 font-weight-bold">{{skillModelText}}</h6>
+          <button (click)="handleToggle();f.resetForm(f)" class="btn-sm btn btn-secondary btn-sm">Show Skill List</button>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12 col-xl-12 col-lg-12 mx-auto">
+              <form name="form" #f="ngForm" novalidate>
+                <div class="form-group">
+                  <label class="fs-12 font-weight-bold">Skill Name</label>
+                  <input required="required" maxlength="40"  [(ngModel)]="skillName" #skillNamee="ngModel" autocomplete="off" min="4" max="30" type="text" class="form-control" name="skillName" id="skillName" />
+                  <div *ngIf="skillNamee.invalid && (skillNamee.dirty || skillNamee.touched)" class="text-danger">
+                    <label class="fs-12" style="margin:0" *ngIf="skillNamee.errors?.required">Input is required. </label>
+             
+                  </div>
+                </div>
+                <p class="text-danger">{{skillNameExist}}</p>
+                <p class="text-danger">{{orderByExist}}</p>
+                <div class="form-group">
+                  <label class="fs-12 font-weight-bold">SkillIcon Name</label>
+                  <input required="required"  maxlength="100" [(ngModel)]="skillIcon" #skillIconNamee="ngModel" autocomplete="off" min="4" max="1000" type="text" class="form-control" name="skillIcon" id="skillIcon" />
+                  <div *ngIf="skillIconNamee.invalid && (skillIconNamee.dirty || skillIconNamee.touched)" class="text-danger">
+                    <label class="fs-12" style="margin:0" *ngIf="skillIconNamee?.errors.required">Input is required. </label>
+         
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="fs-12 font-weight-bold">Skill Title Name</label>
+                  <input required="required" maxlength="100" [(ngModel)]="skillTitleName" #skillTitleNamee="ngModel" autocomplete="off" min="4" max="1000" type="text" class="form-control" name="skillTitleName" id="skillTitleName" />
+                  <div *ngIf="skillTitleNamee.invalid && (skillTitleNamee.dirty || skillTitleNamee.touched)" class="text-danger">
+                    <label class="fs-12" style="margin:0" *ngIf="skillTitleNamee.errors?.required">Input is required. </label>
+               
+
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="fs-12 font-weight-bold">Seo Description</label>
+                  <!--<tag-input [(ngModel)]="items" name="items"
+               (onSelect)="onSelect($event)"
+               [modelAsStrings]="true">
+    </tag-input>-->
+                  <input type="text" class="form-control" [(ngModel)]="seoDescription" name="seoDescription" />
+                </div>
+                <div class="form-group">
+                  <label class="fs-12 font-weight-bold">SEO Title</label>
+                  <input required="required" maxlength="200" [(ngModel)]="seoPageTitle" #SeoPageTitles ="ngModel"  type="text" class="form-control" name="seoPageTitle" />
+                  <div *ngIf="SeoPageTitles.invalid && (SeoPageTitles.dirty || SeoPageTitles.touched)" class="text-danger">
+                    <label class="fs-12" style="margin:0" *ngIf="SeoPageTitles.errors?.required">Input is required. </label>
+                    <label class="fs-12" style="margin:0" *ngIf="SeoPageTitles.errors?.maxlength">Invalid Input.maximum length should be 200 characters</label>
+
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="fs-12 font-weight-bold">Og Title</label>
+                  <input required="required" maxlength="200" [(ngModel)]="ogTitle" #ogTitles ="ngModel"  type="text" class="form-control" name="ogTitle" />
+                  <div *ngIf="ogTitles.invalid && (ogTitles.dirty || ogTitles.touched)" class="text-danger">
+                    <label class="fs-12" style="margin:0" *ngIf="ogTitles.errors?.required">Input is required. </label>
+                    <label class="fs-12" style="margin:0" *ngIf="ogTitles.errors?.maxlength">Invalid Input.maximum length should be 200 characters </label>
+
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="fs-12 font-weight-bold">Og Description</label>
+                  <input required="required" maxlength="200" [(ngModel)]="ogDescription" #ogDescriptionss ="ngModel"  type="text" class="form-control" name="ogDescription" />
+                  <div *ngIf="ogDescriptionss.invalid && (ogDescriptionss.dirty || ogDescriptionss.touched)" class="text-danger">
+                    <label class="fs-12" style="margin:0" *ngIf="ogDescriptionss.errors?.required">Input is required. </label>
+   
+
+                  </div>
+                </div>
+
+
+
+                <div class="form-group">
+                  <label class="fs-12 font-weight-bold">Order Number</label>
+                  <input [(ngModel)]="orderBy" autocomplete="off" min="4" max="30" (keypress)="service.numberOnly($event)" type="text" class="form-control" name="orderBy" id="orderBy" />
+                </div>
+                <div class="form-group">
+                  <label class="fs-12 font-weight-bold">About Skill</label>
+                  <angular-editor [placeholder]="'Enter text here...'" [config]="editorConfig" [(ngModel)]="skillDescription" name="description"></angular-editor>
+                </div>
+                <div class="form-group">
+                  <label class="fs-12 font-weight-bold">Image</label>
+                  <input #inputFile type="file" class="form-control-file" (change)="fileChangeEvent($event)" />
+                  <img *ngIf="croppedImage !=null" [src]="croppedImage" height="150" width="200" style="margin-top:10px" />
+                </div>
+                <div class="form-group">
+                  <button type="button" class="btn btn-sm btn-primary mr-2" (click)="save(f)" [disabled]="!f.valid">Save</button>
+                  <button type="button" class="btn btn-primary btn-sm" (click)="resetForm(f)" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <ng-template #deleteContent let-modal>
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-basic-title">Delete Confirmation</h5>
+      </div>
+      <div class="modal-body">
+        <h5>Are you want to delete?</h5>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-primary" (click)="confirmDeleteSkill()">Ok</button>
+        <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('cancel click')">Cancel</button>
+      </div>
+    </ng-template>
+
+    <ng-template #content let-modal>
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-basic-title">{{skillModelText}}</h5>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+      </div>
+    </ng-template>

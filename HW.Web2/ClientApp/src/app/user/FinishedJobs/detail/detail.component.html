@@ -1,0 +1,197 @@
+<div class="d-content-left-side">
+  <h2 class="heading-dashboad mb-3 mb-lg-4">Finished task Details</h2>
+  <div class="quote-details-wrapper mb40">
+    <div class="row mb-5">
+      <div class="col-12">
+        <div id="common-profile">
+          <div class="d-flex align-items-center">
+            <div *ngIf="!jobDetail.tradesmanProfileImage;else imgFound " class="profile-img mr-3">
+              <img src="/assets/img/imagenotfound.png" alt="profile image" />
+            </div>
+            <ng-template #imgFound>
+              <div class="profile-img mr-3">
+                <img [src]="jobDetail.tradesmanProfileImage" alt="profile image" />
+              </div>
+            </ng-template>
+            <div class="profile-details d-flex flex-column">
+              <h5>{{jobDetail.tradesmanName}}</h5>
+              <small class="mb-1 mt-1">Id: <b>{{jobDetail.tradesmanId}}</b></small>
+              <button (click)="ViewProfile(jobDetail.tradesmanId)" class="mp-outine-btn">view profile</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quotes-details">
+      <fieldset disabled>
+        <div class="row">
+          <div class="col-xl-6 col-lg-6">
+            <div class="form-group">
+              <label>Task Title</label>
+              <input type="text" class="form-control" value="{{jobDetail.jobTitle}}" />
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6">
+            <div class="form-group">
+              <label>Payment To Tradesman</label>
+              <input type="text" class="form-control" value="Rs : {{jobDetail.payment | number:'1.0':'en-US'}}" />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-6 col-lg-6">
+            <div class="form-group">
+              <label>Task Intial Date</label>
+              <input type="text" class="form-control" value='{{jobDetail.jobStartingDateTime |date : "dd MMM yyyy"}}' />
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6">
+            <div class="form-group">
+              <label>Task finish date</label>
+              <input type="text" class="form-control" value='{{jobDetail.jobEndingDateTime | date : "dd MMM yyyy"}}' />
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+    <div class="tp-rf mb-1 mt-4">
+      <div class="mb-3 d-flex justify-content-between align-items-center">
+        <h5 class="text-capitalize" style="color:var(--headingClr)">Feedback</h5>
+      </div>
+      <div *ngIf="jobDetail.overallRating> 0;else giveFeedback" class="tp-ufeed-wrapper" style="background: var(--bgClr);">
+        <div class="row">
+          <div class="col-sm-6 col-lg-4">
+            <div class="d-flex align-items-center align-items-md-start">
+              <div class="fu-rating">
+                <p>{{jobDetail.customerName}}</p>
+                <div class="d-flex">
+                  <div class="tm-rating pr-2">
+                    <ng-container *ngFor="let items of [0,1,2,3,4]; let i = index">
+                      <i class="fa-star" [ngClass]="(i < jobDetail.overallRating)?'fas' : 'far' "></i>
+                    </ng-container>
+                  </div>
+                </div>
+
+                <!--<star-rating value="{{item.rating}}" totalstars="5" checkedcolor="gold" uncheckedcolor="black" size="20px" readonly="true"></star-rating>-->
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 offset-lg-4 col-lg-4 d-none justify-content-end">
+            <div>
+              <span class="mr-2"><i class="mr-1 fas fa-calendar"></i>12/19/2021</span>
+              <span><i class="mr-1 fas fa-clock"></i>18:09 am</span>
+            </div>
+          </div>
+        </div>
+        <div class="rf-text">
+          <p class="mt-1 mt-sm-3">
+            {{jobDetail?.feedbackComments}}
+          </p>
+        </div>
+      </div>
+
+      <ng-template #giveFeedback>
+        <form [formGroup]="appValForm">
+          <div class="tp-ufeed-wrapper c-fj-review quotes-details">
+            <div class="row align-items-center">
+              <div class="col-12 col-md-12 col-lg-4 d-flex justify-content-center">
+                <div class="fu-rating">
+                  <p class="mb-2">How much you will rate us</p>
+                  <div class="u-fjd-rating-type d-flex mt20">
+                    <div class="type-1 d-flex flex-column align-items-center">
+                      <div>
+                        <input type="radio" value="5" checked class="regular-radio" name="radio-1-set" id="radio-1-set" formControlName="overallRating"><label for="radio-1-set"></label>
+                      </div>
+                      <p>Positive</p>
+                    </div>
+                    <div class="ml-3 mr-3 type-2 d-flex flex-column align-items-center">
+                      <div>
+                        <input type="radio" value="3" class="regular-radio" name="radio-1-set" id="radio-2-set" formControlName="overallRating"><label for="radio-2-set"></label><br>
+                      </div>
+                      <p>Neutral</p>
+                    </div>
+                    <div class="type-3 d-flex flex-column align-items-center">
+                      <div>
+                        <input type="radio" value="1" class="regular-radio" name="radio-1-set" id="radio-3-set" formControlName="overallRating"><label for="radio-3-set"></label><br>
+                      </div>
+                      <p>Negative</p>
+                    </div>
+                  </div>
+                  <div *ngIf="f.overallRating?.errors && submittedForm">
+                    <div *ngIf="f.overallRating.invalid">
+                      <small class="text-danger" *ngIf="f.overallRating.errors?.required "> Please select FeedBack Type </small>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <!--<div class="col-sm-6 col-lg-4 mt-3 mt-lg-0">
+                <div class="text-center">
+                  <h6 class="text-capitalize" style="color:var(--headingClr)">Tradesman Communication</h6>
+                  <star-rating value="" (rate)="RateCommunication($event)" totalstars="5" checkedcolor="gold" uncheckedcolor="black" size="20px" readonly="false"></star-rating>
+                </div>
+              </div>-->
+              <!--<div class="col-sm-6 col-lg-4 mt-3 mt-lg-0">
+                <div class="text-center">
+                  <h6 class="text-capitalize" style="color:var(--headingClr)">Tradesman Service quality</h6>
+                  <star-rating value="" (rate)="RateServices($event)" totalstars="5" checkedcolor="gold" uncheckedcolor="black" size="20px" readonly="false"></star-rating>
+                </div>
+              </div>-->
+            </div>
+            <div class="row">
+              <div class="col-12 mt-3">
+                <div class="form-group">
+                  <label>Comment</label>
+                  <textarea type="text" rows="4" maxlength="250" class="form-control desc" formControlName="comments" [ngClass]="{ 'is-invalid': submittedForm &&  f.comments.errors }"></textarea>
+                  <div *ngIf="submittedForm && f.comments.errors" class="invalid-feedback">
+                    <div *ngIf="f.comments.errors.required">Please enter comment.</div>
+                    <div *ngIf="f.comments.errors.minlength">Please enter minimum 5 characters.</div>
+                    <div *ngIf="f.comments.errors.maxlength">Input allow only maximum 250 characters.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <button  (click)="Save()" class="mp-outine-btn">SUBMIT</button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </ng-template>
+    </div>
+
+  </div>
+</div>
+
+<div bsModal #RateTradesman="bs-modal" class="modal fade custom-model-style" role="dialog">
+  <div>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content px-4 py-4">
+        <div class="modal-header p-0">
+          <h6 class="modal-title text-uppercase" id="exampleModalLongTitle" style="color: var(--headingClr);">task details</h6>
+          <hr class="hl mt-0">
+        </div>
+        <div class="modal-body p-0 mt-3">
+          <div class="d-flex align-items-center justify-content-between">
+            <h2 class="c-green font-weight-boldtext-uppercase">Rs.{{jobDetail.payment | number:'1.0':'en-US'}}</h2>
+            <small>Date: <b>{{jobDetail.jobEndingDateTime | date : 'dd MMM yyyy'}}</b></small>
+          </div>
+          <small class="d-block text-capitalize mt-3">don't forget to rate tradesman to improve his service.</small>
+          <small class="d-block text-capitalize">Press Ok to rate tradesman.</small>
+        </div>
+        <div class="modal-footer p-0 mt-2">
+          <button type="button" class="mp-outine-btn" (click)="closeModel()">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+

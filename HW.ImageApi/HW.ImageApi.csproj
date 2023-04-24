@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.Web">
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<UserSecretsId>60f1f8a9-b357-4d89-b238-4b456aebd2c1</UserSecretsId>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Remove="bin\**" />
+		<Content Remove="bin\**" />
+		<EmbeddedResource Remove="bin\**" />
+		<None Remove="bin\**" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Remove="Controllers\ValuesController.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Remove="grpc_csharp_ext.x64.dll" />
+	</ItemGroup>
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
+		<PackageReference Include="ElmahCore" Version="2.0.7" />
+		<PackageReference Include="ElmahCore.Sql" Version="2.0.7" />
+		<PackageReference Include="Google.Cloud.Vision.V1" Version="2.4.0" />
+		<PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
+		<PackageReference Include="MassTransit" Version="7.2.2" />
+		<PackageReference Include="MassTransit.RabbitMQ" Version="7.2.2" />
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\HW.ImageModels\HW.ImageModels.csproj" />
+		<ProjectReference Include="..\HW.ReportsViewModels\HW.ReportsViewModels.csproj" />
+		<ProjectReference Include="..\HW.SupplierViewModels\HW.SupplierViewModels.csproj" />
+		<ProjectReference Include="..\HW.Utility\HW.Utility.csproj" />
+	</ItemGroup>
+</Project>

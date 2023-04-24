@@ -1,0 +1,78 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row" *ngIf="userRole.allowAdd">
+      <div class="col-md-8 col-xl-4 col-lg-6 mx-auto">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Add New Category</h6>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="categoryForm">
+              <input type="hidden" formControlName="CategoryId" />
+              <div class="row">
+                <div class="col-xl-12">
+                  <div class="form-group">
+                    <label>Category Name</label>
+                    <input type="text" class="form-control" maxlength="50" formControlName="CategoryName" placeholder="Please enter category name" />
+                    <div *ngIf="f.CategoryName?.errors">
+                      <div *ngIf="f.CategoryName.invalid && (f.CategoryName.touched || f.CategoryName.dirty )">
+                        <small class="text-danger" *ngIf="f.CategoryName.errors?.required">Input is required</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12">
+                  <div class="form-group">
+                    <button (click)="handleSubmit()" class="btn btn-sm btn-primary" [disabled]="!categoryForm.valid" style="margin-top:5px">Save</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Category List</h6>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th width="6%" title="Category Name">Category Name</th>
+                    <th width="6%" title="Created Date">CD</th>
+                    <th width="6%" title="Created By">CB</th>
+                    <th width="6%" title="Modified Date">MD</th>
+                    <th width="6%" title="Modified By">MB</th>
+                    <th width="2%" title="">Status</th>
+                    <th *ngIf="userRole.allowAdd" width="1%">Edit</th>
+                    <th *ngIf="userRole.allowDelete" title="Delete" width="1%">Del</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let cat of catList ">
+                    <td>{{cat.categoryName}}</td>
+                    <td>{{cat.createdOn | date: "dd MMM yyy "}}</td>
+                    <td>{{cat.createdy }}</td>
+                    <td>{{cat.modifiedOn | date: "dd MMM yyy "}}</td>
+                    <td>{{cat.modifiedBy}}</td>
+                    <td [ngClass]="(cat.isActive) ? 'text-primary' : 'text-danger' ">{{cat.isActive ? 'Active' : 'InActive'}}</td>
+                    <td *ngIf="userRole.allowAdd"><i class="text-info fa fa-pencil-alt" (click)="updateCat(cat)"></i></td>
+                    <td *ngIf="userRole.allowDelete"><i class="text-danger fa fa-trash-alt" (click)="deleteCat(cat.categoryId)"></i></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

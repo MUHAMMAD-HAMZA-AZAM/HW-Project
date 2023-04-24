@@ -1,0 +1,45 @@
+<div class="container-fluid">
+  <h5 class="m-2"> {{reportTitle}} </h5>
+  <button class="btn d-none" (click)="DownloadPdf()">Download Pdf</button>
+  <!--<label class="container text-secondary">From : {{startDate | date: "dd MMM yyy hh : mm : a"}}    <br /> To : {{endDate | date: "dd MMM yyy hh : mm : a"}}</label>-->
+  <div class="card shadow my-3">
+    <div class="card-header justify-header ">
+      <h6 class="m-0 font-weight-bold">Customer List</h6>
+      <label class=" m-0 fs-12">Total No. {{completeList}}</label>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th title="Customer Id" width="16%">CID</th>
+              <th width="16%">Customer Name</th>
+              <th width="16%">Mobile</th>
+              <th width="16%">Date</th>
+              <!--<th width="15%">Last Active</th>-->
+              <th width="16%">CNIC</th>
+              <!--<th width="5%">City</th>-->
+              <!--<th width="10%">Town</th>-->
+              <th width="16%">Last Active</th>
+            </tr>
+          </thead>
+          <tbody class="table-content-fs">
+            <tr *ngFor="let customer of CustomerList">
+              <td>{{customer.customerId}}</td>
+              <td>{{customer.firstName}} {{customer.lastName}}</td>
+              <td>{{customer.mobileNumber}}</td>
+              <td>{{customer.createdOn | date: "dd MMM yyy "}}</td>
+              <!--<td>{{customer.lastActive | date: "dd MMM yyy "}}</td>-->
+              <td>{{customer.cnic}}</td>
+              <!--<td>{{customer.city}}</td>-->
+              <!--<td>{{customer.streetAddress}}</td>-->
+              <td>{{customer.lastActive | date: "dd MMM yyy"}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <label class="text-danger">{{DataNotFound}}</label>
+    </div>
+
+  </div>
+</div>

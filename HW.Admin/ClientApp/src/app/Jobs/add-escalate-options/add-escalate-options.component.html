@@ -1,0 +1,113 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Escalate Options List</h6>
+            <button *ngIf="userRole.allowAdd" (click)="showModal(content)" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New Escalate Option</button>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th width="8%">Escalate Option Name</th>
+                    <th width="2%">Status</th>
+                    <th width="2%">Escalate Option For </th>
+                    <th width="5%">Created By</th>
+                    <th width="5%">Created On</th>
+                    <th width="5%">Modified By</th>
+                    <th width="2%">Modified On</th>
+                    <th *ngIf="userRole.allowAdd" width="1%">Edit</th>
+                    <th *ngIf="userRole.allowDelete" title="Delete" width="1%">Del</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of escalateOptionsList">
+                    <td>{{item?.name}}</td>
+                    <td [ngClass]="(item.active) ? 'text-primary' : 'text-danger' ">{{(item.active) ? 'Active' : 'InActive'  }}</td>
+                    <td>{{item?.escalateOptionFor}}</td>
+                    <td>{{item?.createdBy}}</td>
+                    <td>{{item?.createdOn | date: "dd MMM yyy "}}</td>
+                    <td>{{item?.modifiedBy}}</td>
+                    <td>{{item?.modifiedOn | date: "dd MMM yyy "}}</td>
+                    <td *ngIf="userRole.allowAdd"><i class="text-info fa fa-pencil-alt" (click)="update(item, content)"></i></td>
+                    <td *ngIf="userRole.allowDelete">
+                      <label class="switch block-user-switch">
+                        <input type="checkbox" (change)="delete(item?.id)" [checked]="item?.active">
+                        <span class="slider"></span>
+                      </label>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">{{modelName}}</h5>
+  </div>
+  <form [formGroup]="appValForm">
+    <div class="modal-body">
+      <input type="hidden" formControlName="id" />
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label class="fs-12">Escalate Option Name</label>
+    <input type="text" formControlName="name" class="form-control" (keypress)="common.charOnly($event)"/>
+            <div *ngIf="f.name?.errors">
+              <div *ngIf="f.name.invalid && (f.name.touched || f.name.dirty)">
+                <small *ngIf="f.name.errors?.required" class="text-danger">Name is requried</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12">User Type</label>
+            <select class="form-control" formControlName="userRole">
+              <option [ngValue]="null" disabled selected hidden>--- Select User Type ---</option>
+              <option value="3">Customer</option>
+              <option value="1">Tradesman</option>
+              <option value="2">Organization</option>
+              <option value="4">Supplier</option>
+            </select>
+            <div *ngIf="f.userRoleId?.errors">
+              <div *ngIf="f.userRoleId.invalid && (f.userRole.touched || f.userRole.dirty)">
+                <small *ngIf="f.userRole.errors?.required" class="text-danger">Select User Type</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label class="fs-12 d-block">Status</label>
+            <label class="switch">
+              <input type="checkbox" trueFalseValue trueValue="1" falseValue="0" formControlName="active">
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="row">
+        <div class="col-md-6 inline-downlod-btns">
+          <button type="button" class="btn btn-sm btn-primary" (click)="addAndUpdate()" [disabled]="!appValForm.valid">Save</button>
+          <button type="button" class="btn btn-sm btn-primary mx-2" (click)="resetForm()">Reset</button>
+          <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('Save click')">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>

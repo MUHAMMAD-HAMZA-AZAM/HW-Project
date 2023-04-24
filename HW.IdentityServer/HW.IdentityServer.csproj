@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.Web" ToolsVersion="15.0">
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<UserSecretsId>aspnet-IdentityServerWithAspNetIdentity-04C6939F-E672-4E56-B4A5-5F064EB67F23</UserSecretsId>
+		<PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
+		<FileUpgradeFlags>
+		</FileUpgradeFlags>
+		<UpgradeBackupLocation>
+		</UpgradeBackupLocation>
+		<OldToolsVersion>2.0</OldToolsVersion>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Remove="Migrations\20190710082809_AddAuditColumnInAspnetUsers.cs" />
+		<Compile Remove="Migrations\20190710083311_AddAuditColumnInAspnetUsers.cs" />
+		<Compile Remove="Migrations\20200205094426_ApplicationServerPingForLastActive.cs" />
+		<Compile Remove="Migrations\20200205094426_ApplicationServerPingForLastActive.Designer.cs" />
+		<Compile Remove="Models\RegisterViewModel.cs" />
+		<Compile Remove="Models\ResetPasswordViewModel.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="ElmahCore" Version="2.0.7" />
+		<PackageReference Include="ElmahCore.Sql" Version="2.0.7" />
+		<PackageReference Include="IdentityModel" Version="5.1.0" />
+		<PackageReference Include="IdentityServer4" Version="4.1.2" />
+		<PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.2" />
+		<PackageReference Include="IdentityServer4.EntityFramework" Version="4.1.2" />
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="4.0.1" />
+		<!--<PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.0">
+			<PrivateAssets Condition="'%(PackageReference.Version)' == ''">all</PrivateAssets>
+			<Publish Condition="'%(PackageReference.Version)' == ''">true</Publish>
+		</PackageReference>-->
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.9">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+		<PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="4.0.0" />
+		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Razor" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.9" />
+		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.9" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.9" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.9" />
+	</ItemGroup>
+	<ItemGroup>
+		<DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+		<DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
+		<DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\HW.CallModels\HW.CallModels.csproj" />
+		<ProjectReference Include="..\HW.CustomerModels\HW.CustomerModels.csproj" />
+		<ProjectReference Include="..\HW.Http\HW.Http.csproj" />
+		<ProjectReference Include="..\HW.IdentityViewModels\HW.IdentityViewModels.csproj" />
+		<ProjectReference Include="..\HW.PackagesAndPaymentsViewModels\HW.PackagesAndPaymentsViewModels.csproj" />
+		<ProjectReference Include="..\HW.ReportsViewModels\HW.ReportsViewModels.csproj" />
+		<ProjectReference Include="..\HW.UserViewModels\HW.UserViewModels.csproj" />
+		<ProjectReference Include="..\HW.Utility\HW.Utility.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<Folder Include="Services\" />
+		<Folder Include="Data\Migrations\IdentityServer\ConfigurationDb\" />
+		<Folder Include="Data\Migrations\IdentityServer\PersistedGrantDb\" />
+		<Folder Include="wwwroot\Certificates\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+	  <None Remove="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
+	  <None Remove="Microsoft.EntityFrameworkCore" />
+	  <None Remove="Microsoft.EntityFrameworkCore.SqlServer" />
+	</ItemGroup>
+</Project>

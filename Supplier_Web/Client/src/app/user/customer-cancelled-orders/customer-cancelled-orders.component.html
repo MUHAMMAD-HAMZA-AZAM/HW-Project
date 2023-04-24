@@ -1,0 +1,135 @@
+<div class="container">
+  <div class="breadcrumb pt-3" style="margin-top: 134px;">
+    <ul class="d-flex">
+      <li><a href="./index.html">Home</a><span>|</span></li>
+      <li><a>Cancelled Orders</a></li>
+    </ul>
+  </div>
+  <h4 class="primaryClr mb-5">
+    Cancelled Orders
+  </h4>
+  <div class="row" *ngIf="!noDataFound">
+    <div class="col-lg-12 col-xl-12 col-xxl-12">
+      <div class="viewCart_cart">
+        <table class="table table-borderless">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Mobile No</th>
+              <th>Order Ref</th>
+              <th>Shipping Address</th>
+              <th>Order Amount</th>
+              <th>Order Date</th>
+              <th>Reason</th>
+              <th>Comments</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of customerOrdersList">
+              <td>{{item.customerName}}</td>
+              <td>{{item.contactNumber}}</td>
+              <td>{{item.orderId}}</td>
+              <td>{{(item.shippingAdress.length > 20)?(item.shippingAdress | slice:0:20)+'...':(item.shippingAdress)}} <i *ngIf="item?.shippingAdress && item.shippingAdress.length > 25" placement="top" ngbPopover="{{item.shippingAdress}}" class="fa fa-eye"></i></td>
+              <td>Rs. {{(item?.payableAmount)? (item.payableAmount | number:'1.0':'en-US') : '0.00'}}</td>
+              <td>{{item.orderDate | date: "dd MMM yyy h:mm a"}}</td>
+              <td>{{item.reasonName  ? item.reasonName.length > 15 ? item.reasonName.substring(0,15) : item.reasonName : '' }} <i *ngIf="item.reasonName &&  item.reasonName.length > 15 " class="fa fa-eye" placement="top" ngbPopover="{{item.reasonName}}" popoverTitle="Reason" [placement]="'auto'" [container]="'body'"></i></td>
+              <td>{{item.comments  ? item.comments.length > 20 ? item.comments.substring(0,20) : item.comments : '' }} <i *ngIf="item.comments &&  item.comments.length > 20 " class="fa fa-eye" placement="top" ngbPopover="{{item.comments}}" popoverTitle="Comments" [placement]="'auto'" [container]="'body'"></i></td>
+              <td [ngClass]="{'text-primary':item.orderStatusName == 'Inprogress','text-info': (item.orderStatusName == 'Received' || item.orderStatusName == 'Delivered'),'text-danger':(item.orderStatusName == 'Declined' || item.orderStatusName == 'Cancelled') ,'text-success':( item.orderStatusName == 'Packed&Shipped' || item.orderStatusName == 'Completed')}">{{(item?.orderStatusName == 'Inprogress' ? 'In-Progress' : item?.orderStatusName)}}</td>
+              <td>
+                <button (click)="orderDetails(item.orderId)" class="font-laila fw-bold btn primaryBg text-white p-1 d-flex align-items-center justify-content-center">
+                  Details<i class="fa fa-eye fs-20 ps-1"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<!-- breadcrumb start -->
+<!--<div class="breadcrumb-section d-none">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="page-title">
+          <h2>Cancelled orderslist</h2>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <nav aria-label="breadcrumb" class="theme-breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a [routerLink]="'/'">Home</a></li>
+            <li class="breadcrumb-item"><a [routerLink]="[_httpService.apiRoutes.User.DashBoard]">Dashboard</a></li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>-->
+<!-- breadcrumb End -->
+<!-- tracking page start -->
+<!--<section class="tracking-page section-b-space d-none" *ngIf="!noDataFound">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">-->
+        <!--<h3 class="mb-4 font-weight-bold">my orders</h3>-->
+        <!--<div class="order-table table-responsive">
+          <table class="table mb-0 table-striped table-borderless">
+            <thead class="">
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Mobile</th>
+                <th scope="col">Order Ref</th>
+                <th scope="col">Shipping Address</th>
+                <th scope="col">Order Amount</th>
+                <th scope="col">Order Date</th>
+                <th scope="col">Reason</th>
+                <th scope="col">Comments</th>
+                <th scope="col">Status</th>
+                <th scope="col"></th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of customerOrdersList">
+                <td>{{item.customerName}}</td>
+                <td>{{item.contactNumber}}</td>
+                <td>{{item.orderId}}</td>
+                <td>{{(item.shippingAdress.length > 20)?(item.shippingAdress | slice:0:20)+'...':(item.shippingAdress)}} <i *ngIf="item?.shippingAdress && item.shippingAdress.length > 25" placement="top" ngbPopover="{{item.shippingAdress}}" class="fa fa-eye"></i></td>
+                <td>Rs. {{(item?.payableAmount)? (item.payableAmount | number:'1.0':'en-US') : '0.00'}}</td>
+                <td>{{item.orderDate | date: "dd MMM yyy h:mm a"}}</td>
+                <td>{{item.reasonName  ? item.reasonName.length > 15 ? item.reasonName.substring(0,15) : item.reasonName : '' }} <i *ngIf="item.reasonName &&  item.reasonName.length > 15 " class="fa fa-eye" placement="top" ngbPopover="{{item.reasonName}}" popoverTitle="Reason" [placement]="'auto'" [container]="'body'"></i></td>
+                <td>{{item.comments  ? item.comments.length > 20 ? item.comments.substring(0,20) : item.comments : '' }} <i *ngIf="item.comments &&  item.comments.length > 20 " class="fa fa-eye" placement="top" ngbPopover="{{item.comments}}" popoverTitle="Comments" [placement]="'auto'" [container]="'body'"></i></td>
+                <td [ngClass]="{'text-primary':item.orderStatusName == 'Inprogress','text-info': (item.orderStatusName == 'Received' || item.orderStatusName == 'Delivered'),'text-danger':(item.orderStatusName == 'Declined' || item.orderStatusName == 'Cancelled') ,'text-success':( item.orderStatusName == 'Packed&Shipped' || item.orderStatusName == 'Completed')}">{{(item?.orderStatusName == 'Inprogress' ? 'In-Progress' : item?.orderStatusName)}}</td>
+                <td><button type="button" class="btn btn-xs btn-solid" (click)="orderDetails(item.orderId)">Details</button></td>
+                <td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>-->
+    <!--<div class="row mt-4">
+      <div class="col-xl-12 d-flex justify-content-end" *ngIf="customerOrdersList?.length > 0">
+        <ngb-pagination (pageChange)="getOrderListByPage($event)" [collectionSize]="totalCustomerOrders" [(page)]="activePageNumber" [pageSize]="pageSize" [maxSize]="5" [boundaryLinks]="true"></ngb-pagination>
+      </div>
+    </div>-->
+  <!--</div>
+</section>-->
+<!-- tracking page end -->
+<!-- Not Found Product -->
+<div class="not-found-wrapper d-flex align-items-center justify-content-center" *ngIf="noDataFound">
+  <div class="text-center">
+    <h1>Sorry :(</h1>
+    <p>Did not found any order in your Cancellation OrderList</p>
+  </div>
+</div>
+
+

@@ -1,0 +1,32 @@
+<div id="wrapper">
+  <div id="content-wrapper" class="d-flex flex-column">
+    <div id="content">
+      <span *ngIf="loginCheck">
+        <app-header2></app-header2>
+      </span>
+      <span *ngIf="!loginCheck">
+        <app-header></app-header>
+      </span>
+      <div class="main-content-body" [ngClass]="{'add-left-pdng': loginCheck}">
+        <span *ngIf="loginCheck">
+          <app-leftmenu></app-leftmenu>
+        </span>
+
+        <router-outlet></router-outlet>
+        <section id="downloadAPP" class="bg-success text-white page-section">
+          <div class="container text-center">
+            <h2 class="mb-4">Download our APP</h2>
+            <p class="mb-3">Managing your job is easier with HoomWork Homes app, download it today.</p>
+            <a href="https://play.google.com/store/apps/details?id=com.User.HW">
+              <img style="width:130px" src="../assets/img/andriodapp.png" />
+            </a>
+            <a class="ml-2" href="https://apps.apple.com/pk/app/hoomwork-homes/id1490813771">
+              <img style="width:130px" src="../assets/img/iosapp.png" alt="" />
+            </a>
+          </div>
+        </section>
+        <app-appcommonfooter></app-appcommonfooter>
+      </div>
+    </div>
+  </div>
+</div>

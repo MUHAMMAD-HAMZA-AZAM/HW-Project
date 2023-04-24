@@ -1,0 +1,9 @@
+D:\GitHub\Hoomwork\HW.CMSModels\bin\Debug\netcoreapp2.0\HW.CMSModels.deps.json
+D:\GitHub\Hoomwork\HW.CMSModels\bin\Debug\netcoreapp2.0\HW.CMSModels.dll
+D:\GitHub\Hoomwork\HW.CMSModels\bin\Debug\netcoreapp2.0\HW.CMSModels.pdb
+D:\GitHub\Hoomwork\HW.CMSModels\obj\Debug\netcoreapp2.0\HW.CMSModels.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Hoomwork\HW.CMSModels\obj\Debug\netcoreapp2.0\HW.CMSModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.CMSModels\obj\Debug\netcoreapp2.0\HW.CMSModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.CMSModels\obj\Debug\netcoreapp2.0\HW.CMSModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.CMSModels\obj\Debug\netcoreapp2.0\HW.CMSModels.dll
+D:\GitHub\Hoomwork\HW.CMSModels\obj\Debug\netcoreapp2.0\HW.CMSModels.pdb

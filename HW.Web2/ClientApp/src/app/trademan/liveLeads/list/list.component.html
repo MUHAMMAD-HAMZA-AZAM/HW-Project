@@ -1,0 +1,87 @@
+<!--------------------------------------------------- New Live Leads Design ------------------------------------------------------------>
+<section id="nd-right-content">
+  <h2 class="heading-dashboad mb-3 mb-lg-4">live leads</h2>
+  <p *ngIf="incompletedProfile" class="alert alert-warning">
+    Please add your business details in your profile, so that you can see Live Leads
+    <a routerLink="/Tradesman/Profile/Profile" class="btn mp-outine-btn">Go To Profile</a>
+  </p>
+  <div *ngIf="liveLeadsConcate.length <= 0" id="no-found" class="text-center d-flex justify-content-center align-items-center">
+    <div>
+      <h1 class="mb-3 text-uppercase"><i class="fas fa-exclamation-circle text-danger"></i> Oops!</h1>
+      <h5 class="text-danger text-capitalize">You  don't have any active job. </h5>
+    </div>
+  </div>
+  <div class="row" infiniteScroll
+       [infiniteScrollDistance]="2"
+       [infiniteScrollThrottle]="50"
+       (scrolled)="onScroll()"
+       [scrollWindow]="true"
+       *ngIf="liveLeadsConcate.length > 0 ">
+    <div class="col-lg-6 pb-2 pb-lg-2" *ngFor="let list of liveLeadsConcate">
+      <div class="mq-box p-3">
+        <div class="d-flex align-items-center flex-wrap flex-column flex-sm-row align-items-center">
+          <ng-container>
+
+            <div class="mq-rounded-img mb-2 mb-sm-0" *ngIf="list.bidImage!=null; else noThumbnail">
+              <img [src]="common.transform(list.bidImage)" alt="user-img" />
+            </div>
+
+          </ng-container>
+          <ng-template #noThumbnail>
+            <div class="mq-rounded-img mb-2 mb-sm-0">
+              <img src="../../../../assets/img/imagenotfound.png" alt="">
+            </div>
+
+          </ng-template>
+          <div class="mq-details ml-0 ml-sm-2">
+            <h6 class="mb-1 text-center text-sm-left">{{(list?.jobTitle.length > 20)?(list?.jobTitle | slice:0:20)+'...':(list?.jobTitle)}}</h6>
+            <div class="d-flex flex-column align-items-center align-items-sm-start">
+              <small>{{list.address}}, {{list.city}}</small>
+              <small class="d-block">{{list.postedOn  |  date:'medium'}}</small>
+            </div>
+          </div>
+        </div>
+        <hr class="hl">
+        <div class="mq-box-footer nd-bid-now flex-sm-row flex-column d-flex justify-content-between align-items-center flex-wrap">
+          <small><b>Budget:</b><b class="c-green">{{list.budget}}</b></small>
+          <div class="d-flex mt-2 mt-sm-0">
+            <button class="mp-outine-btn mr-1">
+              <svg class="btn-icon">
+                <use xlink:href="../../../../assets/sprites/sprite.svg#bid" />
+              </svg>
+              <span *ngIf="list.bidCount==0">&nbsp;1st to bid </span>
+              <span *ngIf="list.bidCount==1">&nbsp;2nd to bid </span>
+              <span *ngIf="list.bidCount==2">&nbsp;3rd to bid </span>
+            </button>
+            <button class="mp-outine-btn" (click)="JobDetail(list.jobQuotesId,'Liveleads')">
+              <svg class="btn-icon">
+                <use xlink:href="../../../../assets/sprites/sprite.svg#bid" />
+              </svg>
+              <span>&nbsp;bid now</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--<app-blogs></app-blogs>-->
+</section>
+
+<!--------------------------------------------- Update Skills  Message Modal --------------------------------------->
+
+<div class="modal fade custom-model-style" bsModal #updateSkillsMessageModal="bs-modal" id="updateSkillsMessageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content px-4 py-4">
+      <div class="modal-header p-0">
+        <h6 class="modal-title" id="exampleModalLongTitle" style="color: var(--headingClr);"><i class="fas fa-user-edit mr-1"></i>Update Your Business Skills</h6>
+      </div>
+      <div class="modal-body p-0 mt-2">
+        <small class="d-block mt-2">Please update your skills before posting a bid.</small>
+      </div>
+      <div class="modal-footer mt-2 p-0">
+        <button type="button" class="btn mp-outine-btn" (click)="updateProfile()">Update</button>
+        <button type="button" class="btn solid-btn btn-danger" (click)="closeUpdateSkillsMessageModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

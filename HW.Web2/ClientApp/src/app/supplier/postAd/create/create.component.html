@@ -1,0 +1,308 @@
+<!-------------------------------------------------------- New Theme Create Post Ad Design ---------------------------------------------------------------->
+<section id="nd-right-content ">
+  <h2 class="heading-dashboad mb-3 mb-lg-4">Post Ad</h2>
+  <p class="alert alert-warning" *ngIf="incompletedProfile">Please add your business details so that, you can post an ad <a routerLink="/Supplier/Registration/SupplierRegister" class="btn mp-outine-btn">Click Here</a> to add business details.</p>
+  <div class="row" *ngIf="!incompletedProfile">
+    <div class="col-12">
+      <div class="d-content-left-side">
+        <div class="quote-details-wrapper mb40">
+          <div class="quotes-details">
+            <form [formGroup]="appValForm">
+              <h2 class="mb-4"></h2>
+              <div class="row">
+                <div class="col-xl-6 col-lg-6">
+                  <div class="form-group">
+                    <label>Category</label>
+                    <select class="form-control" (change)="SelectCategroy($event.target.value)" formControlName="productCategoryId" [ngClass]="{ 'is-invalid': f.productCategoryId.invalid && (f.productCategoryId.touched || f.productCategoryId.dirty )}">
+                      <option [attr.selected]="categoryId==0 ? true : null" [attr.disabled]="categoryId==0 ? true : null">---- Select Category ----</option>
+                      <option *ngFor="let item of productCategoryList; let i= index" [attr.value]="item.id" [attr.selected]="item.id ==categoryId ? true : null">{{item.value}}</option>
+                    </select>
+                    <div *ngIf="f.productCategoryId?.errors">
+                      <div *ngIf="f.productCategoryId.invalid && (f.productCategoryId.touched || f.productCategoryId.dirty)">
+                        <small class="text-danger" *ngIf="f.productCategoryId.errors?.required">Please select Category</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-6 col-lg-6" *ngIf="productSubCategoryList.length > 0 || (postAdVm.productSubcategoryId != null && showProductSubCategory==true)">
+                  <div class="form-group">
+                    <label> Sub Category</label>
+                    <select class="form-control" (change)="SelectSubCategory($event.target.value)" formControlName="productSubCategoryId" [ngClass]="{ 'is-invalid': f.productSubCategoryId.invalid && (f.productSubCategoryId.touched || f.productSubCategoryId.dirty )}">
+                      <option [value]="null" selected hidden>---- Select SubCategory ----</option>
+                      <option *ngFor="let item of productSubCategoryList" value="{{item.id}}">{{item.value}}</option>
+                    </select>
+                    <div *ngIf="f.productSubCategoryId?.errors">
+                      <div *ngIf="f.productSubCategoryId.invalid && (f.productSubCategoryId.touched || f.productSubCategoryId.dirty)">
+                        <small class="text-danger" *ngIf="f.productSubCategoryId.errors?.required">please select Sub Category</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12 col-lg-12">
+                  <div class="form-group">
+                    <label>Give a Title to Your Post</label>
+                    <input type="text" maxlength="30" id="postTitle" class="form-control" formControlName="postTitle" pattern="^[^-\s][a-zA-Z0-9_\s-]+$" [ngClass]="{ 'is-invalid': f.postTitle.invalid && (f.postTitle.touched || f.postTitle.dirty )}" />
+                    <div *ngIf="f.postTitle?.errors">
+                      <div *ngIf="f.postTitle.invalid && (f.postTitle.touched || f.postTitle.dirty)">
+                        <small class="text-danger" *ngIf="f.postTitle.errors?.required">{{errorsList.adTitleError}}</small>
+                        <small class="text-danger" *ngIf="f.postTitle.errors?.pattern">Invalid Post Title.</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12 col-lg-12">
+                  <div class="form-group">
+                    <label>About Product</label>
+                    <textarea rows="6" type="text" id="product" maxlength="250" class="form-control desc" formControlName="postDiscription" [ngClass]="{ 'is-invalid': f.postDiscription.invalid && (f.postDiscription.touched || f.postDiscription.dirty )}"></textarea>
+                    <div *ngIf="f.postDiscription?.errors">
+                      <div *ngIf="f.postDiscription.invalid && (f.postDiscription.touched || f.postDiscription.dirty)">
+                        <small class="text-danger" *ngIf="f.postDiscription.errors?.required">{{errorsList.descriptionError}}</small>
+                        <small class="text-danger" *ngIf="f.postDiscription.errors.minlength">Minimum 10 character required</small>
+                        <small class="text-danger" *ngIf="f.postDiscription.errors.maxlength">Input allows maximum 250 characters</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xl-7 col-lg-8">
+                  <div class="form-group">
+                    <label>Add Photos <Small>(Max 10)</Small></label>
+                    <div class="custom-input-file-bg">
+                      <i class="fas fa-camera"></i>
+                      <span class="btn btn-default mp-outine-btn">
+                        Choose Files
+                        <input type="file" class="form-control"
+                               id="quotesfileinput"
+                               placeholder="Enter Job Tilte" accept="image/*" (change)="OnSelectFile($event)" multiple="multiple" />
+                      </span>
+                    </div>
+                    <div *ngIf="submitted && hasImage">
+                      <small class="text-danger">select at least one Image.</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12 col-lg-12">
+                  <div class="form-group">
+                    <label></label>
+                    <!-- <input type="text" class="form-control" placeholder="Enter Job Tilte" /> -->
+                    <div class="uploaded-image-box-wrapper">
+                      <div class="uploaded-image-box" *ngFor="let image of listOfImages;let index = index;">
+                        <i class="fas fa-times" (click)="CancelImage(index+1)"></i>
+                        <img [src]="image.imageBase64" (click)="openModal();currentSlide(index+1)" alt="" style="width:100%" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div bsModal #ImageModal="bs-modal" class="modal fade" role="dialog">
+                  <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content" *ngIf="imageContent!=null">
+                      <div (click)="Close()" class="btn-close" data-dismiss="modal"><i class="fas fa-times-circle"></i></div>
+                      <img [src]="imageContent" style="height:450px;width:auto;object-fit:contain" alt="" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-6 col-lg-6">
+                  <div class="form-group">
+                    <label>Budget (Rs.)</label>
+                    <input inputmode="decimal" id="price" minlength="3" maxlength="10" pattern="\d{1,9}(\.\d{0,3})?" (keypress)="AllowNonZeroIntegers($event)" class="form-control" formControlName="price" [ngClass]="{ 'is-invalid': f.price.invalid && (f.price.touched || f.price.dirty )}" />
+                    <div *ngIf="f.price?.errors">
+                      <div *ngIf="f.price.invalid && (f.price.touched || f.price.dirty)">
+                        <small class="text-danger" *ngIf="f.price.errors.required">Please enter product price.</small>
+                        <small class="text-danger" *ngIf="f.price.errors.minlength">product price  allows minimum 3 digits.</small>
+                        <small class="text-danger" *ngIf="f.price.errors.maxlength">product price  allows maximum 10 digits.</small>
+                        <small class="text-danger" *ngIf="f.price.errors.pattern"> Inavlid product price.</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                  <div class="form-group">
+                    <label>City</label>
+                    <select class="form-control" (change)="SelectCity($event.target.value)" formControlName="cityId" [ngClass]="{ 'is-invalid': f.cityId.invalid && (f.cityId.touched || f.cityId.dirty )}">
+                      <option value="0" selected disabled>Select City</option>
+                      <option *ngFor="let item of cityList" value="{{item.id}}">{{item.value}}</option>
+                    </select>
+                    <div *ngIf="f.cityId?.errors">
+                      <div *ngIf="f.cityId.invalid && (f.cityId.touched || f.cityId.dirty)">
+                        <small class="text-danger" *ngIf="f.cityId.errors?.required">* Please select city</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-6 col-lg-6">
+                  <div class="form-group">
+                    <label>Town</label>
+                    <ng-autocomplete [data]="searchtownList"
+                                     [searchKeyword]="townkeyword"
+                                     (selected)='selecttownEvent($event)'
+                                     (inputCleared)='unselecttownEvent($event)'
+                                     placeHolder="Select town ..."
+                                     (inputChanged)='onChangetownSearch($event)'
+                                     [itemTemplate]="itemTemplate"
+                                     [notFoundTemplate]="notFoundTemplate"
+                                     formControlName="town">
+                    </ng-autocomplete>
+
+                    <ng-template #itemTemplate let-item>
+                      <a [innerHTML]="item.value"></a>
+                    </ng-template>
+
+                    <ng-template #notFoundTemplate let-notFound>
+                      <div [innerHTML]="notFound"></div>
+                    </ng-template>
+
+                    <div *ngIf="f.town?.errors">
+                      <div *ngIf="f.town.invalid && (f.town.touched || f.town.dirty)">
+                        <small class="text-danger" *ngIf="f.town.errors.required">{{errorsList.townError}}</small>
+                        <small class="text-danger" *ngIf="f.town.errors.pattern">invalid town name.</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-xl-6 col-lg-6">
+                  <div class="form-group">
+                    <label>Discount</label>
+                    <select class="form-control" (change)="selectDiscount($event)" formControlName="discount" [ngClass]="{ 'is-invalid': f.discount.invalid && (f.discount.touched || f.discount.dirty )}">
+                      <option value="0" selected disabled>- Select Discount -</option>
+                      <option *ngFor="let item of discountList" value="{{item.value}}">{{item.value}}%</option>
+                    </select>
+                    <div *ngIf="f.discount?.errors">
+                      <div *ngIf="f.discount.invalid && (f.discount.touched || f.discount.dirty)">
+                        <small class="text-danger" *ngIf="f.discount.errors?.required">* Please select discount.</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12 col-lg-12">
+                  <div class="form-group">
+                    <label>Address</label>
+                    <textarea rows="6" type="text" id="product" maxlength="250" class="form-control desc" formControlName="address" [ngClass]="{ 'is-invalid': f.address.invalid && (f.address.touched || f.address.dirty )}"></textarea>
+                    <div *ngIf="f.address?.errors">
+                      <div *ngIf="f.address.invalid && (f.address.touched || f.address.dirty)">
+                        <small class="text-danger" *ngIf="f.address.errors?.required">{{errorsList.addressError}}</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-6 col-lg-6">
+                  <h4 style="color: var(--headingClr);">Shipment Methods</h4>
+                  <div class="form-check mt-1">
+                    <div class="material-switch">
+                      <input id="delivery" name="delivery" type="checkbox" checked formControlName="deliveryAvailable" />
+                      <label for="delivery" class="label-success"></label>
+                    </div>
+                    <label class="form-check-label text-dark" for="gridCheck">
+                      Delivery Available
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-6 col-lg-6">
+                  <div class="form-check mt-2">
+                    <div class="material-switch">
+                      <input id="collection" name="collection" type="checkbox" disabled="disabled" formControlName="collectionAvailable" [ngClass]="{ 'is-invalid': submitted &&  f.collectionAvailable.errors }" />
+                      <label for="collection" class="label-success"></label>
+                    </div>
+                    <label class="form-check-label text-dark" for="gridCheck">
+                      Collection Available
+                    </label>
+                    <div *ngIf="submitted && f.collectionAvailable.errors" class="invalid-feedback">
+                      <div *ngIf="f.collectionAvailable.errors.required">{{errorsList.collectionError}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row" *ngIf="AdId == 0">
+                <div class="col-xl-6">
+                  <div class="form-group mt-2">
+                    <button class="mp-outine-btn px-4" id="nextBtn" type="submit" (click)="postAd()">Next</button>
+                  </div>
+                </div>
+              </div>
+              <div class="row" *ngIf="AdId > 0">
+                <div class="col-xl-6">
+                  <div class="form-group mt-2">
+                    <button class="mp-outine-btn px-4" id="nextBtn" type="submit" (click)="postAd()">Update</button>
+                    <button class="mp-outine-btn px-4 ml-2" id="nextBtn" type="submit" (click)="openConfirmationModal()">Remove</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!--------------------------------------------- Remove Ad Confirmation Modal --------------------------------------->
+
+<div bsModal #confirmationModal="bs-modal" role="dialog" class="modal fade">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        Are youe sure you want to remove Ad?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="deleteAd()">Yes</button>
+        <button type="button" class="btn btn-danger" (click)="closeConfirmationModal()">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--------------------------------------------- Verify Account Message Modal --------------------------------------->
+
+<div class="modal fade custom-model-style" bsModal #verifyAccountMessageModal="bs-modal" id="verifyAccountMessageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content px-4 py-4">
+      <div class="modal-header p-0">
+        <h6 class="modal-title" id="exampleModalLongTitle" style="color: var(--headingClr);"><i class="fas fa-lock mr-1"></i>Verify Account</h6>
+      </div>
+      <div class="modal-body p-0 mt-2">
+        <small class="d-block mt-2">Please Verify Account Before Post Your Product Ad.</small>
+      </div>
+      <div class="modal-footer mt-2 p-0">
+        <button type="button" class="btn mp-outine-btn" (click)="verifyAccount()">Verify Account</button>
+        <button type="button" class="btn mp-outine-btn" (click)="closeVerifyAccountMessageModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--------------------------------------------- Upload Job Image Modal --------------------------------------->
+<div bsModal #ImageModal="bs-modal" class="modal fade " role="dialog">
+  <div class="modal-dialog modal-md modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" (click)="Close()" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="imageContent!=null">
+          <img [src]="imageContent" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

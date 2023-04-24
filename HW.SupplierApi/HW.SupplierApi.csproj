@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.Web">
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<UserSecretsId>4abf9917-8c8d-4955-934a-4d69de262756</UserSecretsId>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<DebugType>full</DebugType>
+		<DebugSymbols>true</DebugSymbols>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Remove="wwwroot\**" />
+		<Content Remove="wwwroot\**" />
+		<EmbeddedResource Remove="wwwroot\**" />
+		<None Remove="wwwroot\**" />
+	</ItemGroup>
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
+		<PackageReference Include="AutoMapper" Version="11.0.0" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+		<PackageReference Include="ElmahCore" Version="2.0.7" />
+		<PackageReference Include="ElmahCore.Sql" Version="2.0.7" />
+		<PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
+		<PackageReference Include="MassTransit" Version="7.2.2" />
+		<PackageReference Include="MassTransit.RabbitMQ" Version="7.2.2" />
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\HW.IdentityServer\HW.IdentityServer.csproj" />
+		<ProjectReference Include="..\HW.IdentityViewModels\HW.IdentityViewModels.csproj" />
+		<ProjectReference Include="..\HW.ImageModels\HW.ImageModels.csproj" />
+		<ProjectReference Include="..\HW.Job ViewModels\HW.JobViewModels.csproj" />
+		<ProjectReference Include="..\HW.PackagesAndPaymentsModels\HW.PackagesAndPaymentsModels.csproj" />
+		<ProjectReference Include="..\HW.ReportsViewModels\HW.ReportsViewModels.csproj" />
+		<ProjectReference Include="..\HW.SupplierModels\HW.SupplierModels.csproj" />
+		<ProjectReference Include="..\HW.SupplierViewModels\HW.SupplierViewModels.csproj" />
+		<ProjectReference Include="..\HW.Utility\HW.Utility.csproj" />
+		<ProjectReference Include="..\HW.UserWebViewModels\HW.UserWebViewModels.csproj">
+		  <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+		</ProjectReference>
+	</ItemGroup>
+</Project>

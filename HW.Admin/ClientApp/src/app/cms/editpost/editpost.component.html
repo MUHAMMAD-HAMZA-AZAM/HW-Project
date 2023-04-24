@@ -1,0 +1,108 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12 mx-auto">
+      <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Edit Post</h6>
+          </div>
+          <div class="card-body">
+            <div id="editFormGroup">
+              <div class="row">
+                <div class="col-xl-12">
+                  <div class="form-group">
+                    <label class='control-lable-name'>post title</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-12 elementHtml">
+                  <div class="form-group">
+                    <input type="text" class="form-control getControlData cms-input-post-title" [(ngModel)]="postTitle" name="postTitle" autocomplete="off" id="eTitleId" placeholder="Enter Title " />
+                  </div>
+                </div>
+              </div>
+              <div class="row edit-dropdowns">
+                <div class="col-sm-6 col-xl-4">
+                  <div class="form-group">
+                    <label>Post Category</label>
+                    <select class="form-control" (change)="postCat($event)" id="postCategory">
+                      <option *ngFor="let cat of catList" [value]="cat.categoryId">{{cat.categoryName}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-xl-4">
+                  <div class="form-group">
+                    <label>Post Status</label>
+                    <select class="form-control" (change)="postStatus($event)" id="postStatus">
+                      <option value="1">Published</option>
+                      <option value="2">Pending</option>
+                      <option value="3">Deleted</option>
+                      <option value="4">Rejected</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-xl-4">
+                  <div class="form-group">
+                    <label>Allow Comments</label>
+                    <div class="checkbox">
+                      <label><input type="checkbox" id="allowComment" (change)="onRadioChange($event)"></label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12 col-xl-12">
+                  <div class="form-group">
+                    <label class="control-lable-name">Post Short Summary</label>
+                    <textarea rows="3" class="form-control" [(ngModel)]="summary" name="summary"> </textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12 col-xl-12">
+                  <div class="form-group">
+                    <label class="control-lable-name">Seo Description</label>
+                    <input type="text" autocomplete="off" class="form-control" [(ngModel)]="seoDescription" name="seoDescription" />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-6">
+                  <div class="form-group">
+                    <label class="control-lable-name">Post Thumbnail</label>
+                    <div class="onchangeEvent">
+                      <label for="postThumb"><i class="fas fa-upload"></i> Upload Thumb Image</label>
+                      <input type="file" id="postThumb" (change)="thumbImgChange($event)" class="form-control" />
+                      <div class="thumbImageControl" *ngIf="thumbImage != null">
+                        <img [src]="thumbImage" *ngIf="thumbImage != null" alt="Uplaoded Image" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-6"></div>
+              </div>
+              <div class="addNewElement">
+                <button (click)="addNewElement()" class="d-flex align-items-center"><i class="fas fa-plus-square mr-2" style="font-size:25px;"></i>Add New Element</button>
+                <div class="elementsRow" [hidden]="showElements">
+                  <!--<button (click)="createform($event)" value="tb" class="btn btn-sm btn-dark">Textbox <i class="fas fa-plus"></i></button>-->
+                  <button (click)="createform($event)" class="btn btn-sm btn-primary" name="{{controlid}}" id="generateTextArea" value="ta">Textarea <i class="fas fa-plus"></i></button>
+                  <button (click)="createform($event)" class="btn btn-sm btn-primary" value="img">Image <i class="fas fa-plus"></i></button>
+                  <button (click)="createform($event)" class="btn btn-sm btn-primary" name="{{controlid}}" id="genrateImageLeftTextRight" value="imgleft">Img Left Text Right<i class="fas fa-plus"></i></button>
+                  <button (click)="createform($event)" class="btn btn-sm btn-primary" name="{{controlid}}" id="genrateImageRightTextLeft" value="imgRight">Text Left Img Right<i class="fas fa-plus"></i></button>
+                </div>
+              </div>
+              <div class="row my-3">
+                <div class="col-xl-12">
+                  <button class="btn btn-primary" id="submitData" (click)="submitData()">Update</button>
+                </div>
+              </div>
+            </div>
+
+            <div id="editPostData" class="d-none"></div>
+            <!--<div id="showEditedData"></div>-->
+            <div id="showData"></div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

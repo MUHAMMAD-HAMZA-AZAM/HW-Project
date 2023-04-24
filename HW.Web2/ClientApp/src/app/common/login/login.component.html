@@ -1,0 +1,226 @@
+ <!-------------------------------------------- New Theme Login Desing ---------------------------------------------------------------------->
+
+<div class="heading-bar d-flex align-items-center">
+  <div class="container">
+    <h1 class="py-3 laila-font text-white">Login</h1>
+  </div>
+</div>
+
+<div class="container">
+  <div class="nd-sign-iu">
+    <div class="row mt-2 pt-2 mt-sm-3 pt-sm-3 mt-lg-5 pt-lg-5 flex-column-reverse flex-lg-row">
+      <div class="mt-5 mt-lg-0 col-12 col-lg-6 col-xl-7">
+        <div class="ls-content">
+          <ng-container *ngIf="check.U; else tradesmanImg">
+            <div class="banner">
+              <img src="/assets/img/HW-CUS-Login.png" />
+            </div>
+          </ng-container>
+          <ng-template #tradesmanImg>
+            <div class="banner">
+              <img src="/assets/img/HW-TRD-Login.png" />
+            </div>
+          </ng-template>
+          <ng-container *ngIf="check.T">
+            <h2 class="mt-3">Are you a skilled, hard-working tradesman?</h2>
+            <p class="mt-3 mb-3">We can help you win more work.</p>
+            <div class="d-flex download-btn">
+              <div>
+                <a href="https://play.google.com/store/apps/details?id=com.TradesmanApp.HW" target="_blank"><img src="/assets/img/andriod-btn.png" /></a>
+              </div>
+              <div>
+                <a href="https://apps.apple.com/gb/app/hoomwork-trades/id1490237957" target="_blank"><img src="/assets/img/apple-btn.png" /></a>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="check.O">
+            <h2 class="mt-3">Are you a skilled, hard-working tradesman?</h2>
+            <p class="mt-3 mb-3">We can help you win more work.</p>
+            <div class="d-flex download-btn">
+              <div>
+                <a href="https://play.google.com/store/apps/details?id=com.TradesmanApp.HW" target="_blank"><img src="/assets/img/andriod-btn.png" /></a>
+              </div>
+              <div>
+                <a href="https://apps.apple.com/gb/app/hoomwork-trades/id1490237957" target="_blank"><img src="/assets/img/apple-btn.png" /></a>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="check.U">
+            <h2 class="mt-3">The Trusted Way to Find a Rated Professional</h2>
+            <p class="mt-3 mb-3">From electric & plumbing work to new home construction, house decoration, material  & homeware shopping</p>
+            <div class="d-flex download-btn">
+              <div>
+                <a href="https://play.google.com/store/apps/details?id=com.User.HW" target="_blank"><img src="/assets/img/andriod-btn.png" /></a>
+              </div>
+              <div>
+                <a href="https://apps.apple.com/us/app/hoomwork-homes/id1490813771?ls=1" target="_blank"><img src="/assets/img/apple-btn.png" /></a>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="check.S">
+            <h2 class="mt-3">Boost Your Business By Posting</h2>
+            <p class="mt-3 mb-3">Free Classified Ads.</p>
+            <div class="d-flex download-btn">
+              <div>
+                <a href="https://play.google.com/store/apps/details?id=com.SupplierApp.HW" target="_blank"><img src="/assets/img/andriod-btn.png" /></a>
+              </div>
+              <div>
+                <a href="https://apps.apple.com/gb/app/hoomwork-supply/id1495763086" target="_blank"><img src="/assets/img/apple-btn.png" /></a>
+              </div>
+            </div>
+          </ng-container>
+
+        </div>
+      </div>
+      <div class="col-12 col-lg-6 col-xl-5">
+        <div class="rs-content quotes-details">
+          <div class="row">
+            <div class="col-12">
+              <h2 class="mb-4">Welcome To Hoomwork</h2>
+            </div>
+          </div>
+          <div *ngIf="check.U" class="social-btn-wrapper mb-4 mb-sm-3">
+            <div class="row no-gutters">
+              <div class="col-12 col-sm-6 mb-2 mb-sm-0">
+                <button class="btn social-btn btn-block" (click)="signInWithFB()" style="background: var(--fbClr);">
+                  <i class="fab fa-facebook-f"></i>
+                  <span>login with Facebook</span>
+                </button>
+              </div>
+              <div class="col-12 col-sm-6">
+                <button class="btn social-btn btn-block" (click)="signInWithGoogle()" style="background: var(--gmClr);">
+                  <i class="fab fa-google"></i>
+                  <span>login with Gmail</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <form [formGroup]="appValForm">
+            <div class="row no-gutters">
+              <div class="col-12">
+                <div class="form-group">
+                  <label>Email</label>
+                  <input autocomplete="off" type="text" id="emialaddress" placeholder="Email Address or Phone Number" (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null"
+                         maxlength="40" (keypress)="CheckValidation($event)" class="form-control"
+                         [ngClass]="{'is-invalid' : submittedApplicationForm && f.emailOrPhoneNumber.errors}"
+                         formControlName="emailOrPhoneNumber" required />
+                  <div *ngIf="submittedApplicationForm && f.emailOrPhoneNumber?.errors" class="invalid-feedback">
+                    <small class="text-danger" *ngIf="f.emailOrPhoneNumber.errors.required">{{emailErrorMessage}}</small>
+
+                  </div>
+                  <div *ngIf="submittedApplicationForm && unauthorizeduser" class="text-danger small">
+                    <small *ngIf="!f.emailOrPhoneNumber?.errors" class="text-danger">{{invalidcredentials}}</small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12" *ngIf="check.T">
+                <div class="form-group">
+                  <label>Select your Role</label>
+                  <select id="gender" class="form-control" formControlName="roleCrtl">
+                    <option value="null" selected disabled>Select your Role </option>
+                    <option value="1">Sole Trader</option>
+                    <option value="2">Organization</option>
+                  </select>
+                  <small class="text-danger" *ngIf="f.roleCrtl.errors?.required">{{roleErrorMessage}}</small>
+                </div>
+              </div>
+              <div *ngIf="hasPin" class="col-12">
+                <div class="form-group">
+                  <label>Enter Pin Code</label>
+                  <div class="nd-pincode-wrapper d-flex justify-content-between">
+                    <input type="password" inputmode="numeric" autocomplete="new-password"
+                           (keypress)="numberOnly($event)" class="form-control" id="first"
+                           (keyup)="movetoNext('firs', 'second' , $event)" maxlength="1" formControlName="tab1" required (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+
+                    <input type="password" inputmode="numeric" class="form-control"
+                           (keypress)="numberOnly($event)" autocomplete="new-password" id="second"
+                           (keyup)="movetoNext('first', 'third' , $event)" maxlength="1" formControlName="tab2" required (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+
+                    <input type="password" inputmode="numeric" class="form-control"
+                           (keypress)="numberOnly($event)" autocomplete="new-password" id="third"
+                           (keyup)="movetoNext('second', 'fourth' , $event)" formControlName="tab3" maxlength="1" required (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+
+                    <input type="password" inputmode="numeric" class="form-control"
+                           (keypress)="numberOnly($event)" autocomplete="new-password" id="fourth"
+                           (keyup)="movetoNext('third', 'fifth' , $event)" formControlName="tab4" maxlength="1" required (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+
+                    <input type="password" inputmode="numeric" class="form-control"
+                           (keypress)="numberOnly($event)" autocomplete="new-password" id="fifth"
+                           (keyup)="movetoNext('fourth', 'fifth' , $event)" formControlName="tab5" maxlength="1" required (keydown)="$event.keyCode == 13 ? $event.preventDefault() : null" />
+
+                    <!--<input autocomplete="off" class="form-control" />
+                    <input autocomplete="off" class="form-control" />
+                    <input autocomplete="off" class="form-control" />
+                    <input autocomplete="off" class="form-control" />
+                    <input autocomplete="off" class="form-control" />-->
+                  </div>
+                  <small id="pinmessege" class="text-danger" *ngIf="hasPinentered!=true && hasPin ==true "> Inavlid Pin Code !!</small>
+                </div>
+              </div>
+            </div>
+            <!--<div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <span class="text-danger" *ngIf="isUserBlocked">Your Account Has Been Blocked.</span>
+                </div>
+              </div>
+            </div>-->
+            <div class="row no-gutters align-items-center nd-tandc">
+              <div class="col-8 col-sm-6">
+                <div class="form-check">
+                  <input type="checkbox" formControlName="rememberMe" class="form-check-input" id="exampleCheck1">
+                  <label class="form-check-label fs-12" for="exampleCheck1">Remember My Credentials</label>
+                </div>
+              </div>
+              <div class="col-4 col-sm-6 d-flex justify-content-end">
+                <button (click)="ForgotPassword()" class="btn mp-outine-btn">Forgot Pin?</button>
+              </div>
+            </div>
+            <div class="row mt-4 mt-md-3 submit-btn">
+              <div class="col-md-6">
+                <button class="nlp-green-btn btn btn-block py-2" type="button" (click)="Login()">Login</button>
+
+                <!--<button class="mp-outine-btn btn-block py-3">create account</button>-->
+              </div>
+              <div class="col-md-6">
+                <a *ngIf="check.T" class="btn nlp-green-btn btn-block py-2" routerLink="/registration/appregistrationbasic/tradesman">Create an account</a>
+                <a *ngIf="check.O" class="btn nlp-green-btn btn-block py-2" routerLink="/registration/appregistrationbasic/tradesman">Create an account</a>
+                <a *ngIf="check.U" class="btn nlp-green-btn btn-block py-2" routerLink="/registration/appregistrationbasic/user">Create an account</a>
+                <a *ngIf="check.S" class="btn nlp-green-btn btn-block py-2" routerLink="/registration/appregistrationbasic/supplier">Create an account</a>
+              </div>
+              <div class="col-12">
+                <small class="laila-font d-block mt-2 mb-3 mt-md-2 mb-md-4">Don't Have an account?</small>
+              </div>
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--------------------------------------------- Block Account Message Modal --------------------------------------->
+
+<div bsModal #blockAccountMessageModal="bs-modal" class="modal fade custom-model-style nd-verifyAccount" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content px-4 py-4">
+      <div class="modal-header p-0">
+        <h6 class="modal-title" id="exampleModalLongTitle" style="color: var(--redClr);"> ACCOUNT BLOCKED </h6>
+        <hr class="hl mt-0">
+      </div>
+      <div class="modal-body p-0 mt-3">
+        <p class="fos-14 mb-1" style="color:var(--headingClr)">Your Account has been blocked.</p>
+        <p style="color:var(--headingClr)" class="fos-14 mb-1">Please contact with customer support.<b style="color:var(--greenClr)">PH:0309-9994534</b></p>
+      </div>
+      <div class="modal-footer p-0">
+        <button type="button" class="mp-outine-btn" (click)="hideBlockModal()">CLOSE</button>
+      </div>
+    </div>
+  </div>
+</div>
+

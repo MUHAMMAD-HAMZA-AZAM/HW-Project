@@ -1,0 +1,212 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4">
+      <h6 class="mainTitle" data-toggle="collapse" href="#collapse1"  aria-expanded="true">Bids Report</h6>
+    </div>
+  </div>
+
+  <!--<button style="font-size: .775rem !important;margin-bottom:5px" *ngIf="reportFilter" (click)="funReportFilter()" class="btn btn-sm btn-primary">Show Filter</button>-->
+  <div id="collapse1" class="contentWrapper fs-12 show">
+    <form>
+      <!--<div class="container">-->
+      <div class="row">
+
+        <div class="col-md-4">
+          <label for="customerName">Customer Name</label>
+          <div class="input-group">
+            <input type="text" autocomplete="off" maxlength="40" id="customerName" name="customerName" class="form-control" [(ngModel)]="customerName" placeholder="Customer Name" />
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                <input type="radio" value="1" id="start" (click)="getRadioValue($event)" name="groupOfDefaultRadios" checked #restChecked>
+                <label class="" for="start">Start</label>
+                <input type="radio" class="" (click)="getRadioValue($event)" value="2" id="anyWhere" name="groupOfDefaultRadios">
+                <label class="" for="anyWhere">Anywhere</label>
+                <input type="radio" class="" value="3" id="end" (click)="getRadioValue($event)" name="groupOfDefaultRadios">
+                <label class="" for="end">End</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--<div class="col-md-2">
+      <label for="CustomerName">Customer Name</label>
+      <input type="text" autocomplete="off" id="customerName" name="customerName" class="form-control" [(ngModel)]="customerName" placeholder="Customer Name" />
+    </div>
+    <div class="col-md-2">
+      <div class="inlineRadioBtns">
+        <div class="custom-control custom-radio">
+          <input type="radio" class="custom-control-input" value="1" id="start" (click)="getRadioValue($event)" name="groupOfDefaultRadios" checked />
+          <label class="custom-control-label" for="start">Start</label>
+        </div>
+        <div class="custom-control custom-radio">
+          <input type="radio" class="custom-control-input" value="2" id="anyWhere" (click)="getRadioValue($event)" name="groupOfDefaultRadios" />
+          <label class="custom-control-label" for="anyWhere">Any Where</label>
+        </div>
+        <div class="custom-control custom-radio">
+          <input type="radio" class="custom-control-input" value="3" id="end" (click)="getRadioValue($event)" name="groupOfDefaultRadios" />
+          <label class="custom-control-label" for="end">End</label>
+        </div>
+      </div>
+    </div>-->
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-2">
+          <label class="">Work Start From Date</label>
+          <input type="date" id="startDate" [(ngModel)]="startDate" name="startDate" class="form-control" />
+          <div *ngIf="submittedApplicationForm" class="invalid-feedback">
+            <div><p>{{startDateErrorMessage}}</p></div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <label class="">Work Start To Date</label>
+          <input type="date" id="endDate" [(ngModel)]="endDate" name="endDate" class="form-control" />
+          <div *ngIf="submittedApplicationForm" class="invalid-feedback">
+            <div><p>{{endDateErrorMessage}}</p></div>
+          </div>
+        </div>
+
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-2">
+          <label for="tradesmanName">JQID</label>
+          <input type="text" autocomplete="off" id="jobId" maxlength="10" name="jobId" class="form-control" [(ngModel)]="jobId" placeholder="Job quotation id" />
+        </div>
+        <div class="col-md-2">
+          <label for="tradesmanName">Customer ID</label>
+          <input type="text" autocomplete="off" id="customerId" maxlength="10" name="customerId" class="form-control" [(ngModel)]="customerId" placeholder="Customer Id" />
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-2">
+          <label class="">Bid Posted To Date</label>
+          <input type="date" id="toDate" [(ngModel)]="toDate" name="toDate" class="form-control" />
+        </div>
+
+        <div class="col-md-2">
+          <label class="">Bid Posted From Date</label>
+          <input type="date" id="fromDate" [(ngModel)]="fromDate" name="fromDate" class="form-control" />
+        </div>
+
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-2">
+          <label class="">City</label>
+          <ng-multiselect-dropdown placeholder="City" style="display:inline;"
+                                   [settings]="dropdownListForCity"
+                                   [data]="cityList"
+                                   [(ngModel)]="selectedCities"
+                                   name="selectedCities"
+                                   (onSelect)="onCitySelect($event)"
+                                   (onSelectAll)="onCitySelectAll($event)"
+                                   (onDeSelect)="onCityDeSelect($event)"
+                                   (onDeSelectAll)="onCityDeSelectALL($event)"
+                                   (OnDeSelect)="onCityDeSelect($event)">
+          </ng-multiselect-dropdown>
+        </div>
+
+        <div class="col-md-2 addressSearch">
+          <div class="form-group  ">
+            <label for="businessAddress">Location</label>
+            <input type="text" class="form-control desc" [(ngModel)]="location" maxlength="50" placeholder="location" id="location" name="location" autocomplete="off" (keyup)="serachAddress(location)" autocapitalize="off" spellcheck="off" #search />
+          </div>
+          <div class="addressSearchResult" *ngIf="isAddress">
+            <ul>
+              <li *ngFor="let address of searchedAddress">
+                <a (click)="setAddressValue($event)">{{address.customerAddress}}</a>
+              </li>
+              <li *ngIf="!locationSearchKeyMatch" class="text-danger text-center">No location Found</li>
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="row mt-2 mb-3">
+        <div class=" col-md-2 ">
+          <label class="">BId Status</label>
+          <ng-multiselect-dropdown placeholder="Bid Status" style="display:inline;"
+                                   [settings]="statusdropdownSettings"
+                                   [data]="statusList"
+                                   [(ngModel)]="bidStatuses"
+                                   name="bidStatuses"
+                                   (onSelect)="onStatusSelect($event)"
+                                   (onSelectAll)="onStatusSelectAll($event)"
+                                   (onDeSelect)="onStatusDeSelect($event)"
+                                   (onDeSelectAll)="onStatusDeSelectALL($event)"
+                                   (OnDeSelect)="onStatusDeSelect($event)">
+          </ng-multiselect-dropdown>
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4 inline-downlod-btns">
+          <div class="form-group">
+            <input class=" btn btn-primary btn-sm" type="submit" value="Search" (click)="loadJobs()" />
+          </div>
+          <div class="form-group">
+            <input class="btn btn-primary btn-sm" type="submit" (click)="resetForm()" value="Reset" />
+          </div>
+          <ng-container *ngIf="userRole.allowExport">
+            <div class="form-group ">
+              <input *ngIf="jobcount>0" class="btn btn-primary btn-sm" type="button" value="Download pdf" (click)="DownloadPdf()" />
+            </div>
+            <div class="form-group">
+              <input *ngIf="jobcount>0" class="btn btn-primary btn-sm" type="button" value="Download Excel" (click)="DownloadXlsx()" />
+            </div>
+            <div class="form-group">
+              <input *ngIf="jobcount>0" class="btn btn-primary btn-sm" type="submit" value="Download Csv" (click)="exportCSV()" />
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="card shadow mb-4" [hidden]="!showTable">
+    <div class="card-header justify-header">
+      <h6 class="m-0 font-weight-bold">Bids List</h6>
+      <label class="fs-12 m-0 text-right" *ngIf="jobcount>0">Total: {{jobcount}} </label>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0" #dataTable>
+            <thead>
+              <tr>
+                <th title="Job Quotation Id" width="1%">JQID</th>
+                <th width="1%">Bid Id</th>
+                <th width="25%" title="Cutomer ID">CID</th>
+                <th width="15%" title="Cutomer Name">CN</th>
+                <th width="4%">City</th>
+                <th width="25%">Comments</th>
+                <th width="25%" title="Tradesman ID">TID</th>
+                <th width="25%" title="Tradesman Name">TN</th>
+                <th width="2%">Amount</th>
+                <th width="1%">Status</th>
+                <th width="25%" class="dc-width-6">Date</th>
+              </tr>
+            </thead>
+            <tbody class="table-content-fs">
+              <tr *ngFor="let bids of bidsList">
+                <td>{{bids.jobQuotationId}}</td>
+                <td>{{bids.bidsId}}</td>
+                <td>{{bids.customerId}}</td>
+                <td>{{bids.customerName}}</td>
+                <td>{{bids.city}}</td>
+                <td>{{bids.comments !=null && bids.comments !='' ? bids.comments.length > 50 ? bids.comments.substring(0,50) : bids.comments : '-' }} <i *ngIf="bids.comments !=null &&  bids.comments.length > 50 " class="fa fa-eye" placement="top" ngbPopover="{{bids.comments}}" popoverTitle="Comment"></i></td>
+                <td>{{bids.tradesmanId}}</td>
+                <td>{{bids.tradesmanName}}</td>
+                <td>{{bids.amount}}</td>
+                <td>{{bids.status}}</td>
+                <td>{{bids.createdOn | date: "dd MMM yyy"}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <p *ngIf="showNullMessage" class="text-danger">No result found.</p>
+    </div>
+  </div>
+</div>

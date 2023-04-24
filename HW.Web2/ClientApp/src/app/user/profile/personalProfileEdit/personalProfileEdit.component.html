@@ -1,0 +1,151 @@
+<div class="d-content-left-side">
+  <h2 class="heading-dashboad mb-3 mb-lg-4">update Profile</h2>
+  <div class="quote-details-wrapper mb40">
+    <div class="row mb-5">
+      <div class="col-12">
+        <div id="common-profile">
+          <div class="d-flex align-items-center flex-column flex-md-row">
+            <div *ngIf="profileImageCheck==false;else imgFound " class="profile-img mr-0 mr-md-3">
+              <img src="/assets/img/imagenotfound.png" alt="profile image" />
+            </div>
+            <ng-template #imgFound>
+              <div class="profile-img mr-0 mr-md-3">
+                <img [src]="ImageVm?.imageBase64" alt="profile image" />
+              </div>
+            </ng-template>
+            <div class="profile-details quotes-details mt-2 mt-md-0 " id="edit-profile-input">
+              <div>
+                <span class="btn btn-default mp-outine-btn">
+                  change photo
+                  <input type="file" #userProfileImage class="form-control"
+                         id="quotesfileinput"
+                         placeholder="Enter Job Tilte" accept="image/*" (change)="fileChangeEvent($event)" />
+                </span>
+              </div>
+              <!--<a routerLink="/User/Profile/PersonalProfileEdit" class="btn mp-outine-btn mt-2">change photo</a>-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quotes-details">
+      <form [formGroup]="appValForm">
+        <div class="row">
+          <div class="col-xl-6 col-lg-6">
+            <div class="form-group">
+              <label>First name</label>
+              <input placeholder="first name" disabled="disabled" type="text" class="form-control" maxlength="18" formControlName="firstName" />
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6">
+            <div class="form-group">
+              <label>last name</label>
+              <input disabled="disabled" placeholder="last name" type="text" class="form-control" maxlength="18" formControlName="lastName" />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-6 col-lg-6">
+            <div class="form-group">
+              <label>cnic</label>
+              <input type="text" placeholder="cnic" inputmode="numeric" class="form-control" maxlength="13" (keypress)="numberOnly($event)" formControlName="cnic" />
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6">
+            <div class="form-group">
+              <label>email</label>
+              <input type="text" placeholder="email" class="form-control" maxlength="40" formControlName="email" [readonly]="disableEmail" />
+              <!--<span class="text-danger" *ngIf="userAvailabilty && socialAvailability">{{userAvailabiltyErrorMessage}}</span>-->
+              <!--<span class="text-danger" *ngIf="userAvailabilty">{{userAvailabiltyErrorMessage}}</span>-->
+              <div *ngIf="f.email?.errors">
+                <div *ngIf="f.email.invalid && (f.email.touched || f.email.dirty)">
+                  <small class="text-danger" *ngIf="f.email.errors.pattern">Invalid  email.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-6 col-lg-6">
+            <div class="form-group">
+              <label>phone</label>
+              <input type="text" placeholder="phone number" class="form-control" maxlength="11" formControlName="mobileNumber" (keypress)="numberOnly($event)" [readonly]="disablePhoneNumber" />
+              <!--<span class="text-danger" *ngIf="userAvailabilty && socialAvailability">{{userAvailabiltyErrorMessage}}</span>-->
+              <!--<span class="text-danger" *ngIf="userAvailabilty ">{{userAvailabiltyErrorMessage}}</span>-->
+              <span class="text-danger" *ngIf="userAvailabilty">{{userAvailabiltyErrorMessage}}</span>
+
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6">
+            <div class="form-group">
+              <label for="gender">gender</label>
+              <select formControlName="gender" class="form-control">
+                <option selected disabled value="0" >Gender</option>
+                <option value="1">Male</option>
+                <option value="2">Female</option>
+                <option value="3">Other</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-6 col-lg-6">
+            <div class="form-group">
+              <label>Date Of Birth</label>
+              <input type="date" class="form-control" formControlName="dateOfBirth" max="{{userDOB}}" />
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6">
+            <div class="form-group">
+              <label>City</label>
+              <select formControlName="cityId" class="form-control">
+                <option *ngFor="let item of CitiesList;" [value]="item.id">{{item.value}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-xl-6 col-lg-6">
+            <div class="form-group">
+              <button type="button" class="btn mp-outine-btn" id="updateBtn" (click)="Update()">Update</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div bsModal #cropModal="bs-modal" class="modal fade custom-model-style" id="myModal" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content px-4 py-4">
+
+      <!-- Modal Header -->
+      <div class="modal-header p-0">
+        <h6 class="modal-title" id="exampleModalLongTitle" style="color: var(--headingClr);">Chnage profile photo</h6>
+        <!--<button type="button" class="close" (click)="hideModal()">&times;</button>-->
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body profilechange p-0 mt-3">
+        <image-cropper [imageChangedEvent]="imageChangedEvent"
+                       [maintainAspectRatio]="true"
+                       format="png"
+                       [cropperStaticWidth]="381"
+                       [cropperStaticHeight]="250"
+                       (imageCropped)="imageCropped($event)"
+                       (imageLoaded)="imageLoaded()"
+                       (cropperReady)="cropperReady()"
+                       (loadImageFailed)="loadImageFailed()"></image-cropper>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer p-0 mt-2">
+        <button type="button" class="btn solid-btn" style="background: var(--greenClr);" (click)="SaveImage()">Save</button>
+        <button type="button" class="btn solid-btn" style="background: var(--redClr);" (click)="hideModal()">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>

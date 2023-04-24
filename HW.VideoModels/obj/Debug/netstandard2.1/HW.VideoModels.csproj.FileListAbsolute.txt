@@ -1,0 +1,9 @@
+D:\GitHub\Hoomwork\HW.VideoModels\bin\Debug\netstandard2.1\HW.VideoModels.deps.json
+D:\GitHub\Hoomwork\HW.VideoModels\bin\Debug\netstandard2.1\HW.VideoModels.dll
+D:\GitHub\Hoomwork\HW.VideoModels\bin\Debug\netstandard2.1\HW.VideoModels.pdb
+D:\GitHub\Hoomwork\HW.VideoModels\obj\Debug\netstandard2.1\HW.VideoModels.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Hoomwork\HW.VideoModels\obj\Debug\netstandard2.1\HW.VideoModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.VideoModels\obj\Debug\netstandard2.1\HW.VideoModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.VideoModels\obj\Debug\netstandard2.1\HW.VideoModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.VideoModels\obj\Debug\netstandard2.1\HW.VideoModels.dll
+D:\GitHub\Hoomwork\HW.VideoModels\obj\Debug\netstandard2.1\HW.VideoModels.pdb

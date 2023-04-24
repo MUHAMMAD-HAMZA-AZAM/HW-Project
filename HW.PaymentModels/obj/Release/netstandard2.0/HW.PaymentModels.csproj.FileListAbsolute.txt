@@ -1,0 +1,10 @@
+D:\GitHub\Hoomwork\HW.PaymentModels\bin\Release\netstandard2.0\HW.PaymentModels.deps.json
+D:\GitHub\Hoomwork\HW.PaymentModels\bin\Release\netstandard2.0\HW.PaymentModels.dll
+D:\GitHub\Hoomwork\HW.PaymentModels\bin\Release\netstandard2.0\HW.PaymentModels.pdb
+D:\GitHub\Hoomwork\HW.PaymentModels\obj\Release\netstandard2.0\HW.PaymentModels.csproj.AssemblyReference.cache
+D:\GitHub\Hoomwork\HW.PaymentModels\obj\Release\netstandard2.0\HW.PaymentModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.PaymentModels\obj\Release\netstandard2.0\HW.PaymentModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.PaymentModels\obj\Release\netstandard2.0\HW.PaymentModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.PaymentModels\obj\Release\netstandard2.0\HW.PaymentModels.dll
+D:\GitHub\Hoomwork\HW.PaymentModels\obj\Release\netstandard2.0\HW.PaymentModels.pdb
+D:\GitHub\Hoomwork\HW.PaymentModels\obj\Release\netstandard2.0\HW.PaymentModels.GeneratedMSBuildEditorConfig.editorconfig

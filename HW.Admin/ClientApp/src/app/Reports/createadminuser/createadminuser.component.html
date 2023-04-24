@@ -1,0 +1,213 @@
+<div class="container-fluid">
+  <!--<h2>Create Admin User</h2>-->
+    <div class="card shadow mb-4" *ngIf="hide==true">
+      <div class="card-header justify-header">
+        <h6 class="m-0 font-weight-bold ">Admin Users List</h6>
+        <ng-container *ngIf="userRole.allowAdd">
+          <button *ngIf="hide==true" class="btn btn-secondary btn-sm" (click)="CreateAdmin()">Create New Admin <i class="fa fa-plus"></i></button>
+        </ng-container>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th width="20%">User Name</th>
+                <th width="5%">Email</th>
+                <th width="2%">Phone</th>
+                <th width="3%">Status</th>
+                <th width="2%">Role</th>
+                <th style="display:none;" width="0%">RoleId</th>
+                <th class="width-4">Date</th>
+                <th *ngIf="userRole.allowEdit" width="1%">Edit</th>
+                <th *ngIf="userRole.allowDelete" title="Delete" width="1%">Del</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let adminUser of AdminUserVM">
+                <td>{{adminUser.userName}}</td>
+                <td>{{adminUser.email}}</td>
+                <td>{{adminUser.phoneNumber}}</td>
+                <td *ngIf="!adminUser.isTestUser">In Active</td>
+                <td *ngIf="adminUser.isTestUser">Active</td>
+                <td>{{adminUser.securityRoleName}}</td>
+                <td style="display:none;">{{adminUser.securityRole}}</td>
+                <td>{{adminUser.createdOn | date: "dd MMM yyy"}}</td>
+                <td *ngIf="userRole.allowEdit">
+                  <i (click)="Edit(adminUser)" class="mr-3 text-info fa fa-pencil-alt"></i>
+                </td>
+                <td *ngIf="userRole.allowDelete">
+                  <label class="switch block-user-switch">
+                    <input type="checkbox" (change)="handleChange($event)" [checked]="adminUser.isTestUser" id="{{adminUser.id}}">
+                    <span class="slider"></span>
+                  </label>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+</div>
+<div *ngIf="hide==false && !showEditForm" class="container createNewAdmin">
+  <div class="card shadow mb-4">
+    <div class="card-header justify-header">
+      <h6 class="m-0 font-weight-bold">Create New Admin</h6>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="appValForm">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="UserName">User Name</label>
+            <input type="text" autocomplete="off" id="userName" formControlName="userName" class="form-control" [ngClass]="{ 'is-invalid':submitted &&  f.userName.errors }" placeholder="User Name" />
+            <span class="text-danger" *ngIf=" submitted && f.userName.errors?.required">{{usernameErrorMessage}}</span>
+
+          </div>
+          <div class="form-group col-md-6">
+            <label for="Email">Email</label>
+            <input type="email" autocomplete="off" placeholder="Email" id="email" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid':submitted &&  f.email.errors }" />
+            <span class="text-danger" *ngIf=" submitted && f.email.errors?.required">{{emailErrorMessage}}</span>
+
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="PhoneNumber">Phone Number</label>
+            <input type="text" autocomplete="off" class="form-control" id="phoneNumber" formControlName="phoneNumber" placeholder="Phone Number" [ngClass]="{ 'is-invalid':submitted &&  f.phoneNumber.errors }" />
+            <span class="text-danger" *ngIf=" submitted && f.phoneNumber.errors?.required ">{{phonenumberErrorMessage}}</span>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="Password">Password</label>
+            <input type="password" autocomplete="off" placeholder="Password" id="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid':submitted &&  f.password.errors}" />
+            <span class="text-danger" *ngIf=" submitted && f.password.errors?.required ">{{passwordErrorMessage}}</span>
+            <span class="text-danger" *ngIf=" submitted && f.password.errors?.minlength">{{passwordMinLenghtErrorMessage}}</span>
+            <span class="text-danger" *ngIf=" submitted && f.password.errors?.maxlength">Sorry, you can't enter more than 20 characters</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-lg-6 col-md-6">
+            <label for="Duration">Choose your Role</label>
+            <select class="form-control" formControlName="securityRole" id="securityRole" [ngClass]="{ 'is-invalid':submitted &&  f.securityRole.errors }">
+              <option value="">Choose your Role</option>
+              <option *ngFor="let Roles of SecurityRole" value="{{Roles.securityRoleId}}">{{Roles.securityRoleName}}  </option>
+            </select>
+            <span class="text-danger" *ngIf=" submitted && f.securityRole.errors?.required">{{securityMessege}}</span>
+          </div>
+        </div>
+        <span class="text-danger" *ngIf="userAvailabilty">{{userAvailabiltyErrorMessage}}</span>
+        <div class="form-group">
+          <input type="button" id="btn-register" (click)="save()" value="Save" class="btn btn-primary btn-sm" style="margin:1px;" />
+          <input type="button" id="btn" (click)="cancel()" value="Back" class="ml-2 btn btn-danger btn-sm" />
+        </div>
+        <!--<span class="text-success" *ngIf="dataSave">Successfully Save</span>-->
+      </form>
+    </div>
+  </div>
+</div>
+<div *ngIf="showEditForm" class="container createNewAdmin">
+  <div class="card shadow mb-4">
+    <div class="card-header justify-header">
+      <h6 class="m-0 font-weight-bold">Edit Admin User</h6>
+      <button class="btn btn-secondary btn-sm" (click)="showModel(changePasswordContent)">Change Password</button>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="appValForm">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="UserName">User Name</label>
+            <input type="text" autocomplete="off" id="userName" formControlName="userName" class="form-control" [ngClass]="{ 'is-invalid':submitted &&  f.userName.errors }" placeholder="User Name" />
+            <span class="text-danger" *ngIf=" submitted && f.userName.errors?.required">{{usernameErrorMessage}}</span>
+
+          </div>
+          <div class="form-group col-md-6">
+            <label for="Email">Email</label>
+            <input type="email" autocomplete="off" placeholder="Email" id="email" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid':submitted &&  f.email.errors }" />
+            <span class="text-danger" *ngIf=" submitted && f.email.errors?.required">{{emailErrorMessage}}</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="PhoneNumber">Phone Number</label>
+            <input type="text" autocomplete="off" class="form-control" id="phoneNumber" formControlName="phoneNumber" placeholder="Phone Number" [ngClass]="{ 'is-invalid':submitted &&  f.phoneNumber.errors }" />
+            <span class="text-danger" *ngIf=" submitted && f.phoneNumber.errors?.required">{{phonenumberErrorMessage}}</span>
+          </div>
+          <div class="form-group col-lg-6 col-md-6">
+            <label for="Duration">Choose your Role</label>
+            <select class="form-control" formControlName="securityRole" id="securityRole" [ngClass]="{ 'is-invalid':submitted &&  f.securityRole.errors }">
+              <option value="">Choose your Role</option>
+              <option *ngFor="let Roles of SecurityRole" value="{{Roles.securityRoleId}}">{{Roles.securityRoleName}}  </option>
+            </select>
+            <span class="text-danger" *ngIf=" submitted && f.securityRole.errors?.required">{{securityMessege}}</span>
+          </div>
+        </div>
+        <!--<span class="text-danger" *ngIf="userAvailabilty">{{userAvailabiltyErrorMessage}}</span>-->
+        <div class="form-group">
+          <input type="button" id="btn-register" (click)="save()" value="Save" class="btn btn-primary btn-sm" style="margin:1px;" />
+          <input type="button" id="btn" (click)="cancel()" value="Back" class="ml-2 btn btn-danger btn-sm" />
+        </div>
+        <!--<span class="text-success" *ngIf="dataSave">Successfully Save</span>-->
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--Change password modal-->
+
+<ng-template #changePasswordContent let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Change Admin User Password</h4>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="changePasswordForm">
+      <div class="row">
+        <div class="col-md-12">
+          <!--<div class="form-group">
+            <label class="fs-12">Current Password</label>
+            <input type="text" class="form-control" formControlName="currentPassword" id="currentPassword" autocomplete="off"/>
+            <div *ngIf="t.currentPassword.errors">
+              <label *ngIf="t.currentPassword.errors.required && (t.currentPassword.invalid && t.currentPassword.touched)" class="text-danger fs-12 font-weight-normal">Input is required</label>
+            </div>
+            <label class="fs-12 text-danger" *ngIf="passwordMismatch !=null && passwordMismatch != '' ">{{passwordMismatch}}</label>
+          </div>-->
+          <div class="form-group">
+            <label class="fs-12">New Password</label>
+            <input type="text" class="form-control" formControlName="newPassword" id="newPassword" autocomplete="off" />
+            <div *ngIf="t.newPassword.errors">
+              <label *ngIf="t.newPassword.errors.required && (t.newPassword.invalid && t.newPassword.touched)" class="text-danger fs-12 font-weight-normal">Input is required</label>
+              <!--<label *ngIf="t.newPassword.errors.pattern && (t.newPassword.invalid && t.newPassword.touched)" class="text-danger fs-12 font-weight-normal">Input is pattent</label>-->
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="fs-12">Confirm New Password</label>
+            <input type="text" class="form-control" formControlName="confirmNewPassword" id="newPassword" autocomplete="off"/>
+          </div>
+          <label class="fs-12 text-danger" *ngIf="!isCompare">New password did not match with confrim password</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-primary" (click)="changePassword()" [disabled]="!changePasswordForm.valid">Save</button>
+        <button type="button" class="btn btn-primary btn-sm" (click)="hideModel()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+
+<!--Modal for delete admin user-->
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Confrim Delete</h4>
+    <!--<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>-->
+  </div>
+  <div class="modal-body">
+    <h6>Are you want to delete?</h6>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-primary" value="true" (click)="confrimDelete();modal.close()">Ok</button>
+    <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('Save click')">Cancel</button>
+  </div>
+</ng-template>
+

@@ -1,0 +1,134 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card shadow mb-4">
+          <div class="card-header bg-primary">
+            <h6 class="mainTitle m-0 font-weight-bold border-0" data-toggle="collapse" href="#collapse6" aria-expanded="true">Filter PaidPayment List</h6>
+          </div>
+          <div id="collapse6" class="contentWrapper fs-12 collapse">
+            <div class="card-body">
+              <form [formGroup]="appValForm">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">User Id</label>
+                      <input type="text" maxlength="20" formControlName="tradesmanId" class="form-control" (keypress)="service.numberOnly($event);" />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Mobile Number</label>
+                      <input type="text" maxlength="20" formControlName="phoneNumber" class="form-control" (keypress)="service.numberOnly($event);" />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <label for="userType"><small class="text-danger" style="font-size:12px">* </small>User Type:</label>
+                    <select class="form-control" formControlName="userType" required (change)="selectChangeHandlerForUser($event)"
+                            style="padding-top:2px;">
+                      <option selected value="Customer">Customer</option>
+                      <option value="Tradesman">Tradesman</option>
+                      <option value="Supplier">Supplier</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row mt-2">
+                  <div class="col-md-4 inline-downlod-btns">
+                    <button type="submit" class="btn btn-sm btn-primary mr-2" (click)="getAuthorizerList()">Search</button>
+                    <button type="reset" class="btn btn-sm btn-primary" (click)="resetForm()">Reset</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">{{userTypes}} Paid Payments List</h6>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th class="width3">SR</th>
+                    <th *ngIf="role == ('Customer') || role == ''" class="width2">Customer Id</th>
+                    <th *ngIf="role == ('Customer') || role == ''" class="width2">Customer Name</th>
+                    <th *ngIf="role == ('Tradesman') || role == ''" class="width2">Tradesman Id</th>
+                    <th *ngIf="role == ('Tradesman') || role == ''" class="width3">Tradesman Name</th>
+                    <th *ngIf="role == ('Supplier') || role == ''" class="width3">Supplier Id</th>
+                    <th *ngIf="role == ('Supplier') || role == ''" class="width3">Supplier Name</th>
+                    <th class="width3">Phone Number</th>
+                    <th class="width3">CNIC</th>
+                    <th class="width3">Amount</th>
+                    <th class="width3">Payment Status</th>
+                    <th *ngIf="role == ('Supplier') || role == ''" class="width3">ID Front Image</th>
+                    <th *ngIf="role == ('Supplier') || role == ''" class="width3">ID Back Image</th>
+                    <th class="width3">Created On</th>
+                    <th class="width3">Modified By</th>
+                    <th class="width3">Modifid On</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of withdrawalRequestList ; let i=index">
+                    <td>{{i+1}}</td>
+                    <td *ngIf="role == ('Customer') || role == ''">{{item?.customerId}}</td>
+                    <td *ngIf="role == ('Customer') || role == ''">{{item?.customerName}}</td>
+                    <td *ngIf="role == ('Tradesman') || role == ''">{{item?.tradesmanId}}</td>
+                    <td *ngIf="role == ('Tradesman') || role == ''">{{item?.tradesmanName}}</td>
+                    <td *ngIf="role == ('Supplier') || role == ''">{{item?.supplierId}}</td>
+                    <td *ngIf="role == ('Supplier') || role == ''">{{item?.supplierName}}</td>
+                    <td>{{item?.phoneNumber}}</td>
+                    <td>{{item?.cnic}}</td>
+                    <td>{{item?.amount}}</td>
+                    <td>{{item?.paymentStatusName}}</td>
+                    <td *ngIf="role == ('Supplier') || role == ''">
+                      <ng-container *ngIf="item?.idfrontImage;else noImage">
+                        <img height="50" width="100" [src]="service.transform(item?.idfrontImage)" />
+                      </ng-container>
+                      <ng-template #noImage>
+                        <img height="50" width="100" src="../../../assets/img/no_thumbnail.jpg" />
+                      </ng-template>
+                    </td>
+                    <td *ngIf="role == ('Supplier') || role == ''">
+                      <ng-container *ngIf="item?.idbackImage;else noImage">
+                        <img height="50" width="100" [src]="service.transform(item?.idbackImage)" />
+                      </ng-container>
+                      <ng-template #noImage>
+                        <img height="50" width="100" src="../../../assets/img/no_thumbnail.jpg" />
+                      </ng-template>
+                    </td>
+                    <td>{{item?.createdOn | date: "dd MMM yyyy" }}</td>
+                    <td>{{item?.modifiedBy }}</td>
+                    <td>{{item?.modifiedOn | date: "dd MMM yyyy"}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #postJobModalConfirm let-d="dismiss">
+  <div class="modal-dialog modal-confirm">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h4 class="modal-title w-100">Are you sure you want to authorize Payment?</h4>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-sm btn-success" (click)="ConfirmJob()">Athorize </button>
+        <button type="button" class="btn btn-sm btn-primary" (click)="hidemodal1()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+

@@ -1,0 +1,467 @@
+<section id="header-content">
+  <div class="container py-2">
+    <div class="row align-items-center">
+      <div class="col-4 col-md-3 site-logo">
+        <a routerLink="">
+          <img src="/assets/img/logomall.png" alt="logo" />
+        </a>
+      </div>
+      <div class="col-md-5 col-lg-6 d-none d-md-block" id="serach">
+        <div class="form-group position-relative" (clickOutside)="onClickedOut($event)" (click)="onClickedIn($event)">
+          <form [formGroup]="filterForm">
+            <input type="text" class="form-control" autocomplete="off" formControlName="productName" placeholder="Search any Product..." />
+            <a><i (click)="filterProduct()" class="fa fa-search"></i></a>
+          </form>
+          <ul *ngIf="searchproductList?.length > 0 && isDropdown" class="searchProduct">
+            <li *ngFor="let product of searchproductList;let i = index;">
+              <a [routerLink]="_httpService.apiRoutes.Product.Name" [queryParams]="{productName:product.title}">{{product.title}}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-8 col-md-4 col-lg-3 top-header-icons d-flex align-items-center justify-content-end">
+        <div class="on_hover_div">
+          <i class="fa fa-bell">
+            <span class="qty-cls">{{unreadNotificationCount}}</span>
+          </i>
+          <div class="notification_dd hover_tdd">
+            <div class="notif_header d-flex align-items-center justify-content-between p-3">
+              <h6 class="m-0"><i class="fa fa-bell me-2"></i>Notification</h6>
+              <small>{{unreadNotificationCount}} Unread Notification(s)</small>
+            </div>
+            <ng-container *ngIf="notificationList.length > 0 ;else elseBlock">
+              <div class="notifiactin_item p-3" *ngFor="let notification of notificationList;let i = index;trackBy:identify"
+                   [style.backgroundColor]="(!notification.isRead && elementIndex != i) ? '#f9ffeb' : (notification.isRead && elementIndex == i) ? '#fff' : ''"
+                   (click)="markNotificationAsRead(notification.notificationId,notification.targetActivity,i)">
+                <div class="d-flex">
+                  <small class="text-capitalize">{{notification.title}}<b class="ps-2">|</b> </small>
+                  <small class="px-2"><i class="fa fa-calendar pe-1"></i>{{notification.createdOn | date:'mediumDate'}}</small>
+                  <small><i class="fa fa-clock-o pe-1"></i>{{notification.createdOn | date:'mediumTime'}}</small>
+                </div>
+                <small class="d-block mt-2">{{notification.content}}</small>
+              </div>
+            </ng-container>
+            <ng-template #elseBlock>
+              <small class="text-danger p-3">You don't have any notification yet.</small>
+            </ng-template>
+          </div>
+        </div>
+        <div class="on_hover_div">
+          <i class="fa fa-shopping-cart">
+            <span class="qty-cls">{{cartItems.length}}</span>
+          </i>
+          <div class="cart_items_dd hover_tdd p-3">
+            <ng-container *ngIf="cartItems.length > 0;else noItem">
+              <div class="d-flex gap-3 mb-3" *ngFor="let item of cartItems">
+                <div class="p_image">
+                  <img class="fit_img" [src]="(_httpService.AWSPATH)+(item.product.filePath)+(item.product.fileName)" />
+                </div>
+                <div class="p_details" style="flex:1">
+                  <div class="d-flex justify-content-between">
+                    <p class="darkGrayClr fw-bold">{{(item.product.name.length>25) ? ((item.product.name) | slice:0:25) + '...' : (item.product.name)}}</p>
+                    <button type="button" class="btn close-circle p-0 m-0" (click)="removeCartItem(item)">
+                      <i class="fa fa-times"
+                         aria-hidden="true"></i>
+                    </button>
+                  </div>
+                  <small class="lightGrayClr d-flex align-items-center me-1 mb-1">Color:<span class="darkGrayClr mx-1" id="variant-box" [ngStyle]="{'background':item.product.hexCode}"></span> {{item.product.varientName}} </small>
+                  <p class="lightGrayClr"><s *ngIf="item.product.discountedPrice > 0">Rs: {{item.product.price}}</s></p>
+                  <div class="d-flex variant_details align-items-center justify-content-between">
+                    <p class="primaryClr fw-bold">Rs:{{((item.product.discountedPrice > 0) ? item.product.discountedPrice : item.product?.price) + ' X ' + item.quantity + ' = '+(item.quantity) * ((item.product.discountedPrice) ? item.product.discountedPrice : item.product.price)}}</p>
+
+                  </div>
+                </div>
+              </div>
+              <div class="mb-4"></div>
+              <hr>
+              <div class="cart_total">
+
+                <div class="d-flex justify-content-between align-items-center">
+                  <h6 class="fw-bold darkGrayClr mb-0">Total</h6>
+                  <h4 class="fw-bold darkGrayClr mb-0">Rs: {{subTotal}}</h4>
+                </div>
+              </div>
+              <hr>
+              <div class="d-flex justify-content-center gap-2 mt-5">
+                <button class="btn primaryBg text-white btn-block" (click)="getRouteName('viewcart',loginStatus)">View Cart</button>
+                <button class="btn secondaryBg text-white btn-block" (click)="getRouteName('checkout',loginStatus)">Checkout</button>
+              </div>
+            </ng-container>
+            <ng-template #noItem>
+              <small class="text-danger">No item on cart</small>
+            </ng-template>
+          </div>
+
+        </div>
+        <div class="dropdown">
+          <ng-container *ngIf="!loginUserName || loginUserName == '' || !loggedUserDetails.phoneNumberConfirmed ;else userdetail">
+            <a class="dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+               aria-expanded="false">
+              My Account
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item" [routerLink]="[_httpService.apiRoutes.Login.login]">Login</a></li>
+              <li><a class="dropdown-item" [routerLink]="[_httpService.apiRoutes.Registration.Signup]">register</a></li>
+            </ul>
+          </ng-container>
+          <ng-template #userdetail>
+            <a class="dropdown-toggle" id="dropdownMenuButton2" data-bs-toggle="dropdown"
+               aria-expanded="false">
+              {{loginUserName}}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton2">
+              <li><a class="dropdown-item" [routerLink]="[_httpService.apiRoutes.User.DashBoard]">Dashboard</a></li>
+              <li><a class="dropdown-item" [routerLink]="[_httpService.apiRoutes.User.Orders]">My Orders</a></li>
+              <li><a class="dropdown-item" [routerLink]="[_httpService.apiRoutes.User.WishList]">My Wishlist</a></li>
+              <li><a class="dropdown-item" (click)="Logout()">Log Out</a></li>
+            </ul>
+
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="bg-main-nav">
+    <div class="container">
+      <div class="d-flex justify-content-between justify-content-md-start align-items-center" id="cat-nav-wrapper">
+        <div (mouseleave)="handleMouseLeave()" class="d-none px-0 px-md-3 main-nav-heading position-relative d-sm-flex align-items-center justify-content-md-center">
+          <h6 class="m-0 fw-bold">
+            <i class="fa-lg fa fa-arrow-circle-down me-2"></i>
+            Shop By Category
+          </h6>
+          <div class="categories_wrapper">
+            <div class="d-flex">
+              <ul class="main_categories">
+                <li *ngFor="let item of categoryList">
+                  <a (click)="getSubCategoryList(item?.id)" href="void:javascript(0)" class="d-flex align-items-center justify-content-between" >{{item?.text}} <i *ngIf="item?.hasSubItem" class="me-2 fs-18 fa fa-angle-right"></i> </a>
+                </li>
+              </ul>
+              <ul class="sub_categories" *ngIf="isSubCategory">
+                <li *ngFor="let item of subCategoryList">
+                  <a (click)="getProductCategoryGroupList(item?.productSubCategoryId)" href="void:javascript(0)" class="d-flex align-items-center justify-content-between" >{{item?.subCategoryName}} <i *ngIf="item?.hasSubItems" class="me-2 fs-18 fa fa-angle-right"></i> </a>
+                </li>
+              </ul>
+              <ul class="category_group" *ngIf="isSubCategoryGroup">
+                <li *ngFor="let item of subCategoryGroupList">
+                  <a (click)="navigateToCategoryGroupProducts(item?.id)" href="void:javascript(0)">{{item?.text}}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!--Mobile Navigation Start-->
+        <div class="mobile_cat_navigation d-block d-sm-none">
+          <div class="d-flex align-items-center" style="height:56px">
+            <i class="text-white fa fa-bars"></i>
+          </div>
+          <div class="mcn d-none">
+            <ul>
+              <li *ngFor="let item of categoryList">
+                <a href="javascript:void(0);" (click)="getSubCategoryList(item?.id,true)" class="d-flex align-items-center justify-content-between">{{item?.text}} <i *ngIf="item?.hasSubItem" class="fs-18 fa fa-angle-down"></i> </a>
+                <ul class="child-menu" *ngIf="item?.hasSubItem">
+                  <li *ngFor="let subItem of subCategoryList">
+                    <a href="javascript:void(0);" class="d-flex align-items-center justify-content-between" (click)="getProductCategoryGroupList(subItem?.productSubCategoryId,true)">{{subItem?.subCategoryName}} <i *ngIf="subItem?.hasSubItems" class="fs-18 fa fa-angle-down"></i> </a>
+                    <ul class="sub-child" *ngIf="subItem?.hasSubItems">
+                      <li *ngFor="let groupItem of subCategoryGroupList">
+                        <a (click)="navigateToCategoryGroupProducts(groupItem?.id)" href="void:javascript(0)">{{groupItem?.text}}</a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div><!--Mobile Navigation Start-->
+
+        <div class="tab-search-icon d-flex justify-content-end d-none">
+          <i class="text-white fa fa-search fa-lg"></i>
+        </div>
+        <div class="d-none d-md-flex ms-3 ms-lg-5 flex-grow-1 flex-shrink-1 justify-content-between">
+          <nav class="top_catgories">
+            <ul class="d-flex">
+              <li *ngFor="let item of topFiveProductList">
+                <a routerLinkActive="active" [routerLink]="[_httpService.apiRoutes.Product.Category]" [queryParams]="{lvl:'one',categoryId:item?.productCategoryId}">{{item.name}}</a>
+              </li>
+            </ul>
+          </nav>
+          <div class="d-none d-lg-block">
+            <a href="https://api.whatsapp.com/send?phone=923099994531" target="_blank" class="text-decoration-none" style="color:var(--text-white)">
+              <i class="fa fa-whatsapp me-1"></i>Customer Care Center
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Small Devices Search Bar Start -->
+  <div class="sm_top_search p-3 d-none">
+    <div class="d-flex justify-content-end cursor-pointer">
+      <i class="darkGrayClr fa fa-times fa-2x"></i>
+    </div>
+    <div class="form-group position-relative mt-4">
+      <input type="text" class="form-control" placeholder="Search Product" />
+      <i class="fa fa-search darkGrayClr"></i>
+    </div>
+  </div><!-- Small Devices Search Bar End -->
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- header start -->
+<header class="header-style-5 d-none">
+  <!--<div class="mobile-fix-option"></div>-->
+  <div class="top-header top-header-theme">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-9 col-md-9">
+          <div class="header-contact">
+            <ul class="d-flex flex-column flex-sm-row">
+              <!--<li class="d-none d-sm-block d-lg-inline">Welcome to Our store</li>-->
+              <li>
+                <!--<i class="fa fa-phone" aria-hidden="true"></i>Call Us: +923099994531-->
+                <a href="https://api.whatsapp.com/send?phone=923099994531" target="_blank" class="btn rounded-3"><i class="fa fa-whatsapp mr-1" aria-hidden="true"></i>Customer Care Center</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-3 col-md-3 d-flex justify-content-end">
+          <ul class="header-dropdown">
+            <!--<li class="mobile-wishlist">
+              <a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a>
+            </li>-->
+            <ng-container *ngIf="!loginUserName || loginUserName == '' || !loggedUserDetails.phoneNumberConfirmed ;else userdetail">
+              <li class="onhover-dropdown mobile-account">
+                <!--<i class="fa fa-user" aria-hidden="true"></i>-->
+                My Account
+                <ul class="onhover-show-div">
+                  <li><a [routerLink]="[_httpService.apiRoutes.Login.login]">Login</a></li>
+                  <li><a [routerLink]="[_httpService.apiRoutes.Registration.Signup]">register</a></li>
+                </ul>
+              </li>
+            </ng-container>
+            <ng-template #userdetail>
+              <li class="onhover-dropdown dropdown-toggle text-capitalize">
+                <!--<i class="fa fa-user" aria-hidden="true"></i>-->
+                {{loginUserName}}
+                <ul class="onhover-show-div">
+                  <li><a [routerLink]="[_httpService.apiRoutes.User.DashBoard]">Dashboard</a></li>
+                  <li><a [routerLink]="[_httpService.apiRoutes.User.Orders]">My Orders</a></li>
+                  <li><a [routerLink]="[_httpService.apiRoutes.User.WishList]">My Wishlist</a></li>
+                  <li class="cursor-pointer"><a (click)="Logout()">Log Out</a></li>
+                </ul>
+              </li>
+            </ng-template>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="main-menu my-3 position-relative">
+          <div class="menu-left">
+            <div class="brand-logo">
+              <a routerLink="">
+                <img src="/assets/images/hw_logo.png" class="d-none d-md-block" alt="">
+                <img height="60" width="60" src="/assets/images/logo.png" class="img-fluid d-md-none" alt="">
+              </a>
+            </div>
+          </div>
+          <div class="position-relative">
+            <form [formGroup]="filterForm" class="form_search">
+              <input id="query search-autocomplete" autocomplete="off" type="search" formControlName="productName" placeholder="Search any Product..." class="nav-search nav-search-field p-2" (keypress)="_httpService.charOnly($event)">
+
+              <button type="button" (click)="filterProduct()" name="nav-submit-button" class="btn-search">
+                <i class="ti-search"></i>
+              </button>
+            </form>
+            <ul *ngIf="searchproductList?.length > 0" class="searchProduct">
+              <li *ngFor="let product of searchproductList;let i = index;">
+                <a [routerLink]="_httpService.apiRoutes.Product.Name" [queryParams]="{productName:product.title}">{{product.title}}</a>
+              </li>
+            </ul>
+          </div>
+
+
+          <div class="menu-right pull-right">
+            <div>
+              <div class="icon-nav">
+                <ul class="top-header-icons">
+                  <li class="onhover-div mobile-cart notification-icon">
+                    <div>
+                      <i class="fa fa-bell-o"></i>
+                    </div>
+                    <span class="cart_qty_cls">{{unreadNotificationCount}}</span>
+                    <ul class="show-div shopping-cart" [style.height]="notificationList.length <= 0 ? '120px' : ''">
+                      <li>
+                        <div class="media d-flex align-items-center justify-content-between">
+                          <b>Notifications</b>
+                          <span class="badge badge-pill green-bg  pull-right">{{unreadNotificationCount}} Unread Notification(s)</span>
+                        </div>
+                      </li>
+                      <ng-container *ngIf="notificationList.length > 0 ;else elseBlock">
+                        <li *ngFor="let notification of notificationList;let i = index;trackBy:identify"
+                            [style.backgroundColor]="(!notification.isRead && elementIndex != i) ? '#f9ffeb' : (notification.isRead && elementIndex == i) ? '#fff' : ''"
+                            (click)="markNotificationAsRead(notification.notificationId,notification.targetActivity,i)">
+                          <div class="media">
+                            <div class="media-body">
+                              <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h6 class="mb-0 green-clr">{{notification.title}}</h6>
+                                <small class="mb-0">{{notification.createdOn | date:'medium'}}</small>
+                              </div>
+                              <p class="mb-0">{{notification.content}}</p>
+                            </div>
+                          </div>
+                        </li>
+                      </ng-container>
+                      <ng-template #elseBlock>
+                        <li class="text-danger p-3">You don't have any notification yet.</li>
+                      </ng-template>
+                    </ul>
+                  </li>
+                  <li class="onhover-div mobile-cart">
+                    <div>
+                      <img src="/assets/images/icon/cart.png" alt=""> <i class="ti-shopping-cart"></i>
+                    </div>
+                    <span class="cart_qty_cls">{{cartItems.length}}</span>
+                    <ul class="show-div shopping-cart">
+                      <li *ngFor="let item of cartItems">
+                        <div class="media">
+                          <a href="#">
+                            <img alt="" class="me-3"
+                                 src="../assets/images/fashion/product/1.jpg">
+                          </a>
+                          <div class="media-body">
+                            <a class="d-flex align-items-center">
+                              <span id="variant-box" [ngStyle]="{'background':item.product.hexCode}"></span>
+                              <h4 class="mb-0 ms-1">{{(item.product.name.length>13) ? ((item.product.name) | slice:0:13) + '...' : (item.product.name)}}</h4>
+                            </a>
+                            <h4><span>{{item.quantity + ' X RS ' + ((item.product.discountedPrice) ? item.product.discountedPrice : item.product.price) + ' = '+(item.quantity) * ((item.product.discountedPrice) ? item.product.discountedPrice : item.product.price)}}</span></h4>
+                          </div>
+                        </div>
+                        <button type="button" class="btn close-circle" (click)="removeCartItem(item)">
+                          <i class="fa fa-times"
+                             aria-hidden="true"></i>
+                        </button>
+                      </li>
+                      <ng-container *ngIf="cartItems.length > 0;else noItem">
+                        <li>
+                          <div class="total">
+                            <h5>subtotal : <span>RS: {{subTotal}}</span></h5>
+                          </div>
+                        </li>
+                        <li>
+                          <div class="buttons">
+                            <a href="javascript:void(0);" (click)="getRouteName('viewcart',loginStatus)" class="view-cart btn">view cart</a>
+                            <a href="javascript:void(0);" (click)="getRouteName('checkout',loginStatus)" class="checkout btn">checkout</a>
+                          </div>
+                        </li>
+                      </ng-container>
+                      <ng-template #noItem>
+                        <li class="text-danger">No item on cart</li>
+                      </ng-template>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-part">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg p-0 navbar-light">
+        <div class="category-menu position-relative" (clickOutside)="onClickedOutside($event)">
+          <div (click)="handleCategoryMenu($event)" id="toggle-sidebar" class="toggle-sidebar p-0">
+            <i class="fa fa-bars sidebar-bar"></i>
+            <h5 class="mb-0">shop by category</h5>
+          </div>
+          <div class="product-category-menu genric-category-dropdown d-flex justify-content-between" [ngClass]="{'dd-width-500':isSubCategory , 'dd-width-750':isSubCategoryGroup}">
+            <ul id="custom-category-dropdown">
+              <li (click)="getSubCategoryList(item?.id)" *ngFor="let item of categoryList">
+                <a href="void:javascript(0)">{{item?.text}}</a>
+              </li>
+            </ul>
+            <ul id="custom-category-dropdown" *ngIf="isSubCategory">
+              <li (click)="getProductCategoryGroupList(item?.productSubCategoryId)" *ngFor="let item of subCategoryList">
+                <a href="void:javascript(0)">{{item?.subCategoryName}}</a>
+              </li>
+            </ul>
+            <ul id="custom-category-dropdown" *ngIf="isSubCategoryGroup">
+              <li *ngFor="let item of subCategoryGroupList" (click)="navigateToCategoryGroupProducts(item?.id)">
+                <a href="void:javascript(0)">{{item?.text}}</a>
+              </li>
+            </ul>
+
+            <!--<div class="genric-category-dropdown sub-product-category">
+              <ul id="custom-category-dropdown">
+                <li *ngFor="let item of categoryList"><a href="#">{{item?.text}}</a></li>
+              </ul>
+            </div>
+            <div class="genric-category-dropdown sub-product-category">
+              <ul id="custom-category-dropdown">
+                <li *ngFor="let item of categoryList"><a href="#">{{item?.text}}</a></li>
+              </ul>
+            </div>-->
+          </div>
+        </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item me-4" *ngFor="let item of topFiveProductList">
+              <a class="nav-link" routerLinkActive="active" [routerLink]="[_httpService.apiRoutes.Product.Category]" [queryParams]="{lvl:'one',categoryId:item?.productCategoryId}">{{item.name}}</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="container d-none">
+      <div class="row">
+        <div class="col-xl-3">
+          <div id="toggle-sidebar" class="toggle-sidebar">
+            <i class="fa fa-bars sidebar-bar"></i>
+            <h5 class="mb-0">shop by category</h5>
+          </div>
+        </div>
+        <div class="col-xl-9">
+          <div class="main-nav-center">
+            <nav class="text-start">
+              <ul id="main-menu" class="sm pixelstrap sm-horizontal">
+                <li *ngFor="let item of topFiveProductList"><a [routerLink]="[_httpService.apiRoutes.Product.Category]" [queryParams]="{lvl:'one',categoryId:item?.productCategoryId}">{{item.name}}</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- header end -->
+<!----------------------------  Check User Login Status ------------------------->
+
+<ng-template #loginStatus let-modal>
+  <div class="modal-header">
+    <h3 class="modal-title fw-bold" style="color: var(--headingClr);">Welcome!</h3>
+  </div>
+  <div class="modal-body">
+    <h4>Please login to continue.&hellip;</h4>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn  btn-success" (click)="loginAccount()">Login</button>
+    <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>

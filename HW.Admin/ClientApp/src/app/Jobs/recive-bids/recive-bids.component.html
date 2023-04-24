@@ -1,0 +1,17 @@
+<div class="col-lg-12" *ngFor="let item of reciveBids">
+  <div class="card form-group">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-10 col-md-9">
+          <h5 class="card-title"><small>Bid By:</small>{{item.name}}</h5>
+          <p class="card-text"><i class="fas fa-map-marker-alt mr-2"></i>{{item.address}}</p>
+          <a routerLink="/Jobmodule/app-recive-bids-detail" class="btn-link" (click)="GetJobQoutationId(item.jobQuotationId)">Read More<i class="fas fa-angle-double-right my-auto ml-1"></i></a>
+        </div>
+        <div class="col-lg-2 col-md-3">
+          <p class="text-right">{{item.createdOn | date:'dd MMM yyyy'}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

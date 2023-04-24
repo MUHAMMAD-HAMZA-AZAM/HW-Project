@@ -1,0 +1,146 @@
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">{{businessProfile.firstName + ' '+ businessProfile.lastName}}</h1>
+    <div class="float-right">
+      <button class="btn mr-3" (click)="PreviousRecord()">Previous</button>
+      <button class="btn" (click)="NextRecord()">Next</button>
+    </div>
+  </div>
+  
+  <!-- Content Row -->
+  <!-- DataTales Example -->
+  <div class="card shadow mb-4">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-2">
+          <img *ngIf="userProfile.profileImage != null" src="{{businessProfile.profileImage}}" alt="..." class="img-thumbnail">
+          <img *ngIf="userProfile.profileImage == null" src="../../../assets/img/user-placeholder.png" alt="..." class="img-thumbnail">
+        </div>
+        <div class="col-md-10">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row form-group">
+                <div class="col-md-3 text-right">First Name:</div>
+                <div class="col-md-9">{{businessProfile.firstName}}</div>
+              </div>
+            </div>
+            <div class="col-md-6 form-group">
+              <div class="row">
+                <div class="col-md-3 text-right">Last Name:</div>
+                <div class="col-md-9">{{businessProfile.lastName}}</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row form-group">
+                <div class="col-md-3 text-right">CNIC:</div>
+                <div class="col-md-9">{{businessProfile.cnic}}</div>
+              </div>
+            </div>
+            <div class="col-md-6 form-group">
+              <div class="row">
+                <div class="col-md-3 text-right">Email:</div>
+                <div class="col-md-9">{{businessProfile.email}}</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row form-group">
+                <div class="col-md-3 text-right">Date of Birth:</div>
+                <div class="col-md-9">{{businessProfile.dOB}}</div>
+              </div>
+            </div>
+            <div class="col-md-6 form-group">
+              <div class="row">
+                <div class="col-md-3 text-right">Mobile:</div>
+                <div class="col-md-9">{{businessProfile.mobile}}</div>
+              </div>
+            </div>
+            <div class="col-md-6 form-group">
+              <div class="row">
+                <div class="col-md-3 text-right">Registered On:</div>
+                <div class="col-md-9">{{businessProfile.createdOn | date:'dd MMM yyyy hh:mm:a'}}</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row form-group">
+                <div class="col-md-3 text-right">Gender:</div>
+                <div class="col-md-9" *ngIf="businessProfile.gender == 1">Male</div>
+                <div class="col-md-9" *ngIf="businessProfile.gender == 2">Female</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div [hidden]="role=='Customer'||role=='Admin'">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">{{'Bussiness Profile'}}</h1>
+    </div>
+  </div>
+
+  <!--second DataTable-->
+  <div class="card shadow mb-4" [hidden]="role=='Customer'||role=='Admin'">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-2">&nbsp;</div>
+        <div class="col-md-10">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row form-group">
+                <div class="col-md-3 text-right">Trades Name:</div>
+                <div class="col-md-9">{{businessProfile.tradeName}}</div>
+              </div>
+            </div>
+            <div class="col-md-6 form-group" [hidden]="subRole=='Tradesman'">
+              <div class="row">
+                <div class="col-md-3 text-right">Registration No:</div>
+                <div class="col-md-9">{{businessProfile.registrationNo}}</div>
+              </div>
+            </div>
+            <div class="col-md-6" *ngIf="role=='Supplier'">
+              <div class="row form-group">
+                <div class="col-md-3 text-right">Primary Trade:</div>
+                <div class="col-md-9">{{businessProfile.primaryTrade}}</div>
+              </div>
+            </div>
+            <div class="col-md-6 form-group" [hidden]="subRole=='Organization'">
+              <div class="row">
+                <div *ngIf="role=='Supplier'" class="col-md-3 text-right">Delivery radius:</div>
+                <div *ngIf="role=='Tradesman'" class="col-md-3 text-right">Travelling Distance:</div>
+                <div class="col-md-9">{{businessProfile.travellingDistance + ' KM '}}</div>
+              </div>
+            </div>
+              <div class="col-md-6" [hidden]="subRole=='Tradesman'">
+                <div class="row form-group">
+                  <div *ngIf="subRole=='Organization'" class="col-md-3 text-right">Skill:</div>
+                  <div *ngIf="role=='Supplier'" class="col-md-3 text-right">Products:</div>
+                  <div class="col-md-9">{{businessProfile.skills}}</div>
+                </div>
+              </div>
+              <div class="col-md-6 form-group">
+                <div class="row">
+                  <div class="col-md-3 text-right">City:</div>
+                  <div class="col-md-9">{{businessProfile.city}}</div>
+                </div>
+              </div>
+              <div class="col-md-6 form-group" [hidden]="role=='Supplier'">
+                <div class="row">
+                  <div class="col-md-3 text-right">Town:</div>
+                  <div class="col-md-9">{{businessProfile.town}}</div>
+                </div>
+              </div>
+
+              <div class="col-md-6 form-group">
+                <div class="row">
+                  <div class="col-md-3 text-right">Business Address:</div>
+                  <div class="col-md-9">{{businessProfile.businessAddress}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,108 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card shadow mb-4">
+          <div class="card-header bg-primary">
+            <h6 class="mainTitle m-0 font-weight-bold border-0" data-toggle="collapse" href="#collapse6" aria-expanded="true">Fiscal Period</h6>
+          </div>
+          <div id="collapse6" class="contentWrapper fs-12 show">
+            <div class="card-body">
+              <form [formGroup]="appValForm">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Fiscal Year:</label>
+                      <input type="text" formControlName="fiscalYear" class="form-control" disabled />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Period ID:</label>
+                      <input type="text"  formControlName="periodId" class="form-control" disabled />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Period Name:</label>
+                      <input type="text" maxlength="30" formControlName="periodName" class="form-control" />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Status:</label>
+                      <select class="form-control" formControlName="status">
+                        <option [value]="1">Open</option>
+                        <option [value]="2">Close</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Start Date:</label>
+                      <input type="date" formControlName="startDate"  class="form-control" disabled/>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">End Date:</label>
+                      <input type="date" formControlName="endDate"  class="form-control" disabled/>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-4 inline-downlod-btns">
+                    <button type="submit" class="btn btn-sm btn-primary mr-2" [disabled]="!appValForm.valid || disableBtn" (click)="Save()">Create</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card shadow mb-4">
+        <div class="card-header justify-header">
+          <h6 class="m-0 font-weight-bold">Fiscal Period List</h6>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th width="3%" title="Fiscal Year">Fiscal Year</th>
+                  <th width="3%" title="Period ID">Period ID</th>
+                  <th width="3%" title="Period Name">Period Name</th>
+                  <th width="3%" title="Start Date">Start Date</th>
+                  <th width="3%" title="End Date">End Date</th>
+                  <th width="3%" title="Status">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of records">
+                  <td>{{item.fiscalYear}}</td>
+                  <td>{{item.periodId}}</td>
+                  <td>{{item.periodName}}</td>
+                  <td>{{item.startDate | date: "dd MMM yyy "}}</td>
+                  <td>{{item.endDate | date: "dd MMM yyy "}}</td>
+                  <td>{{(item.status == 1)?'Open':'Close'}}</td>
+                </tr>
+              </tbody>
+            </table>
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

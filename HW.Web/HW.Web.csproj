@@ -1,0 +1,205 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <IsPackable>false</IsPackable>
+    <SpaRoot>ClientApp\</SpaRoot>
+    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
+
+    <!-- Set this to true if you enable server-side prerendering -->
+    <BuildServerSideRenderer>false</BuildServerSideRenderer>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Content Remove="$(SpaRoot)**" />
+    <None Remove="$(SpaRoot)**" />
+    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\src\app\models\commonModels\commonModels.ts" />
+    <None Remove="ClientApp\src\app\models\commonModels\keyValue.ts" />
+    <None Remove="ClientApp\src\app\models\supplierModels\supplierModels.ts" />
+    <None Remove="ClientApp\src\app\models\tradesmanModels\tradesmanModels.ts" />
+    <None Remove="ClientApp\src\app\models\userModels\userModels.ts" />
+    <None Remove="ClientApp\src\app\shared\ApiRoutes\ApiRoutes.ts" />
+    <None Remove="ClientApp\src\app\shared\ApiRoutes\ApiUrls.ts" />
+    <None Remove="ClientApp\src\app\shared\Enums\enums.ts" />
+    <None Remove="ClientApp\src\app\supplier\supplier.module.ts" />
+    <None Remove="ClientApp\src\assets\mp4\Tradesman International Interview.mp4" />
+    <None Remove="ClientApp\src\assets\webfonts\fa-brands-400.eot" />
+    <None Remove="ClientApp\src\assets\webfonts\fa-brands-400.svg" />
+    <None Remove="ClientApp\src\assets\webfonts\fa-brands-400.ttf" />
+    <None Remove="ClientApp\src\assets\webfonts\fa-brands-400.woff" />
+    <None Remove="ClientApp\src\assets\webfonts\fa-brands-400.woff2" />
+    <None Remove="ClientApp\src\assets\webfonts\fa-regular-400.eot" />
+    <None Remove="ClientApp\src\assets\webfonts\fa-regular-400.svg" />
+    <None Remove="ClientApp\src\assets\webfonts\fa-regular-400.ttf" />
+    <None Remove="ClientApp\src\assets\webfonts\fa-regular-400.woff" />
+    <None Remove="ClientApp\src\assets\webfonts\fa-regular-400.woff2" />
+    <None Remove="ClientApp\src\assets\webfonts\fa-solid-900.eot" />
+    <None Remove="ClientApp\src\assets\webfonts\fa-solid-900.svg" />
+    <None Remove="ClientApp\src\assets\webfonts\fa-solid-900.ttf" />
+    <None Remove="ClientApp\src\assets\webfonts\fa-solid-900.woff" />
+    <None Remove="ClientApp\src\assets\webfonts\fa-solid-900.woff2" />
+    <None Remove="ClientApp\src\assets\webfonts\opensans-bold.woff" />
+    <None Remove="ClientApp\src\assets\webfonts\opensans-bold.woff2" />
+    <None Remove="ClientApp\src\assets\webfonts\opensans-light.woff" />
+    <None Remove="ClientApp\src\assets\webfonts\opensans-light.woff2" />
+    <None Remove="ClientApp\src\assets\webfonts\opensans-regular.woff" />
+    <None Remove="ClientApp\src\assets\webfonts\opensans-regular.woff2" />
+    <None Remove="ClientApp\src\assets\webfonts\opensans-semibold.woff" />
+    <None Remove="ClientApp\src\assets\webfonts\opensans-semibold.woff2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ClientApp\src\assets\mp4\Tradesman International Interview.mp4">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\assets\webfonts\fa-brands-400.eot">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\assets\webfonts\fa-brands-400.svg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\assets\webfonts\fa-brands-400.ttf">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\assets\webfonts\fa-brands-400.woff">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\assets\webfonts\fa-brands-400.woff2">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\assets\webfonts\fa-regular-400.eot">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\assets\webfonts\fa-regular-400.svg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\assets\webfonts\fa-regular-400.ttf">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\assets\webfonts\fa-regular-400.woff">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\assets\webfonts\fa-regular-400.woff2">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\assets\webfonts\fa-solid-900.eot">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\assets\webfonts\fa-solid-900.svg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\assets\webfonts\fa-solid-900.ttf">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\assets\webfonts\fa-solid-900.woff">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\assets\webfonts\fa-solid-900.woff2">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\assets\webfonts\opensans-bold.woff">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\assets\webfonts\opensans-bold.woff2">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\assets\webfonts\opensans-light.woff">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\assets\webfonts\opensans-light.woff2">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\assets\webfonts\opensans-regular.woff">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\assets\webfonts\opensans-regular.woff2">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\assets\webfonts\opensans-semibold.woff">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="ClientApp\src\assets\webfonts\opensans-semibold.woff2">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\src\assets\js\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\models\commonModels\keyValue.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\commonModels\commonModels.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\supplierModels\supplierModels.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\tradesmanModels\tradesmanModels.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\userModels\userModels.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\ApiRoutes\ApiUrls.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\ApiRoutes\ApiRoutes.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\Enums\enums.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\supplier\supplier.module.ts" />
+  </ItemGroup>
+
+  <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
+    <!-- Ensure Node.js is installed -->
+    <Exec Command="node --version" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+    <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+  </Target>
+
+  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+    <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build -- --prod" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr -- --prod" Condition=" '$(BuildServerSideRenderer)' == 'true' " />
+
+    <!-- Include the newly-built files in the publish output -->
+    <ItemGroup>
+      <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**" />
+      <DistFiles Include="$(SpaRoot)node_modules\**" Condition="'$(BuildServerSideRenderer)' == 'true'" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>%(DistFiles.Identity)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+
+</Project>

@@ -1,0 +1,148 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row" *ngIf="userRole.allowAdd">
+      <div class="col-md-6">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Add a Form Details</h6>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="toolTipForm">
+              <input type="hidden" formControlName="formDetailId" />
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Form Name</label>
+                    <select class="form-control" formControlName="formId">
+                      <option [ngValue]="null" disabled>---Select a Form---</option>
+                      <option *ngFor="let item of activeToolTipFormsList" [value]="item.formId">{{item.name}}</option>
+                    </select>
+                    <div *ngIf="f.formId?.errors">
+                      <div *ngIf="f.formId.invalid && (f.formId.touched || f.formId.dirty )">
+                        <small class="text-danger" *ngIf="f.formId.errors?.required">Input is required</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" maxlength="50" formControlName="name" class="form-control" />
+                    <div *ngIf="f.name?.errors">
+                      <div *ngIf="f.name.invalid && (f.name.touched || f.name.dirty )">
+                        <small class="text-danger" *ngIf="f.name.errors?.required">Input is required</small>
+                        <small class="text-danger" *ngIf="f.name.errors?.minlength">Input required minimum 5 characters</small>
+                        <small class="text-danger" *ngIf="f.name.errors?.maxLength">Input allows maximum 50 characters</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Description</label>
+                    <textarea rows="4" maxlength="1000" formControlName="description" class="form-control"></textarea>
+                    <div *ngIf="f.description?.errors">
+                      <div *ngIf="f.description.invalid && (f.description.touched || f.description.dirty )">
+                        <small class="text-danger" *ngIf="f.description.errors?.required">Input is required</small>
+                        <small class="text-danger" *ngIf="f.description.errors?.minlength">Input required minimum 5 characters</small>
+                        <small class="text-danger" *ngIf="f.description.errors?.maxLength">Input allows maximum 1000 characters</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button class="btn btn-sm btn-primary" [disabled]="!toolTipForm.valid" (click)="handleSubmit()">Save</button>
+              <button class="btn btn-sm btn-primary ml-2" (click)="resetForm()">Reset</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Tooltip Form Details List</h6>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th width="5%">Label Name</th>
+                    <th width="15%">Description</th>
+                    <th width="5%">Form Name</th>
+                    <th width="2%">Active</th>
+                    <th width="4%" title="Created Date">CD</th>
+                    <th width="4%" title="Created By">CB</th>
+                    <th width="4%" title="Modified Date">MD</th>
+                    <th width="4%" title="Modified By">MB</th>
+                    <th width="1%">Details</th>
+                    <th *ngIf="userRole.allowAdd" width="1%">Edit</th>
+                    <th *ngIf="userRole.allowDelete" title="Delete" width="1%">Del</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of toolTipFormsDetailList">
+                    <td>{{item?.name}}</td>
+                    <td>{{item?.description}}</td>
+                    <td>{{item?.formName}}</td>
+                    <td [ngClass]="(item.isActive) ? 'text-primary' : 'text-danger' ">{{item.isActive ? 'Active' : 'InActive'}}</td>
+                    <td>{{item?.createdOn | date: "dd MMM yyy"}}</td>
+                    <td>{{item?.createdBy }}</td>
+                    <td>{{item?.modifiedOn | date: "dd MMM yyy"}}</td>
+                    <td>{{item?.modifiedBy}}</td>
+                    <td><i class="text-info fa fa-eye" (click)="formDetails(item.formId,detailsModel);"></i></td>
+                    <td *ngIf="userRole.allowAdd"><i class="text-info fa fa-pencil-alt" (click)="update(item);"></i></td>
+                    <td *ngIf="userRole.allowDelete"><i class="text-danger fa fa-trash-alt" (click)="delete(item?.formDetailId)"></i></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<ng-template #detailsModel let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Form Tooltip Details</h5>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Tooltip Form Details List</h6>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th width="5%">Label Name</th>
+                    <th width="5%">Form Name</th>
+                    <th width="25%">Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of toolTipFormSingleDetail">
+                    <td>{{item?.name}}</td>
+                    <td>{{item?.formName}}</td>
+                    <td>{{item?.description}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('cancel click')">Cancel</button>
+  </div>
+</ng-template>

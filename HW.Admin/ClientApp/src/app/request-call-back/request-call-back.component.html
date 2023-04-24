@@ -1,0 +1,59 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Request CallBack List</h6>
+            <!--<button class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New Authorizer</button>-->
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th class="width3">Sr#</th>
+                    <th class="width3">User Name</th>
+                    <th class="width2">Mobile Number</th>
+                    <!--<th class="width3">Created By</th>-->
+                    <th class="width3">Created On</th>
+                    <!--<th class="width3">Modified By</th>
+                    <th class="width3">Modifid On</th>-->
+                    <th class="width2">Status</th>
+                    <th *ngIf="userRole.allowDelete" class="width1">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of requestCallBackList; let i= index">
+                    <td>{{i+1}}</td>
+                    <td>{{item?.name}}</td>
+                    <td>{{item?.phoneNumber}}</td>
+                    <!--<td>{{item?.createdBy}}</td>-->
+                    <td>{{item?.createdOn | date}}</td>
+                    <!--<td>{{item?.modifiedBy}}</td>
+                    <td>{{item?.modifiedOn | date}}</td>-->
+                    <td [ngClass]="(!item?.isActive) ? 'text-danger' : 'text-success'">{{item?.isActive ? 'Active' : 'InActive'}}</td>
+                    <td *ngIf="userRole.allowDelete">
+                      <i class="ml-2 fas fa-trash" (click)="showDeleteModal(item.requestId,deleteRequestCallerModal)"></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #deleteRequestCallerModal let-modal>
+  <div class="modal-content">
+    <div class="modal-body">
+      <h5 style="color:#636363; font-size:24px;">Do you want to Delete Request Caller ?</h5>
+    </div>
+    <div class="modal-footer justify-content-center">
+      <button type="button" class="btn btn-sm btn-primary" (click)="deleteRequestCaller()">DELETE</button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('cancel click')">CANCEL</button>
+    </div>
+  </div>
+</ng-template>

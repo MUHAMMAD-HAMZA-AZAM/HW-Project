@@ -1,0 +1,61 @@
+
+<div *ngIf="!dataNotfond" class="row">
+  <div class="col-md-12">
+    <div class="card shadow mb-4 mt-4">
+      <div class="card-header justify-header">
+        <h6 class="card-table-heading defClr">WithDrawal List</h6>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Mobile Number</th>
+                <th></th>
+                <th>CNIC</th>
+                <th>Amount</th>
+                <th>Payment Status</th>
+                <th>ID Front Image</th>
+                <th>ID Back Image</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of withdrawalRequestList">
+                <td>{{data?.supplierName}}</td>
+                <td>{{data?.phoneNumber}}</td>
+                <td>{{data?.cnic}}</td>
+                <td>{{data?.amount}}</td>
+                <td>{{data.paymentStatusName}}</td>
+                <td >
+                  <ng-container *ngIf="data?.idfrontImage;else noImage">
+                    <img height="50" width="100" [src]="service.transform(data?.idfrontImage)" />
+                  </ng-container>
+                  <ng-template #noImage>
+                    <img height="50" width="100" src="assets/images/no_img.jpg" />
+                  </ng-template>
+                </td>
+                <td>
+                  <ng-container *ngIf="data?.idbackImage;else noImage">
+                    <img height="50" width="100" [src]="service.transform(data?.idbackImage)" />
+                  </ng-container>
+                  <ng-template #noImage>
+                    <img height="50" width="100" src="assets/images/no_img.jpg" />
+                  </ng-template>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <h3>Total WithDraw Amount : RS {{totalWithDrawAmount}}</h3>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+<div *ngIf="dataNotfond" style="margin-top:20%" id="no-found" class="text-center d-flex justify-content-center align-items-center">
+  <div>
+    <h1 class="mb-3 text-uppercase"><i class="text-danger"></i> Oops!</h1>
+    <h3 class="text-danger text-capitalize">No WithDrawal Request Found. </h3>
+  </div>
+</div>

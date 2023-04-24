@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.Web">
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<UserSecretsId>c8f6e8b9-ef46-4700-8000-4b59271824df</UserSecretsId>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Remove="wwwroot\**" />
+		<Content Remove="wwwroot\**" />
+		<EmbeddedResource Remove="wwwroot\**" />
+		<None Remove="wwwroot\**" />
+	</ItemGroup>
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
+		<PackageReference Include="ElmahCore" Version="2.0.7" />
+		<PackageReference Include="ElmahCore.Sql" Version="2.0.7" />
+		<PackageReference Include="Hangfire" Version="1.7.25" />
+		<PackageReference Include="Hangfire.AspNetCore" Version="1.7.25" />
+		<PackageReference Include="Hangfire.Core" Version="1.7.25" />
+		<PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
+		<PackageReference Include="MassTransit" Version="7.2.2" />
+		<PackageReference Include="MassTransit.RabbitMQ" Version="7.2.2" />
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\HW.NotificationModels\HW.NotificationModels.csproj" />
+		<ProjectReference Include="..\HW.NotificationViewModels\HW.NotificationViewModels.csproj" />
+		<ProjectReference Include="..\HW.ReportsViewModels\HW.ReportsViewModels.csproj" />
+		<ProjectReference Include="..\HW.UserViewModels\HW.UserViewModels.csproj" />
+		<ProjectReference Include="..\HW.Utility\HW.Utility.csproj" />
+	</ItemGroup>
+</Project>

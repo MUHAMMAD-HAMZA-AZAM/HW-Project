@@ -1,0 +1,10 @@
+D:\GitHub\Hoomwork\HW.SupplierModels\bin\Release\netstandard2.0\HW.SupplierModels.deps.json
+D:\GitHub\Hoomwork\HW.SupplierModels\bin\Release\netstandard2.0\HW.SupplierModels.dll
+D:\GitHub\Hoomwork\HW.SupplierModels\bin\Release\netstandard2.0\HW.SupplierModels.pdb
+D:\GitHub\Hoomwork\HW.SupplierModels\obj\Release\netstandard2.0\HW.SupplierModels.csproj.AssemblyReference.cache
+D:\GitHub\Hoomwork\HW.SupplierModels\obj\Release\netstandard2.0\HW.SupplierModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.SupplierModels\obj\Release\netstandard2.0\HW.SupplierModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.SupplierModels\obj\Release\netstandard2.0\HW.SupplierModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.SupplierModels\obj\Release\netstandard2.0\HW.SupplierModels.dll
+D:\GitHub\Hoomwork\HW.SupplierModels\obj\Release\netstandard2.0\HW.SupplierModels.pdb
+D:\GitHub\Hoomwork\HW.SupplierModels\obj\Release\netstandard2.0\HW.SupplierModels.GeneratedMSBuildEditorConfig.editorconfig

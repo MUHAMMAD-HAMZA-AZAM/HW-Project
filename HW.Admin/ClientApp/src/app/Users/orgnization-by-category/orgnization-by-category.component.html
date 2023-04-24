@@ -1,0 +1,385 @@
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <!--<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Sole Trader</h1>
+  </div>-->
+
+  <div class="aj-heading-wrapper">
+    <div style="min-width:10%">
+      <h5>Organizations Trades List</h5>
+    </div>
+    <!--<div class="active-job-details" style="min-width:90%;justify-content:flex-start !important">
+      <div class="active-job-box" style="margin-right:.33%">
+        <h6 class="text-success">Sole Traders: {{tradesmanStats.tradesmanCount}}</h6>
+        <h6 class="text-success">Sole Traders: 100</h6>
+      </div>
+      <div class="active-job-box">
+        <h6 class="text-danger">Organizations: 80</h6>
+        <h6 class="text-danger">Organizations: {{tradesmanStats.organisationCount}}</h6>
+      </div>
+    </div>-->
+  </div>
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-4">
+        <h6 class="mainTitle" data-toggle="collapse" href="#collapse3" aria-expanded="true">Search Tradesman</h6>
+        <div id="collapse3" class="contentWrapper fs-12 show">
+          <form class="" #checkParent>
+            <div class="row mt-1">
+              <div class="col-md-6">
+                <label class="">Start Date</label>
+                <input type="date" id="startDate" [(ngModel)]="startDate" name="startDate" class="form-control" />
+              </div>
+              <div class="col-md-6">
+                <label class="">End Date</label>
+                <input type="date" id="endDate" [(ngModel)]="endDate" name="endDate" class="form-control" />
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-6">
+                <label class="">Tradesman Type</label>
+                <ng-multiselect-dropdown placeholder="Tradesman Type" style="display:inline; vertical-align:top"
+                                         [settings]="skillsdropdownSettings"
+                                         [data]="skillList"
+                                         [(ngModel)]="selectedSkills"
+                                         name="selectedSkills"
+                                         (onSelect)="onItemSelect($event)"
+                                         (onSelectAll)="onItemSelectAll($event)"
+                                         (onDeSelect)="OnItemDeSelect($event)"
+                                         (onDeSelectAll)="OnItemDeSelectALL($event)"
+                                         (OnDeSelect)="OnItemDeSelect($event)">
+                </ng-multiselect-dropdown>
+              </div>
+              <div class="col-md-6">
+                <label class="">City</label>
+                <ng-multiselect-dropdown placeholder="City" style="display:inline;"
+                                         [settings]="dropdownListForCity"
+                                         [data]="cityList"
+                                         [(ngModel)]="selectedCities"
+                                         name="selectedCities"
+                                         (onSelect)="onCitySelect($event)"
+                                         (onSelectAll)="onCitySelectAll($event)"
+                                         (onDeSelect)="onCityDeSelect($event)"
+                                         (onDeSelectAll)="onCityDeSelectALL($event)"
+                                         (OnDeSelect)="onCityDeSelect($event)">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-12 addressSearch">
+                <div class="form-group  ">
+                  <label for="businessAddress">Location</label>
+                  <!--<input type="text" class="form-control desc" [(ngModel)]="location" autocomplete="off" id="location" name="location" (keyup)="serachAddress(location)" autocapitalize="off" spellcheck="off" #search />-->
+                  <input type="text" class="form-control desc" [(ngModel)]="location" maxlength="50" placeholder="Location" autocomplete="off" id="location" name="location" autocapitalize="off" spellcheck="off" #search />
+                </div>
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>User Type</label>
+                  <div class="input-group-prepend">
+                    <div class="input-group-text user-type">
+                      <input type="radio" value="3" id="all" (click)="getRadioValueut($event)" name="groupOfDefaultRadios1" checked>
+                      <label class="" for="all">All User</label>
+                      <input type="radio" value="1" id="real" (click)="getRadioValueut($event)" name="groupOfDefaultRadios1">
+                      <label class="" for="real">Real User</label>
+                      <input type="radio" class="" (click)="getRadioValueut($event)" value="2" id="test" name="groupOfDefaultRadios1">
+                      <label class="" for="test">Test User</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Email Verification Type</label>
+                  <div class="input-group-prepend">
+                    <div class="input-group-text user-type">
+                      <input type="radio" value="1" id="all1" (click)="getRadioValueemail($event)" name="groupOfDefaultRadios2" checked>
+                      <label class="" for="all1">All User</label>
+                      <input type="radio" value="2" id="real1" (click)="getRadioValueemail($event)" name="groupOfDefaultRadios2">
+                      <label class="" for="real1">Email Verified</label>
+                      <input type="radio" class="" (click)="getRadioValueemail($event)" value="3" id="test1" name="groupOfDefaultRadios2">
+                      <label class="" for="test1">Email Unverfied</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Mobile Verification Type</label>
+                  <div class="input-group-prepend">
+                    <div class="input-group-text user-type">
+                      <input type="radio" value="1" id="allMobileUsers" (click)="getRadioValueMobileNo($event)" name="groupOfDefaultRadios3" checked>
+                      <label class="" for="allMobileUsers">All User</label>
+                      <input type="radio" value="2" id="verifiedMobileUser" (click)="getRadioValueMobileNo($event)" name="groupOfDefaultRadios3">
+                      <label class="" for="verifiedMobileUser">Mobile Verified</label>
+                      <input type="radio" class="" (click)="getRadioValueMobileNo($event)" value="3" id="unVerifiedMobileUser1" name="groupOfDefaultRadios3">
+                      <label class="" for="unVerifiedMobileUser1">Mobile Unverified</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-1">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Tradesman Activity</label>
+                  <div class="input-group-prepend">
+                    <div class="input-group-text user-type">
+                      <input type="radio" value="1" id="allMobileUsers11" (click)="getRadioValueActivity($event)" name="groupOfDefaultRadios4" checked>
+                      <label class="" for="allMobileUsers11">All</label>
+                      <input type="radio" value="2" id="allMobileUsers1" (click)="getRadioValueActivity($event)" name="groupOfDefaultRadios4">
+                      <label class="" for="allMobileUsers1">Jobs Done</label>
+                      <input type="radio" value="3" id="verifiedMobileUser1" (click)="getRadioValueActivity($event)" name="groupOfDefaultRadios4">
+                      <label class="" for="verifiedMobileUser1">Bids Place No Job Done</label>
+                      <input type="radio" class="" (click)="getRadioValueActivity($event)" value="4" id="unVerifiedMobileUser2" name="groupOfDefaultRadios4">
+                      <label class="" for="unVerifiedMobileUser2">No Activity</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12 col-md-12 inline-downlod-btns">
+                <div class="form-group mr-2">
+                  <input class="btn btn-primary btn-sm" type="submit" value="Search" (click)="populateByTradesmanCategory()" />
+                </div>
+                <div class="form-group">
+                  <input class="btn btn-primary btn-sm" type="submit" (click)="resetForm()" value="Reset" />
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="offset-3 col-md-5" [hidden]="!showTable">
+        <div #positiveContainer></div>
+      </div>
+    </div>
+  </div>
+  <div class="card shadow mb-4 mt-5" *ngIf="showTable">
+    <div class="card-header justify-header">
+      <h6 class="m-0 font-weight-bold">Organizations Trades List</h6>
+      <div class="g-pagination">
+        Total {{totalSum}}
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th width="2%">City</th>
+              <th width="50%">Tradesman Skills</th>
+              <th width="2%" title="Tradesman Percentage">TP</th>
+              <th width="2%" title="Tradesman Count">TC</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let tradesman of tradesmanList">
+              <td>{{tradesman.city}}</td>
+              <td>{{tradesman.skillName}}</td>
+              <td>{{(tradesman.tradesmanCount / totalSum * 100).toFixed(2)}}</td>
+              <td>{{tradesman.tradesmanCount}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row" [hidden]="gujratList.length <= 0">
+    <div class="col-md-6">
+      <div class="card shadow mb-4" *ngIf="!isCityNull">
+        <div class="card-header justify-header">
+          <h6 class="m-0 font-weight-bold">Organization List</h6>
+          <div class="g-pagination">
+            Total {{totalGujratSum}}
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th width="2%">City</th>
+                  <th width="50%">Tradesman Skills</th>
+                  <th width="2%" title="Tradesman Percentage">TP</th>
+                  <th width="2%" title="Tradesman Count">TC</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let tradesman of gujratList">
+                  <td>{{tradesman.city}}</td>
+                  <td>{{tradesman.skillName}}</td>
+                  <td>{{(tradesman.tradesmanCount / totalGujratSum * 100).toFixed(2)}}</td>
+                  <td>{{tradesman.tradesmanCount}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6" [hidden]="showAllCity">
+      <div #gujratChartContainer></div>
+    </div>
+  </div>
+  <div class="row mt-3" [hidden]="lhrList.length <= 0">
+    <div class="col-md-6">
+      <div class="card shadow mb-4" *ngIf="!isCityNull">
+        <div class="card-header justify-header">
+          <h6 class="m-0 font-weight-bold">Organization List</h6>
+          <div class="g-pagination">
+            Total {{totalLhrSum}}
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th width="2%">City</th>
+                  <th width="50%">Tradesman Skills</th>
+                  <th width="2%" title="Tradesman Percentage">TP</th>
+                  <th width="2%" title="Tradesman Count">TC</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let tradesman of lhrList">
+                  <td>{{tradesman.city}}</td>
+                  <td>{{tradesman.skillName}}</td>
+                  <td>{{(tradesman.tradesmanCount / totalLhrSum * 100).toFixed(2)}}</td>
+                  <td>{{tradesman.tradesmanCount}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6" [hidden]="showAllCity">
+      <div #lahoreChartContainer></div>
+    </div>
+  </div>
+
+  <div class="row mt-3" [hidden]="khiList.length <= 0">
+    <div class="col-md-6">
+      <div class="card shadow mb-4" *ngIf="!isCityNull">
+        <div class="card-header justify-header">
+          <h6 class="m-0 font-weight-bold">Organization List</h6>
+          <div class="g-pagination">
+            Total {{totalKhiSum}}
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th width="2%">City</th>
+                  <th width="50%">Tradesman Skills</th>
+                  <th width="2%" title="Tradesman Percentage">TP</th>
+                  <th width="2%" title="Tradesman Count">TC</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let tradesman of khiList">
+                  <td>{{tradesman.city}}</td>
+                  <td>{{tradesman.skillName}}</td>
+                  <td>{{(tradesman.tradesmanCount / totalKhiSum * 100).toFixed(2)}}</td>
+                  <td>{{tradesman.tradesmanCount}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6" [hidden]="showAllCity">
+      <div #karachiChartContainer></div>
+    </div>
+  </div>
+
+  <div class="row mt-3" [hidden]="isbList.length <= 0">
+    <div class="col-md-6">
+      <div class="card shadow mb-4" *ngIf="!isCityNull">
+        <div class="card-header justify-header">
+          <h6 class="m-0 font-weight-bold">Organization List</h6>
+          <div class="g-pagination">
+            Total {{totalIsbSum}}
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th width="2%">City</th>
+                  <th width="50%">Tradesman Skills</th>
+                  <th width="2%" title="Tradesman Percentage">TP</th>
+                  <th width="2%" title="Tradesman Count">TC</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let tradesman of isbList">
+                  <td>{{tradesman.city}}</td>
+                  <td>{{tradesman.skillName}}</td>
+                  <td>{{(tradesman.tradesmanCount / totalIsbSum * 100).toFixed(2)}}</td>
+                  <td>{{tradesman.tradesmanCount}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6" [hidden]="showAllCity">
+      <div #islamabadChartContainer></div>
+    </div>
+  </div>
+  <div class="row mt-3" [hidden]="gujwaList.length <= 0">
+    <div class="col-md-6">
+      <div class="card shadow mb-4" *ngIf="!isCityNull">
+        <div class="card-header justify-header">
+          <h6 class="m-0 font-weight-bold">Organization List</h6>
+          <div class="g-pagination">
+            Total {{totalGujwaSum}}
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th width="2%">City</th>
+                  <th width="50%">Tradesman Skills</th>
+                  <th width="2%" title="Tradesman Percentage">TP</th>
+                  <th width="2%" title="Tradesman Count">TC</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let tradesman of gujwaList">
+                  <td>{{tradesman.city}}</td>
+                  <td>{{tradesman.skillName}}</td>
+                  <td>{{(tradesman.tradesmanCount / totalGujwaSum * 100).toFixed(2)}}</td>
+                  <td>{{tradesman.tradesmanCount}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6" [hidden]="showAllCity">
+      <div #gujranwalChartContainer></div>
+    </div>
+  </div>
+</div>

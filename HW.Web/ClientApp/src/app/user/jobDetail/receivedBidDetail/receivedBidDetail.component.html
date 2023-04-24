@@ -1,0 +1,73 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12 text-center border-bottom form-group">
+      <div *ngIf="bidDetail.tradesmanProfileImage!=null" class="img-card mx-auto">
+        <img [src]="bidDetail.tradesmanProfileImage">
+      </div>
+      <div *ngIf="bidDetail.tradesmanProfileImage==null" class="img-card mx-auto">
+        <img src="../../../../assets/img/no_thumbnail.jpg" alt="...">
+      </div>
+      <h4>{{bidDetail.tradesmanName}}</h4>
+      <p><span>ID </span>{{bidDetail.tradesmanId}}</p>
+      <a href="javascript:void(0);" (click)="ViewProfile(bidDetail.tradesmanId)" class="btn btn-link">View Profile <i class="fa fa-angle-double-right"></i></a>
+    </div>
+    <div class="col-md-12 form-group">
+      <form class="col-lg-12">
+        <div class="form-row">
+          <div class="form-group col-md-12">
+            <label for="title">Job Title</label>
+            <div class="form-control">
+              {{bidDetail.jobTitle}}
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="budget">Your Budget <small>(Rs.)</small></label>
+            <div class="form-control">
+              {{bidDetail.customerBudget}}
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="tradesOffer">Tradesman Offer <small>(Rs.)</small></label>
+            <div class="form-control">
+              {{bidDetail.tradesmanOffer}}
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputAddress">Job Description</label>
+          <textarea type="text" class="form-control desc" [innerHTML]="bidDetail.jobDescription" disabled></textarea>
+        </div>
+        <div class="col-md-12">
+          <audio src='{{bidDetail.bidAudioMessage}}' style="width:100%" controls preload='auto'>
+          </audio>
+        </div>
+        <div class="form-group text-center">
+          <a (click)="QuoteConfirmation()" class="btn btn-primary">Accept</a>
+          <a (click)="DeclineBid()" class="btn btn-danger ml-1">Decline</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div bsModal #ConfirmQuotes="bs-modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" (click)="CloseModel()" data-dismiss="modal">×</button>
+        <h4 class="modal-title text-center">Payment to Tradesman</h4>
+      </div>
+      <div class="modal-body">
+        <ul>
+          <li>Make sure you and tradespeople decide job price before initiate work.</li>
+          <li>Set clear payment terms before accepting bid such as payment date and method.</li>
+          <li>Be clear on amounts from the start.</li>
+          <li>If any change in price during work ask tradesman to update bid and verify update price in "In-Progress Jobs" or "Finished Jobs".</li>
+          <li>Pay tradesman on time and accountable him through feedback.</li>
+        </ul>
+        <p><a href="javascript:void(0)" (click)="UserAgrement()">Terms &amp; conditions apply</a></p>
+        <div class="text-center"><a id="proceedBtn" class="btn btn-sm btn-primary mt-3" (click)="AcceptBid()">Proceed</a></div>
+      </div>
+    </div>
+  </div>
+</div>

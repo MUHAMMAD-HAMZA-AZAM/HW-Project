@@ -1,0 +1,88 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Menu Items List</h6>
+            <button *ngIf="userRole.allowAdd"(click)="showModal(content)" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New Menu Item</button>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th width="15%">Menu Item Name</th>
+                    <th width="15%">Icon Name</th>
+                    <th width="3%">Status</th>
+                    <th width="5%">Created By</th>
+                    <th width="5%">Created On</th>
+                    <th width="5%">Modified By</th>
+                    <th width="5%">Modified On</th>
+                    <th *ngIf="userRole.allowAdd" width="1%">Edit</th>
+                    <!--<th title="Delete" width="1%">Del</th>-->
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of menuItemsList">
+                    <td>{{item?.menuItemName}}</td>
+                    <td>{{item?.iconName}}</td>
+                    <td [ngClass]="(item.active) ? 'text-primary' : 'text-danger' ">{{(item.active) ? 'Active' : 'InActive'  }}</td>
+                    <td>{{item?.createdBy}}</td>
+                    <td>{{item?.createdOn | date: "dd MMM yyy"}}</td>
+                    <td>{{item?.modifiedBy}}</td>
+                    <td>{{item?.modifiedOn | date: "dd MMM yyy"}}</td>
+                    <td *ngIf="userRole.allowAdd"><i class="text-info fa fa-pencil-alt" (click)="update(item, content)"></i></td>
+                    <!--<td><i class="text-danger fa fa-trash-alt" (click)="delete(item?.menuId)"></i></td>-->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">{{modelText}}</h5>
+  </div>
+  <form [formGroup]="appValForm">
+    <div class="modal-body">
+      <input type="hidden" formControlName="menuId" />
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12">Menu Item Name</label>
+            <input type="text" class="form-control" formControlName="menuItemName" placeholder="Menu item name"/>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12">Icon Name</label>
+            <input type="text" class="form-control" formControlName="iconName" placeholder="Icon name" />
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12 d-block">Status</label>
+            <label class="switch">
+              <input type="checkbox" trueFalseValue trueValue="1" falseValue="0" formControlName="active" >
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="row">
+        <div class="col-md-6 inline-downlod-btns">
+          <button type="button" class="btn btn-sm btn-primary mx-2 " (click)="saveAndUpdate()" [disabled]="!appValForm.valid">Save</button>
+          <button type="button" *ngIf="!btnReset"  class="btn btn-sm btn-primary mx-2" (click)="resetForm()">Reset</button>
+          <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('Save click')">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>

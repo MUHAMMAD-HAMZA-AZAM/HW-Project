@@ -1,0 +1,248 @@
+<div class="container-fluid">
+  <!-- add new tiles -->
+  <div class="row job-tiles">
+    <div class="col-xl-2 col-lg-2">
+      <div class="active-job-box">
+        <h6 class="text-success">Total Jobs Value:{{tielsList[0]?.totalAmount}}</h6>
+      </div>
+    </div>
+    <div class="col-xl-2 col-lg-2">
+      <div class="active-job-box">
+        <h6 class="text-danger">Total Promotion Budget:{{tielsList[0]?.totalDiscountedAmount}}</h6>
+      </div>
+
+    </div>
+    <div class="col-xl-2 col-lg-2">
+      <div class="active-job-box">
+        <h6 class="text-warning">Total Customer Payable:{{tielsList[0]?.totalCustomerPayable}}</h6>
+      </div>
+    </div>
+    <div class="col-xl-2 col-lg-2">
+      <div class="active-job-box">
+        <h6 class="text-info">Total Hoomwork Payable:{{tielsList[0]?.totalHoomworkPayable}}</h6>
+      </div>
+    </div>
+    <div class="col-xl-2 col-lg-2">
+      <div class="active-job-box">
+        <h6 class="text-secondary">Total Tradesman Payable:{{tielsList[0]?.totalTradesmanPayable}}</h6>
+      </div>
+    </div>
+  </div>
+  <div class="row job-tiles">
+    <div class="col-xl-2 col-lg-2">
+      <div class="active-job-box">
+        <h6 class="text-success">Total Customer Wallet Amount:{{tielsList[0]?.customerWalletAmount}}</h6>
+      </div>
+    </div>
+    <div class="col-xl-2 col-lg-2">
+      <div class="active-job-box">
+        <h6 class="text-danger">Total Tradesman Wallet Amount:{{tielsList[0]?.tradesmanWalletAmount}}</h6>
+      </div>
+
+    </div>
+    <div class="col-xl-2 col-lg-2">
+      <div class="active-job-box">
+        <h6 class="text-warning">Total Referral Amount:{{tielsList[0]?.referralAmount}}</h6>
+      </div>
+    </div>
+    <div class="col-xl-2 col-lg-2">
+      <div class="active-job-box">
+        <h6 class="text-info">Total Customer Topup:{{tielsList[0]?.customerTopup}}</h6>
+      </div>
+    </div>
+    <div class="col-xl-2 col-lg-2">
+      <div class="active-job-box">
+        <h6 class="text-secondary">Total Tradesman Topup:{{tielsList[0]?.tradesmanTopup}}</h6>
+      </div>
+    </div>
+  </div>
+
+  <!-- end -->
+  <div class="row">
+    <div class="col-md-4">
+      <h6 class="mainTitle" data-toggle="collapse" href="#collapseLedger" aria-expanded="true">Leadger Report</h6>
+    </div>
+  </div>
+  <!--<button style="font-size: .775rem !important;margin-bottom:5px" *ngIf="reportFilter" (click)="funReportFilter()" class="btn btn-sm btn-primary">Show Filter</button>-->
+  <div id="collapseLedger" class="contentWrapper fs-12 show">
+    <form [formGroup]="appValForm" class="" #checkParent>
+      <div class="row mt-3">
+        <div class="col-md-2">
+          <label for="customerName">Customer Id</label>
+          <div class="input-group">
+            <input type="text" inputmode="numeric" autocomplete="off" maxlength="10" (keypress)="numberOnly($event)" id="customerId" formControlName="customerId" name="customerId" class="form-control" placeholder="Customer Id" />
+          </div>
+        </div>
+        <div class="col-md-2">
+          <label for="customerName">Tradesman Id</label>
+          <div class="input-group">
+            <input type="text" inputmode="numeric" autocomplete="off" maxlength="10" (keypress)="numberOnly($event)" id="tradesmanId" formControlName="tradesmanId" name="tradesmanId" class="form-control" placeholder="Tradesman Id" />
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-2">
+          <label for="tradesmanName">Job Quotaion Id</label>
+          <input type="text" inputmode="numeric" autocomplete="off" maxlength="10" (keypress)="numberOnly($event)" id="jobId" name="jobId" formControlName="jobQuotationId" class="form-control" placeholder="Job quotation Id" />
+        </div>
+        <div class="col-md-2">
+          <label for="tradesmanName">Job Detail Id</label>
+          <input type="text" autocomplete="off" inputmode="numeric" id="jobDetId" (keypress)="numberOnly($event)" maxlength="10" name="jobDetId" formControlName="jobDetailsId" class="form-control" placeholder="Job detail id " />
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-2">
+          <label class="">Start Date</label>
+          <input type="date" id="startDate" formControlName="startDate" name="startDate" class="form-control" />
+          <!--<div *ngIf="submittedApplicationForm" class="invalid-feedback">
+            <div><p>{{startDateErrorMessage}}</p></div>
+          </div>-->
+        </div>
+        <div class="col-md-2">
+          <label class="">End Date</label>
+          <input type="date" id="endDate" formControlName="endDate" name="endDate" class="form-control" />
+          <!--<div *ngIf="submittedApplicationForm" class="invalid-feedback">
+            <div><p>{{endDateErrorMessage}}</p></div>
+          </div>-->
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-sm-4 inline-downlod-btns">
+          <div class="form-group">
+            <input class=" btn btn-primary btn-sm" type="submit" value="Search" (click)="getLeadgerReport()" />
+          </div>
+          <div class="form-group">
+            <input class="btn btn-primary btn-sm" type="submit" (click)="resetForm()" value="Reset" />
+          </div>
+          <ng-container>
+            <div class="form-group">
+              <input class="btn btn-primary btn-sm" type="button" value="Download pdf" (click)="DownloadPdf()" />
+            </div>
+            <div class="form-group">
+              <input class="btn btn-primary btn-sm" type="button" value="View Payment History" />
+              <!--(click)="viewPayemntHistory(content)"-->
+            </div>
+            <!--<div class="form-group">
+              <input *ngIf="jobcount>0" class="btn btn-primary btn-sm" type="button" value="Download Excel" (click)="DownloadXlsx()" />
+            </div>
+            <div class="form-group">
+              <input *ngIf="jobcount>0" class="btn btn-primary btn-sm" type="submit" value="Download Csv" (click)="exportCSV()" />
+            </div>-->
+          </ng-container>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+  <div class="card shadow mb-4">
+    <div class="card-header justify-header">
+      <h6 class="m-0 font-weight-bold">Leadger List</h6>
+      <!--<label class="m-0 text-right" *ngIf="jobcount>0">Total: {{jobcount}} </label>-->
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0" #dataTable>
+          <thead>
+            <tr>
+              <th width="1%">SR</th>
+              <th title="Date" width="3%">D</th>
+              <th title="Customer Id" width="3%">CID</th>
+              <th width="5%" title="Customer Name">CN</th>
+              <th title="Job Details Id" width="3%">JDI</th>
+              <th title="Job Quotation Id" width="3%">JQI</th>
+              <th width="3%" title="Tradesman Id">TID</th>
+              <th width="5%" title="Tradesman Name">TN</th>
+              <th width="5%" title="Job Title">JT</th>
+              <th width="4%" title="Payment Method">PM</th>
+              <th width="4%" title="Promotion Name">PN</th>
+              <th width="4%" title="Agreed Amount">AA</th>
+              <th width="4%" title="Additional Charges">AC</th>
+              <th width="5%" title="Total Job Budget">TJB</th>
+              <th width="4%" title="Promotion Budget">PB</th>
+              <th width="4%" title="Comission Amount">CA</th>
+              <th width="4%" title="Customer Payable">CP</th>
+              <th width="4%" title="HoomWork Payable To Tradesman">HP</th>
+              <th width="4%" title="Tradesman Payable To Hoomwork">TP</th>
+              <!--<th width="4%" title="HoomWOrk Balance ">HB</th>
+              <th width="4%" title="Customer Balance ">CB</th>
+              <th width="4%" title="Tradesman Balance ">TB</th>-->
+            </tr>
+          </thead>
+          <tbody class="table-content-fs">
+            <tr *ngFor="let item of getLeadgerList; let i=index">
+              <td>{{i+1}}</td>
+              <td>{{item.paymentDate | date:"dd MMM yyy"}}</td>
+              <td>{{item.customerId}}</td>
+              <td>{{item.customerName}}</td>
+              <td>{{item.jobDetailId}}</td>
+              <td>{{item.jobQuotationId}}</td>
+              <td>{{item.tradesmanId}}</td>
+              <td>{{item.tradesmanName}}</td>
+              <td>{{item.jobTitle}}</td>
+              <td>{{item.paymentMethod}}</td>
+              <td>{{item.discountMethod}}</td>
+              <td>{{item.agreedAmount}}</td>
+              <td>{{item.additionalCharges}}</td>
+              <td>{{item.jobAmount}}</td>
+              <td>{{item.discountedAmount}}</td>
+              <td>{{item.commission}}</td>
+              <td>{{item.customerPayable}}</td>
+              <td>{{item.hoomworkPayableToTradesman}}</td>
+              <td>{{item.tradesmanPayableToHoomwork}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<ng-template #content let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h6 class="modal-title">Payment History</h6>
+      <button type="button" class="close" (click)="modal.close('Save Click')" style="outline:none;">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0" #dataTable>
+            <thead>
+              <tr>
+                <th width="3%">SR#</th>
+                <th width="5%">Transaction Id</th>
+                <th width="10%">Debit</th>
+                <th width="10%">Credit</th>
+                <th width="25%">Reffrence Document Type</th>
+                <th width="5%">Created On</th>
+              </tr>
+            </thead>
+            <!--<tbody class="table-content-fs">
+              <tr *ngFor="let item of paymentHistoryList; let i=index">
+                <td>{{i+1}}</td>
+                <td>{{item.transactionId}}</td>
+                <td>{{item.debit}}</td>
+                <td>{{item.credit}}</td>
+                <td>{{item.reffrenceDocumentType}}</td>
+                <td>{{item.createdOn | date:"dd MMM yyy"}}</td>
+              </tr>
+            </tbody>-->
+          </table>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save Click')">Close</button>
+        <!--<button type="submit" class="btn btn-success" (click)="submitDetails()">Save</button>-->
+      </div>
+
+    </div>
+  </div>
+
+</ng-template>
+
+

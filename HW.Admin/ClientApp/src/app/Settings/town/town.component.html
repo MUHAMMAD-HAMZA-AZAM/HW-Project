@@ -1,0 +1,114 @@
+<div class="container-fluid">
+  <div class="settings-wrapper">
+    <div class="row">
+      <div class="offset-2 col-md-8">
+        <div class="card shadow mb-4">
+          <div class="card-header justify-header">
+            <h6 class="m-0 font-weight-bold">Town List</h6>
+            <button *ngIf="userRole.allowAdd" (click)="showModal(content)" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New Town</button>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr>
+                    <th width="1%" title="City Id">TID</th>
+                    <th width="3%">Town Name</th>
+                    <th width="3%">City Name</th>
+                    <th width="2%">Status</th>
+                    <th width="6%" title="Created Date">CD</th>
+                    <th width="6%" title="Created By">CB</th>
+                    <th width="6%" title="Modified Date">MD</th>
+                    <th width="6%" title="Modified By">MB</th>
+                    <th *ngIf="userRole.allowAdd" width="1%">Edit</th>
+                    <th *ngIf="userRole.allowDelete" title="Delete" width="1%">Del</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let city of townList">
+                    <td>{{city.townId}}</td>
+                    <td>{{city.name}}</td>
+                    <!--<td>{{city.stateName}}</td>-->
+                    <td>{{city.cityName}}</td>
+                    <td>{{city.isActive ? 'Active' : 'InActive'}}</td>
+                    <td>{{city.createdOn | date: "dd MMM yyy "}}</td>
+                    <td>{{city.createdBy }}</td>
+                    <td>{{city.modifiedOn | date: "dd MMM yyy "}}</td>
+                    <td>{{city.modifiedBy}}</td>
+                    <td *ngIf="userRole.allowAdd"><i class="text-info fa fa-pencil-alt" (click)="updateCity(city,content)"></i></td>
+                    <td *ngIf="userRole.allowDelete">
+                      <label class="switch block-user-switch">
+                        <input type="checkbox" class="getcheckboxvalue" (change)="deleteCity(city , deleteContent)" [checked]="city.isActive" id="{{city.townId}}">
+                        <span class="slider"></span>
+                      </label>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #deleteContent let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Status Confirmation</h5>
+  </div>
+  <div class="modal-body">
+    <h5>Are you sure you want to change status ?</h5>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-primary" (click)="confirmDeleteCity()">Ok</button>
+    <button type="button" class="btn btn-primary btn-sm" (click)="closeModal()">Cancel</button>
+  </div>
+</ng-template>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">{{modalHeadText}}</h5>
+  </div>
+  <div class="modal-body">
+    <form name="form" #f="ngForm" novalidate>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12">Town Name</label>
+            <input required="required" maxlength="40" [(ngModel)]="townName" #cityNamee="ngModel" autocomplete="off" min="4" max="30" type="text" class="form-control" name="cityName" id="cityName" placeholder="Town Name" (keypress)="service.omit_special_char($event)" />
+          </div>
+          <div *ngIf="cityNamee.invalid && (cityNamee.dirty || cityNamee.touched)" class="text-danger">
+            <label class="fs-12" style="margin:0" *ngIf="cityNamee.errors.required"> * Town is required. </label>
+            <label class="fs-12" style="margin:0" *ngIf="cityNamee.errors.maxlength"> * Town name allows maximum 40 characters </label>
+          </div>
+          <small class="text-danger">{{cityNameExist}}</small>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="fs-12">City Name</label>
+            <ng-multiselect-dropdown placeholder="City" 
+                                     [settings]="dropdownListForState"
+                                     [data]="cityList"
+                                     [(ngModel)]="selectedCity"
+                                     required
+                                     #selectedStatee="ngModel"
+                                     name="selectedCity"
+                                     (onSelect)="onCitySelect($event)"
+                                     (onSelectAll)="onCitySelectAll($event)"
+                                     (onDeSelect)="onCityDeSelect($event)"
+                                     (onDeSelectAll)="onCityDeSelectALL($event)"
+                                     (OnDeSelect)="onCityDeSelect($event)">
+            </ng-multiselect-dropdown>
+
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-primary" (click)="save()" [disabled]="!f.valid">Save</button>
+    <button type="button" class="btn btn-primary btn-sm" ngbAutofocus (click)="modal.close('Save click')">Cancel</button>
+  </div>
+</ng-template>
+

@@ -1,0 +1,13 @@
+D:\GitHub\Hoomwork\HW.Http\bin\Release\netstandard2.1\HW.Http.deps.json
+D:\GitHub\Hoomwork\HW.Http\bin\Release\netstandard2.1\HW.Http.dll
+D:\GitHub\Hoomwork\HW.Http\bin\Release\netstandard2.1\HW.Http.pdb
+D:\GitHub\Hoomwork\HW.Http\bin\Release\netstandard2.1\HW.Utility.dll
+D:\GitHub\Hoomwork\HW.Http\bin\Release\netstandard2.1\HW.Utility.pdb
+D:\GitHub\Hoomwork\HW.Http\obj\Release\netstandard2.1\HW.Http.csproj.AssemblyReference.cache
+D:\GitHub\Hoomwork\HW.Http\obj\Release\netstandard2.1\HW.Http.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Hoomwork\HW.Http\obj\Release\netstandard2.1\HW.Http.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.Http\obj\Release\netstandard2.1\HW.Http.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.Http\obj\Release\netstandard2.1\HW.Http.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.Http\obj\Release\netstandard2.1\HW.Http.csproj.CopyComplete
+D:\GitHub\Hoomwork\HW.Http\obj\Release\netstandard2.1\HW.Http.dll
+D:\GitHub\Hoomwork\HW.Http\obj\Release\netstandard2.1\HW.Http.pdb

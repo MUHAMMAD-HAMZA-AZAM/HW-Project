@@ -1,0 +1,219 @@
+<section id="nlp-hiw">
+  <div class="container">
+    <div class="mb-5" *ngIf="commonSkills?.length > 0">
+      <div class="d-flex align-items-center justify-content-center">
+        <h4 class="sect-heading mt-3 mt-sm-5 mb-4 text-center">
+          Our Featured Services
+          | <a class="btn nlp-green-btn" routerLink="/skillList">View All Services</a>
+          <!--| <a class="btn nlp-green-btn" href="#">Request For a Service</a>-->
+        </h4>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-6 col-lg-4 col-xl-3" *ngFor="let items of commonSkills">
+          <!--<a [routerLink]="['costGuides']" class="d-flex justify-content-between" style="background:yellow;">-->
+          <div class="ct-icon mb-2">
+            <a [routerLink]="['landing-page/costGuides',items?.skillId,items?.slug,'fs',items?.name]" class="d-flex align-items-center">
+              <svg-icon-sprite [src]="items.skillIconPath" [classes]="'service-icon'" [width]="'25px'" [viewBox]="'0 0 70 70'"></svg-icon-sprite>
+              <span class="d-block ml-2">{{(items.name).length <= 25 ? items.name : (items.name | slice:0:24) + '...' }}</span>
+              <!--<span style="display: inline-block; width: 220px; white-space: nowrap; overflow: hidden !important; text-overflow: ellipsis;">{{items.name}}</span>-->
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h4 class="sect-heading text-center">Homeowner | How Service Finder Works</h4>
+    <hr class="nlp-horizantal-line">
+    <div class="row mt-4 laila-font">
+      <div class="col-12 col-sm-6 col-lg-4">
+        <div class="hiw-inner">
+          <div class="row align-items-center align-items-sm-start">
+            <div class="col-2 col-sm-3 col-md-2">
+              <h6>1</h6>
+            </div>
+            <div class="col-10 col-sm-9 col-md-10">
+              <h5>Describe Your Task</h5>
+              <p>Tell us what you need, we’ll find suitable tradesman for you. its simple & free.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 col-lg-4 mt-3 mt-sm-0">
+        <div class="hiw-inner">
+          <div class="row align-items-center align-items-sm-start">
+            <div class="col-2 col-sm-3 col-md-2">
+              <h6>2</h6>
+            </div>
+            <div class="col-10 col-sm-9 col-md-10">
+              <h5>Choose a Tradesman</h5>
+              <p>You will get in touch by verified professional tradesman with offers.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 mt-3 col-lg-4 mt-lg-0">
+        <div class=" hiw-inner">
+          <div class="row align-items-center align-items-sm-start">
+            <div class="col-2 col-sm-3 col-md-2">
+              <h6>3</h6>
+            </div>
+            <div class="col-10 col-sm-9 col-md-10">
+              <h5>Rate & Reviews</h5>
+              <p>Browse profiles, work history, and feedback.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="nlp-services-wrapper" class="d-none">
+  <div class="nlp-services">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="d-flex mt-5 ser-heading justify-content-center">
+            <!--<h1>Our Most Popular Services </h1>
+            <a href="/skillList" class="btn ml-4">View All <i class="fas fa-angle-right ml-2 ml-lg-4"></i></a>-->
+            <h4 class="sect-heading text-center">Our Most Popular Services | <a class="btn nlp-green-btn" href="/skillList">View All Services</a></h4>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 d-flex align-items-center">
+          <div class="row nlp-services-list pb-0 pb-sm-4">
+            <div class="col-6 col-sm-4" *ngFor="let item of customActiveskillList">
+              <a [routerLink]="['/skill', item?.skillId,item?.slug]">
+                <svg-icon-sprite [src]="item.skillIconPath" [classes]="'service-icon'" [width]="'50px'" [viewBox]="'0 0 70 70'"></svg-icon-sprite>
+                <span class="d-block">{{item.name}}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 nlp_services_bg d-none d-lg-block">
+          <img src="/assets/img/nlp_services_banner.jpg" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="nlp-nmj">
+  <div class="container">
+    <hr class="nlp-horizantal-line" />
+    <div class="row align-items-center nlp-nmj-wrapper">
+      <div class="col-12 col-lg-6">
+        <div class="dm-image">
+          <img class="img-fluid" src="assets/img/nlp_drill_man.jpg" alt="tradesman" />
+        </div>
+      </div>
+      <div class="col-12 col-lg-6 nlp-hnd">
+        <h4 class="sect-heading">Tradesman | Need More Work?</h4>
+        <p> Meet new customers</p>
+        <small>Find new customer</small>
+        <p>Grow your revenue</p>
+        <small>Unlimited Task/Lead</small>
+        <p>Build your online reputation</p>
+        <small>Build your profile</small>
+        <button class="mt-3 mb-5 btn nlp-green-btn py-2 px-4" (click)="openTradesmanLogin()">Start winning more works <i class="ml-3 fas fa-angle-right"></i> </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container mb-5">
+    <div id="nlp-testimonails" class="px-2">
+      <h4 class="sect-heading text-center text-white">Testimonials</h4>
+      <h5 class="text-white text-center">See what people are saying</h5>
+      <swiper [config]="swiperConfig">
+        <ng-template swiperSlide>
+          <img (click)="openVideoModal('R_A5nI85bAA')" src="../../assets/img/pic-1.jpg"/>
+        </ng-template>
+        <ng-template swiperSlide>
+          <!--<div (click)="openVideoModal('Y8ey4md12IY')" class="carousel-img-2"></div>-->
+          <img (click)="openVideoModal('Y8ey4md12IY')" src="../../assets/img/pic-2.jpg"/>
+        </ng-template>
+        <ng-template swiperSlide>
+          <img (click)="openVideoModal('K64GOiCkKts')" src="../../assets/img/pic-3.jpg"/>
+          <!--<div (click)="openVideoModal('K64GOiCkKts')" class="carousel-img-3"></div>-->
+        </ng-template>
+        <ng-template swiperSlide>
+          <img (click)="openVideoModal('Y6ZHkUX5uCo')" src="../../assets/img/pic-4.jpg"/>
+          <!--<div (click)="openVideoModal('Y6ZHkUX5uCo')" class="carousel-img-4"></div>-->
+        </ng-template>
+        <ng-template swiperSlide>
+          <img (click)="openVideoModal('QYW3aDM5WaQ')" src="../../assets/img/pic-5.jpg"/>
+          <!--<div (click)="openVideoModal('QYW3aDM5WaQ')" class="carousel-img-5"></div>-->
+        </ng-template>
+        <ng-template swiperSlide>
+          <img (click)="openVideoModal('IaHxtRrHA')" src="../../assets/img/pic-6.jpg"/>
+          <!--<div (click)="openVideoModal('x-IaHxtRrHA')" class="carousel-img-6"></div>-->
+        </ng-template>
+      </swiper>
+
+      <div class="d-none" style="height:315px">
+        <ngb-carousel [showNavigationArrows]="false"
+                      [showNavigationIndicators]="true"
+                      [interval]="200000"
+                      [keyboard]="true"
+                      [pauseOnHover]="true">
+          <ng-template ngbSlide>
+            <div class="row picsum-img-wrapper" style="padding: 20px;">
+              <div class="col-md-4 text-center" style="height:100%;">
+                <div (click)="openVideoModal('R_A5nI85bAA')" class="carousel-img-1">
+                </div>
+              </div>
+              <div class="col-md-4 text-center" style="height:100%;">
+                <div (click)="openVideoModal('Y8ey4md12IY')" class="carousel-img-2">
+
+                </div>
+              </div>
+              <div class="col-md-4 text-center" style="height:100%;">
+                <div (click)="openVideoModal('K64GOiCkKts')" class="carousel-img-3">
+
+                </div>
+              </div>
+
+            </div>
+          </ng-template>
+          <ng-template ngbSlide>
+            <div class="row picsum-img-wrapper" style="padding:20px;">
+              <div class="col-md-4 text-center" style="height:100%;">
+                <div (click)="openVideoModal('Y6ZHkUX5uCo')" class="carousel-img-4">
+                </div>
+              </div>
+              <div class="col-md-4 text-center" style="height:100%;">
+                <div (click)="openVideoModal('QYW3aDM5WaQ')" class="carousel-img-5">
+                </div>
+              </div>
+              <div class="col-md-4 text-center" style="height:100%;">
+                <div (click)="openVideoModal('x-IaHxtRrHA')" class="carousel-img-6">
+                </div>
+              </div>
+
+            </div>
+          </ng-template>
+        </ngb-carousel>
+      </div>
+    </div>
+  </div>
+</section>
+<div bsModal #youtubeVideoModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-child-name">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Video </h4>
+        <button type="button" class="close pull-right btn_closevedeo" aria-label="Close" (click)="hideVideoModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body yt-video-popup" *ngIf="isShowModal">
+        <!--*ngIf="safeURL"-->
+        <!--<iframe class="preview_video"  [src]="safeURL | safe: 'resourceUrl'" frameborder="0" allowfullscreen></iframe>-->
+
+        <object [data]="safeURL | safe: 'resourceUrl'" width="500" height="400"></object>
+
+      </div>
+    </div>
+  </div>
+</div>
+

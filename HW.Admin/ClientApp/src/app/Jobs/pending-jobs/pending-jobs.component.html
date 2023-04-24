@@ -1,0 +1,1021 @@
+<div class="container-fluid">
+  <div class="row" id="pending-jobs">
+    <div class="col-xl-12">
+      <div class="row job-tiles">
+        <div class="col-xl-1 col-lg-1 pr-0">
+          <div class="job-header-title">
+            <h5>Job Status</h5>
+          </div>
+        </div>
+        <div class="col-xl-2 col-lg-2 pl-0">
+          <div class="active-job-box">
+            <h6 class="text-success">Jobs Created: {{data.jobsCreated}}</h6>
+          </div>
+        </div>
+        <div class="col-xl-2 col-lg-2">
+          <div class="active-job-box">
+            <h6 class="text-danger">Jobs In-Progress: {{data.jobsInProgress}}</h6>
+          </div>
+
+        </div>
+        <div class="col-xl-2 col-lg-2">
+          <div class="active-job-box">
+            <h6 class="text-warning">Jobs Completed: {{data.jobsCompleted}}</h6>
+          </div>
+        </div>
+        <div class="col-xl-2 col-lg-2">
+          <div class="active-job-box">
+            <h6 class="text-danger">To Authorize: <b>{{data.jobsApprove}}</b></h6>
+          </div>
+        </div>
+        <!--<div class="offset-xl-2 offset-lg-1">
+        </div>-->
+      </div>
+    </div>
+    <div class="active-job-details job-header-boxes">
+    </div>
+  </div>
+  <div class="table-responsive" id="pdfTable" hidden #pdfTable>
+    <table class="table table-bordered table-striped table-hover" #newtable id="newtable" style="margin-bottom:2%">
+      <thead>
+        <tr>
+          <th>CustomerId</th>
+          <th>Mobile</th>
+          <th>Town</th>
+          <th>JobQuotationId</th>
+          <th>JobDetailId</th>
+          <th>JobTitle</th>
+          <th>TradesmanName</th>
+          <th>Skills</th>
+          <th>SubSkills</th>
+          <th>WorkBudget</th>
+          <th>Status</th>
+          <th>CreatedOn</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of selecteddatasingle">
+          <td>{{item.CustomerId}}</td>
+          <td>{{item.Mobile}}</td>
+          <td>{{item.Town}}</td>
+          <td>{{item.JobQuotationId}}</td>
+          <td>{{item.JobDetailId}}</td>
+          <td>{{item.JobTitle}}</td>
+          <td>{{item.TradesmanName}}</td>
+          <td>{{item.Skills}}</td>
+          <td>{{item.SubSkills}}</td>
+          <td>{{item.WorkBudget}}</td>
+          <td>{{item.Status}}</td>
+          <td>{{item.CreatedOn}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-4">
+        <h6 class="mainTitle" data-toggle="collapse" href="#collapse2" aria-expanded="true">Search Jobs Status</h6>
+      </div>
+    </div>
+    <div id="collapse2" class="contentWrapper fs-12 collapse">
+      <form class="">
+        <div class="row">
+          <div class="col-md-4">
+            <label for="customerName">Customer Name</label>
+            <div class="input-group">
+              <input type="text" autocomplete="off" id="customerName" maxlength="30" name="customerName" class="form-control" [(ngModel)]="customerName" placeholder="Customer Name" (keypress)="httpService.omit_special_char($event)" />
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  <input type="radio" value="1" id="start" (click)="getRadioValue($event)" name="groupOfDefaultRadios" checked #restChecked>
+                  <label class="" for="start">Start</label>
+                  <input type="radio" class="" (click)="getRadioValue($event)" value="2" id="anyWhere" name="groupOfDefaultRadios">
+                  <label class="" for="anyWhere">Anywhere</label>
+                  <input type="radio" class="" value="3" id="end" (click)="getRadioValue($event)" name="groupOfDefaultRadios">
+                  <label class="" for="end">End</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+
+          <div class="col-md-4">
+            <label for="customerName">Tradesman Name</label>
+            <div class="input-group">
+              <input type="text" autocomplete="off" maxlength="30" id="tradesmanName" name="tradesmanName" class="form-control" [(ngModel)]="tradesmanName" placeholder="Tradesman Name" (keypress)="httpService.omit_special_char($event)" />
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  <input type="radio" value="1" id="start1" (click)="getRadioValuetrd($event)" name="groupOfDefaultRadios1" checked #restTradesManChecked>
+                  <label class="" for="start1">Start</label>
+                  <input type="radio" class="" (click)="getRadioValuetrd($event)" value="2" id="anyWhere1" name="groupOfDefaultRadios1">
+                  <label class="" for="anyWhere1">Anywhere</label>
+                  <input type="radio" class="" value="3" id="end1" (click)="getRadioValuetrd($event)" name="groupOfDefaultRadios1">
+                  <label class="" for="end1">End</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row  mt-3">
+          <div class="col-md-2">
+            <label for="tradesmanName">Job Quotation Id</label>
+            <input type="text" autocomplete="off" maxlength="10" id="jobId" name="jobId" class="form-control" [(ngModel)]="jobId" placeholder="Job Quotation Id " (keypress)="httpService.numberOnly($event)" />
+          </div>
+          <div class="col-md-2">
+            <label for="tradesmanName">Job Detail Id</label>
+            <input type="text" autocomplete="off" maxlength="10" id="jobdetailid" name="jobdetailid" class="form-control" [(ngModel)]="jobdetailid" placeholder="Job Detail Id " (keypress)="httpService.numberOnly($event)" />
+          </div>
+
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-2">
+            <label class="">Job Posted From Date</label>
+            <input type="date" id="startDate" [(ngModel)]="startDate" name="startDate" class="form-control" />
+          </div>
+          <div class="col-md-2">
+            <label class="">Job Posted To Date</label>
+            <input type="date" id="endDate" [(ngModel)]="endDate" name="endDate" class="form-control" />
+          </div>
+
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-2">
+            <label class="">Job End From Date</label>
+            <input type="date" id="fromDate" [(ngModel)]="fromDate" name="fromDate" class="form-control" />
+          </div>
+          <div class="col-md-2">
+            <label class="">Job End To Date</label>
+            <input type="date" id="toDate" [(ngModel)]="toDate" name="toDate" class="form-control" />
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-2">
+            <label class="">City</label>
+            <ng-multiselect-dropdown placeholder="City" style="display:inline;"
+                                     [settings]="dropdownListForCity"
+                                     [data]="cityList"
+                                     [(ngModel)]="selectedCities"
+                                     name="selectedCities"
+                                     (onSelect)="onCitySelect($event)"
+                                     (onSelectAll)="onCitySelectAll($event)"
+                                     (onDeSelect)="onCityDeSelect($event)"
+                                     (onDeSelectAll)="onCityDeSelectALL($event)"
+                                     (OnDeSelect)="onCityDeSelect($event)">
+            </ng-multiselect-dropdown>
+          </div>
+          <div class=" col-md-2 ">
+            <label class="">Job Status</label>
+            <ng-multiselect-dropdown placeholder="Job Status" style="display:inline;"
+                                     [settings]="statusdropdownSettings" d
+                                     [data]="statusList"
+                                     [(ngModel)]="jobStatus"
+                                     name="jobStatus"
+                                     (onSelect)="onStatusSelect($event)"
+                                     (onSelectAll)="onStatusSelectAll($event)"
+                                     (onDeSelect)="onStatusDeSelect($event)"
+                                     (onDeSelectAll)="onStatusDeSelectALL($event)"
+                                     (OnDeSelect)="onStatusDeSelect($event)">
+            </ng-multiselect-dropdown>
+
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-4">
+            <label class="">CS Status</label>
+            <ng-multiselect-dropdown placeholder="CS Status" style="display:inline;"
+                                     [settings]="csStatusdropdownSettings"
+                                     [data]="csJobStatusDropdown"
+                                     [(ngModel)]="selectedStatuses"
+                                     name="selectedStatuses"
+                                     (onSelect)="onCSSelect($event)"
+                                     (onDeSelect)="onCSDeSelect($event)"
+                                     (onDeSelectAll)="onCSDeSelectALL($event)"
+                                     (OnDeSelect)="onCSDeSelect($event)">
+            </ng-multiselect-dropdown>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-4">
+            <label class="">Town</label>
+            <ng-multiselect-dropdown placeholder="Town" style="display:inline;"
+                                     [settings]="towndropdownSettings"
+                                     [data]="townDropdown"
+                                     [(ngModel)]="selectedTowns"
+                                     name="selectedTowns"
+                                     (onSelect)="onTownSelect($event)"
+                                     (onDeSelect)="onTownDeSelect($event)"
+                                     (onDeSelectAll)="onTownDeSelectALL($event)"
+                                     (OnDeSelect)="onTownDeSelect($event)">
+            </ng-multiselect-dropdown>
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col-md-4 addressSearch">
+            <div class="form-group  ">
+              <label for="businessAddress">Location</label>
+              <input type="text" class="form-control desc" maxlength="50" [(ngModel)]="location" id="location" placeholder="Location" name="location" autocomplete="off" autocapitalize="off" spellcheck="off" #search />
+            </div>
+            <div class="addressSearchResult" *ngIf="isAddress">
+              <ul>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>User Type</label>
+              <div class="input-group-prepend">
+                <div class="input-group-text user-type">
+                  <input type="radio" value="3" id="all" (click)="getRadioValueut($event)" name="groupOfDefaultRadios3" checked #restUserType>
+                  <label class="" for="all">All User</label>
+                  <input type="radio" value="1" id="real" (click)="getRadioValueut($event)" name="groupOfDefaultRadios3">
+                  <label class="" for="real">Real User</label>
+                  <input type="radio" class="" (click)="getRadioValueut($event)" value="2" id="test" name="groupOfDefaultRadios3">
+                  <label class="" for="test">Test User</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-sm-4 inline-downlod-btns">
+            <div class="form-group">
+              <input class=" btn btn-primary btn-sm" type="submit" value="Search" (click)="GetActiveJobList()" />
+            </div>
+            <div class="form-group">
+              <input class="btn btn-primary btn-sm" type="submit" (click)="resetForm()" value="Reset" />
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="inline-downlod-btns justify-content-end" *ngIf="cloneList.length > 0 && userRole.allowExport">
+    <div class="form-group">
+      <input class="btn btn-primary btn-sm" type="button" value="Download pdf" (click)="DownloadPdf()" />
+    </div>
+    <div class="form-group ml-2">
+      <input class="btn btn-primary btn-sm" type="button" value="Download Excel" (click)="DownloadXlsx()" />
+    </div>
+    <div class="form-group ml-2">
+      <input class="btn btn-primary btn-sm" type="submit" value="Download Csv" (click)="exportCSV()" />
+    </div>
+  </div>
+  <div class="card shadow mb-4" [hidden]="!dataNotFound">
+    <div class="card-header justify-header">
+      <h6 class="m-0 font-weight-bold">Jobs Status List</h6>
+      <div class="g-pagination">
+        <div class="data-count">
+          <span>{{recoardNoFrom}}-{{recoardNoTo}} of {{totalRecoards}}</span>
+          <div class="newOrOld-Data">
+            <ul>
+              <li><a (click)="LoadNewestRecoards()"> Newest</a></li>
+              <li><a (click)="LoadOldestRecoards()">Oldest</a></li>
+            </ul>
+          </div>
+          <!--<span>1-46 of 46</span>-->
+        </div>
+        <div class="indicators">
+          <i class="fa fa-angle-left" (click)="PriviousClick()"></i>
+          <i class="fa fa-angle-right" (click)="NextClick()"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div class="show_entries">
+        <div class="no-of-entries">
+          <label>No of Entries</label>
+          <select class="" [(ngModel)]="data.pageSize" (change)="PageSizeChange()">
+            <option value="50" selected>50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+        <div class="n0-of-pages">
+          <label>No of Pages</label>
+          <select class="" [(ngModel)]="pageNumber" (change)="clickchange()">
+            <option *ngFor="let item of pageing1" value="{{item}}">{{item}} </option>
+          </select>
+        </div>
+      </div>
+      <div class="table-responsive" #pdfTable1>
+        <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" #dataTable>
+          <thead>
+            <tr>
+              <th width="1%" *ngIf="pdfrequest">Select</th>
+              <th width="1%" id="customerId" title="CustomerId">CID<span class="up " (click)="sorting('customerId','asc')">&nbsp;</span><span class="down " (click)="sorting('customerId','desc')">&nbsp;</span></th>
+              <th width="7%" id="customer" title="Customer Name">CN<span class="up" (click)="sorting('customer','asc')">&nbsp;</span><span class="down" (click)="sorting('customer','desc')">&nbsp;</span></th>
+              <th width="1%" id="mobileNumber">Mobile <span class="up" (click)="sorting('mobileNumber','asc')">&nbsp;</span><span class="down" (click)="sorting('mobileNumber','desc')">&nbsp;</span></th>
+              <th width="4%" id="city">City<span class="up" (click)="sorting('town','asc')">&nbsp;</span><span class="down" (click)="sorting('town','desc')">&nbsp;</span></th>
+              <th width="4%" id="town">Town<span class="up" (click)="sorting('town','asc')">&nbsp;</span><span class="down" (click)="sorting('town','desc')">&nbsp;</span></th>
+              <th width="1%" id="jobId" title="Job QuotationId">JQID<span class="up " (click)="sorting('customerId','asc')">&nbsp;</span><span class=" " (click)="sorting('customerId','desc')">&nbsp;</span></th>
+              <th width="2%" id="jobQId" title="Job Detail Id">JDID</th>
+              <th width="7%" id="job">Job Title<span class="up" (click)="sorting('customer','asc')">&nbsp;</span><span class="down" (click)="sorting('customer','desc')">&nbsp;</span></th>
+              <th title="Tradesman Name" class="width-7">TMN<!--Tradesman Name--></th>
+              <th width="5%" title="Skill Name">SN</th>
+              <th class="width-7" title="Sub Skill Name">SSN</th>
+              <th width="2%">Budget</th>
+              <th width="2%" title="Agreed Amount">AA</th>
+              <th width="2%" title="Additional Charges">AC</th>
+              <th width="2%" title="Total Job Amount">TJA</th>
+              <th width="2%" title="Estimated Commission Amount">ECA</th>
+              <th width="2%" title="User Type">UT</th>
+              <th width="4%" title="Customer Support Job status">CSJS</th>
+              <th width="3%" title="Posted Jobs">PJ</th>
+              <th width="5%" id="job">Status<span class="up" (click)="sorting('customer','asc')">&nbsp;</span><span class="down" (click)="sorting('customer','desc')">&nbsp;</span></th>
+              <th width="5%" title="Job Start Date">JSD</th>
+              <th title="Job Creation Date" width="7%">Date</th>
+              <th width="1%" id="recivedBids" title="Bid Received">BR</th>
+              <th width="1%" title="Details" *ngIf="pdfrequest">Det</th>
+              <th *ngIf="userRole.allowDelete" width="1%" title="Delete">Del</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of cloneList;trackBy:trackById">
+              <td *ngIf="item.isselectedforexport==true && pdfrequest"> <input type="checkbox" #checkboxes ng-checked="true" checked class="custom-checkbox checked" (change)="onCheckboxChange($event,item)" value={{item.customerId}} /></td>
+              <td *ngIf="item.isselectedforexport==false && pdfrequest"> <input type="checkbox" #checkboxes ng-checked="true" class="custom-checkbox checked" (change)="onCheckboxChange($event,item)" value={{item.customerId}} /></td>
+              <!--<td>{{item.recordNo}}</td>-->
+              <td>{{item.jobId}}</td>
+              <td>
+                {{(item.customerName.length > 15) ? (item.customerName | slice:0:15)+'...':(item.customerName)}} <i *ngIf="item.customerName != null && item.customerName != ' ' " class="fas fa-eye" (click)="GetBussinessProfile(item.jobId , contentCustomer)"></i>
+              </td>
+              <td>{{item.mobileNumber}}</td>
+              <td>{{item.city}}</td>
+              <td>{{item.town}}</td>
+              <td>{{item.customerId}}</td>
+              <td>{{item.jobDetailId}}</td>
+              <td>{{(item?.jobTitle && item.jobTitle.length > 20) ? (item.jobTitle | slice:0:20)+'...':(item.jobTitle)}}</td>
+              <td>{{(item.tradesmanName.length > 15) ? (item.tradesmanName | slice:0:15)+'...':(item.tradesmanName)}} <i *ngIf="item.tradesmanName != null && item.tradesmanName != ' ' " class="fas fa-eye" (click)="GetBussinessProfileTradesMan(item.tradesmanId , contentTradesman)"></i></td>
+              <td>{{(item.skillName !=null && item.skillName.length > 25) ? (item.skillName | slice:0:25  ) + '...' : (item.skillName)  }}</td>
+              <td>{{(item.subSkillName !=null && item.subSkillName.length > 20) ? (item.subSkillName | slice:0:20  ) + '...' : (item.subSkillName)}}</td>
+              <td>{{item.workBudget}}</td>
+              <td>{{item.agreedAmount}}</td>
+              <td>{{item.additionalCharges}}</td>
+              <td>{{item.totalJobAmount}}</td>
+              <td>{{item.estimatedCommission}}</td>
+              <td>{{item.isTestUser ? 'Test' : 'Real'}}</td>
+              <td>{{item.csJobStatusName}}</td>
+              <td>{{item.customerJobs}}<i *ngIf="item.customerName != null && item.customerName != ' ' " class=" mx-1 fas fa-eye" (click)="GetCustomerJobs(item.jobId , contentCustomerJobs)"></i></td>
+              <td>{{item.statusId}}</td>
+              <td>{{item.workStartDate | date: 'dd MMM yyyy'}}</td>
+              <td>{{item.createdOn | date: 'dd MMM yyyy, h:mm a'}}</td>
+              <td>{{item.recivedBids}}</td>
+              <td>
+                <i class="fas fa-eye" (click)="JobDetailsFunction(item.customerId,item.statusId,jobDetailsContent)"></i>
+                <!-- Modal -->
+              </td>
+              <td *ngIf="userRole.allowDelete">
+                <a class="fas fa-trash" (click)="DeleteJobByJobQuotationId(item.customerId)"></a>
+                <!-- Modal -->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+      <div class="card-body" style="padding:0px !important">
+        <div class="show_entries">
+          <div class="no-of-entries">
+            <label>No of Entries</label>
+            <select class="" [(ngModel)]="data.pageSize" (change)="PageSizeChange()">
+              <option value="50" selected>50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+          <div class="n0-of-pages">
+            <label>No of Pages</label>
+            <select class="" [(ngModel)]="pageNumber" (change)="clickchange()">
+              <option *ngFor="let item of pageing1" value="{{item}}">{{item}} </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="card-header justify-header">
+        <h6 class="m-0 font-weight-bold">Jobs Status List</h6>
+        <div class="g-pagination">
+          <div class="data-count">
+            <span>{{recoardNoFrom}}-{{recoardNoTo}} of {{totalRecoards}}</span>
+            <div class="newOrOld-Data">
+              <ul>
+                <li><a (click)="LoadNewestRecoards()"> Newest</a></li>
+                <li><a (click)="LoadOldestRecoards()">Oldest</a></li>
+              </ul>
+            </div>
+            <!--<span>1-46 of 46</span>-->
+          </div>
+          <div class="indicators">
+            <i class="fa fa-angle-left" (click)="PriviousClick()"></i>
+            <i class="fa fa-angle-right" (click)="NextClick()"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Customer Jobs Modal-->
+<ng-template #contentCustomerJobs let-c="close" let-d="dismiss">
+  <div class="row" [hidden]="!CustomerJobsShow">
+    <div class="col-12">
+      <div class="modal-body" style="width:100%;">
+        <div class="row" *ngIf="customerJobsList.length > 0">
+          <div class="col-md-12">
+            <div class="card shadow">
+              <div class="card-header justify-header">
+                <h6 class="m-0 font-weight-bold">Customer Jobs List</h6>
+                <div class="g-pagination">
+                  <div class="data-count">
+                    <span>{{customerrecoardNoFrom}}-{{customerrecoardNoTo}} of {{customertotalRecoards}}</span>
+                    <!--<div class="newOrOld-Data">
+                      <ul>
+                        <li><a (click)="CustomerJobsLoadNewestRecoards()"> Newest</a></li>
+                        <li><a (click)="CustomerJobsLoadOldestRecoards()">Oldest</a></li>
+                      </ul>
+                    </div>-->
+                    <!--<span>1-46 of 46</span>-->
+                  </div>
+                  <div class="indicators">
+                    <i class="fa fa-angle-left" (click)="customerPriviousClick()"></i>
+                    <i class="fa fa-angle-right" (click)="customerNextClick()"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="show_entries">
+                  <div class="no-of-entries">
+                    <label>No of Entries</label>
+                    <select class="" [(ngModel)]="customerjobsdata.pageSize" (change)="customerjobsPageSizeChange()">
+                      <option value="10" selected>10</option>
+                      <option value="20">20</option>
+                    </select>
+                  </div>
+                  <div class="n0-of-pages">
+                    <label>No of Pages</label>
+                    <select class="" [(ngModel)]="customerjobspageNumber" (change)="customerjobsclickchange()">
+                      <option *ngFor="let item of customerjobspageing" value="{{item}}">{{item}} </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                      <tr>
+                        <th width="2%" title="JobQuotation ID">JQID</th>
+                        <th width="2%" title="Job Title">JT</th>
+                        <th width="2%" title="Job Category">JC</th>
+                        <th width="2%" title="Job Address">JA</th>
+                        <th width="2%" title="Post Date">PD</th>
+                        <th width="2%" title="Job Status">JS</th>
+                        <th width="2%" title="Bid Received">BR</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of customerJobsList">
+                        <td>{{item?.jobQuotationId}}</td>
+                        <td>{{item?.workTitle}}</td>
+                        <td>{{item?.skillName}}</td>
+                        <td>{{item?.workingAddress}}</td>
+                        <td>{{item?.postedDate| date: 'dd MMM yyyy'}}</td>
+                        <td>{{item?.jobStatus}}</td>
+                        <td>{{item?.bidCount}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row col-12 modal-footer">
+      <button type="button" class="btn btn-primary btn-sm float-md-right" (click)="c('close')">Close</button>
+    </div>
+  </div>
+</ng-template>
+
+<div bsModal #postJobModalConfirm="bs-modal" id="confirmQuotes" class="modal fade">
+  <div class="modal-dialog modal-confirm">
+    <div class="modal-content">
+      <div class="modal-header flex-column">
+        <h4 class="modal-title w-100">Are you sure?</h4>
+        <button type="button" class="close" (click)="hidemodal()" aria-hidden="true"></button>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-sm btn-primary" (click)="deletejobconfirm()">Delete </button>
+        <button type="button" class="btn btn-sm btn-primary" (click)="hidemodal()" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Job Details Modal -->
+<ng-template #jobDetailsContent let-c="close" let-d="dismiss">
+  <div class="job-details-model">
+    <div class="">
+      <!--modal-dialog-->
+      <div class="modal-content">
+        <div class="modal-header flex-column">
+          <div class="modal-body" style="width:100%;">
+            <section class="section-inner">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-lg-12 user-header" style="min-height:150px;">
+                    <div class="user-image">
+                      <ng-container *ngIf="jobDetails?.profileImage !=null; else noThumbnail">
+                        <img [src]="httpService.transform(jobDetails.profileImage)" alt="...">
+                      </ng-container>
+                      <ng-template #noThumbnail>
+                        <img src="../../../assets/img/user-icon.png" alt="">
+                      </ng-template>
+                    </div>
+                    <h4>{{jobDetails?.firstName }} {{jobDetails?.lastName}}</h4>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 sidebar-list pl-0">
+                    <ul class="list-group">
+                      <li class="list-group-item">
+                        <i class="fas fa-phone-alt mr-2"></i> <span style="font-size:1.25rem;font-weight:500">{{jobDetails?.customerMobileNo }}</span>
+                        <p><i class="fas fa-envelope mr-2"></i>{{jobDetails?.customerEmail}}</p>
+                      </li>
+                      <li class="list-group-item">
+                        <h5>Signup Date</h5>
+                        <p>{{jobDetails?.singUpDate | date: "dd MMM yyy"}}</p>
+                        <!--| date: "dd MMM yyy hh : mm : a"-->
+                      </li>
+                      <li class="list-group-item">
+                        <h5>Address</h5>
+                        <p><i class="fas fa-map-marker-alt mr-2"></i> {{(jobDetails?.jobAddress.length > 50 )?(jobDetails?.jobAddress | slice:0:50) + '...':(jobDetails?.jobAddress)}}</p>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="col-lg-9 col-md-8 user-penal">
+                    <ul class="nav nav-tabs">
+                      <li><a data-toggle="tab" [ngClass]="{'active': activitytab == '2'}" (click)="currenttab2()" href="#jobInfo">Job Information</a></li>
+                      <li><a [ngClass]="{'active': activitytab == '1'}" (click)="currenttab1()" data-toggle="tab" href="#activity">Activity Log</a></li>
+                      <!--<li><a data-toggle="tab" [ngClass]="{'active': activitytab == '3'}" (click)="currenttab3()" href="#receivedBid">Received Bids</a></li>-->
+                      <!--<li><a data-toggle="tab" [ngClass]="{'active': activitytab == '4'}" (click)="currenttab4()" href="#notifi">Notifications</a></li>-->
+                    </ul>
+                    <div class="tab-content">
+                      <div id="jobInfo" *ngIf="activitytab == '2'" class="tab-pane fade in active show">
+                        <div class="row">
+                          <div class="col-12">
+                            <div class="budget-content">
+                              <div class="row">
+                                <div class="col-12">
+                                  <h4 class="text-dark">Bids Received</h4>
+                                  <div class="table-responsive">
+                                    <table class="table">
+                                      <thead>
+                                        <tr>
+                                          <th width="10%" title="Job Title">JT</th>
+                                          <th width="3%" title="Job Budget">JB</th>
+                                          <th width="5%" title="Tradesman Name">TN</th>
+                                          <th width="3%" title="Tradesman Budget">TB</th>
+                                          <th width="10%">Skill</th>
+                                          <th width="3%" title="Bid Status">BS</th>
+                                          <th width="13%" title="Bid Date">BD</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr *ngFor="let bids of jobDetails?.bidsList">
+                                          <td>{{bids?.workTitle.length > 25 ? (bids.workTitle | slice:0:30)+'...' : bids.workTitle  }}</td>
+                                          <td>{{bids?.workBudget}}</td>
+                                          <td (click)="showModel(content,bids.tradesmanId)" style="text-decoration: underline;cursor:pointer;">{{bids?.tradesmanName}}</td>
+                                          <td>{{bids?.amount}}</td>
+                                          <td>{{bids?.skill}}</td>
+                                          <td (click)="changeJobStatus(bids?.jobQuotationId,bids.bidsId,statusConfirmation)" *ngIf="bids.status == 'StandBy' || bids.status == 'Accepted'" style="color:#05dd05; text-decoration: underline;cursor:pointer">{{bids.status}}</td>
+                                          <td *ngIf="bids.status == 'Declined'" style="color:red; text-decoration: underline;">{{bids?.status}}</td>
+                                          <td *ngIf="bids.status == 'Active'" style="color:#23bff1; text-decoration: underline;">{{bids?.status}}</td>
+                                          <td *ngIf="bids.status == 'Completed'" style="color:#23bff1; text-decoration: underline;">{{bids?.status}}</td>
+                                          <td>{{bids?.createdOn | date: "dd MMM yyy"}}</td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-lg-8 form-group">
+                            <label for="tital">Title</label>
+                            <input type="text" class="form-control" value="{{jobDetails?.workTitle}}" disabled id="tital" placeholder="Enter Title">
+                          </div>
+                          <div class="col-lg-4 form-group">
+                            <label>Job Posted Date</label>
+                            <label class="form-control" style="background-color: #e9ecef;">{{jobDetails?.workStartDate | date: "dd MMM yyy"}}</label>
+                          </div>
+                          <div class="col-lg-4 form-group">
+                            <label for="category">Category</label>
+                            <input type="text" class="form-control" value="{{jobDetails?.skillName}}" disabled id="category" placeholder="Enter Category">
+                          </div>
+                          <div class="col-lg-4 form-group">
+                            <label for="sebcategory">Sub Category</label>
+                            <input type="text" class="form-control" id="sebcategory" value="{{jobDetails?.subSkillName}}" disabled placeholder="Enter Sub Category">
+                          </div>
+                          <div class="col-lg-4 form-group">
+                            <label>Job Start Date</label>
+                            <label class="form-control" style="background-color: #e9ecef;">{{jobDetails?.workStartDate | date: "dd MMM yyy"}}</label>
+                          </div>
+                          <div class="col-lg-12 form-group">
+                            <label for="jobDescription">Job Description</label>
+                            <textarea class="form-control" id="jobDescription" value="{{jobDetails?.workDescription}}" disabled rows="3"></textarea>
+                          </div>
+                          <div class="col-lg-12">
+                            <label for="jobAddress">Job Address</label>
+                            <textarea class="form-control" id="jobAddress" value="{{jobDetails?.jobAddress}}" disabled rows="3"></textarea>
+                          </div>
+                          <div class="col-12">
+                            <form [formGroup]="appValForm">
+                              <div class="budget-content">
+                                <div class="row">
+                                  <div class="col-lg-4 form-group">
+                                    <label>Budget</label>
+                                    <input type="text" class="form-control" [value]="jobDetails?.workBudget">
+                                  </div>
+                                  <div class="col-lg-4">
+                                    <div class="form-group" *ngIf="!!jobDetails?.agreedBudget">
+                                      <label>Agreed Budget</label>
+                                      <input type="text" inputmode="numeric" class="form-control" placeholder="Agreed Budget" formControlName="agreedBudget" />
+                                    </div>
+                                  </div>
+                                  <!--<div class="col-lg-4 form-group" *ngIf="!!jobDetails?.agreedBudget">
+                                    <label>Agreed Budget</label>
+                                    <input type="text" class="form-control" [value]="jobDetails?.agreedBudget">
+                                  </div>-->
+                                  <!--<div class="col-lg-3 form-group">
+                                    <label>Material Charges</label>
+                                    <input type="text" (input)="calculateCommission('mc',$event.target.value)" inputmode="numeric" class="form-control" formControlName="materialCharges" (keypress)="numberOnly($event)" maxlength="8" placeholder="Enter Material Charges">
+                                  </div>-->
+                                  <div class="col-lg-4 form-group" *ngIf="!!jobDetails?.additionalCharges">
+                                    <label>Additional Charges</label>
+                                    <input type="text" (input)="calculateCommission('',$event.target.value)" inputmode="numeric" class="form-control" formControlName="additionalCharges" (keypress)="numberOnly($event)" maxlength="8" placeholder="Enter Additional Charges">
+                                  </div>
+                                </div>
+                                <fieldset disabled>
+                                  <div class="row">
+                                    <div class="col-lg-4 form-group" *ngIf="!!jobDetails?.totalJobValue">
+                                      <label>Total Job Amount</label>
+                                      <input type="text" class="form-control" [value]="jobDetails?.totalJobValue">
+                                    </div>
+                                    <!--<div class="col-lg-4">
+                                      <div class="form-group">
+                                      <div class="form-group">
+                                        <label>Total Job Amount</label>
+                                        <input type="text" inputmode="numeric" class="form-control" formControlName="otherCharges" placeholder="Enter total Charges">
+                                      </div>
+                                    </div>-->
+                                    <div class="col-lg-4">
+                                      <div class="form-group" *ngIf="!!jobDetails?.estimatedCommission">
+                                        <label>Estimated Commission</label>
+                                        <input type="text" inputmode="numeric" class="form-control" placeholder="Estimated commission" formControlName="estimatedCommission" />
+                                      </div>
+                                    </div>
+                                    <!--<div class="col-lg-4">
+                                      <div class="form-group">
+                                        <label>Total Job Value</label>
+                                        <input type="text" inputmode="numeric" class="form-control" placeholder="Total job value" formControlName="totalJobValue">
+                                      </div>
+                                    </div>-->
+                                  </div>
+                                </fieldset>
+                                <div class="row">
+                                  <div class="col-lg-12">
+                                    <div class="form-group">
+                                      <label>Charges Description</label>
+                                      <textarea rows="3" class="form-control" maxlength="250" formControlName="chargesDescription"></textarea>
+                                    </div>
+                                  </div>
+                                  <div class="col-12">
+                                    <div class="form-group">
+                                      <label>Remarks</label>
+                                      <textarea formControlName="remarksDescription" maxlength="250" class="form-control" rows="3"></textarea>
+                                      <ng-container *ngIf="f.remarksDescription?.errors">
+                                        <ng-container *ngIf="f.remarksDescription.invalid && submittedApplicationForm">
+                                          <small class="fos-12 text-danger">Input is required!</small>
+                                        </ng-container>
+                                      </ng-container>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row ml-2">
+                                  <ng-container *ngFor="let item of csJobStatusDropdown">
+                                    <div class="col-lg-4 form-check">
+                                      <input type="radio" class="form-check-input" id="{{item.statusId}}csJobStatus" formControlName="csJobStatus" [value]="item.statusId" />
+                                      <label class="form-check-label" for="{{item.statusId}}csJobStatus">{{item.name}}</label>
+                                    </div>
+                                  </ng-container>
+                                </div>
+                                <div class="row mt-3" *ngIf="jobDetails?.cSJobRemarksVM !=null">
+                                  <div class="col-12">
+                                    <div class="card shadow mb-4">
+                                      <div class="card-header justify-header">
+                                        <h6 class="m-0 font-weight-bold">Remarks History</h6>
+                                      </div>
+                                      <div class="card-body">
+                                        <div class="table-responsive">
+                                          <table class="table table-bordered table-striped table-hover">
+                                            <thead>
+                                              <tr>
+                                                <th width="60%">Remarks Description</th>
+                                                <th width="15%">Created By</th>
+                                                <th width="20%">Created On</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              <tr *ngFor="let item of jobDetails.cSJobRemarksVM">
+                                                <td>{{item?.remarksDescription}}</td>
+                                                <td>{{item?.createdBy}}</td>
+                                                <td>{{item?.createdOn | date:'medium'}}</td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <ng-container *ngIf="(jobDetails.cSJobRemarksVM.length >= 3 && csjqJobStatusId == csJobSatusEnum.Callnotpicked) || (jobDetails.cSJobRemarksVM.length >= 1 && csjqJobStatusId == csJobSatusEnum.Notinterested) || (jobDetails.cSJobRemarksVM.length >= 1 && csjqJobStatusId == csJobSatusEnum.Outofstation)">
+                                    <div class="col-5">
+                                      <label>Do you want to change job status to decline?</label>
+                                    </div>
+                                    <div class="col-7 d-flex">
+                                      <div class="form-check">
+                                        <input type="radio" id="decyes" formControlName="changeStatus" [value]="1" />
+                                        <label class="form-check-label ml-1" for="decyes">Yes</label>
+                                      </div>
+                                      <div class="form-check">
+                                        <input type="radio" id="decno" formControlName="changeStatus" [value]="0" />
+                                        <label class="form-check-label ml-1" for="decno">No</label>
+                                      </div>
+                                    </div>
+                                  </ng-container>
+                                </div>
+
+                                <div class="row" *ngIf="userRole.allowEdit">
+                                  <div class="col-lg-12 form-group mb-0 mt-2">
+                                    <!--<button type="submit" class="btn btn-success" (click)="updateWithExtraCharges()">Save</button>-->
+                                    <button type="submit" class="btn btn-success" (click)="updateWithExtraCharges()">Save</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="activity" *ngIf="activitytab == '1'" class="tab-pane fade in active show">
+                        <section class="section-inner">
+                          <div class="container">
+                            <div class="row">
+                              <div class="col-lg-12 col-md-12 mx-auto mt-3">
+                                <div class="jobDetailsWrapper">
+                                  <div class="activity-job-details">
+                                    <h5>{{jobDetails?.workTitle}}</h5>
+                                    <span>Job Ref: {{jobDetails?.jobQuotationId}}</span><span>Posted: {{peopleByCountry[0]?.createdDate | date:"dd MMM yyy"}}</span>
+
+                                  </div>
+                                </div>
+                                <div class="activitylog-wrapper">
+                                  <h4>Activity Log</h4>
+                                  <div class="activityDetails">
+                                    <div class="activityByDate" *ngFor="let group of peopleByCountry">
+                                      <h5 class="mb-4">{{ group?.createdDate | date:"dd MMM yyy"}}</h5>
+                                      <div class="col" *ngFor="let person of group.activitydetails">
+                                        <div class="left-side-act pr-0 col-sm-1 col-3 col-md-3 col-lg-2">
+                                          <!--<small style="display:block;position: relative; margin-top:-5px;">{{ person?.palceddate | date: 'M/d/yy, h:mm a'}}</small>-->
+                                          <i class="act-fa-icon fas fa-user-circle" *ngIf="person.value ==1"></i>
+                                          <i class="act-fa-icon fas fa-graduation-cap" *ngIf="person.value ==2"></i>
+                                        </div>
+                                        <div class="right-side-act col-sm-11 col-9 col-md-9 col-lg-10">
+                                          <p style="padding:13px 10px 10px 0px; margin-bottom:0 !important">{{person?.text}}  {{group?.createdDate | date: 'dd MMM yyy, h:mm a' }}</p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </section>
+                      </div>
+                      <!--<div id="receivedBid" class="tab-pane fade in active show d-none" *ngIf="activitytab == '3'">
+                      </div>-->
+                      <div id="notifi" *ngIf="activitytab == '4'" class="tab-pane fade in active show">
+                        <div class="notifi-container" *ngFor="let noti of jobDetails.notificationDTO">
+                          <ng-container *ngIf="noti.body != null">
+                            <div class="row notifi-row" style="padding:1%;">
+                              <div class="col-lg-1 col-md-2 user-thumb"><img src="../../../assets/img/user.png" alt="..."></div>
+                              <div class="col-lg-11 col-md-10 userNotiDtl">
+
+                                <p>{{noti.body}}</p>
+                                <p>at :{{noti.createdOn | date: "dd MMM yyy hh : mm : a"}}</p>
+                              </div>
+                            </div>
+                          </ng-container>
+                        </div>
+                        <p>{{nodata}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+          <div class="row" style="width:100%">
+            <div class="col-md-12">
+              <button type="button" class="mt-3 btn btn-primary btn-sm fa-pull-right" (click)="c('close')">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- Tradesman Details Modal -->
+<ng-template #statusConfirmation let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Confirm</h5>
+  </div>
+  <div class="modal-body">
+    <p>Do you want to change status?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary btn-sm" (click)="changeStatusConfirmation()">Yes</button>
+    <button type="button" class="btn btn-primary btn-sm" (click)="modal.dismiss('dismiss')">No</button>
+  </div>
+</ng-template>
+<!-- Tradesman Details Modal -->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Tradesman Details</h5>
+  </div>
+  <div class="modal-body">
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th width="10%" title="Tradesman Name">TMN</th>
+            <th width="4%">Mobile</th>
+            <th width="4%">CNIC</th>
+            <th width="5%">City</th>
+            <th width="20%">Skills</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{businessProfile.firstName}} {{businessProfile.lastName}}</td>
+            <td>{{businessProfile.mobile}}</td>
+            <td>{{businessProfile.cnic}}</td>
+            <td>{{businessProfile.city}}</td>
+            <td>{{businessProfile.skills}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('Save click')">Close</button>
+  </div>
+</ng-template>
+<!-- Customer Modal-->
+<ng-template #contentCustomer let-c="close" let-d="dismiss">
+  <div class="">
+    <div class="">
+      <div class="modal-header flex-column">
+        <h5 class="text-primary">Customer Details</h5>
+      </div>
+      <div class="modal-body" style="width:100%;">
+        <div class="row modal-primary-user-info">
+          <div class="col-md-4">
+            <figure class="figure">
+              <ng-container *ngIf="businessProfile.profileImage !=null; else noThumbnail">
+                <img height="280" width="280" class="figure-img  rounded" [src]="httpService.transform(businessProfile.profileImage)" alt="...">
+              </ng-container>
+              <ng-template #noThumbnail>
+                <img height="280" width="280" class="figure-img rounded" src="../../../assets/img/user-placeholder.png" alt="">
+              </ng-template>
+            </figure>
+          </div>
+          <div class="col-md-8 puser-info">
+            <h6 class="btn-primary py-1 pl-2">Personal Information</h6>
+            <div class="row">
+              <div class="col-md-4 font-weight-bold">
+                <label>First Name</label>
+                <label>Last name</label>
+                <label>CNIC</label>
+                <label>Date-of-Birth</label>
+                <label>Gender</label>
+                <label>Mobile</label>
+                <label>Email</label>
+                <label>Registered On</label>
+              </div>
+              <div class="col-md-8">
+                <label>{{businessProfile.firstName !=null  && businessProfile.firstName !='' ? businessProfile.firstName : '-'}}</label>
+                <label>{{businessProfile.lastName !=null && businessProfile.lastName ? businessProfile.lastName : '-'}}</label>
+                <label>{{businessProfile.cnic !=null && businessProfile.cnic !='' ? businessProfile.cnic : '-' }}</label>
+                <label>{{businessProfile.dob !=null && businessProfile.dob !=''? (businessProfile.dob | date:'dd MMM yyyy')  : '-'}}</label>
+                <label *ngIf="businessProfile.gender == 1">Male</label>
+                <label *ngIf="businessProfile.gender == 2">Female</label>
+                <label *ngIf="businessProfile.gender != 1 && businessProfile.gender !=0">Other</label>
+                <label>{{businessProfile.mobile !=null && businessProfile.mobile !='' ? businessProfile.mobile : '-'}}</label>
+                <label>{{businessProfile.email !=null && businessProfile.email !='' ? businessProfile.email : '-' }}</label>
+                <label>{{businessProfile.createdOn | date:'dd MMM yyyy'}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary btn-sm" (click)="c('close')">Close</button>
+    </div>
+  </div>
+</ng-template>
+
+<!--Tradesman Modal-->
+<ng-template #contentTradesman let-c="close" let-d="dismiss">
+  <div class="">
+    <div class="">
+      <div class="modal-header flex-column">
+        <h5 class="text-primary">Tradesman Details</h5>
+      </div>
+      <div class="modal-body" style="width:100%;">
+        <div class="row modal-primary-user-info">
+          <div class="col-md-4">
+            <figure class="figure">
+              <ng-container *ngIf="businessProfile.profileImage !=null; else noThumbnail">
+                <img height="280" width="280" class="figure-img rounded" [src]="httpService.transform(businessProfile.profileImage)" alt="...">
+              </ng-container>
+              <ng-template #noThumbnail>
+                <img height="280" width="280" class="figure-img rounded" src="../../../assets/img/user-placeholder.png" alt="">
+              </ng-template>
+            </figure>
+          </div>
+          <div class="col-md-8">
+            <h6 class="btn-primary py-1 pl-2">Personal Information</h6>
+            <div class="row puser-info">
+              <div class="col-md-4 font-weight-bold">
+                <label>First Name</label>
+                <label>Last name</label>
+                <label>CNIC</label>
+                <label>Date-of-Birth</label>
+                <label>Gender</label>
+                <label>Mobile</label>
+                <label>Email</label>
+                <label>Registered On</label>
+              </div>
+              <div class="col-md-8">
+                <label>{{businessProfile.firstName !=null  && businessProfile.firstName !='' ? businessProfile.firstName : '-'}}</label>
+                <label>{{businessProfile.lastName !=null && businessProfile.lastName ? businessProfile.lastName : '-'}}</label>
+                <label>{{businessProfile.cnic !=null && businessProfile.cnic !='' ? businessProfile.cnic : '-' }}</label>
+                <label>{{businessProfile.dob !=null && businessProfile.dob !='' ? (businessProfile.dob | date:'dd MMM yyyy') : '-' }}</label>
+                <label *ngIf="businessProfile.gender == 1">Male</label>
+                <label *ngIf="businessProfile.gender == 2">Female</label>
+                <label *ngIf="businessProfile.gender != 1 && businessProfile.gender !=0">Other</label>
+                <label>{{businessProfile.mobile !=null && businessProfile.mobile != ''? businessProfile.mobile : '-'}}</label>
+                <label>{{businessProfile.email !=null && businessProfile.email !='' ? businessProfile.email : '-' }}</label>
+                <label>{{businessProfile.createdOn | date:'dd MMM yyyy'}}</label>
+              </div>
+            </div>
+            <h6 class="btn-primary py-1 pl-2 mt-3">Business Information</h6>
+            <div class="row business-info puser-info">
+              <div class="col-md-4 font-weight-bold">
+                <!--<label>Trademan Name</label>-->
+                <label>Registration No</label>
+                <label>Traveling Distance</label>
+                <label>
+                  Skills
+                </label>
+                <label>
+                  City
+                </label>
+                <label>
+                  Business Address
+                </label>
+              </div>
+              <div class="col-md-8">
+                <!--<label>{{businessProfile.tradeName !=null && businessProfile.tradeName !='' ? businessProfile.tradeName.length > 50 ?  businessProfile.tradeName.substring(0,50) : businessProfile.tradeName : '-'}}</label>-->
+                <label>{{businessProfile.registrationNo !=null && businessProfile.registrationNo !='' ? businessProfile.registrationNo : '-'}}</label>
+                <label>{{businessProfile.travellingDistance !=null && businessProfile.travellingDistance !='' ? businessProfile.travellingDistance + ' KM' : '-' }}</label>
+                <label *ngIf="businessProfile.skills !=null; else elseBlock;">{{businessProfile.skills !=null && businessProfile.skills !='' ? businessProfile.skills.length > 40 ? businessProfile.skills.substring(0,30) : businessProfile.skills : '-'}} <!--<i *ngIf="businessProfile.skills.length > 40 " class="fa fa-eye" placement="top" ngbPopover={{businessProfile.skills}} popoverTitle="Skills"></i>--></label>
+                <ng-template #elseBlock>
+                  <label>-</label>
+                </ng-template>
+                <label>{{businessProfile.city !=null && businessProfile.city != '' ? businessProfile.city : '-'}}</label>
+                <label>{{businessProfile.businessAddress !=null && businessProfile.businessAddress !=''  ? businessProfile.businessAddress : '-' }}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary btn-sm" (click)="c('close')">Close</button>
+    </div>
+  </div>
+</ng-template>
+
+

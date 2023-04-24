@@ -1,0 +1,10 @@
+D:\GitHub\Hoomwork\HW.TradesmanModels\bin\Release\netstandard2.0\HW.TradesmanModels.deps.json
+D:\GitHub\Hoomwork\HW.TradesmanModels\bin\Release\netstandard2.0\HW.TradesmanModels.dll
+D:\GitHub\Hoomwork\HW.TradesmanModels\bin\Release\netstandard2.0\HW.TradesmanModels.pdb
+D:\GitHub\Hoomwork\HW.TradesmanModels\obj\Release\netstandard2.0\HW.TradesmanModels.csproj.AssemblyReference.cache
+D:\GitHub\Hoomwork\HW.TradesmanModels\obj\Release\netstandard2.0\HW.TradesmanModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.TradesmanModels\obj\Release\netstandard2.0\HW.TradesmanModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.TradesmanModels\obj\Release\netstandard2.0\HW.TradesmanModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.TradesmanModels\obj\Release\netstandard2.0\HW.TradesmanModels.dll
+D:\GitHub\Hoomwork\HW.TradesmanModels\obj\Release\netstandard2.0\HW.TradesmanModels.pdb
+D:\GitHub\Hoomwork\HW.TradesmanModels\obj\Release\netstandard2.0\HW.TradesmanModels.GeneratedMSBuildEditorConfig.editorconfig

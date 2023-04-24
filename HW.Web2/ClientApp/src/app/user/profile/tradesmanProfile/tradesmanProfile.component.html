@@ -1,0 +1,102 @@
+<div class="d-content-left-side">
+  <h2 class="heading-dashboad mb-3 mb-lg-4">Tradesman profile</h2>
+  <div class="quote-details-wrapper mb40">
+    <div class="row mb-5">
+      <div class="col-12">
+        <div id="common-profile">
+          <div class="d-flex align-items-center">
+            <div *ngIf="profile?.tradesmanProfileImg==null;else imgFound " class="profile-img mr-3">
+              <img src="/assets/img/imagenotfound.png" alt="profile image" />
+            </div>
+            <ng-template #imgFound>
+              <div class="profile-img mr-3">
+                <img [src]="profile?.tradesmanProfileImg" alt="profile image" />
+              </div>
+            </ng-template>
+            <div class="profile-details d-flex flex-column">
+              <h5>{{profile?.tradesmanName}}</h5>
+              <small class="mb-1 mt-1">Id: <b>{{profile?.tradesmanId}}</b></small>
+              <ul>
+                <!--<li><i class="fas fa-phone-volume"></i><span>{{profile?.mobileNumber}}</span></li>
+                <li><i class="fas fa-envelope"></i><span>{{profile?.email}}</span></li>-->
+                <li class="text-capitalize"><i class="fas fa-map-marker"></i>{{profile?.tradesmanAddress}}</li>
+              </ul>
+
+            </div>
+          </div>
+          <hr class="nlp-horizantal-line my-4" />
+          <div class="trade-skills">
+            <h4 class="mb-2">Skills</h4>
+            <div class="d-flex flex-wrap">
+              <button class="mp-outine-btn mt-2 mr-2" *ngFor="let item of profile.skillsSet;let index = index;">{{item}}</button>
+            </div>
+          </div>
+          <!--<hr class="nlp-horizantal-line my-4" />
+          <div class="g-map-outline">
+            <div id="map"></div>
+          </div>-->
+          <hr class="nlp-horizantal-line my-4" />
+          <div class="tp-rf mb-1">
+            <div class="mb-3 d-flex justify-content-between align-items-center">
+              <h5 class="text-capitalize" style="color:var(--headingClr)">Feedback score and reviews</h5>
+            </div>
+            <div *ngFor="let item of profile.feedbacks;let index = index;" class="tp-ufeed-wrapper" >
+              <div class="row">
+                <div class="col-sm-6 col-lg-4">
+                  <div class="d-flex align-items-center align-items-md-start">
+                    <div class="fu-rating">
+                      <p>{{item.customerName}}</p>
+                      <div class="d-flex">
+                        <div class="tm-rating pr-2">
+                          <ng-container *ngFor="let items of [0,1,2,3,4]; let i = index">
+                            <i class="fa-star" [ngClass]="(i < item.rating)?'fas' : 'far' "></i>
+                          </ng-container>
+                        </div>
+                      </div>
+
+                      <!--<star-rating value="{{item.rating}}" totalstars="5" checkedcolor="gold" uncheckedcolor="black" size="20px" readonly="true"></star-rating>-->
+                    </div>
+                  </div>
+                </div>
+                <!--<div class="col-sm-6 offset-lg-4 col-lg-4 d-flex justify-content-end">
+                  <div>
+                    <span class="mr-2" ><i class="mr-1 fas fa-calendar"></i>12/19/2021</span>
+                    <span><i class="mr-1 fas fa-clock"></i>18:09 AM</span>
+                  </div>
+                </div>-->
+              </div>
+              <div class="rf-text">
+                <p class="mt-1 mt-sm-3">
+                  {{item.customerComment}}
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="trdesmanNo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="row">
+        <div class="col-md-12" style="text-align:end;">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 9px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="col-md-12" style="text-align:center;margin-top:0px">
+          <h4>Tradesman Phone Number</h4>
+        </div>
+      </div>
+
+      <div class="modal-body" style="margin:0px; text-align:center">
+        <h2>{{profile.mobileNumber}}</h2>
+      </div>
+    </div>
+  </div>
+</div>

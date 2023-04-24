@@ -1,0 +1,134 @@
+<i *showItBootstrap="['sm','xs']" style="margin-left:15px !important" class="fa fa-bars" (click)="showHideNav()"></i>
+<div *showItBootstrap="['sm','xs']" [ngStyle]="show?{'display':'block'}:{'display':'none'}" class="navbar-default sidebar" role="navigation" id="hideNav">
+  <div class="sidebar-nav navbar-collapse">
+    <ul class="nav" id="side-menu">
+      <li *ngIf="!isVerified" [routerLinkActive]="['active']">
+        <a id="showPopupSupplier" (click)="ShowPopup()" style="background-color:red;color:white"><i class="fas fa-user-lock"></i>Verify Your Account</a>
+      </li>
+      <li [routerLinkActive]="['active']">
+        <a routerLink="/Supplier/Home"><i class="fas fa-home"></i>Home</a>
+      </li>
+      <li [routerLinkActive]="['active']">
+        <a routerLink="/Supplier/PostAd/Create"><i class="fas fa-bullhorn"></i>Post Ad</a>
+      </li>
+      <li [routerLinkActive]="['active']">
+        <a routerLink="/Supplier/ManageAd/Ads"><i class="far fa-list-alt"></i>Manage My Ads</a>
+      </li>
+      <li [routerLinkActive]="['active']">
+        <a routerLink="/Supplier/Notifications/List"><i class="fa fa-bell"></i>Notifications</a>
+      </li>
+      <!--<li [routerLinkActive]="['active']">
+        <a routerLink="/packagesplans/packages" (click)="RegisterEntityCheck(check.S.role,check.S.Show)"><i class="fas fa-shopping-cart">&nbsp;</i>Buy Business Packages</a>
+      </li>
+      <li [routerLinkActive]="['active']">
+        <a routerLink="/packages/mypackages"><i class="fa fa-box-open"></i>My Packages</a>
+      </li>-->
+      <!--<li [routerLinkActive]="['active']">
+        <a routerLink="/Supplier/Payments/List"><i class="fa fa-receipt"></i>Payments</a>
+      </li>-->
+      <li [routerLinkActive]="['active']">
+        <a routerLink="/Supplier/Ratings/List"><i class="fas fa-star"></i>Ratings</a>
+      </li>
+      <li [routerLinkActive]="['active']">
+        <a routerLink="/Supplier/Profile/Profile"><i class="fas fa-user"></i>Profile</a>
+      </li>
+      <!--<li [routerLinkActive]="['active']">
+    <a href=""><i class="fas fa-sign-out-alt"></i>Logout</a>
+  </li>-->
+    </ul>
+  </div>
+</div>
+
+
+<div *showItBootstrap="['md','lg','xl']" class="navbar-default sidebar" role="navigation">
+  <div class="sidebar-nav navbar-collapse">
+    <ul class="nav" id="side-menu">
+      <li *ngIf="!isVerified" [routerLinkActive]="['active']">
+        <a id="showPopupSupplier" (click)="ShowPopup()" style="background-color:red;color:white"><i class="fas fa-user-lock"></i>Verify Your Account</a>
+      </li>
+      <li [routerLinkActive]="['active']">
+        <a routerLink="/Supplier/Home"><i class="fas fa-home"></i>Home</a>
+      </li>
+      <li [routerLinkActive]="['active']">
+        <a routerLink="/Supplier/PostAd/Create"><i class="fas fa-bullhorn"></i>Post Ad</a>
+      </li>
+      <li [routerLinkActive]="['active']">
+        <a routerLink="/Supplier/ManageAd/Ads"><i class="far fa-list-alt"></i>Manage My Ads</a>
+      </li>
+      <li [routerLinkActive]="['active']">
+        <a routerLink="/Supplier/Notifications/List"><i class="fa fa-bell"></i>Notifications</a>
+      </li>
+      <!--<li [routerLinkActive]="['active']">
+        <a routerLink="/packagesplans/packages" (click)="RegisterEntityCheck(check.S.role,check.S.Show)"><i class="fas fa-shopping-cart">&nbsp;</i>Buy Business Packages</a>
+      </li>
+      <li [routerLinkActive]="['active']">
+        <a routerLink="/packages/mypackages"><i class="fa fa-box-open"></i>My Packages</a>
+      </li>-->
+      <li [routerLinkActive]="['active']">
+        <a routerLink="/Supplier/Payments/List"><i class="fa fa-receipt"></i>Payments</a>
+      </li>
+      <li [routerLinkActive]="['active']">
+        <a routerLink="/Supplier/Ratings/List"><i class="fas fa-star"></i>Ratings</a>
+      </li>
+      <li [routerLinkActive]="['active']">
+        <a routerLink="/Supplier/Profile/Profile"><i class="fas fa-user"></i>Profile</a>
+      </li>
+      <!--<li [routerLinkActive]="['active']">
+    <a href=""><i class="fas fa-sign-out-alt"></i>Logout</a>
+  </li>-->
+    </ul>
+  </div>
+</div>
+
+
+
+<!-- Modal Popup -->
+
+<div bsModal #varifyMobileNumberModel="bs-modal" class="modal fade varify" id="varifyModel" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h4 style="text-align:center">Verify account</h4>
+        <form [formGroup]="appValForm">
+          <div class="form-group">
+            <input type="tel" class="form-control" maxlength="11" (keypress)="numberOnly($event)" autocomplete="false" formControlName="verificationMobileNumber" placeholder="Add phone number" />
+            <div *ngIf="f.verificationMobileNumber?.errors">
+              <div *ngIf="f.verificationMobileNumber.invalid && (f.verificationMobileNumber.touched || f.verificationMobileNumber.dirty)">
+                <small style="font-size:12px" class="text-danger" *ngIf="f.verificationMobileNumber.errors?.required"> * Please enter your phone number.</small>
+                <small style="font-size:12px" class="text-danger" *ngIf="f.verificationMobileNumber.errors?.pattern"> * Please provide a valid 11 digit phone number</small>
+              </div>
+            </div>
+            <small style="font-size:12px" class="text-danger" *ngIf="noNotCorrect"> * Invalid Mobile Number.</small>
+          </div>
+          <button type="button" class="btn btn-success btn-lg" data-dismiss="modal" (click)="CloseModal()">CANCEL</button>
+          <button type="button" class="btn btn-outline-success btn-lg" (click)="VarifyMobileNumber()">VERIFY</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div bsModal #varifyAcountModel="bs-modal" class="modal fade varifyAccount" id="varifyAccount" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h4 style="text-align:center">Verify account</h4>
+        <p>Enter the 6-digit code sent to you at:</p>
+        <label>{{phoneNumber}}</label>
+        <form [formGroup]="appVal">
+          <div class="form-group">
+            <input inputmode="numeric" pattern="[0-9]*"  (keypress)="numberOnly($event)" class="form-control" maxlength="6" min="6" placeholder="Enter Code" required autocomplete="false" formControlName="verificationCode" [ngClass]="{ 'is-invalid':submitt && g.verificationCode.errors }" />
+            <span style="font-size:12px" class="text-danger" *ngIf="g.verificationCode.errors?.required">{{verficationCodeErrorMessage}}</span>
+
+          </div>
+          <p style="text-align:end"><a style="text-decoration:underline;color:yellowgreen" (click)="ResendCode()">Resend Code</a></p>
+          <button type="button" class="btn btn-success btn-lg" (click)="VarifyAccount()">VERIFY</button>
+          <span style="font-size:12px" class="text-success" *ngIf="status==true">{{responseMessage}}</span>
+          <span class="text-danger" *ngIf="statusCode==true">Invalid Code</span>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

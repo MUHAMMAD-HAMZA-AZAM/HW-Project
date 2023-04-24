@@ -1,0 +1,282 @@
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 col-sm-7 col-xxl-6">
+      <div class="card shadow mb-4 mt-4">
+        <div class="card-header p-0 bg-primary">
+          <h6 class="mainTitle m-0 p-3 font-weight-bold border-0 text-white accordion-button btn-primary" data-bs-toggle="collapse" href="#collapse1" aria-expanded="false">Filter Promotion</h6>
+        </div>
+        <div id="collapse1" class="contentWrapper fs-12">
+          <div class="card-body">
+            <form [formGroup]="filterPromoForm">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label>Promotion Name</label>
+                    <input type="text" formControlName="fpromotionName" maxlength="40" required class="form-control" placeholder="Enter Promotion Name" />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Category</label>
+                    <select formControlName="categoryId" required class="form-control" (change)="onChangeCategory($any($event).target.value)">
+                      <option [value]="null" disabled selected>---Select Category---</option>
+                      <option *ngFor="let item of categoryList" [value]="item.id">{{item.text}}</option>
+                    </select>
+
+                  </div>
+                </div>
+                <!--<div class="col-md-6">
+                  <div class="form-group">
+                    <label class="fs-12">Promotion Code</label>
+                    <input type="text" formControlName="fpromotionCode" maxlength="10" class="form-control" />
+                  </div>
+                </div>-->
+                <div class="form-group col-sm-6">
+                  <label>Entity Status</label>
+                  <select class="form-control" formControlName="entity">
+                    <option [value]="null" disabled selected>---Select Entity Status---</option>
+                    <option [value]="1">Active</option>
+                    <option [value]="2">InActive</option>
+                    <option [value]="3">Discontinue</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <button type="submit" class="btn btn-sm btn-primary mr-2" (click)="getPromotionList()">Search</button>
+                  <button type="reset" class="btn btn-sm btn-primary ms-2" (click)="resetSearchForm()">Reset</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card shadow mb-4">
+        <div class="card-header justify-header">
+          <h6 class="mb-3 card-table-heading defClr">Promotions List</h6>
+          <button (click)="showModal(content)" class="btn-sm btn btn-secondary btn-sm"><i class="fa fa-plus"></i> Add New Promotion</button>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>Promotion Name</th>
+                  <th>Category</th>
+                  <th>Sub Category</th>
+                  <!--<th>Category Group</th>-->
+                  <th>Status</th>
+                  <!-- <th>Amount Type</th> -->
+                  <th>Amount</th>
+                  <th title="Promotion Strt Date">PSD</th>
+                  <th title="Promotion Strt Date">PED</th>
+                  <!-- <th title="Created Date">CD</th>
+                  <th title="Created By">CB</th> -->
+                  <th width="1%">Edit</th>
+                  <th width="1%">Del</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let data of promotionList">
+                  <td>{{data.promotionName}}</td>
+                  <td>{{data.categoryName}}</td>
+                  <td>{{data.subCategoryName}}</td>
+                  <!--<td>{{data.categoryGroupName}}</td>-->
+                  <td [ngClass]="(data.entityStatus == '1' ? 'text-success' : (data.entityStatus == '2' ? 'text-danger': 'text-info'))">{{(data.entityStatus == '1' ? 'Active' : (data.entityStatus == '2' ? 'InActive': 'Discontinue'))}}</td>
+                  <td>Rs {{data.amount | number:'1.0':'en-US'}}</td>
+                  <td>{{data.promotionStartDate | date: "dd MMM yyy "}}</td>
+                  <td>{{data.promotionEndDate | date: "dd MMM yyy "}}</td>
+                  <!-- <td>{{data.createdDate | date: "dd MMM yyy "}}</td>
+                  <td>{{data.createdBy}}</td> -->
+                  <td><i class="text-info fas fa-edit" (click)="GetPromotionById(content, data.promotionId)"></i></td>
+                  <td><i class="text-danger fas fa-trash" (click)="deletePromotion(deleteContent, data.promotionId)"></i></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #deleteContent let-modal>
+    <!--  -->
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Delete Confirmation</h5>
+    </div>
+    <div class="modal-body">
+      <h5>Are you want to delete?</h5>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-sm btn-primary" (click)="confirmDelete()">Ok</button>
+      <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('cancel click')">Cancel</button>
+    </div>
+  </ng-template>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="modal-basic-title">Add New Promotion</h5>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="appValForm" (submit)="save()">
+        <input type="hidden" formControlName="promotionId" />
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="fs-12">Promotion Type</label>
+              <select formControlName="promotionTypeId" required class="form-control" (change)="onChangePromotion($any($event).target.value)">
+                <option [ngValue]="null" disabled>---Select Promotion Type---</option>
+                <option *ngFor="let promotionType of promotionTypeList" [value]="promotionType.id">{{promotionType.text}}</option>
+              </select>
+              <div *ngIf="f.promotionTypeId?.errors">
+                <div *ngIf="f.promotionTypeId.invalid && submited">
+                  <small *ngIf="f.promotionTypeId.errors?.required" class="text-danger">Promotion Type is requried</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="fs-12">Category</label>
+              <select formControlName="categoryId" required class="form-control" (change)="onChangeCategory($any($event).target.value)">
+                <option [ngValue]="null" disabled>---Select Category---</option>
+                <option *ngFor="let item of categoryList" [value]="item.id">{{item.text}}</option>
+              </select>
+              <div *ngIf="f.categoryId?.errors">
+                <div *ngIf="f.categoryId.invalid && submited">
+                  <small *ngIf="f.categoryId.errors?.required" class="text-danger">Category is requried</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="isCategorySelected">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="fs-12">Sub Category</label>
+              <select formControlName="subCategoryId" class="form-control" (change)="onChangeSubCategory($any($event).target.value)">
+                <option [ngValue]="null" disabled>---Select Sub Category---</option>
+                <option *ngFor="let item of subCategoryList" [value]="item.productSubCategoryId">{{item.subCategoryName}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="isCategoryGroupSelected">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="fs-12">Category Group</label>
+              <select formControlName="categoryGroupId" class="form-control">
+                <option [ngValue]="null" disabled>--Select Category Group---</option>
+                <option *ngFor="let item of categoryGroupList" [value]="item.id">{{item.text}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="fs-12">Promotion Name</label>
+              <input type="text" formControlName="promotionName" maxlength="50" required class="form-control" placeholder="Enter Promotion Name" />
+              <div *ngIf="f.promotionName?.errors">
+                <div *ngIf="f.promotionName.invalid && submited">
+                  <small *ngIf="f.promotionName.errors?.required" class="text-danger">Promotion Name is requried</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 col-sm-6 col-lg-6">
+            <div class="form-group">
+              <label class="fs-12">Start Date</label>
+              <input type="date" formControlName="promotionStartDate" class="form-control" min={{maxdate}} />
+              <div *ngIf="f.promotionStartDate?.errors">
+                <div *ngIf="f.promotionStartDate.invalid && submited">
+                  <small *ngIf="f.promotionStartDate.errors?.required" class="text-danger">Start Date is requried</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-6 col-lg-6">
+            <div class="form-group">
+              <label class="fs-12">End Date</label>
+              <input type="date" formControlName="promotionEndDate" class="form-control" min={{maxdate}} />
+              <div *ngIf="f.promotionEndDate?.errors">
+                <div *ngIf="f.promotionEndDate.invalid && submited">
+                  <small *ngIf="f.promotionEndDate.errors?.required" class="text-danger">End Date is requried</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="fs-12">Amount Type</label>
+              <select class="form-control" formControlName="amountType" (change)="onChangeAmountType($any($event).target.value)">
+                <option [ngValue]="null" disabled selected>Select Amount</option>
+                <option [value]="1">Rupees</option>
+                <option [value]="2">Percentage</option>
+              </select>
+              <div *ngIf="f.amountType?.errors">
+                <div *ngIf="f.amountType.invalid && submited">
+                  <small *ngIf="f.amountType.errors?.required" class="text-danger">Amount Type is requried</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="fs-12">Promotion Amount</label>
+              <input type="text" formControlName="amount" class="form-control" placeholder="Enter Amount" maxlength="{{amountMaxLength}}" (keypress)="service.numberOnly($event);" />
+              <div *ngIf="f.amount?.errors">
+                <div *ngIf="f.amount.invalid && submited">
+                  <small *ngIf="f.amount.errors?.required" class="text-danger">Enter The Amount</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="fs-12">Entity Status</label>
+              <select class="form-control" formControlName="entityStatus">
+                <option [ngValue]="null" disabled selected>Select Status</option>
+                <option [value]="1">Active</option>
+                <option [value]="2">InActive</option>
+                <option [value]="3">Discontinue</option>
+              </select>
+              <div *ngIf="f.entityStatus?.errors">
+                <div *ngIf="f.entityStatus.invalid && submited">
+                  <small *ngIf="f.entityStatus.errors?.required" class="text-danger">Entity status is requried</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-sm btn-primary mr-2">Save</button>
+          <button type="reset" class="btn btn-sm btn-primary" (click)="resetForm()" *ngIf="appValForm.value.promotionId == null">Reset</button>
+          <button type="button" class="btn btn-primary btn-sm" (click)="modal.close('Save click')">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+</div>
+
+
+

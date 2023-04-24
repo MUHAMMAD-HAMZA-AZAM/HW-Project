@@ -1,0 +1,165 @@
+
+<div class="index-heder register-bg">
+  <div class="caption">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-7 caption-container my-auto">
+
+          <ng-container *ngIf="check.T">
+            <h1>Are you a skilled, hard-working tradesman?</h1>
+            <p class="mb-4">We can help you win more work.</p>
+          </ng-container>
+
+          <ng-container *ngIf="check.O">
+            <h1>Are you a skilled, hard-working tradesman?</h1>
+            <p class="mb-4">We can help you win more work.</p>
+          </ng-container>
+
+          <ng-container *ngIf="check.U">
+            <h1>User The Trusted Way to Find a Rated Professional</h1>
+            <p class="mb-4">From electric & plumbing work to new home construction, house decoration, Material  & homeware shopping</p>
+          </ng-container>
+
+          <ng-container *ngIf="check.S">
+            <h1>Supplier Boost Your Business By Posting</h1>
+            <p class="mb-4">Free Classified Ads.</p>
+          </ng-container>
+
+
+
+          <div class="actions">
+            <a class="btn btn-primary btn-lg" hidden>Get Free Quotes</a>
+            <a data-toggle="modal" data-target="#myModal" class="btn btn-outline-dark btn-lg" hidden>Marketplace</a>
+          </div>
+          <div class="actions">
+            <a href="https://play.google.com/store/apps/details?id=com.User.HW"><img style="width:180px" src="../../../../Assets/img/andriodapp.png" alt="" /></a>
+            <a data-toggle="modal" data-target="#comingsoon"><img style="width:180px" src="assets/img/iosapp.png" alt="" /></a>
+          </div>
+        </div>
+        <div class="col-lg-5 form-signup">
+          <form id="registrationBasic" [formGroup]="appValForm">
+            <div class="form-group col-md-12 btn-primary text-center btn-block btn-register">
+              Register Now
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="firstName" class="sr-only">First Name</label>
+                <input type="text" autocomplete="false" class="form-control" id="firstName" formControlName="firstName" [ngClass]="{ 'is-invalid':submitted &&  f.firstName.errors }" placeholder="First Name">
+                <span class="text-danger" *ngIf=" submitted && f.firstName.errors?.required">{{firstNameErrorMessage}}</span>
+                <!--<div *ngIf="f.firstName.errors" class="invalid-feedback">
+                  <div *ngIf="f.firstName.errors.required">{{firstNameErrorMessage}}</div>
+                </div>-->
+              </div>
+
+              <div class="form-group col-md-6">
+                <label for="lastName" class="sr-only">Last Name</label>
+                <input type="text" autocomplete="false" class="form-control" id="lastName" formControlName="lastName" [ngClass]="{ 'is-invalid':submitted &&  f.lastName.errors }" placeholder="Last Name">
+                <span class="text-danger" *ngIf=" submitted && f.lastName.errors?.required">{{lastNameErrorMessage}}</span>
+                <!--<div *ngIf="f.lastName.errors" class="invalid-feedback">
+                  <div *ngIf="f.lastName.errors.required">{{firstNameErrorMessage}}</div>
+                </div>-->
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="DateofBirth" class="sr-only">Date of Birth</label>
+                <input type="date" data-required="required"
+                       formControlName="dateOfBirth" [ngClass]="{ 'is-invalid':submitted &&  f.dateOfBirth.errors }"
+                       class="form-control dob" id="DateofBirth" placeholder="Date of Birth" (focusout)="FocusoutOnDateOfBirth($event)">
+                <span class="text-danger" *ngIf=" submitted && f.dateOfBirth.errors?.required">{{dataOfBirth}}</span>
+                <!--<div *ngIf="f.dateOfBirth.errors" class="invalid-feedback">
+                  <div *ngIf="f.dateOfBirth.errors.required">{{firstNameErrorMessage}}</div>
+                </div>-->
+              </div>
+              <div class="form-group col-md-6">
+                <label for="Cnic" class="sr-only">CNIC</label>
+                <input type="text" autocomplete="false" class="form-control" id="Cnic_" formControlName="cnic" placeholder="Cnic">
+              </div>
+            </div>
+            <div class="form-row">
+
+              <div class="form-group col-md-6">
+                <label for="email" class="sr-only">Email</label>
+                <input type="email" autocomplete="false" class="form-control" formControlName="emailAddress" placeholder="Email">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="password" class="sr-only">Password</label>
+                <input type="password" class="form-control" id="password" formControlName="password" [ngClass]="{ 'is-invalid':submitted &&  f.password.errors }" placeholder="Password">
+                <span class="text-danger" *ngIf=" submitted && f.password.errors?.required">{{passwordErrorMessage}}</span>
+                <!--<div *ngIf="f.dateOfBirth.errors" class="invalid-feedback">
+                  <div *ngIf="f.dateOfBirth.errors.required">{{firstNameErrorMessage}}</div>
+                </div>-->
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6 col-md-4">
+                <label for="gender" class="sr-only">Gender</label>
+                <select id="gender" class="form-control" formControlName="gender" [ngClass]="{ 'is-invalid':submitted &&  f.gender.errors }" [value]="0">
+                  <option value="0" selected disabled>Gender</option>
+                  <option value="1">Male</option>
+                  <option value="2">Female</option>
+                  <option value="3">Other</option>
+                </select>
+                <span class="text-danger" *ngIf=" submitted && f.gender.errors?.required">{{genderErrorMessage}}</span>
+                <!--<div *ngIf="f.gender.errors" class="invalid-feedback">
+                  <div *ngIf="f.gender.errors.required">{{firstNameErrorMessage}}</div>
+                </div>-->
+              </div>
+              <div class="form-group col-md-6">
+                <label for="mobile" class="sr-only">Phone</label>
+                <input type="text" autocomplete="false" class="form-control" id="phonenumber" formControlName="phoneNumber" [ngClass]="{ 'is-invalid': submitted &&  f.phoneNumber.errors }" placeholder="Phone">
+                <span class="text-danger" *ngIf=" submitted && f.phoneNumber.errors?.required">{{mobileErrorMessage}}</span>
+                <!--<div *ngIf="f.phoneNumber.errors" class="invalid-feedback">
+                  <div *ngIf="f.phoneNumber.errors.required">{{firstNameErrorMessage}}</div>
+                </div>-->
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6 col-md-4">
+                <label for="city" class="sr-only">City</label>
+                <select id="city" class="form-control" formControlName="city" [ngClass]="{ 'is-invalid': submitted &&  f.city.errors }" [value]="0">
+                  <option value="" selected disabled>City</option>
+                  <option *ngFor="let item of idValueVm" value="{{item.id}}">{{item.value}}</option>
+                </select>
+                <span class="text-danger" *ngIf=" submitted && f.city.errors?.required">{{cityErrorMessage}}</span>
+                <!--<div *ngIf="f.city.errors" class="invalid-feedback">
+                  <div *ngIf="f.city.errors.required">{{firstNameErrorMessage}}</div>
+                </div>-->
+              </div>
+              <!--<div class="form-group col-md-6 col-md-4">
+                <label for="gender" class="sr-only">Role</label>
+                <select id="gender" class="form-control" formControlName="role" [ngClass]="{ 'is-invalid': submitted &&  f.role.errors }" [value]="0">
+                  <option value="0" selected disabled>Role</option>
+                  <option value="1">Tradesman</option>
+                  <option value="2">Organization</option>
+                  <option value="3">Customer</option>
+                  <option value="4">Supplier</option>
+                </select>
+                <span class="text-danger" *ngIf="submitted && f.role.errors?.required">{{roleErrorMessage}}</span>
+              </div>-->
+            </div>
+
+            <div class="form-group">
+              <div class="form-check">
+                <div class="material-switch">
+                  <input id="someSwitchOptionSuccess" type="checkbox" formControlName="termsAndConditions" />
+                  <label for="someSwitchOptionSuccess" class="label-success"></label>
+                </div>
+                <a id="termsandcondition" class="form-check-label text-dark">By continuing, you agree<p></p> <u style="color:#76ad05;">terms & conditions.</u></a>
+              </div>
+              <!--<span class="text-danger" id="termserrormessage">{{termsAndConditionErrorMessage}}</span>-->
+              <!--<div *ngIf="f.termsAndConditions.errors" class="invalid-feedback">
+                <div *ngIf="f.termsAndConditions.errors.required">{{firstNameErrorMessage}}</div>
+              </div>-->
+              <span class="text-danger" *ngIf="userAvailabilty">{{userAvailabiltyErrorMessage}}</span>
+            </div>
+            <button type="button" id="btn-register" class="btn btn-primary d-block mx-auto" (click)=" VerifyAndSendOtp()">Create account</button>
+          </form>
+          <br>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

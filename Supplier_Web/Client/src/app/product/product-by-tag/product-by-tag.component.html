@@ -1,0 +1,196 @@
+<section class="bag-product section-b-space ratio_square">
+  <div class="container">
+    <app-not-found *ngIf="notFound"></app-not-found>
+    <div *ngIf="!imageLoader">
+      <div class="catNameBox image-loader"></div>
+      <div class=" mb-2" *ngFor="let item of skeltonArr.catLength">
+        <div class="productBoxSkelton row">
+          <div class="col-md-2 d-flex flex-column align-items-center" *ngFor="let item of skeltonArr.productLength">
+            <div class="proImage image-loader mt-3"></div>
+            <div class="proName image-loader mt-1"></div>
+            <div class="proPrice image-loader mt-1"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div *ngIf="imageLoader">
+      <h4 *ngIf="!notFound" class="primaryClr pt-4 mb-3 mb-sm-5">Search Result Of : <span class="darkGrayClr">{{obj.name}}</span></h4>
+      <div class="flex-shrink-1 flex-grow-1 d-flex flex-wrap pc6" id="prodcards_wrapper" style="gap:5px">
+        <div class="product-card" *ngFor="let product of productList">
+          <div class="parent-over">
+            <div class="product-overlay d-flex flex-column align-items-center justify-content-center">
+              <button class="mb-3 btn custom_btn btn-lg primaryBg" data-bs-toggle="modal"
+                      data-bs-target="#exampleModal" (click)="getProductDetailsWeb(product.productId,buyNowModelPopUp)">
+                Buy Now
+              </button>
+              <a [routerLink]="[_httpService.apiRoutes.Product.ProductDetail]" [queryParams]="{ 'va': '', 'prdt': product?.slug+'-'+product?.productId}"
+                 class="btn custom_btn btn-lg secondaryBg">Details</a>
+            </div>
+          </div>
+          <div class="discount-offer d-flex justify-content-center align-items-center text-center" *ngIf="product?.discountInPercentage != 0 && product?.discountInPercentage != null">
+            <p class="mb-0 text-white"><b class="d-block">off</b><span>{{(product.discountInPercentage > 0 ?  product.discountInPercentage + '%' : '')}}</span></p>
+          </div>
+          <div class="card-image">
+            <a>
+              <ng-container *ngIf="product?.fileName;else noImg">
+                <img [src]="(_httpService.AWSPATH)+(product?.filePath)+(product?.fileName)" alt="">
+              </ng-container>
+              <ng-template #noImg>
+                <img src="assets/images/pro1.jpg" class="img-fluid bg-img" alt="">
+              </ng-template>
+            </a>
+          </div>
+          <div class="p-2">
+            <p class="mt-2 text-center text-capitalize">{{product?.title}}</p>
+            <p class="text-center"><s *ngIf="product.discountedPrice > 0" class="ml-2">Rs.{{product.price}}</s> <span class="fw-bold"> Rs:{{(product.discountedPrice > 0) ? product.discountedPrice : product?.price}}</span></p>
+          </div>
+        </div>
+
+      </div>
+      <div class="d-none row mb-4 row-cols-xxl-6 row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-1 gy-sm-4 gy-3">
+        <div class="product-box product-wrap product-style-3" *ngFor="let product of productList">
+          <div class="img-wrapper" id="custom-product-list">
+            <!-- <a [routerLink]="[_httpService.apiRoutes.Product.ProductDetail,product?.slug+'-'+product?.productId,'']">-->
+            <a [routerLink]="[_httpService.apiRoutes.Product.ProductDetail]" [queryParams]="{ 'va': '', 'prdt': product?.slug+'-'+product?.productId}">
+              <ng-container *ngIf="product?.fileName;else noImg">
+                <img [src]="(_httpService.AWSPATH)+(product?.filePath)+(product?.fileName)" alt="">
+              </ng-container>
+              <ng-template #noImg>
+                <img src="assets/images/pro1.jpg" class="img-fluid bg-img" alt="">
+              </ng-template>
+            </a>
+          </div>
+
+          <div class="product-info">
+            <!--<div class="rating">
+              <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+            </div>-->
+            <!--<a [routerLink]="[_httpService.apiRoutes.Product.ProductDetail,product?.slug+'-'+product?.productId,'']">-->
+            <a [routerLink]="[_httpService.apiRoutes.Product.ProductDetail]" [queryParams]="{ 'va': '', 'prdt': product?.slug+'-'+product?.productId}">
+              <h6>{{product?.title}}</h6>
+            </a>
+            <h4>Rs.{{product?.price}}</h4>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-end mt-5">
+        <ngb-pagination *ngIf="noOfRecords>0" (pageChange)="getPostByPage($event)" [collectionSize]="noOfRecords" [(page)]="pageNumber" [pageSize]="pageSize"></ngb-pagination>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- Modal -->
+<ng-template #buyNowModelPopUp let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Choose Options</h5>
+      <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+      <i class="fa fa-times" data-bs-dismiss="modal" (click)="modal.dismiss('Cross click')" aria-label="Close"></i>
+    </div>
+    <div class="modal-body">
+      <div class="row gx-3 mt-3">
+        <div class="col-5">
+          <div class="product_images-wrapper">
+            <div class="main_image" *ngFor='let item of productDetail?.images.slice(0,1)'>
+              <img [src]="(_httpService.AWSPATH)+(item?.filePath)+(item?.fileName)" class="fit_img">
+              <div class="discount-offer d-flex justify-content-center align-items-center" *ngIf="variantDetails.discountInPercentage > 0">
+                <p class="mb-0 text-white text-center fs-14"><b class="d-block">off</b>{{(variantDetails?.discountInPercentage > 0 ? + (variantDetails?.discountInPercentage) + '%' : '' )}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="social_sharing my-3">
+            <div class="d-flex flex-column">
+              <!--<div class="d-flex align-items-center justify-content-between">
+                <label>Share with a friend</label>
+                <div class="d-flex">
+                  <input class="p-0 px-2 form-control" type="text"
+                         placeholder="0300XXXXXXX" />
+                  <button class="ms-2 btn-outline-primary btn">SEND</button>
+                </div>
+              </div>-->
+              <div class="s_icons d-flex">
+                <a (click)="openLink(socialLinks?.facebookUrl)" *ngIf="socialLinks?.facebookUrl"><img src="/assets/img/facebook.svg"></a>
+                <a (click)="openLink(socialLinks?.instagramUrl)" *ngIf="socialLinks?.instagramUrl"><img src="/assets/img/instagram.svg" /></a>
+                <a (click)="openLink(socialLinks?.twitterUrl)" *ngIf="socialLinks?.twitterUrl"><img src="/assets/img/twitter.svg" /></a>
+                <a (click)="openLink(socialLinks?.linkedinUrl)" *ngIf="socialLinks?.linkedinUrl"><img src="/assets/img/linkedin.svg" /></a>
+                <a (click)="openLink(socialLinks?.youtubeUrl)" *ngIf="socialLinks?.youtubeUrl"><img src="/assets/img/youtube.svg" /></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-7 pro_contents">
+          <p>
+            {{productDetail?.name}}
+          </p>
+          <div class="stock_and_price">
+            <span>Brand:<small>Silk</small></span>
+            <div class="d-flex justify-content-between align-items-center mt-2">
+              <h4 class="m-0">
+                Rs.{{(variantDetails?.price == null) ? (productDetail?.discountedPrice > 0 ? productDetail?.discountedPrice : productDetail?.price | number:'1.0':'en-US') : (variantDetails?.discountedPrice > 0 ? variantDetails?.discountedPrice :variantDetails?.price | number:'1.0':'en-US')}}
+              </h4>
+              <s *ngIf="variantDetails?.discountedPrice>0">
+                Rs.{{(variantDetails?.discountedPrice == null) ? (productDetail?.discountedPrice > 0 ? productDetail?.price : 0 | number:'1.0':'en-US') : (variantDetails?.discountedPrice > 0 ? variantDetails?.price :0| number:'1.0':'en-US')}}
+              </s>
+              <small>{{selectedVariantIdAvailableStock}} in Stock</small>
+            </div>
+          </div>
+          <hr />
+          <div class="variant_details">
+            <span>color: <small>{{(variantDetails?.variantName == null) ? (productDetail?.variantName) : (variantDetails?.variantName)}}</small></span>
+            <div class="d-flex justify-content-between align-items-center mt-2">
+              <div class="d-flex">
+                <div class="variant-circle me-1" *ngFor="let variant of productDetail?.groupItem" [style.backgroundColor]="variant?.hexCode" (click)="getVariantPrice(variant?.variantId)">
+                </div>
+              </div>
+              <div class="qty_meter d-flex justify-content-between align-items-center px-2">
+                <span (click)="handleQuantityChange('-')">-</span>
+                <input type="text" disabled [(ngModel)]="quantity" />
+                <span (click)="handleQuantityChange('+')">+</span>
+              </div>
+            </div>
+            <div class="cart_actions d-flex justify-content-between mt-3">
+              <button (click)="addToCart()" class="flex-grow-1 py-2 flex-shrink-1 btn custom_btn primaryBg">
+                Add To
+                Cart
+              </button>
+              <button (click)="checkOut()" class="flex-grow-1 py-2 flex-shrink-1 btn custom_btn primaryBg">
+                Check Out
+              </button>
+              <button (click)="continueShopping()" class="flex-grow-1 py-2 flex-shrink-1  btn custom_btn btn-lg secondaryBg">
+                Continue
+                Shopping
+              </button>
+            </div>
+            <div class="return_policy_options d-flex mt-3">
+              <div class="rp_box d-flex justify-content-center align-items-center  flex-column text-center">
+                <img src="/assets/img/arrow-return.svg" alt="arrowback" />
+                <small class="mt-2 d-block">7 Days Return Under Conditions</small>
+              </div>
+              <div class="rp_box d-flex justify-content-center align-items-center  flex-column text-center">
+                <img src="/assets/img/moneyback.svg" alt="arrowback" />
+                <small class="mt-2 d-block">
+                  Easy and Secure
+                  Payments
+                </small>
+              </div>
+              <div class="rp_box d-flex justify-content-center align-items-center  flex-column text-center">
+                <img src="/assets/img/guarantee.svg" alt="arrowback" />
+                <small class="mt-2 d-block">
+                  Genuine<br>
+                  Product
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+      </div> -->
+    </div>
+  </div>
+</ng-template>
+

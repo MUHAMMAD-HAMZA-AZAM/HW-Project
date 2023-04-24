@@ -1,0 +1,8 @@
+
+
+<button class="btn btn-primary"(click)="startRecording()" >Start</button>
+<button class="btn btn-primary"(click)="stopRecording()" >Stop</button>
+
+<audio  controls>
+  <source [src]="blobUrl" type="audio/webm">
+</audio>

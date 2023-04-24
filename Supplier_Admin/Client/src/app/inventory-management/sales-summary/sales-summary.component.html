@@ -1,0 +1,141 @@
+<div class="container-fluid">
+
+  <div class="row">
+    <div class="col-12 col-sm-7 col-xxl-6">
+      <div class="card shadow mb-4 mt-4">
+        <div class="card-header p-0 bg-primary">
+          <h6 class="mainTitle m-0 p-3 font-weight-bold border-0 text-white accordion-button btn-primary" data-bs-toggle="collapse" href="#collapse1" aria-expanded="false">Filter Sales Summary</h6>
+        </div>
+        <div id="collapse1" class="contentWrapper fs-12">
+          <div class="card-body">
+            <form [formGroup]="appValForm">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="fs-12"> From Date </label>
+                    <input type="date" maxlength="20" formControlName="fromDate" class="form-control" />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="fs-12">To Date </label>
+                    <input type="date" maxlength="20" formControlName="toDate" class="form-control" />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <button type="submit" class="btn btn-sm btn-primary mr-2" (click)="getSalesSummary()">Search</button>
+                  <button type="reset" class="btn btn-sm btn-primary ms-2" (click)="resetSearchForm()">Reset</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="!dataNotfond">
+    <div class="col-md-12 mt-4">
+      <div class="card shadow mb-4">
+        <div class="card-header justify-header">
+          <h6 class="m-0 card-table-heading defClr">Sales Summary</h6>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>Order Id</th>
+                  <th>Order From</th>
+                  <!--<th>Discount</th>-->
+                  <th>Order Amount</th>
+                  <th>HW Commission</th>
+                  <th>Promotion Amount</th>
+                  <th>Order Date</th>
+                  <th>Payable To Supplier</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let order of ordersList">
+                  <td>{{order.orderId}}</td>
+                  <td>{{order.orderFrom}}</td>
+                  <!--<td>{{order.discount}}</td>-->
+                <td>{{(order?.actualAmount) ? (order.actualAmount | number:'1.0':'en-US') : '0.00'}}</td>
+                  <td>{{order.commission}}</td>
+                  <td>{{order.promotionAmount}}</td>
+                  <td>{{order?.orderDate | date: 'dd MMM yyyy, h:mm a'}}</td>
+                  <td>Rs. {{(order?.totalPayable)? (order.totalPayable | number:'1.0':'en-US') : '0.00'}}</td>
+                  <td><button type="button" class="btn btn-secondary btn-xs" (click)="ShowDetails(order?.orderId,userId,variantModalTemplate)">Details</button></td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td>Rs : {{(totalOrderAmount)?(totalOrderAmount | number:'1.0':'en-US') : '0.00'}}</td>
+                  <td>Rs : {{totalCommission }}</td>
+                  <td>Rs : {{totalPromotion}}</td>
+                  <td></td>
+                  <td>Rs : {{(totalPayable)?(totalPayable | number:'1.0':'en-US') : '0.00' }}</td>
+                  <td></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #variantModalTemplate let-modal>
+    <div class="modal-header">
+      <h4 class="card-table-heading defClr" id="modal-basic-title">Sales Details</h4>
+      <button type="button" class="btn btn-danger fs-4" style="background:var(--redClr) !important" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th scope="col">Product</th>
+              <th scope="col">Variant</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Product Price</th>
+              <!--<th scope="col">Discounted Amount</th>-->
+              <th scope="col">Promotion </th>
+              <th scope="col">HW Commission</th>
+              <th scope="col">Shipping Amount</th>
+              <th scope="col">Payable To Supplier</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item  of ordersItems">
+              <td>{{item?.productTitle  ? item?.productTitle.length > 30 ? item?.productTitle.substring(0,30) : item?.productTitle : '-' }} <i *ngIf="item?.productTitle &&  item?.productTitle.length > 30 " class="fa fa-eye" placement="top" ngbPopover="{{item?.productTitle}}" popoverTitle="Product Name" [placement]="'auto'" [container]="'body'"></i></td>
+              <td>{{item.variant}}</td>
+              <td>{{item?.quantity}}</td>
+              <!--<td>Rs. {{(item?.actualAmount )? (item.actualAmount | number:'1.0':'en-US') : '0.00'}}</td>-->
+              <td>Rs. {{(item?.discountedAmount)? (item.discountedAmount | number:'1.0':'en-US') : '0.00'}}</td>
+              <td>Rs. {{(item?.promotionAmount)? (item.promotionAmount | number:'1.0':'en-US') : '0.00'}}</td>
+              <td>Rs. {{(item?.commission)? (item.commission | number:'1.0':'en-US') : '0.00'}}</td>
+              <td>Rs. {{(item?.totalShippingAmount)? (item.totalShippingAmount | number:'1.0':'en-US') : '0.00'}}</td>
+              <td>Rs. {{(item?.totalPayable)? (item.totalPayable | number:'1.0':'en-US') : '0.00'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-template>
+
+  <div *ngIf="dataNotfond" style="margin-top:20%" id="no-found" class="text-center d-flex justify-content-center align-items-center">
+    <div>
+      <h1 class="mb-3 text-uppercase"><i class="text-danger"></i> Oops!</h1>
+      <h3 class="text-danger text-capitalize">Data not found. </h3>
+    </div>
+  </div>
+
+</div>

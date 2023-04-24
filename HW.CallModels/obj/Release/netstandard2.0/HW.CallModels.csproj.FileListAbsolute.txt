@@ -1,0 +1,10 @@
+D:\GitHub\Hoomwork\HW.CallModels\bin\Release\netstandard2.0\HW.CallModels.deps.json
+D:\GitHub\Hoomwork\HW.CallModels\bin\Release\netstandard2.0\HW.CallModels.dll
+D:\GitHub\Hoomwork\HW.CallModels\bin\Release\netstandard2.0\HW.CallModels.pdb
+D:\GitHub\Hoomwork\HW.CallModels\obj\Release\netstandard2.0\HW.CallModels.csproj.AssemblyReference.cache
+D:\GitHub\Hoomwork\HW.CallModels\obj\Release\netstandard2.0\HW.CallModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.CallModels\obj\Release\netstandard2.0\HW.CallModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.CallModels\obj\Release\netstandard2.0\HW.CallModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.CallModels\obj\Release\netstandard2.0\HW.CallModels.dll
+D:\GitHub\Hoomwork\HW.CallModels\obj\Release\netstandard2.0\HW.CallModels.pdb
+D:\GitHub\Hoomwork\HW.CallModels\obj\Release\netstandard2.0\HW.CallModels.GeneratedMSBuildEditorConfig.editorconfig

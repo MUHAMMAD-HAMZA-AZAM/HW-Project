@@ -1,0 +1,230 @@
+<div class="container-fluid">
+  <div class="contentWrapper">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card shadow mb-4">
+          <div class="card-header bg-primary">
+            <h6 class="mainTitle m-0 font-weight-bold border-0" data-toggle="collapse" href="#collapse6" aria-expanded="true">Filter Supplier Product</h6>
+          </div>
+          <div id="collapse6" class="contentWrapper fs-12 collapse">
+            <div class="card-body">
+              <form [formGroup]="appValForm">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Supplier ID</label>
+                      <input type="text" maxlength="10" formControlName="supplierId" class="form-control" (keypress)="numberOnly($event)" />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Mobile Number</label>
+                      <input type="text" maxlength="11" formControlName="mobileNumber" class="form-control" (keypress)="numberOnly($event)" />
+                    </div>
+                  </div>
+
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Start Date</label>
+                      <input type="date" formControlName="startDate" class="form-control" />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">End Date</label>
+                      <input type="date" maxlength="50" formControlName="endDate" class="form-control" />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="fs-12">Product ID</label>
+                      <input type="text" maxlength="10" formControlName="productId" required class="form-control" (keypress)="numberOnly($event)" />
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4 inline-downlod-btns">
+                    <button type="submit" class="btn btn-sm btn-primary mr-2" (click)="getSupplierProducsListForApprovel()">Search</button>
+                    <button type="reset" class="btn btn-sm btn-primary" (click)="resetFrom()">Reset</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card shadow mb-4">
+        <div class="card-header justify-header">
+          <h6 class="m-0 font-weight-bold">Supplier Products List</h6>
+          <div class="g-pagination">
+            <div class="data-count">
+              <span>{{recoardNoFrom}}-{{recoardNoTo}} of {{totalRecords}}</span>
+            </div>
+            <div class="indicators">
+              <i class="fa fa-angle-left" (click)="PriviousClick()"></i>
+              <i class="fa fa-angle-right" (click)="NextClick()"></i>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="show_entries">
+            <div class="no-of-entries">
+              <label>No of Enteries</label>
+              <select (change)="changePageSize()" [(ngModel)]="pageSize">
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+            </div>
+            <div class="n0-of-pages">
+              <label class="">No of Pages</label>
+              <select class="" [(ngModel)]="pageNumber" (change)="clickchange()">
+                <option *ngFor="let item of pageing1" value="{{item}}">{{item}} </option>
+              </select>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th width="1%" title="Supplier ID">Supplier Id</th>
+                  <th width="3%" title="Supplier Name">Supplier Name</th>
+                  <th width="2%" title="Supplier Mobile Number">SMN</th>
+                  <th width="2%" title="Supplier State">State</th>
+                  <th width="3%" title="Supplier Area">Area</th>
+                  <th width="3%" title="Business Address">BA</th>
+                  <th width="3%" title="Category Name">CN</th>
+                  <th width="3%" title="SubCategory Name">SCN</th>
+                 
+                  <th width="3%" title="Created Date">Created On</th>
+                  <th width="3%" title="Details">Det</th>
+                  <th width="3%" title="Authorize" *ngIf="userRole.allowEdit">Authorize</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of suppliersProductsList">
+                  <td>{{item.supplierId}}</td>
+                  <td>{{(item?.supplierName ? item.supplierName : '-')}}</td>
+                  <td>{{(item?.mobileNumber ? item.mobileNumber : '-')}}</td>
+                  <td>{{(item?.sateName ?item.sateName : '-')}}</td>
+                  <td>{{(item?.areaName ?item.areaName : '-')}}</td>
+                  <td>{{item?.businessAddress ? item.businessAddress.length > 20 ? item.businessAddress.substring(0,20) : item.businessAddress : '-' }} <i *ngIf="item.businessAddress  &&  item.businessAddress.length > 20 " class="fa fa-eye" placement="top" ngbPopover="{{item.businessAddress}}" popoverTitle="Business Address"></i></td>
+                  <td>{{(item?.categoryName ? item.categoryName : '-')}}</td>
+                  <td>{{(item?.subCategoryName ? item.subCategoryName : '-')}}</td>
+                  <td>{{item.createdOn | date: "dd MMM yyy "}}</td>
+                  <td>
+                    <i class="fas fa-eye" (click)="showDetailsModal(item.productId,productDetailsModel)"></i>
+                  </td>
+                  <td *ngIf="userRole.allowEdit">
+                    <i class="fas fa-check-circle" (click)="showAuthorizeModal(item.productId,item.supplierId,authorizeProductModel)"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!------------------------------  Product Authorize Modal ----------->
+<ng-template #authorizeProductModel let-d="dismiss">
+  <div class="modal-dialog modal-confirm">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h4 class="modal-title w-100">Are you sure you want to authorize Product?</h4>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-sm btn-success" (click)="authorizeSupplierProduct()">Authorize </button>
+        <button type="button" class="btn btn-sm btn-primary" (click)="closeModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!------------------------------  Product Details Modal ----------->
+<ng-template #productDetailsModel let-d="dismiss">
+  <div class="modal-header flex-column">
+    <h5 class="text-primary">Product Details</h5>
+  </div>
+  <div class="row p-4">
+
+
+    <div class="col-lg-6 form-group">
+      <label  for="sebcategory">Product Id</label>
+      <input type="text" class="form-control" id="Name" value="{{supplierProductDetailByProductId.productId}}" disabled>
+    </div>
+
+
+
+    <div class="col-lg-6 form-group">
+      <label for="sebcategory">Weight</label>
+      <input type="text" class="form-control" id="country" value="{{supplierProductDetailByProductId.weight}}" disabled>
+    </div>
+    <div class="col-lg-6 form-group">
+      <label for="sebcategory">Status</label>
+      <input class="form-control  " [ngClass]="(supplierProductDetailByProductId.isActive ) ? 'text-primary' : 'text-danger' " id="Address" value="{{supplierProductDetailByProductId.isActive  ? 'Active':'InActive'}}" disabled>
+    </div>
+    <div class="col-lg-6 form-group ">
+      <label for="sebcategory">Category Name</label>
+      <input type="text" class="form-control" id="country" value="{{supplierProductDetailByProductId.categoryName}}" disabled>
+    </div>
+    <div class="col-lg-6 form-group">
+      <label for="sebcategory">SubCategory Name </label>
+      <input type="text" class="form-control" id="country" value="{{supplierProductDetailByProductId.subCategoryName}}" disabled>
+    </div>
+
+    <div class="col-lg-6 form-group">
+      <label for="sebcategory">Category GroupName</label>
+      <input type="text" class="form-control" id="country" value="{{supplierProductDetailByProductId.categoryGroupName}}" disabled>
+    </div>
+
+    <div class="col-lg-12 form-group">
+      <label for="sebcategory">Product Name</label>
+      <input type="text" class="form-control" id="country" value="{{supplierProductDetailByProductId.title}}" disabled>
+    </div>
+    <div class="col-lg-12 form-group">
+      <label for="sebcategory">Description</label>
+      <textarea class="form-control  " id="Address" value="{{supplierProductDetailByProductId.description}}" disabled> </textarea>
+
+    </div>
+
+    <div class="col-lg-12 form-group">
+
+      <a [ngClass]="(supplierProductDetailByProductId.youtubeURL==null || supplierProductDetailByProductId.youtubeURL=='' ) ? 'disabledlink' : '' " href={{supplierProductDetailByProductId.youtubeURL}} target="_blank">YouTube Url</a>
+      <input class="form-control" id="state" value="{{supplierProductDetailByProductId.youtubeURL}}" disabled>
+    </div>
+
+
+
+
+  </div>
+  <div class="modal-header flex-column">
+    <h5 class="text-primary">Product Images</h5>
+  </div>
+  <div class="modal-body" style="width:100%;">
+    <ng-container *ngIf="productImagesFound; else noImgesFound">
+      <div class="row">
+        <div class="col-md-4 mb-4" *ngFor="let img of productImages">
+          <div class="product-detail-custom">
+            <img [src]="img" />
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #noImgesFound>
+      <span class="text-danger"> No Images Found</span>
+    </ng-template>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary btn-sm" (click)="closeModal()">Close</button>
+  </div>
+</ng-template>

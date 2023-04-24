@@ -1,0 +1,13 @@
+D:\GitHub\Hoomwork\HW.Utility\bin\Debug\netstandard2.0\HW.Utility.deps.json
+D:\GitHub\Hoomwork\HW.Utility\bin\Debug\netstandard2.0\HW.Utility.dll
+D:\GitHub\Hoomwork\HW.Utility\bin\Debug\netstandard2.0\HW.Utility.pdb
+D:\GitHub\Hoomwork\HW.Utility\bin\Debug\netstandard2.0\HW.Http.dll
+D:\GitHub\Hoomwork\HW.Utility\bin\Debug\netstandard2.0\HW.Http.pdb
+D:\GitHub\Hoomwork\HW.Utility\obj\Debug\netstandard2.0\HW.Utility.csproj.AssemblyReference.cache
+D:\GitHub\Hoomwork\HW.Utility\obj\Debug\netstandard2.0\HW.Utility.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Hoomwork\HW.Utility\obj\Debug\netstandard2.0\HW.Utility.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.Utility\obj\Debug\netstandard2.0\HW.Utility.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.Utility\obj\Debug\netstandard2.0\HW.Utility.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.Utility\obj\Debug\netstandard2.0\HW.Utility.csproj.CopyComplete
+D:\GitHub\Hoomwork\HW.Utility\obj\Debug\netstandard2.0\HW.Utility.dll
+D:\GitHub\Hoomwork\HW.Utility\obj\Debug\netstandard2.0\HW.Utility.pdb

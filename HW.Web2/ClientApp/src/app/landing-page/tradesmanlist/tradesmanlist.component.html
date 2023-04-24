@@ -1,0 +1,120 @@
+<!---------------------------------------------------- New Theme Tradesman List Page ------------------------------------------------>
+<div class="ntp-bg">
+  <main id="ntp-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-3 p-sm-0 p-xl-3 d-none d-md-block">
+          <aside id="ntp-lm">
+            <div class="tp-service">
+              <h5>Services</h5>
+              <ul>
+                <li *ngFor="let item of listOfSkills">
+                  <a (click)="GetAllTradesmanbySkillWithInTown(item)">{{item.value}}</a>
+                </li>
+              </ul>
+            </div>
+          </aside>
+        </div>
+        <div class="col-12 col-md-9">
+          <section id="ntp-content-wrapper" class="mt-5">
+            <!--This select list will visible on max-width 767px else this will be hidden -->
+            <div class="row d-block d-md-none">
+              <div class="col-12">
+                <div class="form-group">
+                  <select class="form-control" (change)="GetAllTradesmanbySkillWithInTown($event.target.value)">
+                    <option value="" selected disabled>Services</option>
+                    <option *ngFor="let skill of listOfSkills" [value]="skill.id">{{skill.value}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <!--Service list end Here-->
+            <div class="ntp-list-item mt-3" *ngFor="let tradesman of tradesmanList">
+              <div class="row no-gutters align-items-center align-items-md-start">
+                <div class="col-12 col-md-4 col-lg-3 col-xl-3 d-flex d-md-block justify-content-center justify-content-md-start">
+                  <div class="tm-img">
+                    <ng-container *ngIf="tradesman.profileImage==null; else imageFound">
+                      <a style="pointer-events:none" #imageNotFound><img class="img-fluid" src="../../../../assets/img/imagenotfound.png" /></a>
+                    </ng-container>
+                    <ng-template #imageFound>
+                      <a style="pointer-events:none"><img class="img-fluid" [src]="service.transform(tradesman.profileImage)" /></a>
+                    </ng-template>
+                  </div>
+                </div>
+                <div class="col-12 col-md-8 col-lg-9 col-xl-9 d-flex d-md-block justify-content-center">
+                  <ul id="tm-info" class="d-flex flex-column align-items-center d-md-block mt-3 mt-md-0">
+                    <li><i class="fas fa-user"></i> <a>{{tradesman.name !=null ? tradesman.name : '-'}}</a></li>
+                    <li>
+                      <i class="fas fa-map-marker"></i>
+                      <span>{{tradesman.addressLine !=null ? tradesman.addressLine : '-'}}</span>
+                    </li>
+                    <li>
+                      <i class="fas fa-comment"></i>
+                      <!--<span class="pr-2"><b>{{tradesman.rating}}</b></span>-->
+                      <div class="tm-rating pr-2">
+                        <ng-container *ngFor="let items of [0,1,2,3,4]; let i = index">
+                          <i class="fa-star" [ngClass]="(i < tradesman.rating)?'fas' : 'far' "></i>
+                        </ng-container>
+                      </div>
+                      <!--<div class="tm-rating pr-2">
+                        <star-rating value="{{tradesman.rating}}" totalstars="5" checkedcolor="gold" uncheckedcolor="black" size="20px" readonly="true"></star-rating>
+                      </div>-->
+                      <small>({{tradesman.reviews !=null ? tradesman.reviews : '0'}} reviews)</small>
+                    </li>
+
+                    <!--<li class="text-center text-md-left">The is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</li>-->
+                  </ul>
+                </div>
+              </div>
+              <div class="tp-cto row">
+                <div class="col-10 col-sm-12 mx-auto">
+                  <div class="row justify-content-end mt-4 no-gutters">
+                    <!--<div class="col-sm-4 col-md-4 col-lg-3 col-xl-3 d-block d-md-flex pr-0 pr-sm-2 pr-md-0">
+                      <a href="">
+                        <small>
+                          <i class="fas fa-comment-alt"></i>
+                        </small>
+                        <span class="ml-1">message</span>
+                      </a>
+                    </div>-->
+                    <div class="col-sm-8 col-md-8 col-lg-7 col-xl-6">
+                      <div class="row no-gutters justify-content-end">
+                        <div class="col-sm-6 col-md-7 col-lg-5 mt-2 mb-2 mt-sm-0 mb-sm-0" >
+                          <a class="mr-0 mr-sm-2" [routerLink]=""  (click)="postJobWithSkillId(tradesman.skillId)">
+                            <small>
+                              <i class="fas fa-quote-left"></i>
+                            </small>
+
+                            <span class="pl-n1">Post A Task</span>
+                          </a>
+
+                        </div>
+                        <!--<div class="col-sm-6 col-md-4 col-lg-3">
+                          <a href="">
+                            <small>
+                              <i class="fas fa-phone-volume"></i>
+                            </small>
+
+                            <span>call</span>
+                          </a>
+
+                        </div>-->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          <div *ngIf="showNullMessage" id="no-found" class="text-center d-flex justify-content-center align-items-center">
+            <div>
+              <h1 class="mb-3  text-uppercase"><i class="fas fa-exclamation-circle text-danger"></i> Oops!</h1>
+              <h5 class="text-danger text-capitalize">No Tradesman Found in Your Search Town !!</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+

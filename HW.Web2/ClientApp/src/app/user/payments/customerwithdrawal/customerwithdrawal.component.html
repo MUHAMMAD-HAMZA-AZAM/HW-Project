@@ -1,0 +1,104 @@
+<div class="d-content-left-side">
+  <h2 class="heading-dashboad mb-3 mb-lg-4">Withdraw Amount</h2>
+  <div *ngIf="!isAmountValid">
+    <div class="row">
+      <div class="col-12">
+        <div class="form-group mb-1">
+          <label>Current Balance <span class="font-weight-bold" style="color: var(--greenClr)">({{walletAmount}})</span></label>
+        </div>
+      </div>
+      <div class="col-sm-8">
+        <div class="form-group">
+          <input type="text" inputmode="numeric" minlength="3" step="1.00" maxlength="10" (input)="getEnteredAmount($event.target.value)" (keypress)="AllowNonZeroIntegers($event)" class="form-control" placeholder="Enter Amount" [(ngModel)]="amount" pattern="^[0-9]{3,10}$" />
+          <label *ngIf="isEmptyAmount" class="text-danger fs-12">Enter Amount</label>
+          <label *ngIf="invalidAmount" class="text-danger fs-12">Invalid Amount</label>
+          <label *ngIf="withdrawRangeInvalid" class="text-danger fs-12">{{withdrawRangeInvalidError}}</label>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="form-group">
+          <button type="submit" class="btn btn-success" [disabled]="withdrawRangeInvalid" (click)="withdraw()">Withdraw</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="isAmountValid && !isjazzCash">
+    <div class="row">
+      <div class="col-md-12">
+        <h5>Select Payment Method</h5>
+      </div>
+    </div>
+    <br />
+    <div class="row">
+      <div class="col-12">
+        <div class="form-group mb-1">
+          <label>Withdrawal Amount <span class="font-weight-bold" style="color: var(--greenClr)">(Rs.{{amount}})</span></label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-sm-6 col-md-5 col-lg-4">
+        <div class="form-group">
+          <button type="submit" disabled class="btn-block btn btn-outline-dark">Cash</button>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 col-md-5 col-lg-4">
+        <div class="form-group">
+          <button type="submit" class="btn-block btn btn-danger" (click)="jazzCash()">Jazz Cash</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="isjazzCash">
+    <h5 class="mb-2">Customer Details</h5>
+    <form [formGroup]="appValForm">
+      <div class="row">
+        <div class="col-12 col-sm-6">
+          <div class="form-group">
+            <label>Customer Name</label>
+            <input type="text" placeholder="Name" class="form-control" disabled="disabled" value="{{userName}}" />
+          </div>
+        </div>
+        <div class="col-12 col-sm-6">
+          <div class="form-group">
+            <label>Mobile Number</label>
+            <input type="text" inputmode="numeric" formControlName="mobileNo" [ngClass]="{'is-invalid' : submittedApplicationForm && f.mobileNo.errors}" maxlength="11" min="11" placeholder="Enter Mobile Number" class="form-control" (keypress)="numberOnly($event)" />
+            <div *ngIf="submittedApplicationForm && f.mobileNo?.errors" class="invalid-feedback">
+              <div *ngIf="f.mobileNo.errors.required">Enter Mobile Number</div>
+              <div *ngIf="f.mobileNo.errors.minlength">Invalid Mobile Number.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-6">
+          <div class="form-group">
+            <label>Amount</label>
+            <input type="text" placeholder="Phone Number" disabled="disabled" class="form-control" value="{{amount}}" />
+          </div>
+        </div>
+        <div class="col-12 col-sm-6">
+          <div class="form-group">
+            <label>CNIC</label>
+            <input type="text" inputmode="numeric" formControlName="cnic" [ngClass]="{'is-invalid' : submittedApplicationForm && f.cnic.errors}" maxlength="13" min="13" placeholder="Enter CNIC" class="form-control" (keypress)="numberOnly($event)" />
+            <div *ngIf="submittedApplicationForm && f.cnic?.errors" class="invalid-feedback">
+              <div *ngIf="f.cnic.errors?.required">Enter CNIC</div>
+              <div *ngIf="f.cnic.errors?.minlength">Invalid CNIC Number.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <button type="submit" class="btn mp-outine-btn active" (click)="proceedPayment()">Request Withdrawal</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 mt-3">
+          <label *ngIf="isProceedPayment" class="text-success">Your Request has been sent To HoomWork.</label>
+          <label *ngIf="isPendingRequest" class="text-danger">Your Request already has been sent To HoomWork.</label>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

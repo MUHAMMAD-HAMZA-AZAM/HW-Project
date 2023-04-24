@@ -1,0 +1,103 @@
+<footer class="py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <h6>Our Category</h6>
+        <ul class="text-uppercase">
+          <li *ngFor="let item of topFiveProductList">
+            <a [routerLink]="[_httpService.apiRoutes.Product.Category]" [queryParams]="{lvl:'one',categoryId:item?.productCategoryId}">{{item.name}}</a></li>
+          
+        </ul>
+      </div>
+      <div class="mt-3 mt-sm-0 col-12 col-sm-6 col-md-4 col-lg-3">
+        <h6>Connect With Us</h6>
+        <ul>
+          <li><a target="_blank" href="https://www.linkedin.com/company/hoomwork/"><span><i class="fa fa-linkedin"></i></span>LinkedIn</a></li>
+          <li><a target="_blank" href="https://web.facebook.com/hoomwork.pk/?_rdc=1&_rdr"><span><i class="fa fa-facebook"></i></span>Facebook</a></li>
+          <li><a target="_blank" href="https://twitter.com/hoomworkpk"><span><i class="fa fa-twitter"></i></span>Twitter</a></li>
+          <li><a target="_blank" href="https://www.youtube.com/channel/UCcQyjWuLSXNXL9olWUb7-MQ?view_as=subscriber"><span><i class="fa fa-youtube"></i></span>Youtube</a></li>
+        </ul>
+      </div>
+      <div class="mt-3 mt-md-0 col-12 col-sm-6 col-md-4 col-lg-3">
+        <h6>Store Information</h6>
+        <ul>
+          <li>
+            <span class="flex-shrink-0"><i class="fa fa-map-marker"></i></span>441 Q-Block ,Model Town
+            Lahore
+          </li>
+          <li><span class="flex-shrink-0"><i class="fa fa-phone"></i></span>Call Us: +92309999453</li>
+          <li>
+            <span class="flex-shrink-0"><i class="fa fa-envelope"></i></span>Email Us: Info@Hoomwork.Com
+          </li>
+        </ul>
+      </div>
+      <div class="mt-3 mt-md-0 col-12 col-sm-6 col-md-12 col-lg-3 ">
+        <h6>Download App</h6>
+        <div class="download_apps d-flex flex-column">
+          <a href="https://bit.ly/3yuE3AT" target="_blank" class="mb-2"><img src="/assets/img/play_store.svg" alt="playstore"></a>
+          <a href="https://apple.co/3ysQeOG" target="_blank" class="mb-2"><img src="/assets/img/apps_store.svg" alt="playstore"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+
+
+<!-- footer start -->
+<footer class="footer-light d-none" style="margin-top:50px">
+  <section class="section-b-space light-layout">
+    <div class="container">
+      <div class="row footer-theme partition-f">
+        <div class="col-sm-6 col-md-4">
+          <div class="footer-contant">
+            <div class="sub-title">
+              <div class="footer-title">
+                <h4>Follow Us On</h4>
+              </div>
+            </div>
+            <div class="footer-social">
+              <ul class="d-flex">
+                <li><a href="https://web.facebook.com/hoomwork.pk/?_rdc=1&_rdr" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                <li><a href="https://www.linkedin.com/company/hoomwork/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                <li><a href="https://twitter.com/hoomworkpk/" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                <li><a href="https://www.youtube.com/channel/UCcQyjWuLSXNXL9olWUb7-MQ?view_as=subscriber" target="_blank"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4 mt-3 mt-sm-0">
+          <div class="sub-title">
+            <div class="footer-title">
+              <h4>Our Top Categories</h4>
+            </div>
+            <div class="footer-contant">
+              <ul>
+                <li *ngFor="let item of topFiveProductList"><a [routerLink]="[_httpService.apiRoutes.Product.Category]" [queryParams]="{lvl:'one',categoryId:item?.productCategoryId}">{{item.name}}</a></li>
+
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4 mt-3 mt-sm-0">
+          <div class="sub-title">
+            <div class="footer-title">
+              <h4>store information</h4>
+            </div>
+            <div class="footer-contant">
+              <ul class="contact-list">
+                <li>
+                  <i class="fa fa-map-marker"></i>441 Q-block ,Model Town Lahore.
+                </li>
+                <li><i class="fa fa-phone"></i>Call Us: +923099994531</li>
+                <li><i class="fa fa-envelope-o"></i>Email Us: <a href="#">info@hoomwork.com</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</footer>
+<!-- footer end -->

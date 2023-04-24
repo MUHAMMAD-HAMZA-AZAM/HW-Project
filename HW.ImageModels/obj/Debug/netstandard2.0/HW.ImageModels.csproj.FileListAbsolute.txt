@@ -1,0 +1,9 @@
+D:\GitHub\Hoomwork\HW.ImageModels\bin\Debug\netstandard2.0\HW.ImageModels.deps.json
+D:\GitHub\Hoomwork\HW.ImageModels\bin\Debug\netstandard2.0\HW.ImageModels.dll
+D:\GitHub\Hoomwork\HW.ImageModels\bin\Debug\netstandard2.0\HW.ImageModels.pdb
+D:\GitHub\Hoomwork\HW.ImageModels\obj\Debug\netstandard2.0\HW.ImageModels.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Hoomwork\HW.ImageModels\obj\Debug\netstandard2.0\HW.ImageModels.AssemblyInfoInputs.cache
+D:\GitHub\Hoomwork\HW.ImageModels\obj\Debug\netstandard2.0\HW.ImageModels.AssemblyInfo.cs
+D:\GitHub\Hoomwork\HW.ImageModels\obj\Debug\netstandard2.0\HW.ImageModels.csproj.CoreCompileInputs.cache
+D:\GitHub\Hoomwork\HW.ImageModels\obj\Debug\netstandard2.0\HW.ImageModels.dll
+D:\GitHub\Hoomwork\HW.ImageModels\obj\Debug\netstandard2.0\HW.ImageModels.pdb

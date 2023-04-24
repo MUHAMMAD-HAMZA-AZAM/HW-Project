@@ -1,0 +1,152 @@
+<section id="nd-right-content">
+  <h2 class="heading-dashboad mb-3 mb-lg-4">About your business</h2>
+  <div class="row">
+    <div class="col-12">
+      <div class="d-content-left-side">
+        <div class="quote-details-wrapper mb40">
+          <div class="quotes-details">
+            <form [formGroup]="appValForm">
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group">
+                    <label>what describe you best</label>
+                    <input disabled type="text" class="form-control" placeholder="Enter Job Tilte" value="{{isOrganization==true ? 'Organization':'Sole trader' }} " />
+                  </div>
+                </div>
+              </div>
+              <div class="row" *ngIf="isOrganization==true">
+                <div class="col-xl-6 col-lg-6">
+                  <div class="form-group">
+                    <label for="tradeName">Trade Name</label>
+                    <input type="text" class="form-control" maxlength="30" formControlName="companyName" placeholder="Trade Name" (keypress)="charOnly($event)">
+                    <div *ngIf="f.companyName?.errors">
+                      <span class="text-danger" *ngIf="submittedForm && f.companyName.errors?.required">Tradename is Required.</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xl-6 col-lg-6">
+                  <div class="form-group">
+                    <label for="companyRegistration">Company Registration Number</label>
+                    <input type="text" class="form-control" maxlength="10" formControlName="companyRegNo" placeholder="Company Registration Number" (keypress)="numberOnly($event)">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-6 col-lg-6" >
+                  <div class="form-group">
+                    <label>What services you offer</label>
+                    <ng-multiselect-dropdown class="ng-auto-dropdown" [placeholder]="'Search...'"
+                                             [data]="TradesmanSkills"
+                                             formControlName="tradesmanSkills"
+                                             [settings]="TradesmanSkillsdropdownSettings"
+                                             (onSelect)="onItemSelect()">
+                    </ng-multiselect-dropdown>
+                    <span class="text-danger" *ngIf="submittedForm && whatweoffererror">Services Offer is Required.</span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Delivery Radius</label>
+                    <select formControlName="travelingDistance" class="form-control" [value]="0">
+                      <option value="" selected disabled>Delivery Radius</option>
+                      <option *ngFor="let item of DeliveryRadiousList;" [value]="item.id">{{item.id}}  {{item.value}}</option>
+                    </select>
+                    <span class="text-danger" *ngIf="submittedForm && f.travelingDistance.errors?.required">Delivery Radius is Required.</span>
+                  
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <h5 class="my-3" style="color:var(--headingColor)">Business Address</h5>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>City</label>
+                    <select formControlName="cityId" (change)="selectedCity(($any($event).target.value))" class="form-control" [value]="0">
+                      <option [value]="null" selected disabled>--- Select City ---</option>
+                      <option *ngFor="let item of CitiesList;" [value]="item.id">{{item.value}}</option>
+                    </select>
+                    <span class="text-danger" *ngIf=" submittedForm && f.cityId.errors?.required">City is Required.</span>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Town</label>
+                    <ng-autocomplete    placeholder="Select town ..."
+                                     [data]="searchtownList"
+                                     [searchKeyword]="townkeyword"                                 
+                                     (inputChanged)='onChangetownSearch($event)'
+                                     [itemTemplate]="itemTemplate"
+                                     [notFoundTemplate]="notFoundTemplate"
+                                     formControlName="town">
+                    </ng-autocomplete>
+
+                    <ng-template #itemTemplate let-item>
+                      <a [innerHTML]="item.value"></a>
+                    </ng-template>
+
+                    <ng-template #notFoundTemplate let-notFound>
+                      <div [innerHTML]="notFound"></div>
+                    </ng-template>
+                    <span class="text-danger" *ngIf="submittedForm && f.town.errors?.required">Town is Required.</span>
+                    <span class="text-danger" *ngIf="townInvalidInput">Invalid town name.</span>
+                    <!--<div *ngIf="f.town?.errors">
+                      <div *ngIf="f.town.invalid && (f.town.touched || f.town.dirty)">
+                        <small class="text-danger" *ngIf="f.town.errors.required">{{errorsList.townError}}</small>
+                        <small class="text-danger" *ngIf="f.town.errors.pattern">invalid town name.</small>
+                      </div>
+                    </div>-->
+                  </div>
+
+                  <!--<div class="form-group">
+                    <label>town</label>
+                    <input class="form-control" formControlName="town" maxlength="30" [ngClass]="{ 'is-invalid': submittedForm &&  f.town.errors }" placeholder="Town" />
+                    <span class="text-danger" *ngIf=" submittedForm && f.town.errors?.required">Town is Required.</span>
+                  </div>-->
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group">
+                    <label>Business Address</label>
+                    <!--<input type="text" formControlName="businessAddress" class="form-control" value="{{address}}" (keydown.enter)="$event.preventDefault()"-->
+                    <input type="text" formControlName="businessAddress" class="form-control" pattern="^[^-\s][a-zA-Z0-9','_\s-]+$" (keydown.enter)="$event.preventDefault()"
+                           maxlength="250" autocapitalize="off" spellcheck="false" #search>
+                    <div *ngIf="f.businessAddress?.errors">
+                      <span class="text-danger" *ngIf=" submittedForm && f.businessAddress.errors?.required">Business address is Required.</span>
+                      <span class="text-danger" *ngIf=" submittedForm && f.businessAddress.errors?.pattern">Invalid Business address.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--<div class="row">
+                <div class="col-12">
+                  <div class="form-group">
+                    <div class="g-map-outline">
+                      <agm-map class="profile-map" (mapClick)="addMarker($event.coords.lat, $event.coords.lng)" [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+                        <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+                      </agm-map>
+                    </div>
+                  </div>
+                </div>
+              </div>-->
+              <div class="row">
+                <div class="col-xl-6">
+                  <div class="form-group">
+                    <button (click)="Save()" class="btn mp-outine-btn px-4">save</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+

@@ -1,0 +1,81 @@
+<div class="collection-wrapper">
+  <div class="container" id="product-detail">
+    <div class="row mt-5">
+      <!--<div class="productDetailSkelton" *ngIf="!imageLoader">
+    <div class="proName image-loader mb-2"></div>
+  </div>-->
+      <div class="col-lg-6" *ngIf="!imageLoader">
+        <div class="imgDetail-box-main image-loader "></div>
+      </div>
+      <div class="col-lg-7 col-xl-6" *ngIf="imageLoader" id="slider-img-wrapper">
+        <div class="main-img" [class.mb-5]="productDetail?.images.length == 1" *ngFor='let item of productDetail?.images.slice(0,1)'>
+          <ng-container *ngIf="selectedFileName;else mainImg">
+            <img [src]='selectedFileName'>
+          </ng-container>
+          <ng-template #mainImg>
+            <img [src]="(_httpService.AWSPATH)+(item?.filePath)+(item?.fileName)">
+          </ng-template>
+        </div>
+        <div class="row mt-2 g-1" [class.mb-5]="productDetail?.images.length > 1" *ngIf="productDetail?.images.length > 1">
+          <div class="col-3" *ngFor="let proImg of productDetail?.images">
+            <div class="thumb-img">
+              <ng-container *ngIf="proImg?.fileName;else noImg">
+                <img [src]="(_httpService.AWSPATH)+(proImg?.filePath)+(proImg?.fileName)" (click)="selectFile(proImg?.filePath,proImg?.fileName)" alt="">
+              </ng-container>
+              <ng-template #noImg>
+                <img src="assets/images/pro1.jpg" class="img-fluid bg-img" alt="">
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="imageLoader" class="col-lg-5 col-xl-6 rtl-text">
+        <div class="product-right">
+          <h2>{{productDetail?.name}}</h2>
+        </div>
+        <form class="theme-form" [formGroup]="appValForm">
+          <div class="form-row row mb-3">
+            <div class="col-md-12">
+              <label for="email">Your Comment<span class="txtclr-red">*</span></label>
+
+              <textarea formControlName="description" class="form-control"></textarea>
+              <div class="fu-rating mt-4">
+                <p class="mb-2">How much you will rate us</p>
+                <div class="col-md-12 u-fjd-rating-type d-flex mt20">
+                  <div class=" col-md-2 d-flex flex-column align-items">
+                    <div>
+                      <input type="radio" value="5" checked class="regular-radio" name="radio-1-set" id="radio-1-set" formControlName="overallRating"><label for="radio-1-set"></label>
+                    </div>
+                    <p>Positive</p>
+                  </div>
+                  <div class=" col-md-2 d-flex flex-column align-items">
+                    <div>
+                      <input type="radio" value="3" class="regular-radio" name="radio-1-set" id="radio-2-set" formControlName="overallRating"><label for="radio-2-set"></label><br>
+                    </div>
+                    <p>Neutral</p>
+                  </div>
+                  <div class=" col-md-2 d-flex flex-column align-items">
+                    <div>
+                      <input type="radio" value="1" class="regular-radio" name="radio-1-set" id="radio-3-set" formControlName="overallRating"><label for="radio-3-set"></label><br>
+                    </div>
+                    <p>Negative</p>
+                  </div>
+                </div>
+                <!--<div *ngIf="f.overallRating?.errors && submittedForm">
+                  <div *ngIf="f.overallRating.invalid">
+                    <small class="text-danger" *ngIf="f.overallRating.errors?.required "> Please select FeedBack Type </small>
+                  </div>
+                </div>-->
+
+              </div>
+            </div>
+          </div>
+          <div class="row align-items-right mt-3">
+            <button type="button" (click)="leaveFeedBack()" class="col-md-4 btn btn-sm btn-solid">Leave FeedBack</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

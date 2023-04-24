@@ -1,0 +1,169 @@
+<div class="container-fluid">
+  <div class="row page-header" id="ButtonGroup">
+    <div class="col-lg-12">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="row">
+            <nav aria-label="breadcrumb" id="DetailView" hidden="">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                  <a href="/HWUser">Home</a>
+                </li>
+                <li class="breadcrumb-item">
+                  <a>My Quotes</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page" id="jobId"></li>
+              </ol>
+            </nav>
+            <nav aria-label="breadcrumb" id="EditView" hidden="" style="display: none;">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                  <a>Home</a>
+                </li>
+                <li class="breadcrumb-item">
+                  <a>My Quotes</a>
+                </li>
+                <li class="breadcrumb-item">
+                  <a id="jobId1"></a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Edit</li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+        <div class="col-md-4 text-right" *ngIf="readOnly=='readOnly'">
+          <button class="btn btn-primary mr-2" (click)="EditJob()">Edit</button>
+          <button class="btn btn-danger" (click)="ConfirmModel()">Cancel Job</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row posted-job-detail">
+    <fieldset [disabled]="readOnly" class="col-md-12 postjob">
+      <form [formGroup]="appValForm">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputEmail4">Category</label>
+            <input formControlName="catagory" class="form-control" disabled>
+          </div>
+          <div *ngIf="SubCategoriesList.length>0" class="form-group col-md-6">
+            <label for="inputPassword4">Sub Category</label>
+            <select formControlName="subSkillId" class="form-control">
+              <option *ngFor="let item of SubCategoriesList;" [value]="item.id">{{item.value}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-12">
+            <label for="inputEmail4">Job Title</label>
+            <input class="form-control" formControlName="title" [ngClass]="{ 'is-invalid': submittedForm && f.title.errors }">
+            <div *ngIf="submittedForm && f.title.errors" class="invalid-feedback">
+              <div *ngIf="f.title.errors.required">Please enter job title.</div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="inputAddress">Job Description</label>
+            <textarea type="text" class="form-control desc" formControlName="jobDescription" [ngClass]="{ 'is-invalid': submittedForm && f.jobDescription.errors }"></textarea>
+            <div *ngIf="submittedForm && f.jobDescription.errors" class="invalid-feedback">
+              <div *ngIf="f.jobDescription.errors.required">Please enter job description.</div>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputAddress">Images</label>
+            <div class="form-control upload-img">
+              <div class="file btn btn-lg btn-light">
+                <i class="far fa-image"></i>
+                <input type="file" name="file" id="name" accept="image/*" multiple (change)="OnSelectFile($event)">
+              </div>
+              <div *ngFor="let i of listOfImages" class="addImgFile">
+                <img class=".modallist" width="100" height="100" (click)="ImagePopUp(i.imageBase64)" [src]="i.imageBase64" alt="" data-toggle="modal" data-target="#postad-img-modal">
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputCity">Budget</label>
+            <input type="text" class="form-control budget" formControlName="budget" [ngClass]="{ 'is-invalid': submittedForm && f.budget.errors }">
+            <div *ngIf="submittedForm && f.budget.errors" class="invalid-feedback">
+              <div *ngIf="f.budget.errors.required">Please enter your budget.</div>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="quotes">How Many Quotes Would Like to Get?</label>
+            <select class="form-control" formControlName="quotesQuantity">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3" selected="selected">3</option>
+            </select>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputCity">Expected Job Start Date</label>
+            <input type="text" formControlName="startingDateTime" (click)="dp2.toggleCalendar()" ngx-mydatepicker class="form-control" name="mydate"
+                   [options]="myOptions" #dp2="ngx-mydatepicker" [ngClass]="{ 'is-invalid': submittedForm && f.startingDateTime.errors }">
+            <div *ngIf="submittedForm && f.startingDateTime.errors" class="invalid-feedback">
+              <div *ngIf="f.startingDateTime.errors.required">Please enter expected job start date. </div>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputCity">Expected Job Start Time</label>
+            <ngb-timepicker [meridian]="meridian" formControlName="jobStartingTime" [ngClass]="{ 'is-invalid': submitted &&  f.jobStartingTime.errors }"></ngb-timepicker>
+            <button class="btn d-none btn-sm btn-outline-{{meridian ? 'success' : 'danger'}}" (click)="ToggleMeridian()">
+              {{meridian==true ? 'ON' : 'OFF'}}
+            </button>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputCity">City</label>
+            <select formControlName="cityId" class="form-control">
+              <option *ngFor="let item of CitiesList;" [value]="item.id">{{item.value}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputCity">Town</label>
+            <input type="text" class="form-control" formControlName="area" [ngClass]="{ 'is-invalid': submittedForm && f.area.errors }">
+            <div *ngIf="submittedForm && f.area.errors" class="invalid-feedback">
+              <div *ngIf="f.area.errors.required">Please enter your town.</div>
+            </div>
+          </div>
+          <div class="form-group col-md-12">
+            <label for="inputAddress">Address</label>
+            <textarea type="text" class="form-control desc" formControlName="address" [ngClass]="{ 'is-invalid': submittedForm && f.address.errors }"></textarea>
+            <div *ngIf="submittedForm && f.address.errors" class="invalid-feedback">
+              <div *ngIf="f.address.errors.required">Please enter your address.</div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </fieldset>
+  </div>
+  <div class="form-row text-center" *ngIf="readOnly==''">
+    <div class="form-group col-md-12"><a class="btn btn-primary mt-3" (click)="Save()">Save</a></div>
+  </div>
+</div>
+<div bsModal #CancelJob="bs-modal" role="dialog" class="modal fade">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        Are you sure want to delete you ad?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="DeleteJob()">Yes</button>
+        <button type="button" class="btn btn-danger" (click)="CloseModel()">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div bsModal #ImageModel="bs-modal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <button type="button" class="close" (click)="Close()" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div class="modal-body">
+        <img [src]="imageContent" alt="" />
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
